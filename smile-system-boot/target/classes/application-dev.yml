@@ -7,8 +7,8 @@ spring:
     druid:
       # mysql 连接信息
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/smilex-boot?useUnicode=true&characterEncoding=UTF-8
-      name: root
+      url: jdbc:mysql://127.0.0.1:3306/smilex-boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
       password: root
       # 其它配置
       time-between-eviction-runs-millis: 60000
@@ -24,7 +24,7 @@ spring:
       test-on-return: false
       pool-prepared-statements: true
       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j
+      filters: stat,wall
       stat-view-servlet:
         enabled: true
         allow: 127.0.0.1
