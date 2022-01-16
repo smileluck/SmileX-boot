@@ -14,11 +14,12 @@
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
-        <module>smile-common</module>
-        <module>smile-auth</module>
-        <module>smile-system-boot</module>
-        <module>smile-api</module>
-        <module>smile-core</module>
+        <module>smilex-common</module>
+        <module>smilex-auth</module>
+        <module>smilex-api</module>
+        <module>smilex-core</module>
+        <module>smilex-system-boot</module>
+        <module>smilex-system-generator</module>
     </modules>
 
     <repositories>
@@ -51,6 +52,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- json -->
@@ -73,13 +75,13 @@
             <!-- system模块 -->
             <dependency>
                 <groupId>top.zsmile</groupId>
-                <artifactId>smile-system-boot</artifactId>
+                <artifactId>smilex-system-boot</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>top.zsmile</groupId>
-                <artifactId>smile-core</artifactId>
+                <artifactId>smilex-core</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
 
