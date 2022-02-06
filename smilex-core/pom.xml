@@ -3,25 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>SmileX</artifactId>
+        <artifactId>smilex-parent</artifactId>
         <groupId>top.zsmile</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>smilex-core</artifactId>
-
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun Repository</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
 
     <dependencies>
         <dependency>
@@ -47,12 +35,7 @@
             <artifactId>guava</artifactId>
         </dependency>
 
-<!--        &lt;!&ndash;shiro&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.shiro</groupId>-->
-<!--            <artifactId>shiro-spring-boot-starter</artifactId>-->
-<!--            <version>${shiro.version}</version>-->
-<!--        </dependency>-->
+
 
         <!-- 数据库驱动 -->
         <!--mysql-->
@@ -60,6 +43,13 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.5.1</version>
         </dependency>
 
         <!-- 连接池 -->

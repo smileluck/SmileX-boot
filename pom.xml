@@ -10,7 +10,7 @@
         <version>2.3.5.RELEASE</version>
     </parent>
     <groupId>top.zsmile</groupId>
-    <artifactId>SmileX</artifactId>
+    <artifactId>smilex-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
@@ -43,6 +43,7 @@
         <lombok.version>1.18.20</lombok.version>
         <commons.version>2.6</commons.version>
         <shiro.version>1.7.1</shiro.version>
+        <freemarker.version>2.3.30</freemarker.version>
     </properties>
 
 
@@ -86,6 +87,18 @@
             </dependency>
 
             <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-auth</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>2.3.5.RELEASE</version>
@@ -115,6 +128,14 @@
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons.version}</version>
+            </dependency>
+
+            <!-- freemarker -->
+
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version></version>
             </dependency>
         </dependencies>
     </dependencyManagement>
