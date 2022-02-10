@@ -3,6 +3,7 @@ package top.zsmile.core.datasource;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import top.zsmile.core.datasource.properties.DataSourceProperties;
 import top.zsmile.core.exception.SXException;
 
 import javax.sql.DataSource;
@@ -29,7 +30,20 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return INSTANCE;
     }
 
+    public void addDataSource(Object key, DataSourceProperties dataSourceProperties) {
+        DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
+        addDataSource(key, dataSource);
+    }
+
     public void addDataSource(Object key, DataSource dataSource) {
+        Object o = dataSourceMap.get(key);
+        if (o != null) {
+//            if (o instanceof DataSource) {
+//                DruidDataSource druidDataSource = (DruidDataSource) o;
+//                druidDataSource.close();
+//            }
+            throw new SXException("数据库连接池 KEY 重复");
+        }
         dataSourceMap.put(key, dataSource);
         setDataSourceMap(dataSourceMap);
     }

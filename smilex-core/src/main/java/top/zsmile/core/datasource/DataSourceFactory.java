@@ -5,18 +5,19 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper;
 import org.springframework.beans.BeanUtils;
 import top.zsmile.core.datasource.properties.DataSourceProperties;
 
+import javax.sql.DataSource;
+
 public class DataSourceFactory {
-
-
-    public static boolean createDataSource(DataSourceProperties properties) {
+    public static DataSource createDataSource(DataSourceProperties properties) {
         DruidDataSource dataSource = new DruidDataSource();
         BeanUtils.copyProperties(properties, dataSource);
-        System.out.println(dataSource);
-        return true;
+        return dataSource;
     }
 
-    public static void main(String[] args) {
-        DataSourceProperties dataSourceProperties = new DataSourceProperties();
-        createDataSource(dataSourceProperties);
+    public static DataSource createDataSource(DataSource dataSource, DataSourceProperties properties) {
+        DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+        BeanUtils.copyProperties(properties, druidDataSource);
+        return druidDataSource;
     }
+
 }
