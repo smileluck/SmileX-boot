@@ -36,4 +36,8 @@ public class DatabaseConnEntity implements Serializable {
      */
     private String params;
 
+    /**
+     * 数据库
+     */
+    private String databaseName;
 }
