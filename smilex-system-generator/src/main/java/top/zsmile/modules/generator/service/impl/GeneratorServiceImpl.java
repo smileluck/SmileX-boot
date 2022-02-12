@@ -3,12 +3,15 @@ package top.zsmile.modules.generator.service.impl;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.zsmile.core.datasource.annotation.DataSource;
+import top.zsmile.modules.generator.constant.DefaultConstants;
 import top.zsmile.modules.generator.dao.GeneratorDao;
 import top.zsmile.modules.generator.service.GeneratorSerivce;
 
 import java.util.List;
 import java.util.Map;
 
+@DataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY)
 @Service("generatorService")
 public class GeneratorServiceImpl implements GeneratorSerivce {
 

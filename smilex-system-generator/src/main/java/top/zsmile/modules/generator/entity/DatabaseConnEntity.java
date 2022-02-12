@@ -40,4 +40,14 @@ public class DatabaseConnEntity implements Serializable {
      * 数据库
      */
     private String databaseName;
+
+    public String getUrl() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("jdbc:");
+        sb.append(type + "://");
+        sb.append(address + ":" + port + "/");
+        sb.append(databaseName);
+        sb.append("?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai");
+        return sb.toString();
+    }
 }
