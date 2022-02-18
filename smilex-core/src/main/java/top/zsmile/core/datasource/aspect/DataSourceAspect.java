@@ -16,12 +16,17 @@ import top.zsmile.core.datasource.DataSourceContentHolder;
 @Slf4j
 public class DataSourceAspect {
 
-    @Before("@annotation(DataSource)")
+    @Pointcut("@within(top.zsmile.core.datasource.annotation.DataSource) || @annotation(top.zsmile.core.datasource.annotation.DataSource)")
+    public void dataSourceAspect() {
+
+    }
+
+    @Before("dataSourceAspect()")
     public void beforeSwitch(JoinPoint joinPoint) {
         Class<?> aClass = joinPoint.getTarget().getClass();
     }
 
-    @After("@annotation(DataSource)")
+    @After("dataSourceAspect()")
     public void afterSwitchDS() {
         DataSourceContentHolder.clear();
     }
