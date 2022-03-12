@@ -11,15 +11,10 @@
 
     <artifactId>smilex-system-boot</artifactId>
 
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common</artifactId>
+            <artifactId>smilex-core</artifactId>
         </dependency>
 
         <dependency>

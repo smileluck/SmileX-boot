@@ -1,6 +1,12 @@
 package top.zsmile.core.datasource;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +60,28 @@ public class DynamicDataSourceConfig {
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
             throws Exception {
-        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
+
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setBanner(false);
+
+        GlobalConfig.DbConfig dbConfig = new GlobalConfig.DbConfig();
+        dbConfig.setIdType(IdType.ASSIGN_ID);
+        dbConfig.setLogicDeleteField("del_flag");
+        dbConfig.setLogicDeleteValue("1");
+        dbConfig.setLogicNotDeleteValue("0");
+        dbConfig.setTableUnderline(true);
+        globalConfig.setDbConfig(dbConfig);
+
+
+        MybatisConfiguration configuration = new MybatisConfiguration();
+        configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
+        configuration.setCallSettersOnNulls(true);
+
+        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/**/*.xml"));
+        sessionFactory.setGlobalConfig(globalConfig);
         sessionFactory.setDataSource(dynamicDataSource);
+        sessionFactory.setConfiguration(configuration);
         return sessionFactory.getObject();
     }
 }
