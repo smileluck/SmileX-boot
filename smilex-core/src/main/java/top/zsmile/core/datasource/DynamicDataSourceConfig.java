@@ -57,31 +57,31 @@ public class DynamicDataSourceConfig {
     }
 
 
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
-            throws Exception {
-        final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
-
-        GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setBanner(false);
-
-        GlobalConfig.DbConfig dbConfig = new GlobalConfig.DbConfig();
-        dbConfig.setIdType(IdType.ASSIGN_ID);
-        dbConfig.setLogicDeleteField("del_flag");
-        dbConfig.setLogicDeleteValue("1");
-        dbConfig.setLogicNotDeleteValue("0");
-        dbConfig.setTableUnderline(true);
-        globalConfig.setDbConfig(dbConfig);
-
-
-        MybatisConfiguration configuration = new MybatisConfiguration();
-        configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
-        configuration.setCallSettersOnNulls(true);
-
-        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/**/*.xml"));
-        sessionFactory.setGlobalConfig(globalConfig);
-        sessionFactory.setDataSource(dynamicDataSource);
-        sessionFactory.setConfiguration(configuration);
-        return sessionFactory.getObject();
-    }
+//    @Bean(name = "sqlSessionFactory")
+//    public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
+//            throws Exception {
+//        final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
+//
+//        GlobalConfig globalConfig = new GlobalConfig();
+//        globalConfig.setBanner(false);
+//
+//        GlobalConfig.DbConfig dbConfig = new GlobalConfig.DbConfig();
+//        dbConfig.setIdType(IdType.ASSIGN_ID);
+//        dbConfig.setLogicDeleteField("del_flag");
+//        dbConfig.setLogicDeleteValue("1");
+//        dbConfig.setLogicNotDeleteValue("0");
+//        dbConfig.setTableUnderline(true);
+//        globalConfig.setDbConfig(dbConfig);
+//
+//
+//        MybatisConfiguration configuration = new MybatisConfiguration();
+//        configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
+//        configuration.setCallSettersOnNulls(true);
+//
+//        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/**/*.xml"));
+//        sessionFactory.setGlobalConfig(globalConfig);
+//        sessionFactory.setDataSource(dynamicDataSource);
+//        sessionFactory.setConfiguration(configuration);
+//        return sessionFactory.getObject();
+//    }
 }
