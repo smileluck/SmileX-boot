@@ -11,14 +11,15 @@ import top.zsmile.modules.generator.service.GeneratorSerivce;
 import java.util.List;
 import java.util.Map;
 
-@DataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY)
 @Service("generatorService")
+@DataSource("master")
 public class GeneratorServiceImpl implements GeneratorSerivce {
 
     @Autowired
     private GeneratorDao generatorDao;
 
     @Override
+    @DataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY)
     public List<Map<String, Object>> queryTableList(String tableName) {
         return generatorDao.selectTableList(tableName);
     }

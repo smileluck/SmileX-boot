@@ -58,3 +58,33 @@ public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataS
 }
 ```
 
+
+
+# 问题记录
+
+## 关于 Invalid *bound* statement 异常问题
+
+> 记录20220311 
+
+发现了个异常，我的项目突然出现了Invalid bound statement，然后由于项目的Application启动类，放在了com.xxx.modules下，导致会出现组件加载异常和Invalid bound statement问题，当我将Application启动类移到com.xxx下，组件扫描正常，但是依然无法扫描到xml。
+
+尝试的解决方式1.
+
+```java
+@ComponentScan("com.xxx.modules.dao")
+```
+
+此时能够扫描到xml，但是感觉到问题不应该出现在这里。
+
+继续查找原因，发现之前写多数据源时设置了SqlSessionFactory。
+
+```java
+@Bean(name = "sqlSessionFactory")
+public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
+    throws Exception {
+    final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
+    return sessionFactory.getObject();
+}
+```
+
+这里的sessionFactory没有使用到yml里面的Mybatis-plus的配置。这也就意味着，我在yml里面的配置完全无效，屏蔽掉sqlSessionFactory的注释后，项目正常运行了。

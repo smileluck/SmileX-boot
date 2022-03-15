@@ -28,6 +28,7 @@ import javax.sql.DataSource;
 @Order(-1)
 public class DynamicDataSourceConfig {
 
+    public final static String MASTER = "master";
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.druid")
@@ -35,18 +36,13 @@ public class DynamicDataSourceConfig {
         return new DataSourceProperties();
     }
 
-//    @Bean("master")
-//    public DataSource masterDataSource() {
-//        return DruidDataSourceBuilder.create().build();
-//    }
-
     @Primary
     @Bean(name = "dynamicDataSource")
     public DynamicDataSource dynamicDataSource(DataSourceProperties dataSourceProperties) {
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
 
         DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        dynamicDataSource.addDataSource("master", dataSource);
+        dynamicDataSource.addDataSource(MASTER, dataSource);
         dynamicDataSource.setDefaultTargetDataSource(dataSource);
         return dynamicDataSource;
     }

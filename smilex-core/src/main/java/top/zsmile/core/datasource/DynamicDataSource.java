@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 实现多数数据源控制
+ */
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
     private static DynamicDataSource INSTANCE;
@@ -29,6 +32,12 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         }
         return INSTANCE;
     }
+
+    public boolean containKey(Object key) {
+        boolean b = dataSourceMap.containsKey(key);
+        return b;
+    }
+
 
     public void addDataSource(Object key, DataSourceProperties dataSourceProperties) {
         DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
@@ -71,6 +80,17 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
                 throw new SXException("数据池类型无法识别");
             }
         }
+    }
+
+    /**
+     * Recording to the datasource of the map with the key
+     *
+     * @param key
+     * @param dataSource
+     */
+    public void replaceDataSource(Object key, DataSource dataSource) {
+        dataSourceMap.put(key, dataSource);
+        setDataSourceMap(dataSourceMap);
     }
 
     @Override

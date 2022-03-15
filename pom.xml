@@ -44,6 +44,7 @@
         <commons.version>2.6</commons.version>
         <shiro.version>1.7.1</shiro.version>
         <freemarker.version>2.3.30</freemarker.version>
+        <jsch.version>0.1.55</jsch.version>
     </properties>
 
 
@@ -131,15 +132,20 @@
             </dependency>
 
             <!-- freemarker -->
-
             <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>${jsch.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
 
 
     <build>
@@ -167,19 +173,19 @@
                 </configuration>
             </plugin>
             <!-- 避免font文件的二进制文件格式压缩破坏 -->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-resources-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <nonFilteredFileExtensions>-->
-<!--                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>-->
-<!--                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>-->
-<!--                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>-->
-<!--                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>-->
-<!--                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>-->
-<!--                    </nonFilteredFileExtensions>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-resources-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <nonFilteredFileExtensions>-->
+            <!--                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>-->
+            <!--                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>-->
+            <!--                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>-->
+            <!--                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>-->
+            <!--                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>-->
+            <!--                    </nonFilteredFileExtensions>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 </project>

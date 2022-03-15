@@ -12,9 +12,23 @@
     <artifactId>smilex-common</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- 用于远程代理使用 -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
         </dependency>
     </dependencies>
 
