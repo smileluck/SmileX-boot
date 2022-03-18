@@ -1,4 +1,4 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.utils;
 
 
 import javax.crypto.Cipher;
@@ -7,7 +7,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.NoSuchAlgorithmException;
 
-public class AESUtil {
+public class AESUtils {
     // 加密算法
     private static final String ENCRY_ALGORITHM = "AES";
     // 加密算法/加密模式/填充类型
@@ -29,7 +29,7 @@ public class AESUtil {
             //要生成多少位，只需要修改这里即可128, 192或256
             SecretKey sk = kg.generateKey();
             byte[] b = sk.getEncoded();
-            String key = CmdUtil.bytesToHexString(b);
+            String key = CmdUtils.bytesToHexString(b);
             return key;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class AESUtil {
      */
     public static String decode(String content, String key) {
         try {
-            byte[] arr = CmdUtil.toBytes(content);
+            byte[] arr = CmdUtils.toBytes(content);
             byte[] raw = key.getBytes(CHARACTER);
             SecretKeySpec skeySpec = new SecretKeySpec(raw, ENCRY_ALGORITHM);
             Cipher cipher = Cipher.getInstance(CIPHER_MODE);
@@ -76,7 +76,7 @@ public class AESUtil {
             Cipher cipher = Cipher.getInstance(CIPHER_MODE);//"算法/模式/补码方式"
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
             byte[] encrypted = cipher.doFinal(content.getBytes(CHARACTER));
-            return CmdUtil.bytesToHexString(encrypted);
+            return CmdUtils.bytesToHexString(encrypted);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

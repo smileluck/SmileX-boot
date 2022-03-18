@@ -1,4 +1,4 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.utils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * 转换工具
  */
-public class ConvertUtil {
+public class ConvertUtils {
 
     /**
      * 将对象转换成Map

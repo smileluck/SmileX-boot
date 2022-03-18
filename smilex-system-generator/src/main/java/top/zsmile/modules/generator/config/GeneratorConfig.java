@@ -1,28 +1,24 @@
 package top.zsmile.modules.generator.config;
 
 import lombok.Data;
+import org.checkerframework.checker.units.qual.C;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import top.zsmile.modules.generator.constant.DefaultConstants;
+import top.zsmile.modules.generator.properties.GeneratorProperties;
 
 /**
  * @author: B.Smile
  * @Date: 2022/3/15 16:36
  * @Description:
  */
+@Configuration
 @Data
 public class GeneratorConfig {
-    /**
-     * 包路径
-     */
-    private String packages;
-    /**
-     * 模块名
-     */
-    private String moduleName;
-    /**
-     * 作者
-     */
-    private String author;
-    /**
-     * 邮箱
-     */
-    private String email;
+
+    @Autowired
+    private GeneratorProperties generatorProperties;
+
+
 }

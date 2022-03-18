@@ -9,17 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>smilex-system-generator</artifactId>
+    <artifactId>smilex-tool</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>smilex-tool-dev</module>
+    </modules>
 
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
         </dependency>
     </dependencies>
 

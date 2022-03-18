@@ -3,24 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>smilex-parent</artifactId>
+        <artifactId>smilex-tool</artifactId>
         <groupId>top.zsmile</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>smilex-system-generator</artifactId>
+    <artifactId>smilex-tool-dev</artifactId>
 
     <dependencies>
+        <!-- 用于远程代理使用 -->
         <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
         </dependency>
     </dependencies>
-
 </project>

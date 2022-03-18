@@ -1,4 +1,4 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.utils;
 
 /**
  * @author: B.Smile

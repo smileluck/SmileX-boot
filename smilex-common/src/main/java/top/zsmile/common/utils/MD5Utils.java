@@ -1,18 +1,13 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.utils;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author: B.Smile
  * @Date: 2021/11/1 13:00
  * @Description: MD5工具
  */
-public class MD5Util {
+public class MD5Utils {
 
     public static String MD5(String data) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");

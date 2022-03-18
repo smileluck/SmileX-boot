@@ -1,7 +1,5 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.utils;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import java.util.List;
 
 /**
@@ -9,7 +7,7 @@ import java.util.List;
  * @Date: 2021/11/1 13:00
  * @Description: 指令工具
  */
-public class CmdUtil {
+public class CmdUtils {
 
     /**
      * 16进制补位

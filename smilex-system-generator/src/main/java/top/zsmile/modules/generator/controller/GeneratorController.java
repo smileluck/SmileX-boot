@@ -2,20 +2,20 @@ package top.zsmile.modules.generator.controller;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.core.api.R;
 import top.zsmile.core.datasource.DataSourceFactory;
 import top.zsmile.core.datasource.DynamicDataSource;
 import top.zsmile.core.datasource.properties.DataSourceProperties;
 import top.zsmile.core.exception.SXException;
-import top.zsmile.modules.generator.config.GeneratorConfig;
 import top.zsmile.modules.generator.constant.DefaultConstants;
 import top.zsmile.modules.generator.entity.DatabaseConnEntity;
-import top.zsmile.modules.generator.model.RootModel;
+import top.zsmile.modules.generator.entity.GeneratorEntity;
 import top.zsmile.modules.generator.service.GeneratorSerivce;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import javax.validation.constraints.NotBlank;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class GeneratorController {
     }
 
     @GetMapping("/info")
-    public R info(String tableName) {
+    public R info(@NotBlank String tableName) {
         Map<String, String> maps = generatorService.queryTable(tableName);
         if (maps == null) {
             return R.fail("查询不到该表结构");
@@ -50,7 +50,7 @@ public class GeneratorController {
     }
 
     @PostMapping("/connect")
-    public R connect(DatabaseConnEntity databaseConnEntity) {
+    public R connect(@Validated DatabaseConnEntity databaseConnEntity) {
         DataSourceProperties dataSourceProperties = new DataSourceProperties();
         dataSourceProperties.setUsername(databaseConnEntity.getUsername());
         dataSourceProperties.setPassword(databaseConnEntity.getPassword());
@@ -69,10 +69,8 @@ public class GeneratorController {
     }
 
     @PostMapping("/genConfig")
-    public R genConfig(@RequestBody RootModel rootModel) {
-        GeneratorConfig generatorConfig = GeneratorConfig.getInstance();
-        generatorConfig.setModuleName(rootModel.getModuleName());
-        generatorConfig.setModuleName(rootModel.getPackages());
+    public R genConfig(@RequestBody GeneratorEntity generatorEntity) {
+
         return R.success();
     }
 

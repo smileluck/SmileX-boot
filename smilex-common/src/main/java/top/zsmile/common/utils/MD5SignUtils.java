@@ -1,4 +1,4 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.utils;
 
 import lombok.SneakyThrows;
 import java.io.UnsupportedEncodingException;
@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * 签名
  */
-public class MD5SignUtil {
+public class MD5SignUtils {
 
     /**
      * 签名
@@ -39,7 +39,7 @@ public class MD5SignUtil {
         String str1 = sb.toString();
         sb.append("key=").append(key);
         if ("MD5".equals(signType)) {
-            return MD5Util.MD5(sb.toString()).toUpperCase();
+            return MD5Utils.MD5(sb.toString()).toUpperCase();
         } else {
             throw new RuntimeException("签名类型错误");
         }
