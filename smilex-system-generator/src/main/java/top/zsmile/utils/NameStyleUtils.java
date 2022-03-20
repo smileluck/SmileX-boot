@@ -1,4 +1,4 @@
-package top.zsmile.modules.generator.utils;
+package top.zsmile.utils;
 
 
 import java.util.regex.Matcher;

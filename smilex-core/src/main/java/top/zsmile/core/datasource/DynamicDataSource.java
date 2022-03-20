@@ -9,6 +9,7 @@ import top.zsmile.core.exception.SXException;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -16,9 +17,9 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
-    private static DynamicDataSource INSTANCE;
+    private static volatile DynamicDataSource INSTANCE;
 
-    private static Map<Object, Object> dataSourceMap = new HashMap<>();
+    private static Map<Object, Object> dataSourceMap = new ConcurrentHashMap<>();
 
     private static final ReentrantLock lock = new ReentrantLock();
 
@@ -45,6 +46,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
     public void addDataSource(Object key, DataSource dataSource) {
+
         Object o = dataSourceMap.get(key);
         if (o != null) {
 //            if (o instanceof DataSource) {
@@ -89,9 +91,22 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      * @param dataSource
      */
     public void replaceDataSource(Object key, DataSource dataSource) {
+        Object o = dataSourceMap.get(key);
+        if (o != null) {
+            if (o instanceof DataSource) {
+                DruidDataSource dataSource1 = (DruidDataSource) o;
+                if (dataSource1 != null) {
+                    dataSource1.close();
+                    dataSource1 = null;
+                    dataSourceMap.remove(key);
+                    setDataSourceMap(dataSourceMap);
+                }
+            }
+        }
         dataSourceMap.put(key, dataSource);
         setDataSourceMap(dataSourceMap);
     }
+
 
     @Override
     protected Object determineCurrentLookupKey() {

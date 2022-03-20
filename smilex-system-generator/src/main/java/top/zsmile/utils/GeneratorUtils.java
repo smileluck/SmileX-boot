@@ -1,4 +1,4 @@
-package top.zsmile.modules.generator.utils;
+package top.zsmile.utils;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -8,7 +8,7 @@ import top.zsmile.modules.generator.config.FreemakerConfig;
 import java.io.*;
 import java.util.HashMap;
 
-public class GeneratorUtil {
+public class GeneratorUtils {
     public static R generatorByFtl() {
         try {
             Template template = null;

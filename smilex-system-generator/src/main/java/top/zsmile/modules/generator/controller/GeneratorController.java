@@ -14,12 +14,14 @@ import top.zsmile.modules.generator.entity.DatabaseConnEntity;
 import top.zsmile.modules.generator.entity.GeneratorEntity;
 import top.zsmile.modules.generator.service.GeneratorSerivce;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+@Validated
 @RestController
 @RequestMapping("/generator")
 public class GeneratorController {
@@ -44,13 +46,13 @@ public class GeneratorController {
     }
 
     @GetMapping("/columns")
-    public R columns(String tableName) {
+    public R columns(@NotBlank String tableName) {
         List<Map<String, Object>> maps = generatorService.queryTableColumns(tableName);
         return R.success(maps);
     }
 
     @PostMapping("/connect")
-    public R connect(@Validated DatabaseConnEntity databaseConnEntity) {
+    public R connect(@Validated @RequestBody DatabaseConnEntity databaseConnEntity) {
         DataSourceProperties dataSourceProperties = new DataSourceProperties();
         dataSourceProperties.setUsername(databaseConnEntity.getUsername());
         dataSourceProperties.setPassword(databaseConnEntity.getPassword());
@@ -68,17 +70,13 @@ public class GeneratorController {
         return R.success("连接成功");
     }
 
-    @PostMapping("/genConfig")
-    public R genConfig(@RequestBody GeneratorEntity generatorEntity) {
+    @PostMapping("/genSingleFile")
+    public R genSingleFile(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
 
+//        response.setContentType("application/octet-stream");
+//        response.setCharacterEncoding("utf-8");
+//        response.setContentLength((int) file.length());
+//        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         return R.success();
     }
-
-    @PostMapping("/genFile")
-    public R genFile(HttpServletResponse response) {
-
-        return R.success();
-    }
-
-
 }
