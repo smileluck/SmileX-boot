@@ -68,6 +68,8 @@ public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataS
 
 发现了个异常，我的项目突然出现了Invalid bound statement，然后由于项目的Application启动类，放在了com.xxx.modules下，导致会出现组件加载异常和Invalid bound statement问题，当我将Application启动类移到com.xxx下，组件扫描正常，但是依然无法扫描到xml。
 
+经过排查，当映射成功的时候，我发现dao层的对象是mybatis-plus.mapperProxy代理，故障时却是显示是mybatis.mapperProxy代理，那么是什么原因导致这个问题呢？
+
 尝试的解决方式1.
 
 ```java
@@ -82,9 +84,10 @@ public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataS
 @Bean(name = "sqlSessionFactory")
 public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
     throws Exception {
-    final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
+    final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
     return sessionFactory.getObject();
 }
 ```
 
 这里的sessionFactory没有使用到yml里面的Mybatis-plus的配置。这也就意味着，我在yml里面的配置完全无效，屏蔽掉sqlSessionFactory的注释后，项目正常运行了。
+
