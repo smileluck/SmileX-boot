@@ -3,7 +3,9 @@ package top.zsmile.modules.generator.entity;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class GeneratorEntity implements Serializable {
@@ -21,6 +23,6 @@ public class GeneratorEntity implements Serializable {
     /**
      * 表名
      */
-    @NotBlank(message = "请选择表")
-    private String tableName;
+    @NotEmpty(message = "请选择表")
+    private List<String> tableName;
 }
