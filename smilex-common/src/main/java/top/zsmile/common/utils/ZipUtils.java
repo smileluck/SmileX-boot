@@ -1,12 +1,9 @@
 package top.zsmile.common.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import top.zsmile.common.entity.ZipFile;
+import top.zsmile.common.domain.ZipFileEntity;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -41,9 +38,9 @@ public class ZipUtils {
             for (Object file : outFile) {
                 ZipEntry zipEntry = null;
                 FileInputStream fileInputStream;
-                if (file.getClass() == ZipFile.class) {
-                    fileInputStream = new FileInputStream(((ZipFile) file).getFile());
-                    zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((ZipFile) file).getFilePath() + FILE_SEPARATE + ((ZipFile) file).getFile().getName());
+                if (file.getClass() == ZipFileEntity.class) {
+                    fileInputStream = new FileInputStream(((ZipFileEntity) file).getFile());
+                    zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((ZipFileEntity) file).getFilePath() + FILE_SEPARATE + ((ZipFileEntity) file).getFile().getName());
                 } else {
                     fileInputStream = new FileInputStream((File) file);
                     zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((File) file).getName());
@@ -54,8 +51,9 @@ public class ZipUtils {
                 while ((length = fileInputStream.read(buffer)) > 0) {
                     zipOutputStream.write(buffer, 0, length);
                 }
+                zipOutputStream.flush();
+                zipOutputStream.closeEntry();
             }
-            zipOutputStream.finish();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -75,6 +73,7 @@ public class ZipUtils {
                 zipOutputStream.write(buffer, 0, length);
             }
             zipOutputStream.flush();
+            zipOutputStream.closeEntry();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -89,7 +88,7 @@ public class ZipUtils {
         fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\ConvertUtils.java"));
         fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\MD5SignUtils.java"));
         fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\MD5Utils.java"));
-        fileList.add(new ZipFile("test", new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\NameStyleUtils.java")));
+        fileList.add(new ZipFileEntity("test", new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\NameStyleUtils.java")));
         compress(zipFile, "/top/zsmile/modules", fileList);
 
     }

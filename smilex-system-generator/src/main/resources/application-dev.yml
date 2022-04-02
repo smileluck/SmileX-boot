@@ -10,7 +10,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3306/smilex-boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
       username: root
-      password: root
+      password: 123456
       # 其它配置
       time-between-eviction-runs-millis: 60000
       keep-alive: true
@@ -32,6 +32,7 @@ spring:
         url-pattern: /druid/*
 
 
+# mybatis-plus
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
@@ -50,3 +51,8 @@ mybatis-plus:
     call-setters-on-nulls: true
 
 
+# Shiro
+shiro:
+  cookie:
+    # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
+    cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==

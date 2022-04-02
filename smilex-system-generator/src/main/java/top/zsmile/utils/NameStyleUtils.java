@@ -41,18 +41,4 @@ public class NameStyleUtils {
 
         return sb.toString().toLowerCase();
     }
-
-
-    public static void main(String[] args) {
-        String str1 = lineToHump("sdlfks_sdf_222", true);
-        String str2 = lineToHump("Non_Unique", false);
-        String str3 = lineToHump("Table", false);
-        System.out.println(str1);
-        System.out.println(str2);
-        System.out.println(str3);
-        System.out.println(humpToLine(str1));
-        System.out.println(humpToLine(str2));
-        System.out.println(humpToLine(str3));
-
-    }
 }

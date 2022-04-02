@@ -1,4 +1,4 @@
-package top.zsmile.modules.generator.entity;
+package top.zsmile.modules.generator.domain.entity;
 
 import lombok.Data;
 

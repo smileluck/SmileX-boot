@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -70,13 +71,21 @@ public class SXExceptionHandler {
     @ExceptionHandler(BindException.class)
     public R BindException(BindException e) {
         log.error(e.getMessage(), e);
+        return R.fail(fieldErrorToMessage(e.getBindingResult().getFieldErrors()));
+    }
 
-        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public R BindException(MethodArgumentNotValidException e) {
+        log.error(e.getMessage(), e);
+        return R.fail(fieldErrorToMessage(e.getBindingResult().getFieldErrors()));
+    }
+
+    private String fieldErrorToMessage(List<FieldError> fieldErrors) {
         StringBuffer sb = new StringBuffer("");
         for (FieldError fieldError : fieldErrors) {
             sb.append(fieldError.getDefaultMessage()).append(SPLINT);
         }
-        return R.fail(sb.substring(0, sb.length() - 1));
+        return sb.substring(0, sb.length() - 1);
     }
 
 }

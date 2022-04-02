@@ -13,6 +13,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common</artifactId>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>org.apache.shiro</groupId>-->
 <!--            <artifactId>shiro-core</artifactId>-->
@@ -25,10 +30,6 @@
             <version>${shiro.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

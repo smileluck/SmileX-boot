@@ -1,12 +1,15 @@
 package top.zsmile.common.utils;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.NoSuchAlgorithmException;
 
+@Slf4j
 public class AESUtils {
     // 加密算法
     private static final String ENCRY_ALGORITHM = "AES";
@@ -33,7 +36,7 @@ public class AESUtils {
             return key;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            System.out.println("没有此算法。");
+            log.error("没有此算法。");
             return null;
         }
     }

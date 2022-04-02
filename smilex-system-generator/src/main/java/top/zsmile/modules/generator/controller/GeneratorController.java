@@ -1,6 +1,8 @@
 package top.zsmile.modules.generator.controller;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +12,14 @@ import top.zsmile.core.datasource.DynamicDataSource;
 import top.zsmile.core.datasource.properties.DataSourceProperties;
 import top.zsmile.core.exception.SXException;
 import top.zsmile.modules.generator.constant.DefaultConstants;
-import top.zsmile.modules.generator.entity.DatabaseConnEntity;
-import top.zsmile.modules.generator.entity.GeneratorEntity;
+import top.zsmile.modules.generator.domain.entity.DatabaseConnEntity;
+import top.zsmile.modules.generator.domain.entity.GeneratorEntity;
+import top.zsmile.modules.generator.domain.model.ColumnModel;
 import top.zsmile.modules.generator.service.GeneratorSerivce;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +50,7 @@ public class GeneratorController {
 
     @GetMapping("/columns")
     public R columns(@NotBlank String tableName) {
-        List<Map<String, Object>> maps = generatorService.queryTableColumns(tableName);
+        List<ColumnModel> maps = generatorService.queryTableColumns(tableName);
         return R.success(maps);
     }
 
@@ -68,6 +71,12 @@ public class GeneratorController {
 //        DynamicDataSource.getInstance().delDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY);
         DynamicDataSource.getInstance().replaceDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
         return R.success("连接成功");
+    }
+
+    @PostMapping("/genFileByLocal")
+    public R genFileByLocal(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
+        File file = generatorService.genCodeLocal(generatorEntity);
+        return R.success();
     }
 
     @PostMapping("/genSingleFile")

@@ -1,9 +1,12 @@
 package top.zsmile.modules.generator.convert;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class MysqlTypeConvert implements TypeConverter {
     private static final Map<String, String> convertMap;
 
@@ -33,7 +36,7 @@ public class MysqlTypeConvert implements TypeConverter {
     }
 
     @Override
-    public void convert() {
-
+    public String convert(String key) {
+        return convertMap.get(key);
     }
 }
