@@ -13,6 +13,10 @@ public class ColumnModel {
      */
     private String humpColumnName;
     /**
+     * 大驼峰字段名
+     */
+    private String bigHumpColumnName;
+    /**
      * 字段类型
      */
     private String columnType;

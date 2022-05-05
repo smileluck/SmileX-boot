@@ -7,6 +7,10 @@ import java.util.List;
 @Data
 public class TableModel {
     /**
+     * 包名
+     */
+    private String packages;
+    /**
      * 模块名
      */
     private String moduleName;

@@ -65,19 +65,22 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
 
     @Override
     public File genCodeLocal(GeneratorEntity generatorEntity) {
-        genCodeModel(generatorEntity.getModuleName(), generatorEntity.getTableName());
-//        GeneratorUtils.genCodeFiles("/generator", generatorEntity);
+        List<TableModel> tableModels = genCodeModel(generatorEntity);
+        GeneratorUtils.genCodeFiles(generatorEntity, tableModels);
         return null;
     }
 
     /**
      * 加载表模型
      *
-     * @param moduleName
-     * @param tableNames
+     * @param generatorEntity
      * @return
      */
-    private List<TableModel> genCodeModel(String moduleName, List<String> tableNames) {
+    private List<TableModel> genCodeModel(GeneratorEntity generatorEntity) {
+        List<String> tableNames = generatorEntity.getTableName();
+
+        String moduleName = generatorEntity.getModuleName().trim();
+        String packages = generatorEntity.getPackagePath().trim();
         List<TableModel> tableModels = new ArrayList<>(tableNames.size());
         Iterator<String> iterator = tableNames.iterator();
         while (iterator.hasNext()) {
@@ -96,13 +99,14 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
                 ColumnModel next = iterator1.next();
                 String convert = mysqlTypeConvert.convert(next.getDataType());
                 next.setConvertDataType(convert);
-                next.setHumpColumnName(NameStyleUtils.lineToHump(next.getDataType(), false));
+                next.setHumpColumnName(NameStyleUtils.lineToHump(next.getColumnName(), false));
+                next.setBigHumpColumnName(NameStyleUtils.lineToHump(next.getColumnName(), true));
                 if (next.getColumnKey().equalsIgnoreCase("PRI") && next.getColumnName().equalsIgnoreCase("id")) {
                     tableModel.setPrimaryColumn(next);
                     iterator1.remove();
                 }
             }
-
+            tableModel.setPackages(packages);
             tableModel.setModuleName(moduleName);
             tableModel.setBigHumpClass(NameStyleUtils.lineToHump(tableName, true));
             tableModel.setSmallHumpClass(NameStyleUtils.lineToHump(tableName, false));

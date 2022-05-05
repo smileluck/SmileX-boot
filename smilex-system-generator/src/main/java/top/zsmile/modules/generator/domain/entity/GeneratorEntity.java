@@ -21,6 +21,11 @@ public class GeneratorEntity implements Serializable {
     @NotBlank(message = "模块名不能为空")
     private String moduleName;
     /**
+     * 保存位置
+     */
+    @NotBlank(message = "保存位置不能为空")
+    private String savePath;
+    /**
      * 表名
      */
     @NotEmpty(message = "请选择表")
