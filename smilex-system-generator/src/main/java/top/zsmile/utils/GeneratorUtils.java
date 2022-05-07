@@ -19,9 +19,6 @@ public class GeneratorUtils {
 
     public static File generateByFtl(String savePath, String fileName, String templateName, TableModel obj) {
         File file = new File(savePath);
-        if (!file.isDirectory()) {
-            throw new SXException("请选择文件夹");
-        }
         if (!file.exists()) {
             boolean mkdirs = file.mkdirs();
             if (!mkdirs) {
@@ -65,7 +62,7 @@ public class GeneratorUtils {
     public static List<ZipFileEntity> genCodeFiles(GeneratorEntity generatorEntity, List<TableModel> tableModels) {
         List<ZipFileEntity> zipFileEntities = new ArrayList<>();
         for (TableModel tableModel : tableModels) {
-            File file = generateByFtl(generatorEntity.getSavePath() + "/" + generatorEntity.getModuleName() + "/entity/", tableModel.getBigHumpClass() + "Entity.java", "entity.ftl", tableModel);
+            File file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\entity\\", tableModel.getBigHumpClass() + "Entity.java", "entity.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/entity", file));
         }
         return zipFileEntities;

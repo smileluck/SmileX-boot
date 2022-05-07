@@ -21,6 +21,7 @@
         <module>smilex-system-boot</module>
         <module>smilex-system-generator</module>
         <module>smilex-tool</module>
+        <module>smilex-mybatis-enhance</module>
     </modules>
 
     <repositories>

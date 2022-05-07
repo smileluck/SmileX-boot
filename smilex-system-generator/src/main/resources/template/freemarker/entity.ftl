@@ -1,17 +1,16 @@
 package ${packages}.${moduleName}.entity;
 
-import lombok.Data;
 import java.io.Serializable;
+import java.util.Date;
 
-@TableName("${tableName}")
-public class ${bigHumpClass} implements Serializable {
+<#--@TableName("${tableName}")-->
+public class ${bigHumpClass}Entity implements Serializable {
     private static final long serialVersionUID = 1L;
 
 <#if primaryColumn??>
     /**
     * ${primaryColumn.columnComment}
     */
-    @TableId
     private ${primaryColumn.convertDataType} ${primaryColumn.humpColumnName};
 </#if>
 <#list columnModels as var>
@@ -32,7 +31,7 @@ public class ${bigHumpClass} implements Serializable {
     * ${primaryColumn.columnComment}
     */
     public void set${primaryColumn.bigHumpColumnName}(${primaryColumn.convertDataType} ${primaryColumn.humpColumnName}){
-    this.${primaryColumn.humpColumnName} = ${primaryColumn.humpColumnName}
+    this.${primaryColumn.humpColumnName} = ${primaryColumn.humpColumnName};
     }
 </#if>
 <#list columnModels as var>
@@ -46,7 +45,7 @@ public class ${bigHumpClass} implements Serializable {
     * ${var.columnComment}
     */
     public void set${var.bigHumpColumnName}(${var.convertDataType} ${var.humpColumnName}){
-    this.${var.humpColumnName} = ${var.humpColumnName}
+    this.${var.humpColumnName} = ${var.humpColumnName};
     }
 </#list>
 }
