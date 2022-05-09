@@ -1,0 +1,22 @@
+package top.zsmile.provider;
+
+import org.apache.ibatis.builder.annotation.ProviderContext;
+import top.zsmile.meta.TableInfo;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class BaseProvider {
+    private static final Map<Class<?>, TableInfo> TABLE_CACHE = new ConcurrentHashMap<>();
+
+    private static final ReadWriteLock LOCK = new ReentrantReadWriteLock();
+
+    protected TableInfo getTableInfo(ProviderContext providerContext) {
+        TableInfo tableInfo = TABLE_CACHE.computeIfAbsent(providerContext.getMapperType(), TableInfo::of);
+        return tableInfo;
+    }
+}

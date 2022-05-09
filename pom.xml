@@ -89,6 +89,11 @@
                 <artifactId>smilex-core</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-mybatis-enhance</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>top.zsmile</groupId>

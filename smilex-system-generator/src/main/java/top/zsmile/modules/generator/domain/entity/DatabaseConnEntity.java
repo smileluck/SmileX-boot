@@ -1,5 +1,6 @@
 package top.zsmile.modules.generator.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.util.StringUtils;
