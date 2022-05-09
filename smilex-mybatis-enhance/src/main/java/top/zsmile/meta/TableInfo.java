@@ -14,7 +14,7 @@ public class TableInfo {
     /**
      * 表名
      */
-    private Long tableName;
+    private String tableName;
 
     /**
      * 实体类型不含@NoColunm注解的field
@@ -24,7 +24,7 @@ public class TableInfo {
     /**
      * 主键列名
      */
-    private String primaryKeyColumn;
+    private String primaryColumn;
 
 
     /**
@@ -41,6 +41,36 @@ public class TableInfo {
 
     public static TableInfo of(Class<?> clazz) {
         TableInfo tableInfo = new TableInfo();
+        tableInfo.tableName = queryTableName(clazz);
+        Field[] fields = clazz.getDeclaredFields();
+        tableInfo.fields = fields;
+        tableInfo.primaryColumn = queryPrimaryColumn(fields);
+        tableInfo.selectColumns = querySelectColumn(fields);
         return tableInfo;
     }
+
+    /**
+     * TODO 查询类的TableName注解名称
+     *
+     * @return
+     */
+    private static String queryTableName(Class<?> clazz) {
+        return null;
+    }
+
+    /**
+     * TODO 查询主键列
+     */
+    private static String queryPrimaryColumn(Field[] fields) {
+        return null;
+    }
+
+    /**
+     * TODO 查询列名
+     */
+    private static String[] querySelectColumn(Field[] fields) {
+        return null;
+    }
+
+
 }
