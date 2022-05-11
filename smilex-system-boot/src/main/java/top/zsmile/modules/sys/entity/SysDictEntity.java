@@ -1,5 +1,8 @@
 package top.zsmile.modules.sys.entity;
 
+import top.zsmile.annotation.TableField;
+import top.zsmile.annotation.TableId;
+import top.zsmile.annotation.TableLogic;
 import top.zsmile.annotation.TableName;
 
 import java.io.Serializable;
@@ -12,6 +15,7 @@ public class SysDictEntity implements Serializable {
     /**
      * ID
      */
+    @TableId
     private Long id;
     /**
      * 字典编码
@@ -44,7 +48,11 @@ public class SysDictEntity implements Serializable {
     /**
      * 是否删除，1是，0否
      */
+    @TableLogic
     private Integer delFlag;
+
+    @TableField(exist = false)
+    private String noExist;
 
     /**
      * ID
