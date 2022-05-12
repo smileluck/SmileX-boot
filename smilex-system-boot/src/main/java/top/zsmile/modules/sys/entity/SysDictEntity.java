@@ -51,8 +51,6 @@ public class SysDictEntity implements Serializable {
     @TableLogic
     private Integer delFlag;
 
-    @TableField(exist = false)
-    private String noExist;
 
     /**
      * ID

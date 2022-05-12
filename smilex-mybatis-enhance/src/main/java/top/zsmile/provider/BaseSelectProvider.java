@@ -12,12 +12,12 @@ public class BaseSelectProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String selectById(Object id, ProviderContext context) {
+    public String selectById(ProviderContext context) {
         System.out.println(context);
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
-            SELECT(tableInfo.getSelectColumns());
+            SELECT(tableInfo.getColumns());
             FROM(tableInfo.getTableName());
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();

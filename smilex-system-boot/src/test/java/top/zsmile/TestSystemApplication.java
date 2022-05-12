@@ -17,9 +17,11 @@ public class TestSystemApplication {
 
     @Test
     public void testDict() {
-//        SysDictEntity sysDictEntity = new SysDictEntity();
+        SysDictEntity sysDictEntity = new SysDictEntity();
+        sysDictEntity.setDictName("11");
+        sysDictEntity.setId(1L);
 //        sysDictDao.insert(sysDictEntity);
-        SysDictEntity sysDictEntity = sysDictDao.selectById(1);
+        sysDictDao.updateById(sysDictEntity);
         System.out.println(sysDictEntity);
     }
 }

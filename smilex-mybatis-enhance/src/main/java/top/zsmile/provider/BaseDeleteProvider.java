@@ -2,6 +2,7 @@ package top.zsmile.provider;
 
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import top.zsmile.meta.TableInfo;
 
 public class BaseDeleteProvider extends BaseProvider {
 
@@ -12,9 +13,11 @@ public class BaseDeleteProvider extends BaseProvider {
      * @return
      */
     public String deleteLogicById(ProviderContext context) {
-        System.out.println(context);
+        TableInfo tableInfo = getTableInfo(context);
         return new SQL() {{
-
+            UPDATE(tableInfo.getTableName());
+            SET(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
     }
 
@@ -25,9 +28,9 @@ public class BaseDeleteProvider extends BaseProvider {
      * @return
      */
     public String deletePhysicsById(ProviderContext context) {
-        System.out.println(context);
+        TableInfo tableInfo = getTableInfo(context);
         return new SQL() {{
-
+            DELETE_FROM(tableInfo.getTableName()).WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
     }
 }

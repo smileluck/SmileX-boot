@@ -29,3 +29,7 @@ spring:
         enabled: true
         allow: 127.0.0.1
         url-pattern: /druid/*
+
+logging:
+  level:
+    top.zsmile: DEBUG

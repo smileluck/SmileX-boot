@@ -16,7 +16,7 @@ public interface BaseDao<T> {
     @InsertProvider(type = BaseInsertProvider.class, method = "insert")
     int insert(T t);
 
-    @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsById")
+    @UpdateProvider(type = BaseDeleteProvider.class, method = "deletePhysicsById")
     int deletePhysicsById(Object id);
 
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicById")

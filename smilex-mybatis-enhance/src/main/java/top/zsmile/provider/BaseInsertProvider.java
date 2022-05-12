@@ -8,9 +8,12 @@ public class BaseInsertProvider extends BaseProvider {
 
     public String insert(ProviderContext context) {
         TableInfo tableInfo = getTableInfo(context);
-        System.out.println(tableInfo);
         return new SQL() {{
-
+            INSERT_INTO(tableInfo.getTableName());
+            INTO_COLUMNS(tableInfo.getColumns());
+            INTO_VALUES(tableInfo.getInjectParameter());
         }}.toString();
     }
+
+    
 }

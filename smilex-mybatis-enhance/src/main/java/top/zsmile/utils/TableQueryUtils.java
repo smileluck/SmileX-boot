@@ -3,6 +3,7 @@ package top.zsmile.utils;
 import org.springframework.util.StringUtils;
 import top.zsmile.annotation.TableField;
 import top.zsmile.annotation.TableId;
+import top.zsmile.annotation.TableLogic;
 import top.zsmile.annotation.TableName;
 import top.zsmile.common.utils.NameStyleUtils;
 import top.zsmile.dao.BaseDao;
@@ -71,19 +72,40 @@ public class TableQueryUtils {
         return fields;
     }
 
+    /**
+     * 查询所有列名
+     */
+    public static String[] queryColumn(Field[] fields) {
+        return Stream.of(fields).map(TableQueryUtils::humpToLineName).toArray(String[]::new);
+    }
 
     /**
      * 查询主键列
      */
     public static String queryPrimaryColumn(Field[] fields) {
-        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(DEFAULT_PRIMARY_KEY);
+        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(DEFAULT_DELETE_LOGIC_KEY);
     }
 
     /**
-     * 查询列名
+     * 查询逻辑删除列
+     */
+    public static String queryLogicDelColumn(Field[] fields) {
+        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableLogic.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(DEFAULT_DELETE_LOGIC_KEY);
+    }
+
+    /**
+     * 查询列名，example_column as exampleColumn
      */
     public static String[] querySelectColumn(Field[] fields) {
         return Stream.of(fields).map(TableQueryUtils::getSelectColumn).toArray(String[]::new);
+    }
+
+
+    /**
+     * 注入参数名，#{exampleColumn}
+     */
+    public static String[] queryInjectParameter(Field[] fields) {
+        return Stream.of(fields).map(TableQueryUtils::getInjectParameter).toArray(String[]::new);
     }
 
     /**
@@ -98,7 +120,7 @@ public class TableQueryUtils {
      * 转换Entity列表为下划线
      */
     public static String humpToLineName(Field field) {
-        return NameStyleUtils.humpToLine(field.getName());
+        return NameStyleUtils.humpToLine(field.getName()).intern();
     }
 
     /**
@@ -106,6 +128,14 @@ public class TableQueryUtils {
      */
     public static String getSelectColumn(Field field) {
         String s = humpToLineName(field);
-        return s + " AS " + field.getName();
+        return (s + " AS " + field.getName()).intern();
+    }
+
+    public static String getInjectParameter(Field field) {
+        return ("#{" + field.getName() + "}").intern();
+    }
+
+    public static String getAssignParameter(Field field) {
+        return (humpToLineName(field) + "=" + getInjectParameter(field)).intern();
     }
 }

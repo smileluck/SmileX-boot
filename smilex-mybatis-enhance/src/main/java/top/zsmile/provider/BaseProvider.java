@@ -1,7 +1,9 @@
 package top.zsmile.provider;
 
 import org.apache.ibatis.builder.annotation.ProviderContext;
+import top.zsmile.common.utils.NameStyleUtils;
 import top.zsmile.meta.TableInfo;
+import top.zsmile.utils.ReflectUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,5 +20,11 @@ public class BaseProvider {
     protected TableInfo getTableInfo(ProviderContext providerContext) {
         TableInfo tableInfo = TABLE_CACHE.computeIfAbsent(providerContext.getMapperType(), TableInfo::of);
         return tableInfo;
+    }
+
+    protected void validNullId(Object obj, TableInfo tableInfo) {
+        if (ReflectUtils.getFieldValue(obj, NameStyleUtils.lineToHump(tableInfo.getPrimaryColumn(), false)) == null) {
+            throw new IllegalArgumentException("主键不能为空");
+        }
     }
 }
