@@ -1,2 +1,5 @@
 .idea
 target
+*.iml
+/smilex-auth/*.iml
+/smilex-api/*.iml

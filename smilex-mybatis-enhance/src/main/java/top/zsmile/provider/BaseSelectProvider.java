@@ -2,6 +2,7 @@ package top.zsmile.provider;
 
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import top.zsmile.meta.TableInfo;
 
 public class BaseSelectProvider extends BaseProvider {
 
@@ -11,10 +12,16 @@ public class BaseSelectProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String selectById(ProviderContext context) {
+    public String selectById(Object id, ProviderContext context) {
         System.out.println(context);
-        return new SQL() {{
+        TableInfo tableInfo = getTableInfo(context);
 
+        String s = new SQL() {{
+            SELECT(tableInfo.getSelectColumns());
+            FROM(tableInfo.getTableName());
+            WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
+        System.out.println(s);
+        return s;
     }
 }

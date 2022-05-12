@@ -17,7 +17,9 @@ public class TestSystemApplication {
 
     @Test
     public void testDict() {
-        SysDictEntity sysDictEntity = new SysDictEntity();
-        sysDictDao.insert(sysDictEntity);
+//        SysDictEntity sysDictEntity = new SysDictEntity();
+//        sysDictDao.insert(sysDictEntity);
+        SysDictEntity sysDictEntity = sysDictDao.selectById(1);
+        System.out.println(sysDictEntity);
     }
 }

@@ -47,4 +47,23 @@ public class TableInfo {
     }
 
 
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String getPrimaryColumn() {
+        return primaryColumn;
+    }
+
+    public String[] getSelectColumns() {
+        return selectColumns;
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public String primaryColumnWhere() {
+        return primaryColumn + "= #{" + primaryColumn + "}";
+    }
 }

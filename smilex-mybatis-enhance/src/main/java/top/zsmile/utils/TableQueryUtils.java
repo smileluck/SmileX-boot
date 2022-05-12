@@ -83,7 +83,7 @@ public class TableQueryUtils {
      * 查询列名
      */
     public static String[] querySelectColumn(Field[] fields) {
-        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).map(TableQueryUtils::humpToLineName).toArray(String[]::new);
+        return Stream.of(fields).map(TableQueryUtils::getSelectColumn).toArray(String[]::new);
     }
 
     /**
@@ -99,5 +99,13 @@ public class TableQueryUtils {
      */
     public static String humpToLineName(Field field) {
         return NameStyleUtils.humpToLine(field.getName());
+    }
+
+    /**
+     * 获取查询列名as实体类名
+     */
+    public static String getSelectColumn(Field field) {
+        String s = humpToLineName(field);
+        return s + " AS " + field.getName();
     }
 }
