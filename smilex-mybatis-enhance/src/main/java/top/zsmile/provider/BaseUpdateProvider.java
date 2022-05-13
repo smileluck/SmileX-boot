@@ -2,9 +2,6 @@ package top.zsmile.provider;
 
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
-import sun.reflect.misc.ReflectUtil;
-import top.zsmile.common.utils.NameStyleUtils;
-import top.zsmile.core.exception.SXException;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.ReflectUtils;
 import top.zsmile.utils.TableQueryUtils;

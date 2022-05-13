@@ -26,6 +26,7 @@ public class TableQueryUtils {
      */
     private static final String DEFAULT_DELETE_LOGIC_KEY = "del_flag";
 
+
     /**
      * 查询实例传入的Entity类型
      *
@@ -120,7 +121,14 @@ public class TableQueryUtils {
      * 转换Entity列表为下划线
      */
     public static String humpToLineName(Field field) {
-        return NameStyleUtils.humpToLine(field.getName()).intern();
+        return humpToLineName(field.getName()).intern();
+    }
+
+    /**
+     * 转换Entity列表为下划线
+     */
+    public static String humpToLineName(String fieldName) {
+        return NameStyleUtils.humpToLine(fieldName).intern();
     }
 
     /**
@@ -131,11 +139,28 @@ public class TableQueryUtils {
         return (s + " AS " + field.getName()).intern();
     }
 
+    /**
+     * 注入字段,#{exampleColumn}
+     *
+     * @param field
+     * @return
+     */
     public static String getInjectParameter(Field field) {
         return ("#{" + field.getName() + "}").intern();
     }
 
+
+    /**
+     * 设置字段, example_column = #{exampleColumn}
+     *
+     * @param field
+     * @return
+     */
     public static String getAssignParameter(Field field) {
         return (humpToLineName(field) + "=" + getInjectParameter(field)).intern();
+    }
+
+    public static String getSqlScript(String sql) {
+        return Constants.SCRIPT_START + sql + Constants.SCRIPT_END;
     }
 }

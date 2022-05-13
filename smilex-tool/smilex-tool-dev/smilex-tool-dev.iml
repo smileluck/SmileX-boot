@@ -19,8 +19,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="smilex-common" />
-    <orderEntry type="module" module-name="smilex-core" />
     <orderEntry type="library" name="Maven: com.jcraft:jsch:0.1.55" level="project" />
     <orderEntry type="module" module-name="smilex-common" />
     <orderEntry type="module" module-name="smilex-core" />
