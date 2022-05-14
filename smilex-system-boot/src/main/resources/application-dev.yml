@@ -32,4 +32,4 @@ spring:
 
 logging:
   level:
-    top.zsmile: DEBUG
+    top.zsmile: debug

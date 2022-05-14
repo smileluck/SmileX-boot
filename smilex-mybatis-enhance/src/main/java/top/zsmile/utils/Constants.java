@@ -10,4 +10,8 @@ public class Constants {
     // 脚本
     public static final String SCRIPT_START = "<script>";
     public static final String SCRIPT_END = "</script>";
+
+    // 根据ColumnsMap条件查询
+    public static final String COLUMNS_MAP = "cm";
+
 }
