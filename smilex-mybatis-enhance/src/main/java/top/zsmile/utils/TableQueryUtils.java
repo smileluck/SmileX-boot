@@ -219,7 +219,7 @@ public class TableQueryUtils {
     /**
      * 使用map转换查询条件
      */
-    public static String getMapCondition(TableInfo tableInfo, Map<String, Object> map) {
+    public static String getMapCondition(Map<String, Object> map) {
         Set<String> keySet = map.keySet();
         StringBuilder sb = new StringBuilder();
         for (String key : keySet) {
@@ -230,5 +230,36 @@ public class TableQueryUtils {
             sb.append(humpToLineName(key) + "=" + getInjectParameter(Constants.COLUMNS_MAP + POINT + key));
         }
         return sb.toString();
+    }
+
+
+    /**
+     * <p>
+     * 生成 foreach 标签的脚本
+     * </p>
+     *
+     * @param sqlScript  foreach 内部的 sql 脚本
+     * @param collection collection
+     * @param index      index
+     * @param item       item
+     * @param separator  separator
+     * @return foreach 脚本
+     */
+    public static String convertForeach(final String sqlScript, final String collection, final String index,
+                                        final String item, final String separator) {
+        StringBuilder sb = new StringBuilder("<foreach");
+        if (!StringUtils.isEmpty(collection)) {
+            sb.append(" collection=\"").append(collection).append(StringPool.QUOTE);
+        }
+        if (!StringUtils.isEmpty(index)) {
+            sb.append(" index=\"").append(index).append(StringPool.QUOTE);
+        }
+        if (!StringUtils.isEmpty(item)) {
+            sb.append(" item=\"").append(item).append(StringPool.QUOTE);
+        }
+        if (!StringUtils.isEmpty(separator)) {
+            sb.append(" separator=\"").append(separator).append(StringPool.QUOTE);
+        }
+        return sb.append(StringPool.RIGHT_CHEV).append(StringPool.NEWLINE).append(sqlScript).append(StringPool.NEWLINE).append("</foreach>").toString();
     }
 }

@@ -11,6 +11,7 @@ import top.zsmile.modules.sys.dao.SysDictDao;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SmileSystemApplication.class)
@@ -30,6 +31,10 @@ public class TestSystemApplication {
 
         System.out.println(System.currentTimeMillis());
         SysDictEntity sysDictEntity = sysDictDao.selectById(1, "id", "dictName");
+        System.out.println(System.currentTimeMillis());
+        
+        System.out.println(System.currentTimeMillis());
+        sysDictDao.selectMapById(1, "id", "dictName");
         System.out.println(System.currentTimeMillis());
 
 

@@ -8,6 +8,7 @@ import top.zsmile.utils.TableQueryUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 public class TableInfo {
@@ -43,6 +44,13 @@ public class TableInfo {
      */
     private String[] selectColumns;
 
+
+    /**
+     * 所有select的列名，全部缓存
+     */
+    private String allColumnsSql;
+
+
     /**
      * 逻辑删除字段
      *
@@ -66,9 +74,10 @@ public class TableInfo {
         tableInfo.tableName = TableQueryUtils.queryTableName(aClass);
         Field[] fields = TableQueryUtils.queryExistColumn(aClass);
         tableInfo.fields = fields;
-        tableInfo.columns = TableQueryUtils.queryColumn(fields);
-        tableInfo.primaryColumn = TableQueryUtils.queryPrimaryColumn(fields);
         tableInfo.logicDelColumn = TableQueryUtils.queryLogicDelColumn(fields);
+        tableInfo.columns = TableQueryUtils.queryColumn(fields);
+        tableInfo.allColumnsSql = String.join(",", tableInfo.getColumns());
+        tableInfo.primaryColumn = TableQueryUtils.queryPrimaryColumn(fields);
         tableInfo.selectColumns = TableQueryUtils.querySelectColumn(fields);
         tableInfo.injectParameter = TableQueryUtils.queryInjectParameter(fields);
         return tableInfo;
@@ -111,5 +120,13 @@ public class TableInfo {
 
     public String[] getInjectParameter() {
         return injectParameter;
+    }
+
+    public String getAllSelectColumn() {
+        return null;
+    }
+
+    public String getAllColumnsSql() {
+        return allColumnsSql;
     }
 }

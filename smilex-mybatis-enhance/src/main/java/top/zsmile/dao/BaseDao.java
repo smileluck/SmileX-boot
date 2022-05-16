@@ -24,7 +24,7 @@ public interface BaseDao<T> {
     T selectById(Serializable id, @Param(Constants.COLUMNS) String... columns);
 
     /**
-     * TODO 根据ID查询，可传入字段名查询需要得字段
+     * 根据ID查询，可传入字段名查询需要得字段
      *
      * @param id
      * @param columns
@@ -45,14 +45,14 @@ public interface BaseDao<T> {
 
 
     /**
-     * TODO 根据ID查询，可传入字段名查询需要得字段
+     * 根据ID集合查询，可传入字段名查询需要得字段
      *
-     * @param id
+     * @param ids
      * @param columns
      * @return
      */
-    @SelectProvider(type = BaseSelectProvider.class, method = "selectById")
-    Map<String, Object> selectMapBatchIds(Serializable id, @Param(Constants.COLUMNS) String... columns);
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectBatchIds")
+    Map<String, Object> selectMapBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
@@ -64,27 +64,38 @@ public interface BaseDao<T> {
     @SelectProvider(type = BaseSelectProvider.class, method = "selectByMap")
     List<T> selectByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
 
+    /**
+     * 根据字段集合查询，可传入字段名查询需要得字段
+     *
+     * @param columnMap
+     * @param columns
+     * @return
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectByMap")
+    List<Map<String, Object>> selectMapByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
+
 
     /**
      * TODO 根据 entity 条件，查询全部记录
      *
      * @param columnMap 实体对象封装操作类（可以为 null）
      */
-    List<T> selectList(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectList")
+    List<T> selectList(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * TODO 根据 entity 条件，查询全部记录
      *
      * @param columnMap 实体对象封装操作类（可以为 null）
      */
-    List<Map<String, Object>> selectListMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    List<Map<String, Object>> selectListMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * TODO 根据 Wrapper 条件，查询总记录数
      *
      * @param columnMap 实体对象封装操作类（可以为 null）
      */
-    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * TODO 根据 entity 条件，查询一条记录

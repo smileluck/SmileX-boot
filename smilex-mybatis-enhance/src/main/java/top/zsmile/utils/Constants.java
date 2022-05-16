@@ -14,4 +14,7 @@ public class Constants {
     // 根据ColumnsMap条件查询
     public static final String COLUMNS_MAP = "cm";
 
+    // 根据ColumnsMap条件查询
+    public static final String ENTITY = "et";
+
 }
