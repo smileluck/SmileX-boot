@@ -76,26 +76,27 @@ public interface BaseDao<T> {
 
 
     /**
-     * TODO 根据 entity 条件，查询全部记录
+     * 根据 entity 条件，查询全部记录
      *
-     * @param columnMap 实体对象封装操作类（可以为 null）
+     * @param entity 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectList")
-    List<T> selectList(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectList(@Param(Constants.ENTITY) T entity, @Param(Constants.COLUMNS) String... columns);
 
     /**
-     * TODO 根据 entity 条件，查询全部记录
+     * 根据 entity 条件，查询全部记录
+     *
+     * @param entity 实体对象封装操作类（可以为 null）
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectList")
+    List<Map<String, Object>> selectListMap(@Param(Constants.ENTITY) T entity, @Param(Constants.COLUMNS) String... columns);
+
+    /**
+     * TODO 根据字段集合查询，查询总条数
      *
      * @param columnMap 实体对象封装操作类（可以为 null）
      */
-    List<Map<String, Object>> selectListMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
-
-    /**
-     * TODO 根据 Wrapper 条件，查询总记录数
-     *
-     * @param columnMap 实体对象封装操作类（可以为 null）
-     */
-    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
+    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
     /**
      * TODO 根据 entity 条件，查询一条记录
@@ -104,7 +105,7 @@ public interface BaseDao<T> {
      * @param columnMap 实体对象封装操作类（可以为 null）
      */
     default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
-        List<T> ts = this.selectList(columnMap);
+        List<T> ts = this.selectByMap(columnMap);
         if (ts == null || ts.isEmpty()) {
             if (ts.size() != 1) {
                 throw new SXException("One record is expected, but the query result is multiple records");
@@ -150,8 +151,24 @@ public interface BaseDao<T> {
      * @param id
      * @return
      */
-    @UpdateProvider(type = BaseDeleteProvider.class, method = "deletePhysicsById")
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsById")
     int deletePhysicsById(Serializable id);
+
+    /**
+     * 根据ID集合 批量逻辑删除
+     *
+     * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
+     */
+    @UpdateProvider(type = BaseDeleteProvider.class, method = "deletePhysicsBatchIds")
+    int deletePhysicsBatchIds(@Param(Constants.COLLECTION) Collection<?> idList);
+
+    /**
+     * 根据 columnMap 条件，物理删除记录
+     *
+     * @param columnMap 表字段 map 对象
+     */
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsByMap")
+    int deletePhysicsByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
     /**
      * 根据ID进行物理删除
@@ -159,30 +176,25 @@ public interface BaseDao<T> {
      * @param id
      * @return
      */
-    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicById")
+    @UpdateProvider(type = BaseDeleteProvider.class, method = "deleteLogicById")
     int deleteLogicById(Serializable id);
 
     /**
-     * TODO 删除（根据ID或实体 批量删除）
+     * 根据ID集合 批量逻辑删除
      *
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
-    int deleteBatchIds(@Param(Constants.COLLECTION) Collection<?> idList);
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicBatchIds")
+    int deleteLogicBatchIds(@Param(Constants.COLLECTION) Collection<?> idList);
 
 
     /**
-     * TODO 根据 columnMap 条件，删除记录
+     * 根据 columnMap 条件，逻辑删除记录
      *
      * @param columnMap 表字段 map 对象
      */
-    int deleteByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicByMap")
+    int deleteLogicByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
-
-    /**
-     * TODO 根据 Wrapper 条件，查询全部记录
-     *
-     * @param columnMap 实体对象封装操作类（可以为 null）
-     */
-    List<Map<String, Object>> selectMaps(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
 }

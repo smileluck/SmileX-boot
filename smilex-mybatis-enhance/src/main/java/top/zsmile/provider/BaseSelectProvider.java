@@ -8,9 +8,11 @@ import org.apache.ibatis.jdbc.SQL;
 import org.apache.tomcat.util.buf.StringUtils;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.Constants;
+import top.zsmile.utils.ReflectUtils;
 import top.zsmile.utils.TableQueryUtils;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -97,12 +99,12 @@ public class BaseSelectProvider extends BaseProvider {
     public String selectList(ProviderContext context, @Param(Constants.ENTITY) Object entity, @Param(Constants.COLUMNS) final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
+        Field[] fields = tableInfo.getFields();
 
         String s = new SQL() {{
             SELECT(columns.length > 0 ? Stream.of(columns).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getColumns());
             FROM(tableInfo.getTableName());
-//            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
-            WHERE();
+            WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
         }}.toString();
 
         return TableQueryUtils.getSqlScript(s);
