@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.dao.BaseMapper;
 import top.zsmile.provider.BaseDeleteProvider;
@@ -136,6 +137,20 @@ public interface BaseService<T> {
     default boolean save(T entity) {
         return SqlHelper.retBool(getBaseMapper().insert(entity));
     }
+
+
+    /**
+     * TODO 批量插入数据
+     *
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    default boolean saveBatch(Collection<? extends T> collection) {
+        return saveBatch(collection, DEFAULT_BATCH_SIZE);
+    }
+
+    boolean saveBatch(Collection<? extends T> collection, int size);
+
 
     /**
      * 根据ID 逻辑删除

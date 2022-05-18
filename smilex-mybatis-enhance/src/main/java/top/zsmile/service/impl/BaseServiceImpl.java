@@ -7,6 +7,7 @@ import top.zsmile.dao.BaseMapper;
 import top.zsmile.service.BaseService;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {
 
@@ -18,6 +19,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
     @Override
     public M getBaseMapper() {
         return baseDao;
+    }
+
+    @Override
+    public boolean saveBatch(Collection<? extends T> collection, int size) {
+        return false;
     }
 
 }
