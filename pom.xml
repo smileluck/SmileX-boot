@@ -44,7 +44,8 @@
         <okhttp3.version>4.4.1</okhttp3.version>
         <lombok.version>1.18.20</lombok.version>
         <commons.version>2.6</commons.version>
-        <shiro.version>1.7.1</shiro.version>
+<!--        <shiro.version>1.7.1</shiro.version>-->
+        <shiro.version>1.9.0</shiro.version>
         <freemarker.version>2.3.30</freemarker.version>
         <jsch.version>0.1.55</jsch.version>
         <log4j2.version>2.17.1</log4j2.version>

@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public interface BaseDao<T> {
+public interface BaseMapper<T> {
 
 
     /**
@@ -52,7 +52,7 @@ public interface BaseDao<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectBatchIds")
-    Map<String, Object> selectMapBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
+    List<Map<String, Object>> selectMapBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
@@ -146,9 +146,9 @@ public interface BaseDao<T> {
     int insert(T t);
 
     /**
-     * 根据ID继续逻辑删除
+     * 根据ID 逻辑删除
      *
-     * @param id
+     * @param id 主键ID
      * @return
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsById")
@@ -160,7 +160,7 @@ public interface BaseDao<T> {
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
     @UpdateProvider(type = BaseDeleteProvider.class, method = "deletePhysicsBatchIds")
-    int deletePhysicsBatchIds(@Param(Constants.COLLECTION) Collection<?> idList);
+    int deletePhysicsBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
     /**
      * 根据 columnMap 条件，物理删除记录
@@ -185,7 +185,7 @@ public interface BaseDao<T> {
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicBatchIds")
-    int deleteLogicBatchIds(@Param(Constants.COLLECTION) Collection<?> idList);
+    int deleteLogicBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
 
     /**

@@ -1,15 +1,9 @@
 package top.zsmile.meta;
 
-import org.springframework.util.StringUtils;
-import top.zsmile.annotation.TableName;
 import top.zsmile.common.utils.NameStyleUtils;
-import top.zsmile.dao.BaseDao;
 import top.zsmile.utils.TableQueryUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.util.StringJoiner;
-import java.util.stream.Stream;
 
 public class TableInfo {
 

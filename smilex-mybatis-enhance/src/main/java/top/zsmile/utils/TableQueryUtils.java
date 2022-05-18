@@ -1,14 +1,12 @@
 package top.zsmile.utils;
 
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.util.StringUtils;
 import top.zsmile.annotation.TableField;
 import top.zsmile.annotation.TableId;
 import top.zsmile.annotation.TableLogic;
 import top.zsmile.annotation.TableName;
 import top.zsmile.common.utils.NameStyleUtils;
-import top.zsmile.dao.BaseDao;
-import top.zsmile.meta.TableInfo;
+import top.zsmile.dao.BaseMapper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -17,7 +15,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.IntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -28,6 +25,10 @@ public class TableQueryUtils {
      * 字段entity和 数据库字段对应
      */
     private static Map<String, String> columnNameMap = new ConcurrentHashMap<>();
+    /**
+     * 字段entity和 查询字段对应
+     */
+    private static Map<String, String> columnSelectMap = new ConcurrentHashMap<>();
 
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
 
@@ -55,7 +56,7 @@ public class TableQueryUtils {
         return Stream.of(clazz.getGenericInterfaces())
                 .filter(ParameterizedType.class::isInstance)
                 .map(ParameterizedType.class::cast)
-                .filter(type -> type.getRawType() == BaseDao.class)
+                .filter(type -> type.getRawType() == BaseMapper.class)
                 .findFirst()
                 .map(type -> type.getActualTypeArguments()[0])
                 .filter(Class.class::isInstance).map(Class.class::cast)
@@ -161,8 +162,18 @@ public class TableQueryUtils {
      * 获取查询列名as实体类名
      */
     public static String getSelectColumn(Field field) {
-        String s = humpToLineName(field);
-        return (s + " AS " + field.getName()).intern();
+        return getSelectColumn(field.getName());
+    }
+
+    /**
+     * 获取查询列名as实体类名
+     */
+    public static String getSelectColumn(String fieldName) {
+        String res = columnSelectMap.computeIfAbsent(fieldName, item -> {
+            String s = humpToLineName(fieldName);
+            return s + " AS " + fieldName;
+        });
+        return res;
     }
 
     /**
@@ -192,7 +203,7 @@ public class TableQueryUtils {
      * @return
      */
     public static String getAssignParameter(Field field) {
-        return getAssignParameter(field);
+        return getAssignParameter(field.getName());
     }
 
     /**

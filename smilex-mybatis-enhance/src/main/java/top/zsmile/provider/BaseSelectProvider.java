@@ -30,11 +30,10 @@ public class BaseSelectProvider extends BaseProvider {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
-            SELECT(columns.length > 0 ? Stream.of(columns).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getColumns());
+            SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
-        System.out.println(s);
         return s;
     }
 
@@ -49,7 +48,7 @@ public class BaseSelectProvider extends BaseProvider {
         TableInfo tableInfo = getTableInfo(context);
 
         String sql = new SQL() {{
-            SELECT(columns.length > 0 ? Stream.of(columns).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getColumns());
+            SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
@@ -57,7 +56,7 @@ public class BaseSelectProvider extends BaseProvider {
         }}.toString();
 
 //        String str = "<script>SELECT %s FROM %s WHERE %s IN (%s) %s </script>";
-//        String format = String.format(str, String.join(",", tableInfo.getColumns()), tableInfo.getTableName(),
+//        String format = String.format(str, String.join(",", tableInfo.getSelectColumns()), tableInfo.getTableName(),
 //                tableInfo.getPrimaryColumn(), TableQueryUtils.convertForeach("#{item}", "coll", null, "item", ","), "");
 
 //        return format;
@@ -78,7 +77,7 @@ public class BaseSelectProvider extends BaseProvider {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
-            SELECT(columns.length > 0 ? Stream.of(columns).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getColumns());
+            SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(TableQueryUtils.getMapCondition(columnMap));
@@ -102,7 +101,7 @@ public class BaseSelectProvider extends BaseProvider {
         Field[] fields = tableInfo.getFields();
 
         String s = new SQL() {{
-            SELECT(columns.length > 0 ? Stream.of(columns).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getColumns());
+            SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
         }}.toString();
@@ -110,5 +109,15 @@ public class BaseSelectProvider extends BaseProvider {
         return TableQueryUtils.getSqlScript(s);
     }
 
+    /**
+     * 通用字段查询方法
+     *
+     * @param tableInfo
+     * @param columns
+     * @return
+     */
+    private String[] selectColumn(final TableInfo tableInfo, final String... columns) {
+        return columns.length > 0 ? Stream.of(columns).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getSelectColumns();
+    }
 
 }
