@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static top.zsmile.modules.generator.constant.DefaultConstants.DEFAULT_DELETE_LOGIC_KEY;
+
 @Service("generatorService")
 @DataSource("master")
 public class GeneratorServiceImpl implements GeneratorSerivce {
@@ -96,12 +98,19 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
             Iterator<ColumnModel> iterator1 = columns.iterator();
             while (iterator1.hasNext()) {
                 ColumnModel next = iterator1.next();
+                if (DefaultConstants.IGNORE_COLUMN.contains(next.getColumnName())) {
+                    iterator1.remove();
+                    continue;
+                }
                 String convert = mysqlTypeConvert.convert(next.getDataType());
                 next.setConvertDataType(convert);
                 next.setHumpColumnName(NameStyleUtils.lineToHump(next.getColumnName(), false));
                 next.setBigHumpColumnName(NameStyleUtils.lineToHump(next.getColumnName(), true));
                 if (next.getColumnKey().equalsIgnoreCase("PRI") && next.getColumnName().equalsIgnoreCase("id")) {
                     tableModel.setPrimaryColumn(next);
+                    iterator1.remove();
+                } else if (next.getColumnName().equalsIgnoreCase(DEFAULT_DELETE_LOGIC_KEY)) {
+                    tableModel.setLogicDelColumn(next);
                     iterator1.remove();
                 }
             }

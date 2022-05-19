@@ -64,6 +64,12 @@ public class GeneratorUtils {
         for (TableModel tableModel : tableModels) {
             File file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\entity\\", tableModel.getBigHumpClass() + "Entity.java", "entity.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/entity", file));
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\dao\\", tableModel.getBigHumpClass() + "Mapper.java", "mapper.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/dao", file));
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\service\\", tableModel.getBigHumpClass() + "Service.java", "service.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/service", file));
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\service\\impl\\", tableModel.getBigHumpClass() + "ServiceImpl.java", "serviceimpl.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/service/impl", file));
         }
         return zipFileEntities;
     }

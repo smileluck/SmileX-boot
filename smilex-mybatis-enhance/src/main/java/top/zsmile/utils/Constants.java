@@ -17,4 +17,8 @@ public class Constants {
     // 根据ColumnsMap条件查询
     public static final String ENTITY = "et";
 
+    /**
+     * 删除键名，1删除，0未删除
+     */
+    public static final String DEFAULT_DELETE_LOGIC_KEY = "del_flag";
 }

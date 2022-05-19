@@ -37,10 +37,6 @@ public class TableQueryUtils {
      */
     private static final String DEFAULT_PRIMARY_KEY = "id";
     /**
-     * 删除键名，1删除，0未删除
-     */
-    private static final String DEFAULT_DELETE_LOGIC_KEY = "del_flag";
-    /**
      * 小数点 point
      */
     private static final String POINT = ".";
@@ -103,14 +99,14 @@ public class TableQueryUtils {
      * 查询主键列
      */
     public static String queryPrimaryColumn(Field[] fields) {
-        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(DEFAULT_DELETE_LOGIC_KEY);
+        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(Constants.DEFAULT_DELETE_LOGIC_KEY);
     }
 
     /**
      * 查询逻辑删除列
      */
     public static String queryLogicDelColumn(Field[] fields) {
-        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableLogic.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(DEFAULT_DELETE_LOGIC_KEY);
+        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableLogic.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(Constants.DEFAULT_DELETE_LOGIC_KEY);
     }
 
     /**

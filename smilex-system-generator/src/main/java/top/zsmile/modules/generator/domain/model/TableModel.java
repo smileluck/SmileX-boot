@@ -35,6 +35,10 @@ public class TableModel {
      */
     private ColumnModel primaryColumn;
     /**
+     * 逻辑删除字段
+     */
+    private ColumnModel logicDelColumn;
+    /**
      * 字段列表,不包含主键字段
      */
     private List<ColumnModel> columnModels;

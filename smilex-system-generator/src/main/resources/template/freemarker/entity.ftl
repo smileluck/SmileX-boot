@@ -2,9 +2,10 @@ package ${packages}.${moduleName}.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import top.zsmile.entity.BaseEntity;
 
 <#--@TableName("${tableName}")-->
-public class ${bigHumpClass}Entity implements Serializable {
+public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
 <#if primaryColumn??>
