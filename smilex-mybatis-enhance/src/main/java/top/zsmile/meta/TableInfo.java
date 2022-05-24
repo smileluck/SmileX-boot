@@ -1,11 +1,15 @@
 package top.zsmile.meta;
 
 import top.zsmile.common.utils.NameStyleUtils;
+import top.zsmile.utils.StringPool;
 import top.zsmile.utils.TableQueryUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
-public class TableInfo {
+public class TableInfo implements Serializable {
+
+
 
     private static final int LOGIC_DEL_NUMBER = 1;
 
@@ -47,19 +51,19 @@ public class TableInfo {
 
     /**
      * 逻辑删除字段
-     *
-     * @param clazz
-     * @return
      */
     private String logicDelColumn;
 
     /**
+     * count 字段
+     */
+    private String countColumn;
+
+    /**
      * 注入参数列表
-     *
-     * @param clazz
-     * @return
      */
     private String[] injectParameter;
+
 
 
     public static TableInfo of(Class<?> clazz) {
@@ -70,13 +74,13 @@ public class TableInfo {
         tableInfo.fields = fields;
         tableInfo.logicDelColumn = TableQueryUtils.queryLogicDelColumn(fields);
         tableInfo.columns = TableQueryUtils.queryColumn(fields);
-        tableInfo.allColumnsSql = String.join(",", tableInfo.getColumns());
+        tableInfo.allColumnsSql = String.join(StringPool.COMMA, tableInfo.getColumns());
         tableInfo.primaryColumn = TableQueryUtils.queryPrimaryColumn(fields);
+        tableInfo.countColumn = (StringPool.COUNT + StringPool.LEFT_BRACKET + tableInfo.primaryColumn + StringPool.RIGHT_BRACKET).intern();
         tableInfo.selectColumns = TableQueryUtils.querySelectColumn(fields);
         tableInfo.injectParameter = TableQueryUtils.queryInjectParameter(fields);
         return tableInfo;
     }
-
 
     public String getTableName() {
         return tableName;
@@ -98,18 +102,16 @@ public class TableInfo {
         return fields;
     }
 
-
     public String getLogicDelColumn() {
         return logicDelColumn;
     }
 
-
     public String primaryColumnWhere() {
-        return (primaryColumn + " = #{" + NameStyleUtils.lineToHump(primaryColumn, false) + "}").intern();
+        return (primaryColumn + StringPool.EQUALS + StringPool.HASH_LEFT_BRACE + NameStyleUtils.lineToHump(primaryColumn, false) + StringPool.RIGHT_BRACE).intern();
     }
 
     public String logicDelColumnSet() {
-        return logicDelColumn + " = " + LOGIC_DEL_NUMBER;
+        return logicDelColumn + StringPool.EQUALS + LOGIC_DEL_NUMBER;
     }
 
     public String[] getInjectParameter() {
@@ -122,5 +124,9 @@ public class TableInfo {
 
     public String getAllColumnsSql() {
         return allColumnsSql;
+    }
+
+    public String getCountColumn() {
+        return countColumn;
     }
 }

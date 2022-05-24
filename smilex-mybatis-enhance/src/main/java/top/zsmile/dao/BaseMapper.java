@@ -2,7 +2,10 @@ package top.zsmile.dao;
 
 import org.apache.ibatis.annotations.*;
 import top.zsmile.core.exception.SXException;
-import top.zsmile.provider.*;
+import top.zsmile.provider.BaseDeleteProvider;
+import top.zsmile.provider.BaseInsertProvider;
+import top.zsmile.provider.BaseSelectProvider;
+import top.zsmile.provider.BaseUpdateProvider;
 import top.zsmile.utils.Constants;
 
 import java.io.Serializable;
@@ -92,14 +95,15 @@ public interface BaseMapper<T> {
     List<Map<String, Object>> selectListMap(@Param(Constants.ENTITY) T entity, @Param(Constants.COLUMNS) String... columns);
 
     /**
-     * TODO 根据字段集合查询，查询总条数
+     * 根据字段集合查询，查询总条数
      *
      * @param columnMap 实体对象封装操作类（可以为 null）
      */
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectCount")
     Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
     /**
-     * TODO 根据 entity 条件，查询一条记录
+     * 根据 entity 条件，查询一条记录
      * <p>查询一条记录，例如 qw.last("limit 1") 限制取一条记录, 注意：多条数据会报异常</p>
      *
      * @param columnMap 实体对象封装操作类（可以为 null）
@@ -116,7 +120,7 @@ public interface BaseMapper<T> {
     }
 
     /**
-     * TODO 根据 Wrapper 条件，判断是否存在记录
+     * 根据 Wrapper 条件，判断是否存在记录
      *
      * @param columnMap 实体对象封装操作类
      * @return 是否存在记录

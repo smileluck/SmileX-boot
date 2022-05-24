@@ -32,15 +32,6 @@ public class TableQueryUtils {
 
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
 
-    /**
-     * 主键名
-     */
-    private static final String DEFAULT_PRIMARY_KEY = "id";
-    /**
-     * 小数点 point
-     */
-    private static final String POINT = ".";
-
 
     /**
      * 查询实例传入的Entity类型
@@ -99,7 +90,7 @@ public class TableQueryUtils {
      * 查询主键列
      */
     public static String queryPrimaryColumn(Field[] fields) {
-        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(Constants.DEFAULT_DELETE_LOGIC_KEY);
+        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableId.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(Constants.DEFAULT_PRIMARY_KEY);
     }
 
     /**
@@ -146,7 +137,7 @@ public class TableQueryUtils {
             StringBuffer sb = new StringBuffer();
             Matcher matcher = humpPattern.matcher(fieldName);
             while (matcher.find()) {
-                matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+                matcher.appendReplacement(sb, StringPool.UNDERSCORE + matcher.group(0).toLowerCase());
             }
             matcher.appendTail(sb);
             return sb.toString().toLowerCase().intern();
@@ -189,7 +180,7 @@ public class TableQueryUtils {
      * @return
      */
     public static String getInjectParameter(String fieldName) {
-        return ("#{" + fieldName + "}").intern();
+        return (StringPool.HASH_LEFT_BRACE + fieldName + StringPool.RIGHT_BRACE).intern();
     }
 
     /**
@@ -209,7 +200,7 @@ public class TableQueryUtils {
      * @return
      */
     public static String getAssignParameter(String fieldName) {
-        return (humpToLineName(fieldName) + "=" + getInjectParameter(fieldName)).intern();
+        return (humpToLineName(fieldName) + StringPool.EQUALS + getInjectParameter(fieldName)).intern();
     }
 
     /**
@@ -231,10 +222,10 @@ public class TableQueryUtils {
         StringBuilder sb = new StringBuilder();
         for (String key : keySet) {
             if (sb.length() != 0) {
-                sb.append(" and ");
+                sb.append(StringPool.AND);
             }
 //            sb.append(tableInfo.getTableName() + POINT);
-            sb.append(humpToLineName(key) + "=" + getInjectParameter(Constants.COLUMNS_MAP + POINT + key));
+            sb.append(humpToLineName(key) + StringPool.EQUALS + getInjectParameter(Constants.COLUMNS_MAP + StringPool.DOT + key));
         }
         return sb.toString();
     }

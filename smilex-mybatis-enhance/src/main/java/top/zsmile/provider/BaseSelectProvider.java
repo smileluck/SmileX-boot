@@ -1,11 +1,8 @@
 package top.zsmile.provider;
 
-import com.google.common.base.Joiner;
-import javafx.scene.control.Tab;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
-import org.apache.tomcat.util.buf.StringUtils;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.Constants;
 import top.zsmile.utils.ReflectUtils;
@@ -15,7 +12,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 public class BaseSelectProvider extends BaseProvider {
@@ -32,6 +28,7 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
+            WHERE(tableInfo.logicDelColumnSet());
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
         return s;
@@ -50,6 +47,7 @@ public class BaseSelectProvider extends BaseProvider {
         String sql = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
+            WHERE(tableInfo.logicDelColumnSet());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + TableQueryUtils.convertForeach("#{item}", "coll", null, "item", ",") + ")");
@@ -80,6 +78,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
+            WHERE(tableInfo.logicDelColumnSet());
             WHERE(TableQueryUtils.getMapCondition(columnMap));
         }}.toString();
 
@@ -103,7 +102,28 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
+            WHERE(tableInfo.logicDelColumnSet());
             WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
+        }}.toString();
+
+        return TableQueryUtils.getSqlScript(s);
+    }
+
+    /**
+     * 根据对象entity查询不为null的数据，可传入字段名查询需要得字段
+     *
+     * @param context
+     * @param columnMap
+     * @return
+     */
+    public String selectCount(ProviderContext context, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
+        TableInfo tableInfo = getTableInfo(context);
+
+        String s = new SQL() {{
+            SELECT(tableInfo.getCountColumn());
+            FROM(tableInfo.getTableName());
+            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(TableQueryUtils.getMapCondition(columnMap));
         }}.toString();
 
         return TableQueryUtils.getSqlScript(s);

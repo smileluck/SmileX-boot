@@ -2,6 +2,7 @@ package top.zsmile.utils;
 
 public interface StringPool {
 
+    String COUNT = "COUNT";
     String AMPERSAND = "&";
     String AND = "and";
     String AT = "@";

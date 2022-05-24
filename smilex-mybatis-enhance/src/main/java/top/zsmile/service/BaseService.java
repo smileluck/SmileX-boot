@@ -1,15 +1,10 @@
 package top.zsmile.service;
 
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.dao.BaseMapper;
-import top.zsmile.provider.BaseDeleteProvider;
-import top.zsmile.provider.BaseSelectProvider;
-import top.zsmile.utils.Constants;
+import top.zsmile.meta.IPage;
+import top.zsmile.meta.Page;
 import top.zsmile.utils.SqlHelper;
 
 import java.io.Serializable;
@@ -221,4 +216,13 @@ public interface BaseService<T> {
         return SqlHelper.retBool(getBaseMapper().deleteLogicByMap(columnMap));
     }
 
+    /**
+     * 分页查询
+     */
+    default IPage<T> queryPage(Map<String, Object> columnMap) {
+        List<T> records = getBaseMapper().selectByMap(columnMap);
+        Long count = getBaseMapper().selectCount(columnMap);
+        Page<T> page = new Page<T>();
+        return page;
+    }
 }
