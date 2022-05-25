@@ -22,6 +22,11 @@ public class Constants {
     public static final String COLUMNS_MAP = "cm";
 
     /**
+     * 页码信息
+     */
+    public static final String PAGE = "page";
+
+    /**
      * 根据ColumnsMap条件查询
      */
     public static final String ENTITY = "et";
@@ -34,11 +39,6 @@ public class Constants {
      * 主键名
      */
     public static final String DEFAULT_PRIMARY_KEY = "id";
-
-    /**
-     * 当前页码
-     */
-    public static final String PAGE = "page";
 
     /**
      * 一页条数

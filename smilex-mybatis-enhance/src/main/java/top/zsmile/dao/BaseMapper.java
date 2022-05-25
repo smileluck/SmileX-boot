@@ -2,6 +2,7 @@ package top.zsmile.dao;
 
 import org.apache.ibatis.annotations.*;
 import top.zsmile.core.exception.SXException;
+import top.zsmile.meta.IPage;
 import top.zsmile.provider.BaseDeleteProvider;
 import top.zsmile.provider.BaseInsertProvider;
 import top.zsmile.provider.BaseSelectProvider;
@@ -200,5 +201,11 @@ public interface BaseMapper<T> {
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicByMap")
     int deleteLogicByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
+
+    /**
+     * 单表分页查询
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
+    IPage<T> selectPage(@Param(Constants.PAGE) IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
 
 }

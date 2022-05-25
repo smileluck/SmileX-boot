@@ -7,6 +7,10 @@ import java.util.Map;
 
 public class PageQuery<T> {
     public IPage<T> getPage(Map<String, Object> params) {
+        return getPage(params, false);
+    }
+
+    public IPage<T> getPage(Map<String, Object> params, boolean isAsc, String... orderColumn) {
         // 分页参数
         long current = 1;
         long size = 10;
@@ -20,6 +24,11 @@ public class PageQuery<T> {
 
         //分页对象
         Page<T> page = new Page<>(current, size);
+        if (null != orderColumn) {
+            page.setOrderColumn(orderColumn);
+        }
+
+        page.setAsc(isAsc);
 
         return page;
     }

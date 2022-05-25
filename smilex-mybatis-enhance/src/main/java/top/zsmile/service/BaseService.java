@@ -216,13 +216,4 @@ public interface BaseService<T> {
         return SqlHelper.retBool(getBaseMapper().deleteLogicByMap(columnMap));
     }
 
-    /**
-     * 分页查询
-     */
-    default IPage<T> queryPage(Map<String, Object> columnMap) {
-        List<T> records = getBaseMapper().selectByMap(columnMap);
-        Long count = getBaseMapper().selectCount(columnMap);
-        Page<T> page = new Page<T>();
-        return page;
-    }
 }

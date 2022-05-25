@@ -40,12 +40,12 @@ public interface IPage<T> extends Serializable {
      *
      * @return 每页显示条数
      */
-    long getSize();
+    int getSize();
 
     /**
      * 设置每页显示条数
      */
-    IPage<T> setSize(long size);
+    IPage<T> setSize(int size);
 
     /**
      * 当前页
@@ -58,4 +58,20 @@ public interface IPage<T> extends Serializable {
      * 设置当前页
      */
     IPage<T> setCurrent(long current);
+
+    /**
+     * 获取排序字段
+     *
+     * @return 字段列表
+     */
+    String[] getOrderColumn();
+
+    /**
+     * 设置排序字段
+     */
+    IPage<T> setOrderColumn(String[] orderColumn);
+
+    default long getOffset() {
+        return (getCurrent() - 1) * getSize();
+    }
 }

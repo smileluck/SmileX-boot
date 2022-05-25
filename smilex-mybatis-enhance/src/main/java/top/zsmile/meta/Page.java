@@ -19,34 +19,45 @@ public class Page<T> implements IPage<T> {
     /**
      * 每页显示条数，默认10
      */
-    protected long size = 10;
+    protected int size = 10;
 
     /**
      * 当前页，从1算起
      */
     protected long current = 1;
 
+    /**
+     * 排序字段
+     */
+    protected String[] orderColumn = null;
+
+    /**
+     * 正序
+     */
+    protected boolean asc = false;
+
     public Page() {
     }
+
     /**
      * 分页构造函数
      *
      * @param current 当前页
      * @param size    每页显示条数
      */
-    public Page(long current, long size) {
+    public Page(long current, int size) {
         this(current, size, 0);
     }
 
-    public Page(long current, long size, long total) {
+    public Page(long current, int size, long total) {
         this(current, size, total, true);
     }
 
-    public Page(long current, long size, boolean searchCount) {
+    public Page(long current, int size, boolean searchCount) {
         this(current, size, 0, searchCount);
     }
 
-    public Page(long current, long size, long total, boolean searchCount) {
+    public Page(long current, int size, long total, boolean searchCount) {
         if (current > 1) {
             this.current = current;
         }
@@ -85,12 +96,12 @@ public class Page<T> implements IPage<T> {
     }
 
     @Override
-    public long getSize() {
+    public int getSize() {
         return this.size;
     }
 
     @Override
-    public IPage<T> setSize(long size) {
+    public IPage<T> setSize(int size) {
         this.size = size;
         return this;
     }
@@ -105,4 +116,16 @@ public class Page<T> implements IPage<T> {
         this.current = current;
         return this;
     }
+
+    @Override
+    public String[] getOrderColumn() {
+        return this.orderColumn;
+    }
+
+    @Override
+    public IPage<T> setOrderColumn(String[] orderColumn) {
+        this.orderColumn = orderColumn;
+        return this;
+    }
+
 }

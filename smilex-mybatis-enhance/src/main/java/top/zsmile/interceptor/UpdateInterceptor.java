@@ -14,7 +14,7 @@ import java.util.Properties;
 
 @Component
 @Intercepts({
-        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
+//        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
 })
 public class UpdateInterceptor implements Interceptor {
