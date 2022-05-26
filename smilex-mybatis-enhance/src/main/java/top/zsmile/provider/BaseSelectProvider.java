@@ -3,6 +3,7 @@ package top.zsmile.provider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.util.CollectionUtils;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.Constants;
@@ -146,20 +147,24 @@ public class BaseSelectProvider extends BaseProvider {
      * 根据对象entity查询不为null的数据，可传入字段名查询需要得字段
      *
      * @param context
-     * @param columnMap
+     * @param cm
      * @return
      */
-    public String selectCount(ProviderContext context, @Param(Constants.PAGE) IPage page, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
+    public String selectPage(ProviderContext context, IPage page, Map<String, Object> cm) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
-            SELECT(tableInfo.getCountColumn());
+            SELECT(selectColumn(tableInfo));
             FROM(tableInfo.getTableName());
             WHERE(tableInfo.logicDelColumnSet());
-            WHERE(TableQueryUtils.getMapCondition(columnMap));
+            if (!CollectionUtils.isEmpty(cm)) {
+                WHERE(TableQueryUtils.getMapCondition(cm));
+            }
             OFFSET(page.getOffset());
             LIMIT(page.getSize());
-            ORDER_BY(page.getOrderColumn());
+//            if (page.getOrderColumn() != null) {
+//                ORDER_BY(page.getOrderColumn());
+//            }
         }}.toString();
 
         return TableQueryUtils.getSqlScript(s);

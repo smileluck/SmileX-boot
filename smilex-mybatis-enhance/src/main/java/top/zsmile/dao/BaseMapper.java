@@ -61,22 +61,22 @@ public interface BaseMapper<T> {
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
      *
-     * @param columnMap
+     * @param cm
      * @param columns
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectByMap")
-    List<T> selectByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
      *
-     * @param columnMap
+     * @param cm
      * @param columns
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectByMap")
-    List<Map<String, Object>> selectMapByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) String... columns);
+    List<Map<String, Object>> selectMapByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
@@ -98,19 +98,19 @@ public interface BaseMapper<T> {
     /**
      * 根据字段集合查询，查询总条数
      *
-     * @param columnMap 实体对象封装操作类（可以为 null）
+     * @param cm 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectCount")
-    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
     /**
      * 根据 entity 条件，查询一条记录
      * <p>查询一条记录，例如 qw.last("limit 1") 限制取一条记录, 注意：多条数据会报异常</p>
      *
-     * @param columnMap 实体对象封装操作类（可以为 null）
+     * @param cm 实体对象封装操作类（可以为 null）
      */
-    default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
-        List<T> ts = this.selectByMap(columnMap);
+    default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm) {
+        List<T> ts = this.selectByMap(cm);
         if (ts == null || ts.isEmpty()) {
             if (ts.size() != 1) {
                 throw new SXException("One record is expected, but the query result is multiple records");
@@ -123,11 +123,11 @@ public interface BaseMapper<T> {
     /**
      * 根据 Wrapper 条件，判断是否存在记录
      *
-     * @param columnMap 实体对象封装操作类
+     * @param cm 实体对象封装操作类
      * @return 是否存在记录
      */
-    default boolean exists(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
-        Long count = this.selectCount(columnMap);
+    default boolean exists(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm) {
+        Long count = this.selectCount(cm);
         return null != count && count > 0;
     }
 
@@ -168,12 +168,12 @@ public interface BaseMapper<T> {
     int deletePhysicsBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
     /**
-     * 根据 columnMap 条件，物理删除记录
+     * 根据 cm 条件，物理删除记录
      *
-     * @param columnMap 表字段 map 对象
+     * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsByMap")
-    int deletePhysicsByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    int deletePhysicsByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
     /**
      * 根据ID进行物理删除
@@ -194,18 +194,18 @@ public interface BaseMapper<T> {
 
 
     /**
-     * 根据 columnMap 条件，逻辑删除记录
+     * 根据 cm 条件，逻辑删除记录
      *
-     * @param columnMap 表字段 map 对象
+     * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicByMap")
-    int deleteLogicByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    int deleteLogicByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
 
     /**
      * 单表分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    IPage<T> selectPage(@Param(Constants.PAGE) IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap);
+    IPage<T> selectPage(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
 }

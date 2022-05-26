@@ -5,7 +5,6 @@ import top.zsmile.annotation.TableField;
 import top.zsmile.annotation.TableId;
 import top.zsmile.annotation.TableLogic;
 import top.zsmile.annotation.TableName;
-import top.zsmile.common.utils.NameStyleUtils;
 import top.zsmile.dao.BaseMapper;
 
 import java.lang.reflect.Field;
@@ -119,7 +118,7 @@ public class TableQueryUtils {
      * 转换Entity类名称为数据表名
      */
     public static String convertEntityName(Class<?> clazz) {
-        return NameStyleUtils.humpToLine(clazz.getSimpleName().replace("Entity", ""));
+        return humpToLineName(clazz.getSimpleName().replace("Entity", ""));
     }
 
     /**
@@ -137,7 +136,11 @@ public class TableQueryUtils {
             StringBuffer sb = new StringBuffer();
             Matcher matcher = humpPattern.matcher(fieldName);
             while (matcher.find()) {
-                matcher.appendReplacement(sb, StringPool.UNDERSCORE + matcher.group(0).toLowerCase());
+                if (matcher.start() > 0) {
+                    matcher.appendReplacement(sb, StringPool.UNDERSCORE + matcher.group(0).toLowerCase());
+                } else {
+                    matcher.appendReplacement(sb, matcher.group(0));
+                }
             }
             matcher.appendTail(sb);
             return sb.toString().toLowerCase().intern();
@@ -218,6 +221,9 @@ public class TableQueryUtils {
      * 使用map转换查询条件
      */
     public static String getMapCondition(Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
         Set<String> keySet = map.keySet();
         StringBuilder sb = new StringBuilder();
         for (String key : keySet) {

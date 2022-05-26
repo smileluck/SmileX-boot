@@ -1,7 +1,7 @@
 package top.zsmile.provider;
 
 import org.apache.ibatis.builder.annotation.ProviderContext;
-import top.zsmile.common.utils.NameStyleUtils;
+import top.zsmile.common.utils  .NameStyleUtils;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.ReflectUtils;
 

@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
 public class TableInfo implements Serializable {
 
 
-
     private static final int LOGIC_DEL_NUMBER = 1;
+
+    private static final int LOGIC_NOT_DEL_NUMBER = 0;
 
     private TableInfo() {
     }
@@ -65,7 +66,6 @@ public class TableInfo implements Serializable {
     private String[] injectParameter;
 
 
-
     public static TableInfo of(Class<?> clazz) {
         TableInfo tableInfo = new TableInfo();
         Class<?> aClass = TableQueryUtils.queryEntity(clazz);
@@ -111,7 +111,7 @@ public class TableInfo implements Serializable {
     }
 
     public String logicDelColumnSet() {
-        return logicDelColumn + StringPool.EQUALS + LOGIC_DEL_NUMBER;
+        return logicDelColumn + StringPool.EQUALS + LOGIC_NOT_DEL_NUMBER;
     }
 
     public String[] getInjectParameter() {

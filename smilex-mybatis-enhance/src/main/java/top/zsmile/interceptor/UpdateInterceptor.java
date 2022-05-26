@@ -12,11 +12,11 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Properties;
 
-@Component
-@Intercepts({
+//@Component
+//@Intercepts({
 //        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-})
+//        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+//})
 public class UpdateInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -38,5 +38,9 @@ public class UpdateInterceptor implements Interceptor {
             }
         }
         return invocation.proceed();
+    }
+    @Override
+    public Object plugin(Object target) {
+        return Plugin.wrap(target, this);
     }
 }
