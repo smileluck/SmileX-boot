@@ -4,7 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.dao.BaseMapper;
 import top.zsmile.meta.IPage;
-import top.zsmile.meta.Page;
+import top.zsmile.utils.PageQuery;
 import top.zsmile.utils.SqlHelper;
 
 import java.io.Serializable;
@@ -78,7 +78,7 @@ public interface BaseService<T> {
      * @return
      */
     default List<T> getByMap(Map<String, Object> columnMap, String... columns) {
-        return getBaseMapper().selectByMap(columnMap, columns);
+        return getBaseMapper().selectListByMap(columnMap, columns);
     }
 
     /**
@@ -124,7 +124,7 @@ public interface BaseService<T> {
     }
 
     /**
-     * 插入数据
+     * 插入数据，自动生成id
      *
      * @param entity
      * @return
@@ -216,4 +216,16 @@ public interface BaseService<T> {
         return SqlHelper.retBool(getBaseMapper().deleteLogicByMap(columnMap));
     }
 
+
+    /**
+     * TODO 临时用来代替拦截器实现的分页功能，后续优化
+     */
+    default IPage<T> getPage(Map<String, Object> columnMap, String... columns) {
+        IPage<T> page = new PageQuery<T>().getPage(columnMap);
+        List<T> list = getBaseMapper().selectListPage(page, columnMap, columns);
+        Long count = getBaseMapper().selectCount(columnMap);
+        page.setRecords(list);
+        page.setTotal(count);
+        return page;
+    }
 }
