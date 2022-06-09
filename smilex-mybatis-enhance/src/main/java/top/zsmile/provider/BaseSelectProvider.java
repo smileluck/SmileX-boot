@@ -73,7 +73,7 @@ public class BaseSelectProvider extends BaseProvider {
      * @param columns
      * @return
      */
-    public String selectByMap(ProviderContext context, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap, @Param(Constants.COLUMNS) final String... columns) {
+    public String selectListByMap(ProviderContext context, @Param(Constants.COLUMNS_MAP) final Map<String, Object> columnMap, @Param(Constants.COLUMNS) final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
@@ -96,7 +96,7 @@ public class BaseSelectProvider extends BaseProvider {
      * @param columns
      * @return
      */
-    public String selectList(ProviderContext context, @Param(Constants.ENTITY) Object entity, @Param(Constants.COLUMNS) final String... columns) {
+    public String selectList(ProviderContext context, @Param(Constants.ENTITY) final Object entity, @Param(Constants.COLUMNS) final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         Field[] fields = tableInfo.getFields();
@@ -118,7 +118,7 @@ public class BaseSelectProvider extends BaseProvider {
      * @param columnMap
      * @return
      */
-    public String selectCount(ProviderContext context, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
+    public String selectCount(ProviderContext context, @Param(Constants.COLUMNS_MAP) final Map<String, Object> columnMap) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
@@ -150,11 +150,11 @@ public class BaseSelectProvider extends BaseProvider {
      * @param cm
      * @return
      */
-    public String selectPage(ProviderContext context, IPage page, Map<String, Object> cm) {
+    public String selectPage(ProviderContext context, final IPage page, final Map<String, Object> cm, final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
-            SELECT(selectColumn(tableInfo));
+            SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             WHERE(tableInfo.logicDelColumnSet());
             if (!CollectionUtils.isEmpty(cm)) {

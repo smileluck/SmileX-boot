@@ -17,7 +17,7 @@ import java.sql.Connection;
 import java.util.Map;
 
 
-@Component
+//@Component
 @Intercepts({
 //        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class}),
 //        @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})

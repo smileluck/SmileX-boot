@@ -65,8 +65,8 @@ public interface BaseMapper<T> {
      * @param columns
      * @return
      */
-    @SelectProvider(type = BaseSelectProvider.class, method = "selectByMap")
-    List<T> selectByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
+    List<T> selectListByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
@@ -75,7 +75,7 @@ public interface BaseMapper<T> {
      * @param columns
      * @return
      */
-    @SelectProvider(type = BaseSelectProvider.class, method = "selectByMap")
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
     List<Map<String, Object>> selectMapByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
@@ -110,7 +110,7 @@ public interface BaseMapper<T> {
      * @param cm 实体对象封装操作类（可以为 null）
      */
     default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm) {
-        List<T> ts = this.selectByMap(cm);
+        List<T> ts = this.selectListByMap(cm);
         if (ts == null || ts.isEmpty()) {
             if (ts.size() != 1) {
                 throw new SXException("One record is expected, but the query result is multiple records");
@@ -138,7 +138,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @UpdateProvider(type = BaseUpdateProvider.class, method = "updateById")
-    int updateById(T t);
+    int updateById(@Param(Constants.ENTITY) T t);
 
 
     /**
@@ -148,7 +148,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "insert")
-    int insert(T t);
+    int insert(@Param(Constants.ENTITY) T t);
 
     /**
      * 根据ID 逻辑删除
@@ -203,9 +203,15 @@ public interface BaseMapper<T> {
 
 
     /**
-     * 单表分页查询
+     * TODO 单表分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    IPage<T> selectPage(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
+    IPage<T> selectPage(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
+
+    /**
+     * 分页查询
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
+    List<T> selectListPage(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 }
