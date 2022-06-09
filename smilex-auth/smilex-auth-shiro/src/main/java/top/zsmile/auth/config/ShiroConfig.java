@@ -7,7 +7,7 @@ import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.zsmile.auth.realm.SysRealm;
+import top.zsmile.auth.realm.OAuth2Realm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.List;
 @Configuration
 public class ShiroConfig {
 
-    @Bean("sysRealm")
-    public SysRealm sysRealm() {
-        SysRealm realm = new SysRealm();
+    @Bean("oAuth2Realm")
+    public OAuth2Realm oAuth2Realm() {
+        OAuth2Realm realm = new OAuth2Realm();
         return realm;
     }
 
@@ -33,9 +33,11 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+
         chainDefinition.addPathDefinition("/login", "anno");
-        // all other paths require a logged in user
+
         chainDefinition.addPathDefinition("/**", "authc");
+
         return chainDefinition;
     }
 
@@ -43,7 +45,7 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         List<Realm> realms = new ArrayList<>();
-        realms.add(sysRealm());
+        realms.add(oAuth2Realm());
 
         securityManager.setRealms(realms);
         return securityManager;

@@ -2,14 +2,16 @@ package top.zsmile.auth.token;
 
 import org.apache.shiro.authc.AuthenticationToken;
 
-public class SysToken implements AuthenticationToken {
+public class OAuth2Token implements AuthenticationToken {
+    private String token;
+
     @Override
     public Object getPrincipal() {
-        return null;
+        return token;
     }
 
     @Override
     public Object getCredentials() {
-        return null;
+        return token;
     }
 }
