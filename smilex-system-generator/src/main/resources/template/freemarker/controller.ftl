@@ -6,18 +6,19 @@ import java.util.Map;
 import top.zsmile.core.api.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.zsmile.meta.IPage;
 import ${packages}.${moduleName}.service.${bigHumpClass}Service;
 import ${packages}.${moduleName}.entity.${bigHumpClass}Entity;
 
 @RestController
-@RequestMapping("/${smallHumpClass}")
+@RequestMapping("/${reqMapping}")
 public class ${bigHumpClass}Controller {
 
     @Autowired
     private ${bigHumpClass}Service ${smallHumpClass}Service;
 
     @GetMapping("/list")
-    public R list(Map<String,String> params) {
+    public R list(Map<String, Object> params) {
         IPage page = ${smallHumpClass}Service.getPage(params);
         return R.success(page);
     }
@@ -30,7 +31,7 @@ public class ${bigHumpClass}Controller {
 
     @PostMapping("/update")
     public R update(@RequestBody ${bigHumpClass}Entity ${smallHumpClass}Entity){
-        ${smallHumpClass}Service.updateById(id);
+        ${smallHumpClass}Service.updateById(${smallHumpClass}Entity);
         return R.success();
     }
 
@@ -43,7 +44,7 @@ public class ${bigHumpClass}Controller {
 
     @PostMapping("/save")
     public R save(@RequestBody ${bigHumpClass}Entity ${smallHumpClass}Entity){
-        ${smallHumpClass}Service.s(Arrays.asList(ids));
+        ${smallHumpClass}Service.save(${smallHumpClass}Entity);
         return R.success();
     }
 }

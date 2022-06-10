@@ -70,6 +70,8 @@ public class GeneratorUtils {
             zipFileEntities.add(new ZipFileEntity("/service", file));
             file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\service\\impl\\", tableModel.getBigHumpClass() + "ServiceImpl.java", "serviceimpl.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/service/impl", file));
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\controller\\", tableModel.getBigHumpClass() + "Controller.java", "controller.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/controller", file));
         }
         return zipFileEntities;
     }

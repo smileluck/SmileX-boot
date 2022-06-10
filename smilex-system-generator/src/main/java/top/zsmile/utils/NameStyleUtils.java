@@ -1,6 +1,8 @@
 package top.zsmile.utils;
 
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +33,7 @@ public class NameStyleUtils {
         Matcher matcher = humpPattern.matcher(str);
         while (matcher.find()) {
             if (sb.length() != 0) {
-                matcher.appendReplacement(sb, "_" + matcher.group(0));
+                matcher.appendReplacement(sb, StringPool.UNDERSCORE + matcher.group(0));
             } else {
                 matcher.appendReplacement(sb, matcher.group(0));
             }
@@ -40,5 +42,17 @@ public class NameStyleUtils {
 
 
         return sb.toString().toLowerCase();
+    }
+
+    public static String lineToSlash(String str) {
+        str = str.toLowerCase();
+        StringBuffer sb = new StringBuffer();
+
+        Matcher matcher = linePattern.matcher(str);
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, StringPool.SLASH + matcher.group(1));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 }

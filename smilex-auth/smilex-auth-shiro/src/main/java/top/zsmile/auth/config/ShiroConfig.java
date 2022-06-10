@@ -1,5 +1,7 @@
 package top.zsmile.auth.config;
 
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
@@ -49,5 +51,10 @@ public class ShiroConfig {
 
         securityManager.setRealms(realms);
         return securityManager;
+    }
+
+    @Bean
+    protected CacheManager cacheManager() {
+        return new MemoryConstrainedCacheManager();
     }
 }

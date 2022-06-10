@@ -27,6 +27,10 @@ public class TableModel {
      */
     private String tableName;
     /**
+     * 请求映射
+     */
+    private String reqMapping;
+    /**
      * 表注释
      */
     private String tableComment;
