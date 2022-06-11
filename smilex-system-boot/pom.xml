@@ -22,9 +22,9 @@
             <artifactId>smilex-common</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>top.zsmile</groupId>-->
-        <!--            <artifactId>smilex-auth</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-auth</artifactId>
+        </dependency>
     </dependencies>
 </project>
