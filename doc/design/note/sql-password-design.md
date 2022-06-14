@@ -17,9 +17,141 @@
 
 # Salt生成
 
-Salt就是一串随机数，只是我们都知道会分为伪随机和真随机。
+Salt就是一串随机数，只是我们都知道会分为伪随机和真随机，那么用真随机和伪随机产生的随机数就会达成不同的效果。
 
 ## Random
 
+我们最常用的方式如下：
 
+```java
+Random random = new Random();
+int num = random.nextInt(10);
+```
+
+那现在简单的看一下 Random 的源码。
+
+```java
+public Random() {
+    this(seedUniquifier() ^ System.nanoTime());
+}   
+public Random(long seed) {
+    if (getClass() == Random.class)
+        this.seed = new AtomicLong(initialScramble(seed));
+    else {
+        // subclass might have overriden setSeed
+        this.seed = new AtomicLong();
+        setSeed(seed);
+    }
+}
+private static long seedUniquifier() {
+    // L'Ecuyer, "Tables of Linear Congruential Generators of
+    // Different Sizes and Good Lattice Structure", 1999
+    for (;;) {
+        long current = seedUniquifier.get();
+        long next = current * 181783497276652981L;
+        if (seedUniquifier.compareAndSet(current, next))
+            return next;
+    }
+}
+private static final AtomicLong seedUniquifier
+    = new AtomicLong(8682522807148012L);
+```
+
+从这里可以看出 Random类，默认使用了 当前系统时间(System.nanoTime()) 和 静态AtomicLong 两者的异或结果 作为种子。
+
+也就是说当我们同时并发的时候，seed 是一样时，产生出来的随机数也是一样的。因为他们基于的随机数算法也是一样的，所以这是可以预测出来的。
+
+我们再来看一下常用的方法 nextInt() 。
+
+```java
+public int nextInt() {
+    return next(32);
+}
+protected int next(int bits) {
+    long oldseed, nextseed;
+    AtomicLong seed = this.seed;
+    do {
+        oldseed = seed.get();
+        nextseed = (oldseed * multiplier + addend) & mask;
+    } while (!seed.compareAndSet(oldseed, nextseed));
+    return (int)(nextseed >>> (48 - bits));
+}
+```
+
+我们看到了这里使用了 AtomicLong 作为seed，Atomic原子类虽然保证了数据的原子性，但是其底层的CAS机制，使得在多线程并发下，性能并不算乐观。
+
+简单写了个demo 跑了下并发
+
+```java
+  Random random = new Random();
+
+        new Thread(() -> {
+            while (true) {
+                int i = random.nextInt(1000);
+                System.out.println(System.currentTimeMillis() + "--" + i);
+            }
+        }).start();
+        new Thread(() -> {
+            while (true) {
+                int i = random.nextInt(1000);
+                System.out.println(System.currentTimeMillis() + "--" + i);
+            }
+        }).start();
+
+        new Thread(() -> {
+            while (true) {
+                int i = random.nextInt(1000);
+                System.out.println(System.currentTimeMillis() + "--" + i);
+            }
+        }).start();
+
+        new Thread(() -> {
+            while (true) {
+                int i = random.nextInt(1000);
+                System.out.println(System.currentTimeMillis() + "--" + i);
+            }
+        }).start();
+
+```
+
+从执行结果上来看，4线程执行下，平均每1秒可以生成280个随机数。那有什么办法来解决多线程下的随机数生成呢？
+
+## ThreadLocalRandom
+
+ThreadLocalRandom 是继承 Random 类，并在其基础上解决了并发生成的问题。
+
+每一个线程有一个独立的**随机数生成器**，在并发的时候不需要跟别的线程竞争。**效率更高！** 
+
+```java
+new Thread(() -> {
+    ThreadLocalRandom current = ThreadLocalRandom.current();
+    while (true) {
+        int i = current.nextInt();
+        System.out.println(System.currentTimeMillis() + "--" + i);
+    }
+}).start();
+```
+
+ThreadLocalRandom 通过 current 方法获取当前线程所持有的 随机数生成器实例。
+
+```java
+public static ThreadLocalRandom current() {
+    if (UNSAFE.getInt(Thread.currentThread(), PROBE) == 0)
+        localInit();
+    return instance;
+}
+
+static final void localInit() {
+    int p = probeGenerator.addAndGet(PROBE_INCREMENT);
+    int probe = (p == 0) ? 1 : p; // skip 0
+    long seed = mix64(seeder.getAndAdd(SEEDER_INCREMENT));
+    Thread t = Thread.currentThread();
+    UNSAFE.putLong(t, SEED, seed);
+    UNSAFE.putInt(t, PROBE, probe);
+}
+```
+
+> localInit 方法是用来生成当前线程的属性。仅在 Thread.threadLocalRandomProbe为0时调用，表示需要一个线程本地seed值需要生成。注意：尽管初始化是 ThreadLocal 的，但我们需要依赖一个(静态)原子生成器来初始化值。
+
+## SecureRandom
 
