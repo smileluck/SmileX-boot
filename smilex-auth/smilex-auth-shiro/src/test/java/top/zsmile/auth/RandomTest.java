@@ -11,6 +11,7 @@ public class RandomTest {
     @Test
     public void SecureRandomTest() {
         SecureRandom secureRandom = new SecureRandom();
+        secureRandom.generateSeed(8);
 
     }
 

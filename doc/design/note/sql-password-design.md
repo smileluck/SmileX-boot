@@ -155,3 +155,65 @@ static final void localInit() {
 
 ## SecureRandom
 
+我们知道 Random 实现的算法是伪随机，也就是有规律的随机算法。进行随机时，在随机算法的种子seed 的基础上进行一定的变换，从而产生随机数字。
+
+当不可预测性至关重要时， 如大多数对安全性要求较高的环境可以使用密码学的 PRNG。 不管选择了哪一种 PRNG， 都要始终使用带有充足熵的数值作为该算法的种子。 （诸如当前时间之类的数值只提供很小的熵， 因此不应该使用（Random的实现）。 ） 
+
+1. SecureRandom 也是继承于 Random
+
+2. SecureRandom提供加密的强随机生成器(RNG)。
+
+3. SecureRandom 和 Random 都是种子一样时，生成出来的随机数也是一样的。二者区别在于：
+
+   - SecureRandom 的种子必须是不可预测的。
+   - Random 的种子是基于系统时间的
+
+注意:根据实现的不同，{@code generateSeed}和{@code nextBytes}方法可能会因为熵被收集而阻塞，例如，如果它们需要从各种类unix操作系统上的/dev/random读取。 
+
+SecureRandom，实现强随机的核心方法在于：SecureRandomSpi.engineNextBytes 方法
+
+```java
+public SecureRandom() {
+    /*
+         * This call to our superclass constructor will result in a call
+         * to our own {@code setSeed} method, which will return
+         * immediately when it is passed zero.
+         */
+    super(0);
+    getDefaultPRNG(false, null);
+}
+
+private void getDefaultPRNG(boolean setSeed, byte[] seed) {
+    String prng = getPrngAlgorithm();
+    if (prng == null) {
+        // bummer, get the SUN implementation
+        prng = "SHA1PRNG";
+        this.secureRandomSpi = new sun.security.provider.SecureRandom();
+        this.provider = Providers.getSunProvider();
+        if (setSeed) {
+            this.secureRandomSpi.engineSetSeed(seed);
+        }
+    } else {
+        try {
+            SecureRandom random = SecureRandom.getInstance(prng);
+            this.secureRandomSpi = random.getSecureRandomSpi();
+            this.provider = random.getProvider();
+            if (setSeed) {
+                this.secureRandomSpi.engineSetSeed(seed);
+            }
+        } catch (NoSuchAlgorithmException nsae) {
+            // never happens, because we made sure the algorithm exists
+            throw new RuntimeException(nsae);
+        }
+    }
+    // JDK 1.1 based implementations subclass SecureRandom instead of
+    // SecureRandomSpi. They will also go through this code path because
+    // they must call a SecureRandom constructor as it is their superclass.
+    // If we are dealing with such an implementation, do not set the
+    // algorithm value as it would be inaccurate.
+    if (getClass() == SecureRandom.class) {
+        this.algorithm = prng;
+    }
+}
+
+```
