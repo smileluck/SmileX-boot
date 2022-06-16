@@ -13,7 +13,7 @@
    2. 密文是否可逆？通过密文是不是能反编译出明文？
 3. 那针对加密的基础上，是不是可以通过额外的一个变量（salt），来进行加密，这样同样的密码+salt，得出来的密文就是不一样的了。
 
-基于以上几点思考，这篇文章会着重讲述一下随机数生成的几种方式和为什么使用Sha256加密。
+基于以上几点思考，这篇文章会着重讲述一下随机数生成的几种方式，主要是用来生成种子。
 
 # Salt生成
 
@@ -217,3 +217,18 @@ private void getDefaultPRNG(boolean setSeed, byte[] seed) {
 }
 
 ```
+
+### 使用方法
+
+配置 -Djava.security参数来修改调用的算法 
+
+```java
+// 没有配置时，默认与SHA1PRNG
+SecureRandom secureRandom = new SecureRandom();
+
+SecureRandom secureRandom1 = SecureRandom.getInstance("SHA1PRNG");
+
+// 通常可以用来作为其它算法的种子
+secureRandom.generateSeed(20);
+```
+

@@ -12,7 +12,6 @@ public class RandomTest {
     public void SecureRandomTest() {
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.generateSeed(8);
-
     }
 
     private ThreadLocal<ThreadLocalRandom> threadLocalRandomThreadLocal = new ThreadLocal<ThreadLocalRandom>() {
