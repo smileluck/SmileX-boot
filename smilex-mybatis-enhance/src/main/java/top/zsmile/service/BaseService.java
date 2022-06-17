@@ -1,5 +1,6 @@
 package top.zsmile.service;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.dao.BaseMapper;
@@ -8,6 +9,7 @@ import top.zsmile.utils.PageQuery;
 import top.zsmile.utils.SqlHelper;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -129,9 +131,7 @@ public interface BaseService<T> {
      * @param entity
      * @return
      */
-    default boolean save(T entity) {
-        return SqlHelper.retBool(getBaseMapper().insert(entity));
-    }
+     boolean save(T entity);
 
 
     /**
@@ -228,4 +228,6 @@ public interface BaseService<T> {
         page.setTotal(count);
         return page;
     }
+
+
 }

@@ -67,4 +67,12 @@ public class SpringContextUtils implements ApplicationContextAware {
     public static HttpServletResponse getHttpServletResponse() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
     }
+
+    /**
+     * 获取Request Origin
+     * @return
+     */
+    public static String getHttpServletRequestOrigin() {
+        return getHttpServletRequest().getHeader("Origin");
+    }
 }

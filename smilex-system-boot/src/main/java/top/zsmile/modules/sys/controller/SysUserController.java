@@ -44,7 +44,7 @@ public class SysUserController {
 
     @PostMapping("/save")
     public R save(@RequestBody SysUserEntity sysUserEntity){
-        sysUserService.save(sysUserEntity);
+        sysUserService.saveUser(sysUserEntity);
         return R.success();
     }
 }

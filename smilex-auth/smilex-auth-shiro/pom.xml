@@ -14,9 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>${shiro.version}</version>
+            <artifactId>shiro-spring-boot-web-starter</artifactId>
         </dependency>
     </dependencies>
-
 </project>

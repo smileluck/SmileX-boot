@@ -1,6 +1,5 @@
 package top.zsmile.provider;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import top.zsmile.meta.TableInfo;
@@ -9,11 +8,15 @@ import top.zsmile.utils.ReflectUtils;
 import top.zsmile.utils.TableQueryUtils;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class BaseInsertProvider extends BaseProvider {
 
-    public String insert(ProviderContext context, @Param(Constants.ENTITY) Object entity) {
+//    Map<String, Object> params
+    public String insert(Object entity,ProviderContext context) {
+//        Object entity = params.get(Constants.ENTITY);
+
         TableInfo tableInfo = getTableInfo(context);
 
         Field[] fields = tableInfo.getFields();

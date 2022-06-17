@@ -24,7 +24,9 @@
 
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-auth</artifactId>
+            <artifactId>smilex-auth-shiro</artifactId>
+            <version>${smilex.version}</version>
         </dependency>
+
     </dependencies>
 </project>

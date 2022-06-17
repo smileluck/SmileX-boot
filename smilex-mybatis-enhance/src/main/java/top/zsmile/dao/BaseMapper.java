@@ -148,7 +148,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "insert")
-    int insert(@Param(Constants.ENTITY) T t);
+    int insert(T t);
 
     /**
      * 根据ID 逻辑删除

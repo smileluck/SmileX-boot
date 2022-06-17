@@ -1,5 +1,10 @@
 package top.zsmile.common.utils;
 
+import top.zsmile.core.exception.SXException;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class PasswordUtils {
@@ -16,5 +21,21 @@ public class PasswordUtils {
         return random.generateSeed(20);
     }
 
-
+    /**
+     * sha256加密
+     *
+     * @param str 要加密的字符串
+     * @return 加密后的字符串
+     */
+    public static String sha256Hash(String str) {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(str.getBytes(StandardCharsets.UTF_8));
+            return CmdUtils.bytesToHexString(messageDigest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            throw new SXException("加密失败");
+        }
+    }
 }

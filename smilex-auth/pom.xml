@@ -21,18 +21,22 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common</artifactId>
         </dependency>
-
+        <!--shiro-->
         <!--        <dependency>-->
         <!--            <groupId>org.apache.shiro</groupId>-->
         <!--            <artifactId>shiro-core</artifactId>-->
         <!--            <version>${shiro.version}</version>-->
         <!--        </dependency>-->
-        <!--shiro-->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-web-starter</artifactId>
-        </dependency>
-
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-auth-shiro</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

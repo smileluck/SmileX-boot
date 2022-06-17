@@ -21,3 +21,10 @@ mybatis:
   mapperLocations: classpath*:mapper/**/*.xml
   # 加载全局的配置文件
   configLocation: classpath:mybatis/mybatis-config.xml
+
+
+# smilex-config
+smilex:
+  server:
+    workerId: 1
+    dataCenterId: 1
