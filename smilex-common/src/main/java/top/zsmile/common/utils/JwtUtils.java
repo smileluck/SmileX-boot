@@ -4,7 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import top.zsmile.core.api.ResultCode;
 
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 public class JwtUtils {
@@ -65,5 +68,17 @@ public class JwtUtils {
         }
     }
 
+    public static void responseError(ServletResponse response, Integer code, String msg) {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+    }
 
+    public static void responseError(ServletResponse httpServletResponse, ResultCode resultCode) {
+        responseError(httpServletResponse, resultCode.getCode(), resultCode.getMessage());
+    }
+
+    public static void responseError(ServletResponse httpServletResponse, ResultCode resultCode, String msg) {
+        responseError(httpServletResponse, resultCode.getCode(), msg);
+    }
 }

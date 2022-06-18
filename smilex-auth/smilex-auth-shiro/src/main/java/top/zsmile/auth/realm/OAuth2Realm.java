@@ -11,6 +11,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.utils.IPUtils;
+import top.zsmile.common.utils.JwtUtils;
 import top.zsmile.core.utils.SpringContextUtils;
 
 @Slf4j
@@ -49,6 +50,9 @@ public class OAuth2Realm extends AuthorizingRealm {
             throw new AuthenticationException("身份验证失败");
         }
 
-        return new SimpleAuthenticationInfo();
+        Long userId = JwtUtils.getUserId(token);
+
+
+        return new SimpleAuthenticationInfo(userId, token, getName());
     }
 }

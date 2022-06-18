@@ -13,8 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import top.zsmile.auth.token.OAuth2Token;
+import top.zsmile.common.constant.CommonConstant;
+import top.zsmile.common.utils.JwtUtils;
 import top.zsmile.core.api.R;
 import top.zsmile.core.api.ResultCode;
 import top.zsmile.core.utils.SpringContextUtils;
@@ -30,10 +34,10 @@ import java.io.IOException;
  *
  * @author zz@gmail.com
  */
-public class OAuth2Filter extends AuthenticatingFilter {
+public class OAuth2Filter extends BasicHttpAuthenticationFilter {
 
     @Override
-    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
         //获取请求token
         String token = getRequestToken((HttpServletRequest) request);
 
@@ -45,47 +49,56 @@ public class OAuth2Filter extends AuthenticatingFilter {
     }
 
     @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        if (((HttpServletRequest) request).getMethod().equals(RequestMethod.OPTIONS.name())) {
-            return true;
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpStatus.OK.value());
+            return false;
         }
+        return super.preHandle(request, response);
+    }
 
-        return false;
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        try {
+            return executeLogin(request, response);
+        } catch (Exception e) {
+            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+            return false;
+            //throw new AuthenticationException("Token失效，请重新登录", e);
+        }
     }
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         //获取请求token，如果token不存在，直接返回401
-        String token = getRequestToken((HttpServletRequest) request);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        String token = getRequestToken(httpServletRequest);
         if (StringUtils.isBlank(token)) {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-            httpResponse.setHeader("Access-Control-Allow-Origin", SpringContextUtils.getHttpServletRequestOrigin());
-
-//            String json = JSON.toJSONString(R.error(HttpStatus.SC_UNAUTHORIZED, "invalid token"));
-
-            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, "非法token"));
-
-            httpResponse.getWriter().print(json);
-
+            httpServletResponse.setContentType("application/json;charset=utf-8");
+            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN));
+            httpServletResponse.getWriter().print(json);
             return false;
         }
-
-        return executeLogin(request, response);
+        return true;
     }
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.setContentType("runner/json;charset=utf-8");
-        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpResponse.setHeader("Access-Control-Allow-Origin", SpringContextUtils.getHttpServletRequestOrigin());
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+
         try {
             //处理登录失败的异常
             Throwable throwable = e.getCause() == null ? e : e.getCause();
+            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
             String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, throwable.getMessage()));
-
-            httpResponse.getWriter().print(json);
+            httpServletResponse.getWriter().print(json);
         } catch (IOException e1) {
 
         }
@@ -98,11 +111,11 @@ public class OAuth2Filter extends AuthenticatingFilter {
      */
     private String getRequestToken(HttpServletRequest httpRequest) {
         //从header中获取token
-        String token = httpRequest.getHeader("token");
+        String token = httpRequest.getHeader(CommonConstant.S_ACCESS_TOKEN);
 
         //如果header中不存在token，则从参数中获取token
         if (StringUtils.isBlank(token)) {
-            token = httpRequest.getParameter("token");
+            token = httpRequest.getParameter(CommonConstant.S_ACCESS_TOKEN);
         }
 
         return token;

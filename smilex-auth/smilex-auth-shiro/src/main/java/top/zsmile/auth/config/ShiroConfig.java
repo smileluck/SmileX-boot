@@ -40,13 +40,9 @@ public class ShiroConfig {
         filters.put("oauth2", new OAuth2Filter());
         shiroFilterFactoryBean.setFilters(filters);
 
+        shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
-//        Map<String, String> filterMap = new HashMap<>();
-//
-//        filterMap.put("/sys/login", "anon");
-//        filterMap.put("/**", "authc");
-//        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
         return shiroFilterFactoryBean;
     }

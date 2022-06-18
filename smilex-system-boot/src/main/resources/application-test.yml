@@ -1,7 +1,13 @@
 server:
   port: 8080
+  servlet:
+    context-path: /smilex-boot
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     druid:
       # mysql 连接信息
