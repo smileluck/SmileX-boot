@@ -51,34 +51,34 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
         return super.preHandle(request, response);
     }
 
-    @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        try {
-            return executeLogin(request, response);
-        } catch (Exception e) {
-            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
-            return false;
-        }
-    }
-
 //    @Override
-//    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-//        //获取请求token，如果token不存在，直接返回401
-//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-//        String token = getRequestToken(httpServletRequest);
-//        if (StringUtils.isBlank(token)) {
+//    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+//        try {
+//            return executeLogin(request, response);
+//        } catch (Exception e) {
+//            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+//            return false;
+//        }
+//    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        //获取请求token，如果token不存在，直接返回401
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        String token = getRequestToken(httpServletRequest);
+        if (StringUtils.isBlank(token)) {
 //            httpServletResponse.setContentType("application/json;charset=utf-8");
 //            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 //            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
 //            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN));
 //            httpServletResponse.getWriter().print(json);
 
-//        JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
-//            return false;
-//        }
-//        return true;
-//    }
+            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+            return false;
+        }
+        return executeLogin(request, response);
+    }
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
