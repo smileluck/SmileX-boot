@@ -2,7 +2,284 @@
 
 ---
 
-# 前言
+# 集成
+
+## springboot集成shiro实现权限控制
+
+> 源码地址：[SmileX-boot](https://github.com/smileluck/SmileX-boot)
+
+### Maven版本
+
+引入springboot-start
+
+```xml
+<!-- springboot-web -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.3.5.RELEASE</version>
+</dependency>
+<!-- shiro-web -->
+<dependency>
+    <groupId>org.apache.shiro</groupId>
+    <artifactId>shiro-spring-boot-web-starter</artifactId>
+    <shiro.version>1.9.0</shiro.version>
+</dependency>
+```
+
+### AuthenticationToken
+
+```java
+/**
+ * TOKEN
+ */
+public class OAuth2Token implements AuthenticationToken {
+    private String token;
+
+    public OAuth2Token(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return token;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return token;
+    }
+}
+```
+
+### Filter
+
+```java
+
+/**
+ * 过滤器
+ */
+public class OAuth2Filter extends BasicHttpAuthenticationFilter {
+
+    @Override
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
+        //获取请求token
+        String token = getRequestToken((HttpServletRequest) request);
+
+        if (StringUtils.isBlank(token)) {
+            return null;
+        }
+
+        return new OAuth2Token(token);
+    }
+
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpStatus.OK.value());
+            return false;
+        }
+        return super.preHandle(request, response);
+    }
+
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        try {
+            return executeLogin(request, response);
+        } catch (Exception e) {
+            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+            return false;
+        }
+    }
+
+    @Override
+    protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
+        //处理登录失败的异常
+        JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+        return false;
+    }
+
+    /**
+     * 获取请求的token
+     */
+    private String getRequestToken(HttpServletRequest httpRequest) {
+        //从header中获取token
+        String token = httpRequest.getHeader(CommonConstant.S_ACCESS_TOKEN);
+
+        //如果header中不存在token，则从参数中获取token
+        if (StringUtils.isBlank(token)) {
+            token = httpRequest.getParameter(CommonConstant.S_ACCESS_TOKEN);
+        }
+
+        return token;
+    }
+
+
+}
+
+```
+
+### Realm
+
+```java
+
+public class OAuth2Realm extends AuthorizingRealm {
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof OAuth2Token;
+    }
+
+    /**
+     * 授权
+     *
+     * @param principalCollection
+     * @return
+     */
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        
+        // 授权逻辑
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        return simpleAuthorizationInfo;
+    }
+
+    /**
+     * 认证
+     *
+     * @param authenticationToken
+     * @return
+     * @throws AuthenticationException
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        String token = (String) authenticationToken.getCredentials();
+        if (token == null) {
+            log.info("————————身份认证失败————————，IP地址记录：" + IPUtils.getIpAddrByRequest(SpringContextUtils.getHttpServletRequest()));
+            throw new AuthenticationException("身份验证失败");
+        }
+
+        // token验证逻辑
+
+
+        return new SimpleAuthenticationInfo(userId, token, getName());
+    }
+}
+```
+
+### Shiro配置
+
+```java
+
+@Configuration
+public class ShiroConfig {
+
+    /**
+     * 注入realm
+     * @return
+     */
+    @Bean("oAuth2Realm")
+    public OAuth2Realm oAuth2Realm() {
+        OAuth2Realm realm = new OAuth2Realm();
+        return realm;
+    }
+
+    @Bean(name = "shiroFilterFactoryBean")
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager,ShiroFilterChainDefinition shiroFilterChainDefinition) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+
+        Map<String, Filter> filters = new HashMap<>();
+        filters.put("oauth2", new OAuth2Filter());
+        shiroFilterFactoryBean.setFilters(filters);
+
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
+
+        return shiroFilterFactoryBean;
+    }
+
+    /**
+     * 配置拦截
+     * @return
+     */
+    @Bean
+    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
+        DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+        chainDefinition.addPathDefinition("/sys/login", "anon");
+        chainDefinition.addPathDefinition("/**", "oauth2");
+        return chainDefinition;
+    }
+
+    @Bean("securityManager")
+    public DefaultWebSecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+        // 注入realm 到securityManager
+        List<Realm> realms = new ArrayList<>();
+        realms.add(oAuth2Realm());
+
+        securityManager.setRealms(realms);
+        securityManager.setRememberMeManager(null);
+        return securityManager;
+    }
+
+    @Bean
+    protected CacheManager cacheManager() {
+        return new MemoryConstrainedCacheManager();
+    }
+
+    @Bean
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
+    @Bean
+    public static DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        /**
+         * setUsePrefix(false)用于解决一个奇怪的bug。在引入spring aop的情况下。
+         * 在@Controller注解的类的方法中加入@RequiresRole等shiro注解，会导致该方法无法映射请求，导致返回404。
+         * 加入这项配置能解决这个bug
+         */
+        defaultAdvisorAutoProxyCreator.setUsePrefix(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+}
+
+```
+
+
+
+### 通用的工具
+
+#### JwtUtils.responseError
+
+```java
+public static void responseError(ServletResponse response, Integer code, String msg) {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        R fail = R.fail(code, msg);
+        try {
+            ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+            httpServletResponse.setContentType("application/json;charset=utf-8");
+httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            outputStream.print(JSON.toJSONString(fail));
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+```
 
 
 

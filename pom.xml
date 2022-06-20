@@ -38,6 +38,7 @@
 
 
     <properties>
+        <springboot.version>2.3.5.RELEASE</springboot.version>
         <smilex.version>1.0</smilex.version>
         <mysql-connector-java.version>8.0.21</mysql-connector-java.version>
         <fastjson.version>1.2.78</fastjson.version>
@@ -120,7 +121,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>2.3.5.RELEASE</version>
+                <version>${springboot.version}</version>
             </dependency>
 
             <!-- guava工具类 -->

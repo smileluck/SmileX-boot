@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- * <p>
- * https://www.renren.io
- * <p>
- * 版权所有，侵权必究！
- */
-
 package top.zsmile.auth.filter;
 
 import com.alibaba.fastjson.JSON;
@@ -66,42 +58,37 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
         } catch (Exception e) {
             JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
             return false;
-            //throw new AuthenticationException("Token失效，请重新登录", e);
         }
     }
 
-    @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        //获取请求token，如果token不存在，直接返回401
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String token = getRequestToken(httpServletRequest);
-        if (StringUtils.isBlank(token)) {
-            httpServletResponse.setContentType("application/json;charset=utf-8");
-            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN));
-            httpServletResponse.getWriter().print(json);
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+//        //获取请求token，如果token不存在，直接返回401
+//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+//        String token = getRequestToken(httpServletRequest);
+//        if (StringUtils.isBlank(token)) {
+//            httpServletResponse.setContentType("application/json;charset=utf-8");
+//            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+//            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+//            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN));
+//            httpServletResponse.getWriter().print(json);
+
+//        JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-
-        try {
-            //处理登录失败的异常
-            Throwable throwable = e.getCause() == null ? e : e.getCause();
-            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, throwable.getMessage()));
-            httpServletResponse.getWriter().print(json);
-        } catch (IOException e1) {
-
-        }
+        //处理登录失败的异常
+//            Throwable throwable = e.getCause() == null ? e : e.getCause();
+//            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+//            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+//            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, throwable.getMessage()));
+//            httpServletResponse.getWriter().print(json);
+        JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
 
         return false;
     }

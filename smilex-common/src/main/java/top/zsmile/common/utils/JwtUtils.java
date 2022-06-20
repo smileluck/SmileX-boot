@@ -1,11 +1,15 @@
 package top.zsmile.common.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.http.HttpStatus;
+import top.zsmile.core.api.R;
 import top.zsmile.core.api.ResultCode;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -70,8 +74,19 @@ public class JwtUtils {
 
     public static void responseError(ServletResponse response, Integer code, String msg) {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setContentType("application/json;charset=utf-8");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        R fail = R.fail(code, msg);
+        try {
+            ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+            httpServletResponse.setContentType("application/json;charset=utf-8");
+//            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+//            httpServletResponse.setCharacterEncoding("utf-8");
+            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            outputStream.print(JSON.toJSONString(fail));
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void responseError(ServletResponse httpServletResponse, ResultCode resultCode) {

@@ -69,6 +69,10 @@ public class R<T> implements Serializable {
         return new R(ResultCode.FAILURE);
     }
 
+    public static <T> R<T> fail(Integer code, String msg) {
+        return new R(code, msg);
+    }
+
     public static <T> R<T> fail(ResultCode resultCode) {
         return new R(resultCode);
     }

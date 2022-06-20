@@ -24,6 +24,10 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    /**
+     * 注入realm
+     * @return
+     */
     @Bean("oAuth2Realm")
     public OAuth2Realm oAuth2Realm() {
         OAuth2Realm realm = new OAuth2Realm();
@@ -32,21 +36,22 @@ public class ShiroConfig {
 
     @Bean(name = "shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager,ShiroFilterChainDefinition shiroFilterChainDefinition) {
-
-
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         Map<String, Filter> filters = new HashMap<>();
         filters.put("oauth2", new OAuth2Filter());
         shiroFilterFactoryBean.setFilters(filters);
 
-        shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
 
         return shiroFilterFactoryBean;
     }
 
+    /**
+     * 配置拦截
+     * @return
+     */
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
@@ -58,6 +63,8 @@ public class ShiroConfig {
     @Bean("securityManager")
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+        // 注入realm 到securityManager
         List<Realm> realms = new ArrayList<>();
         realms.add(oAuth2Realm());
 
