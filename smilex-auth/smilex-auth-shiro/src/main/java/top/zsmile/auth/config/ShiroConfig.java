@@ -12,9 +12,11 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import top.zsmile.auth.filter.OAuth2Filter;
 import top.zsmile.auth.realm.OAuth2Realm;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +26,12 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    @Resource
+    private LettuceConnectionFactory lettuceConnectionFactory;
+
     /**
      * 注入realm
+     *
      * @return
      */
     @Bean("oAuth2Realm")
@@ -35,7 +41,7 @@ public class ShiroConfig {
     }
 
     @Bean(name = "shiroFilterFactoryBean")
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager,ShiroFilterChainDefinition shiroFilterChainDefinition) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager, ShiroFilterChainDefinition shiroFilterChainDefinition) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         Map<String, Filter> filters = new HashMap<>();
@@ -50,6 +56,7 @@ public class ShiroConfig {
 
     /**
      * 配置拦截
+     *
      * @return
      */
     @Bean
