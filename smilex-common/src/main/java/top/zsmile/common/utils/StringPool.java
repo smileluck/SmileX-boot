@@ -1,4 +1,4 @@
-package top.zsmile.utils;
+package top.zsmile.common.utils;
 
 public interface StringPool {
 

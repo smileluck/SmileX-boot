@@ -1,6 +1,6 @@
 package top.zsmile.meta;
 
-import top.zsmile.utils.StringPool;
+import top.zsmile.common.utils.StringPool;
 
 public class PageRowBound {
     /**

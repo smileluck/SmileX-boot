@@ -33,6 +33,22 @@ spring:
         enabled: true
         allow: 127.0.0.1
         url-pattern: /druid/*
+  # redis
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password:
+    port: 6379
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 50
+        min-idle: 5
+        max-idle: 8
+        max-wait: 3000ms
+        time-between-eviction-runs: 1
+
+
 
 logging:
   level:

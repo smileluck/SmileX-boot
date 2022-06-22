@@ -5,6 +5,7 @@ import top.zsmile.annotation.TableField;
 import top.zsmile.annotation.TableId;
 import top.zsmile.annotation.TableLogic;
 import top.zsmile.annotation.TableName;
+import top.zsmile.common.utils.StringPool;
 import top.zsmile.dao.BaseMapper;
 
 import java.lang.reflect.Field;

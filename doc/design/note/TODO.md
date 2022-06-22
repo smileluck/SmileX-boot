@@ -22,3 +22,16 @@ https://rumenz.com/java-topic/hibernate/hibernate-validator-cdi/index.html
 ## hibernate-validator-cdi
 
 https://rumenz.com/java-topic/hibernate/hibernate-validator-cdi/index.html
+
+
+
+
+
+## redis
+
+### springboot-redis
+
+### springboot-cache
+- CacheResolver
+- CacheErrorHandler
+- 参考：https://blog.csdn.net/sz85850597/article/details/89301331

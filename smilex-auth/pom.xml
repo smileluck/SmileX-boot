@@ -14,6 +14,9 @@
     <modules>
         <module>smilex-auth-shiro</module>
     </modules>
+    <properties>
+        <shiro-redis.version>3.3.1</shiro-redis.version>
+    </properties>
 
     <dependencies>
 
@@ -35,6 +38,12 @@
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-auth-shiro</artifactId>
                 <version>${smilex.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.crazycake</groupId>
+                <artifactId>shiro-redis</artifactId>
+                <version>${shiro-redis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

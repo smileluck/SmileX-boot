@@ -12,6 +12,8 @@ import top.zsmile.core.api.ResultCode;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Date;
 
 public class JwtUtils {
@@ -76,12 +78,16 @@ public class JwtUtils {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         R fail = R.fail(code, msg);
         try {
-            ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-            httpServletResponse.setContentType("application/json;charset=utf-8");
+            httpServletResponse.setContentType("application/json;charset=UTF-8");
+            httpServletResponse.setCharacterEncoding("UTF-8");
 //            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-//            httpServletResponse.setCharacterEncoding("utf-8");
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            outputStream.print(JSON.toJSONString(fail));
+
+//            PrintWriter writer = httpServletResponse.getWriter();
+//            writer.print(JSON.toJSONString(fail));
+
+            OutputStream outputStream = httpServletResponse.getOutputStream();
+            outputStream.write(JSON.toJSONBytes(fail));
             outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
@@ -96,4 +102,10 @@ public class JwtUtils {
     public static void responseError(ServletResponse httpServletResponse, ResultCode resultCode, String msg) {
         responseError(httpServletResponse, resultCode.getCode(), msg);
     }
+
+    public static void main(String[] args) {
+        String token = JwtUtils.generatorToken(292798030246051840L, "a511fd1ce46a02d5671f9d29aae96a93807ec34f46ec56b4e2e6659df25d9d89");
+        System.out.println(token);
+    }
 }
+

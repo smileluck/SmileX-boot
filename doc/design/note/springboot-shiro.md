@@ -283,6 +283,107 @@ httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
 
 
 
+## shiro的几种CacheManager
+
+看官方的文档，提供了三种CacheManager。
+
+1. MemoryConstrainedCacheManager（仅适用于单体应用）
+2. HazelcastCacheManager
+3. EhCacheManager
+
+第三方提供的：
+
+1. https://github.com/alexxiyang/shiro-redis。基于jedis，[文档](http://alexxiyang.github.io/shiro-redis/)
+
+
+对于Hazelcast没有使用过，EhCache现在我使用的比较少，所以我这里
+
+### MemoryConstrainedCacheManager
+#### 使用
+
+直接注入配置即可。
+
+```java
+@Bean
+protected CacheManager cacheManager() {
+    return new MemoryConstrainedCacheManager();
+}
+```
+#### 源码查看
+
+这里简单查看一下MemoryConstrainedCacheManager的源码。
+
+```java
+// 继承了一个AbstractCacheManager
+public class MemoryConstrainedCacheManager extends AbstractCacheManager {
+    public MemoryConstrainedCacheManager() {
+    }
+
+    protected Cache createCache(String name) {
+        return new MapCache(name, new SoftHashMap());
+    }
+}
+
+public abstract class AbstractCacheManager implements CacheManager, Destroyable {
+    private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap();
+
+    public AbstractCacheManager() {
+    }
+
+    public <K, V> Cache<K, V> getCache(String name) throws IllegalArgumentException, CacheException {
+        if (!StringUtils.hasText(name)) {
+            throw new IllegalArgumentException("Cache name cannot be null or empty.");
+        } else {
+            Cache cache = (Cache)this.caches.get(name);
+            if (cache == null) {
+                cache = this.createCache(name);
+                Cache existing = (Cache)this.caches.putIfAbsent(name, cache);
+                if (existing != null) {
+                    cache = existing;
+                }
+            }
+
+            return cache;
+        }
+    }
+}
+
+public interface CacheManager {
+    <K, V> Cache<K, V> getCache(String var1) throws CacheException;
+}
+
+public interface Destroyable {
+    void destroy() throws Exception;
+}
+
+```
+
+可以看见AbstractCacheManager实现了CacheManager和Destoryable接口，实现了获取缓存和销毁的操作。
+
+同事在AbstractCacheManager的代码内，我们可以看到它是使用了ConcurrentHashMap作为并发存储容器的。
+
+### shiro-redis
+#### 使用
+
+##### 导入Maven依赖
+
+```xml
+ <dependency>
+     <groupId>org.crazycake</groupId>
+     <artifactId>shiro-redis</artifactId>
+     <version>3.3.1</version>
+     <exclusions>
+         <!-- 排除shiro-core包，可选 -->
+         <exclusion>
+             <groupId>org.apache.shiro</groupId>
+             <artifactId>shiro-core</artifactId>
+         </exclusion>
+     </exclusions>
+</dependency>
+```
+
+
+
 # 问题记录
 
 ## Springboot+Shiro，使用postman会显示404，需要返回未授权响应(JSON格式)

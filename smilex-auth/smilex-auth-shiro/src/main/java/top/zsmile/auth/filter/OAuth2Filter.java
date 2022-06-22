@@ -83,12 +83,12 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         //处理登录失败的异常
-//            Throwable throwable = e.getCause() == null ? e : e.getCause();
+        Throwable throwable = e.getCause() == null ? e : e.getCause();
 //            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 //            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
 //            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, throwable.getMessage()));
 //            httpServletResponse.getWriter().print(json);
-        JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+        JwtUtils.responseError(response, ResultCode.NO_AUTH, throwable.getMessage() );
 
         return false;
     }

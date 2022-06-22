@@ -9,14 +9,21 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.utils.IPUtils;
 import top.zsmile.common.utils.JwtUtils;
+import top.zsmile.core.api.CommonApi;
 import top.zsmile.core.utils.SpringContextUtils;
+
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 public class OAuth2Realm extends AuthorizingRealm {
 
+    @Autowired
+    private CommonApi commonApi;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -51,7 +58,16 @@ public class OAuth2Realm extends AuthorizingRealm {
         }
 
         Long userId = JwtUtils.getUserId(token);
-
+        if (userId == null) {
+            throw new AuthenticationException("用户不存在");
+        }
+        Map<String, Object> userMap = commonApi.queryUserById(userId);
+        if (userMap == null) {
+            throw new AuthenticationException("用户不存在");
+        }
+        if (!Boolean.valueOf(userMap.get("enableFlag").toString())) {
+            throw new AuthenticationException("用户已被锁定，请联系管理员");
+        }
 
         return new SimpleAuthenticationInfo(userId, token, getName());
     }

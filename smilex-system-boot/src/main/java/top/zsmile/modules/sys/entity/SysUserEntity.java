@@ -39,6 +39,10 @@ public class SysUserEntity extends BaseEntity implements Serializable {
     * 备注
     */
     private String remark;
+    /**
+     * 是否删除，1是，0否
+     */
+    private Integer delFlag;
 
     /**
     * ID
@@ -135,5 +139,13 @@ public class SysUserEntity extends BaseEntity implements Serializable {
     */
     public void setRemark(String remark){
     this.remark = remark;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 }

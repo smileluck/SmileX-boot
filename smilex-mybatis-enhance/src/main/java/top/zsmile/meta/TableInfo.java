@@ -1,7 +1,7 @@
 package top.zsmile.meta;
 
 import top.zsmile.common.utils.NameStyleUtils;
-import top.zsmile.utils.StringPool;
+import top.zsmile.common.utils.StringPool;
 import top.zsmile.utils.TableQueryUtils;
 
 import java.io.Serializable;
