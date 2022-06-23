@@ -91,28 +91,34 @@ public class ShiroConfig {
          * 根据需要判断，开启后，所有提交都需要验证Token，
          * 否则Login成功后，根据cookie获取session。
          */
-//        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
-//        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
-//        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
-//        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
-//        securityManager.setSubjectDAO(subjectDAO);
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
 
         securityManager.setRealms(realms);
         securityManager.setCacheManager(cacheManager());
-        securityManager.setSessionManager(defaultSessionManager());
+
+        //设置session管理
+//        securityManager.setSessionManager(defaultSessionManager());
         securityManager.setRememberMeManager(null);
         return securityManager;
     }
 
-    @Bean
-    public DefaultSessionManager defaultSessionManager() {
-        DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
-        //有效期30分钟
-        defaultWebSessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
-        defaultWebSessionManager.setCacheManager(cacheManager());
-        defaultWebSessionManager.setDeleteInvalidSessions(true);
-        return defaultWebSessionManager;
-    }
+    /**
+     * 设置session管理器
+     * @return
+     */
+//    @Bean
+//    public DefaultSessionManager defaultSessionManager() {
+//        DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
+//        //有效期30分钟
+//        defaultWebSessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
+//        defaultWebSessionManager.setCacheManager(cacheManager());
+//        defaultWebSessionManager.setDeleteInvalidSessions(true);
+//        return defaultWebSessionManager;
+//    }
 
     /***
      * 单机使用
