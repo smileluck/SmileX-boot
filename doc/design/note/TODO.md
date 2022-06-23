@@ -29,7 +29,15 @@ https://rumenz.com/java-topic/hibernate/hibernate-validator-cdi/index.html
 
 ## redis
 
+## shiro-redis
+
+- http://alexxiyang.github.io/shiro-redis/
+- https://github.com/alexxiyang/shiro-redis/tree/master/docs
+
 ### springboot-redis
+
+- https://lettuce.io/core/5.3.5.RELEASE/reference/index.html#spring.spring-data-redis
+- https://docs.spring.io/spring-data/redis/docs/current/reference/html/#redis:connectors:connection
 
 ### springboot-cache
 - CacheResolver
