@@ -39,6 +39,10 @@ public interface BaseService<T> {
         return getBaseMapper().selectById(id, column);
     }
 
+    default T getObjByMap(Map<String, Object> map, String... columns) {
+        return getBaseMapper().selectOne(map, columns);
+    }
+
     /**
      * 根据ID查询，可传入字段名查询需要得字段
      *
@@ -131,7 +135,7 @@ public interface BaseService<T> {
      * @param entity
      * @return
      */
-     boolean save(T entity);
+    boolean save(T entity);
 
 
     /**

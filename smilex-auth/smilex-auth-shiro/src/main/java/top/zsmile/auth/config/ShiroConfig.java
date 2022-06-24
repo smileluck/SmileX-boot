@@ -73,7 +73,7 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/sys/login", "anon");
+        chainDefinition.addPathDefinition("/sys/login/*", "anon");
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
     }

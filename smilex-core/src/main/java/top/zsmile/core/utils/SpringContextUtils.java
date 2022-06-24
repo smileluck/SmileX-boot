@@ -29,7 +29,11 @@ public class SpringContextUtils implements ApplicationContextAware {
      * @return
      */
     public static <T> T getBean(Class<T> clz) {
-        return applicationContext.getBean(clz);
+        try {
+            return applicationContext.getBean(clz);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     /**
@@ -70,6 +74,7 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     /**
      * 获取Request Origin
+     *
      * @return
      */
     public static String getHttpServletRequestOrigin() {

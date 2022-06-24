@@ -109,9 +109,9 @@ public interface BaseMapper<T> {
      *
      * @param cm 实体对象封装操作类（可以为 null）
      */
-    default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm) {
-        List<T> ts = this.selectListByMap(cm);
-        if (ts == null || ts.isEmpty()) {
+    default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, String... column) {
+        List<T> ts = this.selectListByMap(cm, column);
+        if (ts != null && !ts.isEmpty()) {
             if (ts.size() != 1) {
                 throw new SXException("One record is expected, but the query result is multiple records");
             }

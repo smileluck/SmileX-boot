@@ -2,6 +2,7 @@ package top.zsmile.common.config;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
@@ -18,7 +19,6 @@ public class ValidatorConfig {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(value = Validator.class)
     public Validator validator() {
         //hibernate-validator 6.x没问题，7.x有问题
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)

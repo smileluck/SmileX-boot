@@ -102,10 +102,5 @@ public class JwtUtils {
     public static void responseError(ServletResponse httpServletResponse, ResultCode resultCode, String msg) {
         responseError(httpServletResponse, resultCode.getCode(), msg);
     }
-
-    public static void main(String[] args) {
-        String token = JwtUtils.generatorToken(292798030246051840L, "a511fd1ce46a02d5671f9d29aae96a93807ec34f46ec56b4e2e6659df25d9d89");
-        System.out.println(token);
-    }
 }
 
