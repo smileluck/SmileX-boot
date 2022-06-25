@@ -140,7 +140,7 @@ public class BaseSelectProvider extends BaseProvider {
      * @return
      */
     private String[] selectColumn(final TableInfo tableInfo, final String... columns) {
-        return columns.length > 0 ? Stream.of(ArrayUtils.add(columns, tableInfo.getPrimaryColumn())).map(TableQueryUtils::humpToLineName).toArray(String[]::new) : tableInfo.getSelectColumns();
+        return columns.length > 0 ? Stream.of(ArrayUtils.add(columns, tableInfo.getPrimaryColumn())).map(TableQueryUtils::getSelectColumn).toArray(String[]::new) : tableInfo.getSelectColumns();
     }
 
 
