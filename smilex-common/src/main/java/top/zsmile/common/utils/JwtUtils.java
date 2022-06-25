@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.http.HttpStatus;
 import top.zsmile.core.api.R;
 import top.zsmile.core.api.ResultCode;
+import top.zsmile.core.utils.SpringContextUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
@@ -78,9 +79,12 @@ public class JwtUtils {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         R fail = R.fail(code, msg);
         try {
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", SpringContextUtils.getHttpServletRequest().getHeader("Origin"));
             httpServletResponse.setContentType("application/json;charset=UTF-8");
             httpServletResponse.setCharacterEncoding("UTF-8");
-//            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            //设置请求的方式
+            httpServletResponse.setHeader("Access-Control-Allow-Methods","POST,GET,PATCH,DELETE,PUT");
+            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
 
 //            PrintWriter writer = httpServletResponse.getWriter();

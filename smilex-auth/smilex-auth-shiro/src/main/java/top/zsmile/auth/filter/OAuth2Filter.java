@@ -45,6 +45,12 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+			// 解决跨域问题
+            httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
+            // 是否允许发送Cookie，默认Cookie不包括在CORS请求之中。设为true时，表示服务器允许Cookie包含在请求中。
+            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
@@ -88,7 +94,7 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
 //            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
 //            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, throwable.getMessage()));
 //            httpServletResponse.getWriter().print(json);
-        JwtUtils.responseError(response, ResultCode.NO_AUTH, throwable.getMessage() );
+        JwtUtils.responseError(response, ResultCode.NO_AUTH, throwable.getMessage());
 
         return false;
     }
