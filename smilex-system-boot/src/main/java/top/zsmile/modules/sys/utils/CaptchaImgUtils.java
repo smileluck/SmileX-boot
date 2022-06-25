@@ -22,7 +22,7 @@ public class CaptchaImgUtils {
     /**
      * 定义图形大小
      */
-    private static final int height = 35;
+    private static final int height = 30;
 
     /**
      * 定义干扰数量
@@ -118,7 +118,7 @@ public class CaptchaImgUtils {
             // 设置到绘制对象中
             graphics.setColor(black);
             graphics.setFont(font);
-            graphics.drawString(String.valueOf(code.charAt(i)), (20 * i) + 8, 20);
+            graphics.drawString(String.valueOf(code.charAt(i)), (23 * i) + 10, 24 + (i % 2 == 0 ? -i : i));
         }
         // 图象生效
         graphics.dispose();

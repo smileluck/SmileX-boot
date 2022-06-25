@@ -20,10 +20,12 @@ public class SysLoginModel {
     @NotBlank(message = "请输入密码")
     @ApiModelProperty(value = "密码")
     private String password;
+    @NotBlank(message = "请输入验证码")
     @ApiModelProperty(value = "验证码")
-    private String captcha;
+    private String captchaCode;
+    @NotBlank(message = "请输入验证码KEY")
     @ApiModelProperty(value = "验证码key")
-    private String checkKey;
+    private String captchaKey;
 
     public String getUsername() {
         return username;
@@ -41,19 +43,19 @@ public class SysLoginModel {
         this.password = password;
     }
 
-    public String getCaptcha() {
-        return captcha;
+    public String getCaptchaCode() {
+        return captchaCode;
     }
 
-    public void setCaptcha(String captcha) {
-        this.captcha = captcha;
+    public void setCaptchaCode(String captchaCode) {
+        this.captchaCode = captchaCode;
     }
 
-    public String getCheckKey() {
-        return checkKey;
+    public String getCaptchaKey() {
+        return captchaKey;
     }
 
-    public void setCheckKey(String checkKey) {
-        this.checkKey = checkKey;
+    public void setCaptchaKey(String captchaKey) {
+        this.captchaKey = captchaKey;
     }
 }
