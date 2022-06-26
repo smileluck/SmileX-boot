@@ -10,6 +10,9 @@ import top.zsmile.meta.IPage;
 import ${packages}.${moduleName}.service.${bigHumpClass}Service;
 import ${packages}.${moduleName}.entity.${bigHumpClass}Entity;
 
+/**
+ * ${tableComment}
+ */
 @RestController
 @RequestMapping("/${reqMapping}")
 public class ${bigHumpClass}Controller {

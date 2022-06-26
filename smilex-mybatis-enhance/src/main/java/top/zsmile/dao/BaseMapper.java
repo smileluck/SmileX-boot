@@ -66,7 +66,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
-    List<T> selectListByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectListByMap( Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
@@ -76,7 +76,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
-    List<Map<String, Object>> selectMapByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    List<Map<String, Object>> selectMapByMap( Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
@@ -101,7 +101,7 @@ public interface BaseMapper<T> {
      * @param cm 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectCount")
-    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
+    Long selectCount( Map<String, Object> cm);
 
     /**
      * 根据 entity 条件，查询一条记录
@@ -109,7 +109,7 @@ public interface BaseMapper<T> {
      *
      * @param cm 实体对象封装操作类（可以为 null）
      */
-    default T selectOne(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm, String... column) {
+    default T selectOne( Map<String, Object> cm, String... column) {
         List<T> ts = this.selectListByMap(cm, column);
         if (ts != null && !ts.isEmpty()) {
             if (ts.size() != 1) {
@@ -126,7 +126,7 @@ public interface BaseMapper<T> {
      * @param cm 实体对象封装操作类
      * @return 是否存在记录
      */
-    default boolean exists(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm) {
+    default boolean exists( Map<String, Object> cm) {
         Long count = this.selectCount(cm);
         return null != count && count > 0;
     }
@@ -173,7 +173,7 @@ public interface BaseMapper<T> {
      * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsByMap")
-    int deletePhysicsByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
+    int deletePhysicsByMap( Map<String, Object> cm);
 
     /**
      * 根据ID进行物理删除
@@ -199,19 +199,19 @@ public interface BaseMapper<T> {
      * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicByMap")
-    int deleteLogicByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
+    int deleteLogicByMap( Map<String, Object> cm);
 
 
     /**
      * TODO 单表分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    IPage<T> selectPage(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    IPage<T> selectPage(IPage<T> page,  Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
      * 分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    List<T> selectListPage(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectListPage(IPage<T> page,  Map<String, Object> cm, String... columns);
 }

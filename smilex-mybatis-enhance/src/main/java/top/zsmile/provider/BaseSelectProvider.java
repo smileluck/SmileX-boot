@@ -70,11 +70,11 @@ public class BaseSelectProvider extends BaseProvider {
      * 根据字段集合查询，可传入字段名查询需要得字段
      *
      * @param context
-     * @param columnMap
+     * @param cm
      * @param columns
      * @return
      */
-    public String selectListByMap(ProviderContext context, @Param(Constants.COLUMNS_MAP) final Map<String, Object> columnMap, @Param(Constants.COLUMNS) final String... columns) {
+    public String selectListByMap(ProviderContext context, final Map<String, Object> cm,  final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
@@ -82,7 +82,9 @@ public class BaseSelectProvider extends BaseProvider {
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(tableInfo.logicDelColumnSet());
-            WHERE(TableQueryUtils.getMapCondition(columnMap));
+            if (!CollectionUtils.isEmpty(cm)) {
+                WHERE(TableQueryUtils.getMapCondition(cm));
+            }
         }}.toString();
 
         return TableQueryUtils.getSqlScript(s);
@@ -97,7 +99,7 @@ public class BaseSelectProvider extends BaseProvider {
      * @param columns
      * @return
      */
-    public String selectList(ProviderContext context, @Param(Constants.ENTITY) final Object entity, @Param(Constants.COLUMNS) final String... columns) {
+    public String selectList(ProviderContext context,final Object entity,  final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         Field[] fields = tableInfo.getFields();
@@ -116,17 +118,19 @@ public class BaseSelectProvider extends BaseProvider {
      * 根据对象entity查询不为null的数据，可传入字段名查询需要得字段
      *
      * @param context
-     * @param columnMap
+     * @param cm
      * @return
      */
-    public String selectCount(ProviderContext context, @Param(Constants.COLUMNS_MAP) final Map<String, Object> columnMap) {
+    public String selectCount(ProviderContext context, final Map<String, Object> cm) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
             SELECT(tableInfo.getCountColumn());
             FROM(tableInfo.getTableName());
             WHERE(tableInfo.logicDelColumnSet());
-            WHERE(TableQueryUtils.getMapCondition(columnMap));
+            if (!CollectionUtils.isEmpty(cm)) {
+                WHERE(TableQueryUtils.getMapCondition(cm));
+            }
         }}.toString();
 
         return TableQueryUtils.getSqlScript(s);
