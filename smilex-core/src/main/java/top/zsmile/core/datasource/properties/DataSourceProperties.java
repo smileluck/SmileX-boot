@@ -29,4 +29,5 @@ public class DataSourceProperties {
     private int maxOpenPreparedStatements = -1;
     private boolean sharePreparedStatements = false;
     private String filters = "stat,wall";
+    private String connectionProperties;
 }

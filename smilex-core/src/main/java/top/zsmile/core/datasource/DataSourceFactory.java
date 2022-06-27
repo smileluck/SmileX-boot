@@ -6,15 +6,14 @@ import org.springframework.beans.BeanUtils;
 import top.zsmile.core.datasource.properties.DataSourceProperties;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 public class DataSourceFactory {
-    public static DataSource createDataSource(DataSourceProperties properties) {
-        DruidDataSource dataSource = new DruidDataSource();
-        BeanUtils.copyProperties(properties, dataSource);
-        return dataSource;
+    public static DruidDataSource createDataSource(DataSourceProperties properties) {
+        return createDataSource(new DruidDataSource(), properties);
     }
 
-    public static DataSource createDataSource(DataSource dataSource, DataSourceProperties properties) {
+    public static DruidDataSource createDataSource(DataSource dataSource, DataSourceProperties properties) {
         DruidDataSource druidDataSource = (DruidDataSource) dataSource;
         BeanUtils.copyProperties(properties, druidDataSource);
         return druidDataSource;

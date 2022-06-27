@@ -117,6 +117,7 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
             tableModel.setPackages(packages);
             tableModel.setModuleName(moduleName);
             tableModel.setBigHumpClass(NameStyleUtils.lineToHump(tableName, true));
+            tableModel.setSmallDashName(NameStyleUtils.lineToDash(tableName));
             tableModel.setSmallHumpClass(NameStyleUtils.lineToHump(tableName, false));
             tableModel.setReqMapping(NameStyleUtils.lineToSlash(tableName));
             tableModel.setTableName(tableName);

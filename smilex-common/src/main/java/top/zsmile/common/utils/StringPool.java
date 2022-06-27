@@ -5,6 +5,7 @@ public interface StringPool {
     String COUNT = "COUNT";
     String AMPERSAND = "&";
     String AND = "and";
+    String AND_SPACE= " and ";
     String AT = "@";
     String ASTERISK = "*";
     String STAR = ASTERISK;

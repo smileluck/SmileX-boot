@@ -1,10 +1,12 @@
 package top.zsmile.provider;
 
+import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.Constants;
@@ -31,7 +33,7 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.logicDelColumnWhere());
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
         return s;
@@ -50,7 +52,7 @@ public class BaseSelectProvider extends BaseProvider {
         String sql = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.logicDelColumnWhere());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + TableQueryUtils.convertForeach("#{item}", "coll", null, "item", ",") + ")");
@@ -74,16 +76,19 @@ public class BaseSelectProvider extends BaseProvider {
      * @param columns
      * @return
      */
-    public String selectListByMap(ProviderContext context, final Map<String, Object> cm,  final String... columns) {
+    public String selectListByMap(ProviderContext context, final Map<String, Object> cm, final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
-            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
-                WHERE(TableQueryUtils.getMapCondition(cm));
+                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                if (!StringUtils.isEmpty(mapCondition)) {
+                    WHERE(mapCondition);
+                }
             }
         }}.toString();
 
@@ -99,7 +104,7 @@ public class BaseSelectProvider extends BaseProvider {
      * @param columns
      * @return
      */
-    public String selectList(ProviderContext context,final Object entity,  final String... columns) {
+    public String selectList(ProviderContext context, final Object entity, final String... columns) {
         TableInfo tableInfo = getTableInfo(context);
 
         Field[] fields = tableInfo.getFields();
@@ -107,7 +112,7 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.logicDelColumnWhere());
             WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
         }}.toString();
 
@@ -118,18 +123,22 @@ public class BaseSelectProvider extends BaseProvider {
      * 根据对象entity查询不为null的数据，可传入字段名查询需要得字段
      *
      * @param context
-     * @param cm
+     * @param params
      * @return
      */
-    public String selectCount(ProviderContext context, final Map<String, Object> cm) {
+    public String selectCount(ProviderContext context, Map<String, Object> params) {
+        Map<String, Object> cm = (Map<String, Object>) params.get(Constants.COLUMNS_MAP);
         TableInfo tableInfo = getTableInfo(context);
 
         String s = new SQL() {{
             SELECT(tableInfo.getCountColumn());
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
-                WHERE(TableQueryUtils.getMapCondition(cm));
+                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                if (!StringUtils.isEmpty(mapCondition)) {
+                    WHERE(mapCondition);
+                }
             }
         }}.toString();
 
@@ -161,9 +170,12 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnSet());
+            WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
-                WHERE(TableQueryUtils.getMapCondition(cm));
+                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                if (!StringUtils.isEmpty(mapCondition)) {
+                    WHERE(mapCondition);
+                }
             }
             OFFSET(page.getOffset());
             LIMIT(page.getSize());

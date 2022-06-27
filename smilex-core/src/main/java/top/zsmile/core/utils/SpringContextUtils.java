@@ -1,6 +1,7 @@
 package top.zsmile.core.utils;
 
 import org.springframework.beans.BeansException;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -79,5 +80,13 @@ public class SpringContextUtils implements ApplicationContextAware {
      */
     public static String getHttpServletRequestOrigin() {
         return getHttpServletRequest().getHeader("Origin");
+    }
+
+    /**
+     * 停止Springboot
+     */
+    public static void close() {
+        int exit = SpringApplication.exit(getApplicationContext(), () -> 0);
+        System.exit(exit);
     }
 }

@@ -18,32 +18,32 @@ public class SysMenuController {
     private SysMenuService sysMenuService;
 
     @GetMapping("/list")
-    public R list(Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         IPage page = sysMenuService.getPage(params);
         return R.success(page);
     }
 
     @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
+    public R info(@PathVariable("id") Long id) {
         SysMenuEntity info = sysMenuService.getById(id);
         return R.success(info);
     }
 
     @PostMapping("/update")
-    public R update(@RequestBody SysMenuEntity sysMenuEntity){
+    public R update(@RequestBody SysMenuEntity sysMenuEntity) {
         sysMenuService.updateById(sysMenuEntity);
         return R.success();
     }
 
 
     @PostMapping("/remove")
-    public R remove(@RequestBody Long[] ids){
-        sysMenuService.removePhysicsBatchIds(Arrays.asList(ids));
+    public R remove(@RequestBody Long[] ids) {
+        sysMenuService.removeLogicBatchIds(Arrays.asList(ids));
         return R.success();
     }
 
     @PostMapping("/save")
-    public R save(@RequestBody SysMenuEntity sysMenuEntity){
+    public R save(@RequestBody SysMenuEntity sysMenuEntity) {
         sysMenuService.save(sysMenuEntity);
         return R.success();
     }

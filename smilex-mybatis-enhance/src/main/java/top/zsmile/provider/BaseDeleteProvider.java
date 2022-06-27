@@ -3,6 +3,8 @@ package top.zsmile.provider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import top.zsmile.meta.TableInfo;
 import top.zsmile.utils.Constants;
 import top.zsmile.utils.TableQueryUtils;
@@ -49,12 +51,17 @@ public class BaseDeleteProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String deleteLogicByMap(ProviderContext context, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
+    public String deleteLogicByMap(ProviderContext context, Map<String, Object> cm) {
         TableInfo tableInfo = getTableInfo(context);
         String sql = new SQL() {{
             UPDATE(tableInfo.getTableName());
             SET(tableInfo.logicDelColumnSet());
-            WHERE(TableQueryUtils.getMapCondition(columnMap));
+            if (!CollectionUtils.isEmpty(cm)) {
+                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                if (!StringUtils.isEmpty(mapCondition)) {
+                    WHERE(mapCondition);
+                }
+            }
         }}.toString();
         return TableQueryUtils.getSqlScript(sql);
     }
@@ -93,11 +100,16 @@ public class BaseDeleteProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String deletePhysicsByMap(ProviderContext context, @Param(Constants.COLUMNS_MAP) Map<String, Object> columnMap) {
+    public String deletePhysicsByMap(ProviderContext context, Map<String, Object> cm) {
         TableInfo tableInfo = getTableInfo(context);
         String sql = new SQL() {{
             DELETE_FROM(tableInfo.getTableName());
-            WHERE(TableQueryUtils.getMapCondition(columnMap));
+            if (!CollectionUtils.isEmpty(cm)) {
+                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                if (!StringUtils.isEmpty(mapCondition)) {
+                    WHERE(mapCondition);
+                }
+            }
         }}.toString();
         return TableQueryUtils.getSqlScript(sql);
     }

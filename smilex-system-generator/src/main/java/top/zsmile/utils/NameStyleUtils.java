@@ -55,4 +55,16 @@ public class NameStyleUtils {
         matcher.appendTail(sb);
         return sb.toString();
     }
+
+    public static String lineToDash(String str) {
+        str = str.toLowerCase();
+        StringBuffer sb = new StringBuffer();
+
+        Matcher matcher = linePattern.matcher(str);
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, StringPool.DASH + matcher.group(1));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
 }

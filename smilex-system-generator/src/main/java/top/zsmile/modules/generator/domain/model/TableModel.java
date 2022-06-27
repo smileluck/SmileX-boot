@@ -23,6 +23,10 @@ public class TableModel {
      */
     private String smallHumpClass;
     /**
+     * 横杠名称
+     */
+    private String smallDashName;
+    /**
      * 表名
      */
     private String tableName;

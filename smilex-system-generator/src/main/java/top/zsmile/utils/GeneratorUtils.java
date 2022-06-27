@@ -62,6 +62,7 @@ public class GeneratorUtils {
     public static List<ZipFileEntity> genCodeFiles(GeneratorEntity generatorEntity, List<TableModel> tableModels) {
         List<ZipFileEntity> zipFileEntities = new ArrayList<>();
         for (TableModel tableModel : tableModels) {
+            // admin
             File file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\entity\\", tableModel.getBigHumpClass() + "Entity.java", "entity.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/entity", file));
             file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\dao\\", tableModel.getBigHumpClass() + "Mapper.java", "mapper.ftl", tableModel);
@@ -72,6 +73,10 @@ public class GeneratorUtils {
             zipFileEntities.add(new ZipFileEntity("/service/impl", file));
             file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\controller\\", tableModel.getBigHumpClass() + "Controller.java", "controller.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/controller", file));
+
+            // admin-vue
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + "\\vue\\" + generatorEntity.getModuleName() + "\\", tableModel.getBigHumpClass() + ".vue", "vuePage.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName(), file));
         }
         return zipFileEntities;
     }

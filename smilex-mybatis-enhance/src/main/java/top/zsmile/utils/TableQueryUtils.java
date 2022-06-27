@@ -1,5 +1,7 @@
 package top.zsmile.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import top.zsmile.annotation.TableField;
 import top.zsmile.annotation.TableId;
@@ -7,18 +9,22 @@ import top.zsmile.annotation.TableLogic;
 import top.zsmile.annotation.TableName;
 import top.zsmile.common.utils.StringPool;
 import top.zsmile.dao.BaseMapper;
+import top.zsmile.meta.TableInfo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class TableQueryUtils {
 
     /**
@@ -83,6 +89,22 @@ public class TableQueryUtils {
      * 查询所有列名
      */
     public static String[] queryColumn(Field[] fields) {
+        return Stream.of(fields).map(TableQueryUtils::humpToLineName).toArray(String[]::new);
+    }
+
+    /**
+     * 查询所有where条件的所有列
+     */
+    public static List<String> queryWhereColumn(Field[] fields) {
+        List<String> collect = Stream.of(fields).map(Field::getName).collect(Collectors.toList());
+        return collect;
+    }
+
+
+    /**
+     * 查询所有列名
+     */
+    public static String[] queryHumpColumn(Field[] fields) {
         return Stream.of(fields).map(TableQueryUtils::humpToLineName).toArray(String[]::new);
     }
 
@@ -214,6 +236,7 @@ public class TableQueryUtils {
      * @return
      */
     public static String getSqlScript(String sql) {
+        log.debug(sql);
         return Constants.SCRIPT_START + sql + Constants.SCRIPT_END;
     }
 
@@ -221,15 +244,18 @@ public class TableQueryUtils {
     /**
      * 使用map转换查询条件
      */
-    public static String getMapCondition(Map<String, Object> map) {
+    public static String getMapCondition(TableInfo tableInfo, Map<String, Object> map) {
         if (map == null) {
             return null;
         }
         Set<String> keySet = map.keySet();
         StringBuilder sb = new StringBuilder();
         for (String key : keySet) {
+            if (StringUtils.isEmpty(map.get(key)) || !tableInfo.hasWhereColumn(key)) {
+                continue;
+            }
             if (sb.length() != 0) {
-                sb.append(StringPool.AND);
+                sb.append(StringPool.AND_SPACE);
             }
 //            sb.append(tableInfo.getTableName() + POINT);
             sb.append(humpToLineName(key) + StringPool.EQUALS + getInjectParameter(Constants.COLUMNS_MAP + StringPool.DOT + key));

@@ -6,6 +6,8 @@ import top.zsmile.utils.TableQueryUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TableInfo implements Serializable {
 
@@ -65,6 +67,10 @@ public class TableInfo implements Serializable {
      */
     private String[] injectParameter;
 
+    /**
+     * 注入参数列表
+     */
+    private List<String> whereColumn;
 
     public static TableInfo of(Class<?> clazz) {
         TableInfo tableInfo = new TableInfo();
@@ -79,6 +85,7 @@ public class TableInfo implements Serializable {
         tableInfo.countColumn = (StringPool.COUNT + StringPool.LEFT_BRACKET + tableInfo.primaryColumn + StringPool.RIGHT_BRACKET).intern();
         tableInfo.selectColumns = TableQueryUtils.querySelectColumn(fields);
         tableInfo.injectParameter = TableQueryUtils.queryInjectParameter(fields);
+        tableInfo.whereColumn = TableQueryUtils.queryWhereColumn(fields);
         return tableInfo;
     }
 
@@ -111,6 +118,10 @@ public class TableInfo implements Serializable {
     }
 
     public String logicDelColumnSet() {
+        return logicDelColumn + StringPool.EQUALS + LOGIC_DEL_NUMBER;
+    }
+
+    public String logicDelColumnWhere() {
         return logicDelColumn + StringPool.EQUALS + LOGIC_NOT_DEL_NUMBER;
     }
 
@@ -128,5 +139,10 @@ public class TableInfo implements Serializable {
 
     public String getCountColumn() {
         return countColumn;
+    }
+
+    public boolean hasWhereColumn(String key) {
+        return this.whereColumn.contains(key);
+
     }
 }

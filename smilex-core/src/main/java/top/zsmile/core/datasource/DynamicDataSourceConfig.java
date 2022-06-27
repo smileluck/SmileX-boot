@@ -1,5 +1,6 @@
 package top.zsmile.core.datasource;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +9,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import top.zsmile.core.datasource.properties.DataSourceProperties;
+import top.zsmile.core.utils.SpringContextUtils;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 @Configuration
 @Order(-1)
@@ -28,9 +32,16 @@ public class DynamicDataSourceConfig {
     public DynamicDataSource dynamicDataSource(DataSourceProperties dataSourceProperties) {
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
 
-        DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
+        DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
         dynamicDataSource.addDataSource(MASTER, dataSource);
         dynamicDataSource.setDefaultTargetDataSource(dataSource);
+        try {
+            dataSource.init();
+        } catch (SQLException throwables) {
+            throw new RuntimeException(String.format("数据库[%s]初始化异常", MASTER));
+//            SpringContextUtils.close();
+        }
+
         return dynamicDataSource;
     }
 

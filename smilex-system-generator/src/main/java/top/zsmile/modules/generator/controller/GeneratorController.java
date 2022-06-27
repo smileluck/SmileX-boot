@@ -61,13 +61,8 @@ public class GeneratorController {
         dataSourceProperties.setPassword(databaseConnEntity.getPassword());
         dataSourceProperties.setDriverClassName(DefaultConstants.MYSQL_DRIVER_CLASS);
         dataSourceProperties.setUrl(databaseConnEntity.getUrl());
-        DruidDataSource dataSource = (DruidDataSource) DataSourceFactory.createDataSource(dataSourceProperties);
-        try {
-            dataSource.getConnection();
-        } catch (SQLException throwables) {
-            dataSource.close();
-            throw new SXException("数据库连接异常");
-        }
+        DruidDataSource dataSource =  DataSourceFactory.createDataSource(dataSourceProperties);
+
 //        DynamicDataSource.getInstance().delDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY);
         DynamicDataSource.getInstance().replaceDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
         return R.success("连接成功");
