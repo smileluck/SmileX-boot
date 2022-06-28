@@ -138,7 +138,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @UpdateProvider(type = BaseUpdateProvider.class, method = "updateById")
-    int updateById(@Param(Constants.ENTITY) T t);
+    int updateById(T t);
 
 
     /**

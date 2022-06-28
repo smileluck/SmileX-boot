@@ -21,7 +21,7 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button @click="cancelForm()">取消</el-button>
                 <el-button type="primary" @click="submitForm()">确定</el-button>
             </span>
         </template>
@@ -36,7 +36,6 @@
 
     const dialogVisible = ref(false);
     const formRef = ref();
-    const selectArr = [];
 
     const form = reactive({
         info: {
@@ -54,11 +53,17 @@
     });
 
     const getInfo = () => {
-        getAction(`/${reqMapping}/info/${r'${form.id}'}`, {}).then((res) => {
+        getAction(`/${reqMapping}/info/${r'${form.info.id}'}`, {}).then((res) => {
             if (res.success) {
                 form.info = { ...res.data };
             }
         });
+    };
+
+    const cancelForm = () => {
+        formRef.value.resetFields();
+        dialogVisible.value = false;
+        form.info = {};
     };
 
     const submitForm = () => {
@@ -69,9 +74,8 @@
         }
         formEl.validate((valid, fields) => {
             if (valid) {
-                postAction(`/sys/menu/${r'${form.id != null ? "update" : "save"}'}`, {
-                    ...toRaw(form),
-                    tableName: selectArr,
+                postAction(`/sys/menu/${r'${form.info.id != null ? "update" : "save"}'}`, {
+                    ...toRaw(form.info)
                 }).then((res) => {
                     if (res.success) {
                         emit("refresh");
@@ -86,8 +90,8 @@
 
     const initModel = (id) => {
         dialogVisible.value = true;
-        form.id = id;
         if (id != null) {
+            form.info.id = id;
             getInfo();
         }
     };
