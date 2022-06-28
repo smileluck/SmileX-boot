@@ -22,6 +22,10 @@ public class BaseEntity implements Serializable {
      * 更新人
      */
     private String updateBy;
+    /**
+     * 是否删除，1是，0否
+     */
+    private Integer delFlag;
 
     /**
      * 创建时间
@@ -77,5 +81,13 @@ public class BaseEntity implements Serializable {
      */
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 }
