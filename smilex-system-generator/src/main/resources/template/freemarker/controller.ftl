@@ -29,25 +29,25 @@ public class ${bigHumpClass}Controller {
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         ${bigHumpClass}Entity info = ${smallHumpClass}Service.getById(id);
-        return R.success(info);
+        return R.success("查询成功",info);
     }
 
     @PostMapping("/update")
     public R update(@RequestBody ${bigHumpClass}Entity ${smallHumpClass}Entity){
         ${smallHumpClass}Service.updateById(${smallHumpClass}Entity);
-        return R.success();
+        return R.success("修改成功");
     }
 
 
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
         ${smallHumpClass}Service.removePhysicsBatchIds(Arrays.asList(ids));
-        return R.success();
+        return R.success("删除成功");
     }
 
     @PostMapping("/save")
     public R save(@RequestBody ${bigHumpClass}Entity ${smallHumpClass}Entity){
         ${smallHumpClass}Service.save(${smallHumpClass}Entity);
-        return R.success();
+        return R.success("添加成功");
     }
 }

@@ -26,7 +26,7 @@ public class SysMenuController {
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
         SysMenuEntity info = sysMenuService.getById(id);
-        return R.success(info);
+        return R.success("查询成功", info);
     }
 
     @PostMapping("/update")

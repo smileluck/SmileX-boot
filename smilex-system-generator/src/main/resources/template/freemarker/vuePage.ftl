@@ -70,21 +70,31 @@
             <el-table-column prop="${var.humpColumnName}" label="${var.columnComment}" width="200" />
             </#list>
             <el-table-column fixed="right" label="Operations" width="120">
-                <template #default>
-                    <el-button type="text" >删除</el-button>
+                <template v-slot:default="scope">
+                    <el-button type="text" @click="pageOperaAdd(scope.row.id)"
+                    >修改</el-button
+                    >
+                    <el-popconfirm
+                            :title="'是否确认删除id=[' + scope.row.id + ']?'"
+                            @confirm="pageOperaRemove(scope.row.id)"
+                            s
+                    >
+                        <template #reference>
+                            <el-button type="text">删除</el-button>
+                        </template>
+                    </el-popconfirm>
                 </template>
             </el-table-column>
         </el-table>
-
         <el-pagination
-            class="table-card-pagination"
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="pagePaginationInfo.total"
-            :currentPage="pagePaginationInfo.current"
-            :page-size="pagePaginationInfo.size"
-            @size-change="pagePaginationSizeChange"
-            @current-change="pagePaginationCurrentChange"
+                class="table-card-pagination"
+                :page-sizes="[10, 20, 50, 100]"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="pagePaginationInfo.total"
+                :currentPage="pagePaginationInfo.current"
+                :page-size="pagePaginationInfo.size"
+                @size-change="pagePaginationSizeChange"
+                @current-change="pagePaginationCurrentChange"
         >
         </el-pagination>
         <${smallDashName}-model ref="pageOperaModel" @refresh="pageList"></${smallDashName}-model>
@@ -96,6 +106,16 @@
     import { reactive } from "vue";
     import ${bigHumpClass}Model from "./modules/${bigHumpClass}Model.vue";
     import usePages from "@/composables/pages";
+
+
+    const pageSearchFormModel = reactive({
+        <#if primaryColumn??>
+        ${primaryColumn.humpColumnName}:"",
+        </#if>
+        <#list columnModels as var>
+        ${var.humpColumnName}:"",
+        </#list>
+    });
 
     const {
         // 组件引用
@@ -118,13 +138,4 @@
         pageSearchForm,
         pageSearchReset,
     } = usePages(pageSearchFormModel);
-
-    const pageSearchFormModel = reactive({
-        <#if primaryColumn??>
-        ${primaryColumn.humpColumnName}:"",
-        </#if>
-        <#list columnModels as var>
-        ${var.humpColumnName}:"",
-        </#list>
-    });
 </script>

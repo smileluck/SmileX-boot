@@ -77,6 +77,8 @@ public class GeneratorUtils {
             // admin-vue
             file = generateByFtl(generatorEntity.getSavePath() + "\\" + "\\vue\\" + generatorEntity.getModuleName() + "\\", tableModel.getBigHumpClass() + ".vue", "vuePage.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName(), file));
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + "\\vue\\" + generatorEntity.getModuleName() + "\\modules\\", tableModel.getBigHumpClass() + "Model.vue", "vuePageModel.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName() + "/modules", file));
         }
         return zipFileEntities;
     }
