@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 24/06/2022 18:26:06
+ Date: 28/06/2022 15:31:11
 */
 
 SET NAMES utf8mb4;
@@ -1411,21 +1411,30 @@ CREATE TABLE `sys_menu`  (
   `menu_icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单icon',
   `route_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由地址',
   `route_view` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由视图',
-  `menu_type` tinyint(1) NOT NULL COMMENT '菜单类型(0:一级菜单; 1:子菜单:2:按钮权限)',
+  `menu_type` tinyint(1) NOT NULL COMMENT '菜单类型(0:菜单组; 1:子菜单; 2:按钮权限)',
   `perm` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限标识',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `order_num` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除，1是，0否',
-  `enable_flag` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态  0：正常   1:禁用',
+  `enable_flag` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用，0禁用1启用',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
+INSERT INTO `sys_menu` VALUES (296769835235278848, 0, '系统管理', '', '', '', 0, '', 9, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296770621763747840, 296769835235278850, '菜单管理', NULL, '/sys/menu', '@/views/sys/SysMenu', 1, NULL, 9, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296771582989172736, 296769835235278850, '用户管理', NULL, '/sys/user', '@/views/sys/SysUser', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296772417492090880, 296769835235278850, '配置管理', NULL, '/sys/config', '@/views/sys/SysConfig', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296774380115984384, 296769835235278850, '部门管理', NULL, '/sys/dept', '@/views/sys/SysDept', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296774562857615360, 296769835235278850, '日志管理', NULL, '/sys/log', '@/views/sys/SysLog', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296774723918888960, 296769835235278850, '多租户管理', NULL, '/sys/tenant', '@/views/sys/SysTenant', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296776220832432128, 296769835235278850, '数据字典', NULL, '/sys/dict', '@/views/sys/SysDict', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (296777058028093440, 296769835235278850, '角色管理', NULL, '/sys/role', '@/views/sys/SysRole', 1, NULL, 0, NULL, NULL, NULL, NULL, 0, 1);
 
 -- ----------------------------
 -- Table structure for sys_role
