@@ -10,6 +10,9 @@ import top.zsmile.meta.IPage;
 import top.zsmile.modules.sys.service.SysTenantService;
 import top.zsmile.modules.sys.entity.SysTenantEntity;
 
+/**
+ * 多租户管理
+ */
 @RestController
 @RequestMapping("/sys/tenant")
 public class SysTenantController {
@@ -26,25 +29,25 @@ public class SysTenantController {
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         SysTenantEntity info = sysTenantService.getById(id);
-        return R.success(info);
+        return R.success("查询成功",info);
     }
 
     @PostMapping("/update")
     public R update(@RequestBody SysTenantEntity sysTenantEntity){
         sysTenantService.updateById(sysTenantEntity);
-        return R.success();
+        return R.success("修改成功");
     }
 
 
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
         sysTenantService.removePhysicsBatchIds(Arrays.asList(ids));
-        return R.success();
+        return R.success("删除成功");
     }
 
     @PostMapping("/save")
     public R save(@RequestBody SysTenantEntity sysTenantEntity){
         sysTenantService.save(sysTenantEntity);
-        return R.success();
+        return R.success("添加成功");
     }
 }

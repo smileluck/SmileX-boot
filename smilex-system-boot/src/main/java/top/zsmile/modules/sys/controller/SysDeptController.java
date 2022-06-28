@@ -10,6 +10,9 @@ import top.zsmile.meta.IPage;
 import top.zsmile.modules.sys.service.SysDeptService;
 import top.zsmile.modules.sys.entity.SysDeptEntity;
 
+/**
+ * 系统部门
+ */
 @RestController
 @RequestMapping("/sys/dept")
 public class SysDeptController {
@@ -26,25 +29,25 @@ public class SysDeptController {
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         SysDeptEntity info = sysDeptService.getById(id);
-        return R.success(info);
+        return R.success("查询成功",info);
     }
 
     @PostMapping("/update")
     public R update(@RequestBody SysDeptEntity sysDeptEntity){
         sysDeptService.updateById(sysDeptEntity);
-        return R.success();
+        return R.success("修改成功");
     }
 
 
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
         sysDeptService.removePhysicsBatchIds(Arrays.asList(ids));
-        return R.success();
+        return R.success("删除成功");
     }
 
     @PostMapping("/save")
     public R save(@RequestBody SysDeptEntity sysDeptEntity){
         sysDeptService.save(sysDeptEntity);
-        return R.success();
+        return R.success("添加成功");
     }
 }

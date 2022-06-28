@@ -32,17 +32,13 @@ public class SysUserEntity extends BaseEntity implements Serializable {
     */
     private String salt;
     /**
-    * 是否启用，0启用1禁用
+    * 是否启用，0禁用1启用
     */
     private Integer enableFlag;
     /**
     * 备注
     */
     private String remark;
-    /**
-     * 是否删除，1是，0否
-     */
-    private Integer delFlag;
 
     /**
     * ID
@@ -117,13 +113,13 @@ public class SysUserEntity extends BaseEntity implements Serializable {
     this.salt = salt;
     }
     /**
-    * 是否启用，0启用1禁用
+    * 是否启用，0禁用1启用
     */
     public Integer getEnableFlag(){
     return this.enableFlag;
     }
     /**
-    * 是否启用，0启用1禁用
+    * 是否启用，0禁用1启用
     */
     public void setEnableFlag(Integer enableFlag){
     this.enableFlag = enableFlag;
@@ -139,13 +135,5 @@ public class SysUserEntity extends BaseEntity implements Serializable {
     */
     public void setRemark(String remark){
     this.remark = remark;
-    }
-
-    public Integer getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(Integer delFlag) {
-        this.delFlag = delFlag;
     }
 }

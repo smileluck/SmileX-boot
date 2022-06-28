@@ -10,6 +10,9 @@ import top.zsmile.meta.IPage;
 import top.zsmile.modules.sys.service.SysDictService;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 
+/**
+ * 数据字典
+ */
 @RestController
 @RequestMapping("/sys/dict")
 public class SysDictController {
@@ -26,25 +29,25 @@ public class SysDictController {
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         SysDictEntity info = sysDictService.getById(id);
-        return R.success(info);
+        return R.success("查询成功",info);
     }
 
     @PostMapping("/update")
     public R update(@RequestBody SysDictEntity sysDictEntity){
         sysDictService.updateById(sysDictEntity);
-        return R.success();
+        return R.success("修改成功");
     }
 
 
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
         sysDictService.removePhysicsBatchIds(Arrays.asList(ids));
-        return R.success();
+        return R.success("删除成功");
     }
 
     @PostMapping("/save")
     public R save(@RequestBody SysDictEntity sysDictEntity){
         sysDictService.save(sysDictEntity);
-        return R.success();
+        return R.success("添加成功");
     }
 }
