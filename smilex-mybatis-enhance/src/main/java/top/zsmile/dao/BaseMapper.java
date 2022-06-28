@@ -78,6 +78,12 @@ public interface BaseMapper<T> {
     @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
     List<Map<String, Object>> selectMapByMap(Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
+    /**
+     * 查询某个字段的集合
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "selectSingleByMap")
+    List<Object> selectSingleByMap(Map<String, Object> cm, String column);
+
 
     /**
      * 根据 entity 条件，查询全部记录

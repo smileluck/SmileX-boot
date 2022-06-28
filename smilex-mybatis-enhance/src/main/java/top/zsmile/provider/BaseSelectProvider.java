@@ -97,6 +97,34 @@ public class BaseSelectProvider extends BaseProvider {
 
 
     /**
+     * 根据字段集合查询，可查询某个字段的集合
+     *
+     * @param context
+     * @param cm
+     * @param column
+     * @return
+     */
+    public String selectSingleByMap(ProviderContext context, final Map<String, Object> cm, final String column) {
+        TableInfo tableInfo = getTableInfo(context);
+
+        String s = new SQL() {{
+            SELECT(TableQueryUtils.getSelectColumn(column));
+            FROM(tableInfo.getTableName());
+//            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
+            WHERE(tableInfo.logicDelColumnWhere());
+            if (!CollectionUtils.isEmpty(cm)) {
+                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                if (!StringUtils.isEmpty(mapCondition)) {
+                    WHERE(mapCondition);
+                }
+            }
+        }}.toString();
+
+        return s;
+    }
+
+
+    /**
      * 根据对象entity查询不为null的数据，可传入字段名查询需要得字段
      *
      * @param context

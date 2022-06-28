@@ -23,31 +23,31 @@ public class SysUserController {
     @GetMapping("/list")
     public R list(Map<String, Object> params) {
         IPage page = sysUserService.getPage(params);
-        return R.success("查询成功",page);
+        return R.success("查询成功", page);
     }
 
     @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
+    public R info(@PathVariable("id") Long id) {
         SysUserEntity info = sysUserService.getById(id);
-        return R.success("查询成功",info);
+        return R.success("查询成功", info);
     }
 
     @PostMapping("/update")
-    public R update(@RequestBody SysUserEntity sysUserEntity){
+    public R update(@RequestBody SysUserEntity sysUserEntity) {
         sysUserService.updateById(sysUserEntity);
         return R.success("修改成功");
     }
 
 
     @PostMapping("/remove")
-    public R remove(@RequestBody Long[] ids){
+    public R remove(@RequestBody Long[] ids) {
         sysUserService.removePhysicsBatchIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 
     @PostMapping("/save")
-    public R save(@RequestBody SysUserEntity sysUserEntity){
-        sysUserService.save(sysUserEntity);
+    public R save(@RequestBody SysUserEntity sysUserEntity) {
+        sysUserService.saveUser(sysUserEntity);
         return R.success("添加成功");
     }
 }
