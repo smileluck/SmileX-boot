@@ -23,7 +23,7 @@ public class SysDeptController {
     @GetMapping("/list")
     public R list(Map<String, Object> params) {
         IPage page = sysDeptService.getPage(params);
-        return R.success(page);
+        return R.success("查询成功",page);
     }
 
     @GetMapping("/info/{id}")
