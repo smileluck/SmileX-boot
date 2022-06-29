@@ -15,11 +15,8 @@ import java.util.Map;
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenuEntity> implements SysMenuService {
     @Override
     public List<Map<String, Object>> queryMenusByUser() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("menuType", 1);
-        map.put("enableFlag", 1);
 
-        List<Map<String, Object>> maps = baseMapper.selectMapByMap(map, "menuName", "routeUrl", "routeView");
+        List<Map<String, Object>> maps = baseMapper.selectMenusByUser();
         return maps;
     }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zsmile.modules.sys.dao.SysMenuMapper">
+    <select id="selectMenusByUser" resultType="Map">
+   SELECT
+        parent_id AS parentId,
+        menu_name AS menuName,
+        route_url AS routeUrl,
+        route_view AS routeView,
+        menu_type AS menuType,
+        id AS id
+    FROM
+        sys_menu
+    WHERE
+        del_flag = 0
+        AND enable_flag =1 and menu_type in (0,1) order by order_num
+    </select>
+</mapper>

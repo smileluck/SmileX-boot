@@ -53,9 +53,14 @@ public class SysMenuController {
         return R.success("添加成功");
     }
 
+    /**
+     * vue3 前端获取菜单和权限
+     *
+     * @return
+     */
     @GetMapping("/perms")
     public R perms() {
-        List<Map<String, String>> menus = sysMenuService.queryMenusByUser();
+        List<Map<String, Object>> menus = sysMenuService.queryMenusByUser();
         List<Object> perms = sysMenuService.queryPermsByUser();
 
         Map<String, List> result = new HashMap<>(2);
