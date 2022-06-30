@@ -64,7 +64,7 @@
         >
             <el-table-column type="selection" width="50" />
             <#if primaryColumn??>
-            <el-table-column prop="${primaryColumn.humpColumnName}" label="ID" width="" />
+            <el-table-column prop="${primaryColumn.humpColumnName}" label="ID" width="150" />
             </#if>
             <#list columnModels as var>
             <el-table-column prop="${var.humpColumnName}" label="${var.columnComment}" width="200" />
@@ -117,6 +117,8 @@
         </#list>
     });
 
+    const reqPrefix = "/${reqMapping}"
+
     const {
         // 组件引用
         pageLoading,
@@ -137,5 +139,5 @@
 
         pageSearchForm,
         pageSearchReset,
-    } = usePages(pageSearchFormModel);
+    } = usePages(pageSearchFormModel,reqPrefix);
 </script>
