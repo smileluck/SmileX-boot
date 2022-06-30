@@ -61,7 +61,7 @@ public class OAuth2Realm extends AuthorizingRealm {
         if (userId == null) {
             throw new AuthenticationException("用户不存在");
         }
-        Map<String, Object> userMap = commonApi.queryUserById(userId);
+        Map<String, Object> userMap = commonApi.queryUserById(userId, "username", "enableFlag");
         if (userMap == null) {
             throw new AuthenticationException("用户不存在");
         }
@@ -69,6 +69,8 @@ public class OAuth2Realm extends AuthorizingRealm {
             throw new AuthenticationException("用户已被锁定，请联系管理员");
         }
 
-        return new SimpleAuthenticationInfo(userId, token, getName());
+        userMap.remove("enableFlag");
+
+        return new SimpleAuthenticationInfo(userMap, token, getName());
     }
 }

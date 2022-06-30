@@ -13,7 +13,7 @@ public class SysBaseApiImpl implements CommonApi {
     private SysUserService sysUserService;
 
     @Override
-    public Map<String, Object> queryUserById(Long userId) {
-        return sysUserService.getMapById(userId);
+    public Map<String, Object> queryUserById(Long userId, String... columns) {
+        return sysUserService.getMapById(userId, columns);
     }
 }

@@ -14,10 +14,7 @@ import top.zsmile.meta.TableInfo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,7 +71,8 @@ public class TableQueryUtils {
      * 查询@TableField(exist=false),final/static之外的所有字段
      */
     public static Field[] queryExistColumn(Class<?> clazz) {
-        Field[] fields = Arrays.stream(clazz.getDeclaredFields()).filter(field -> {
+        List<Field> beforeFilterFields = queryThisAndSuperClassColumn(clazz);
+        Field[] fields = beforeFilterFields.stream().parallel().filter(field -> {
             TableField tableField = field.getAnnotation(TableField.class);
             if ((tableField != null && !tableField.exist()) || Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                 return false;
@@ -82,6 +80,18 @@ public class TableQueryUtils {
                 return true;
             }
         }).toArray(Field[]::new);
+        return fields;
+    }
+
+    /**
+     * 查询当前类及父级所有类的字段
+     */
+    public static List<Field> queryThisAndSuperClassColumn(Class<?> clazz) {
+        List<Field> fields = new ArrayList<>();
+        for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
+            Field[] declaredFields = clazz.getDeclaredFields();
+            fields.addAll(Arrays.asList(declaredFields));
+        }
         return fields;
     }
 

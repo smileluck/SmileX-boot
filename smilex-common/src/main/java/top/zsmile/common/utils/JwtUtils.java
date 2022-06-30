@@ -83,7 +83,7 @@ public class JwtUtils {
             httpServletResponse.setContentType("application/json;charset=UTF-8");
             httpServletResponse.setCharacterEncoding("UTF-8");
             //设置请求的方式
-            httpServletResponse.setHeader("Access-Control-Allow-Methods","POST,GET,PATCH,DELETE,PUT");
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST,GET,PATCH,DELETE,PUT");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
 

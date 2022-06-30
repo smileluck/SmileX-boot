@@ -11,5 +11,5 @@ public interface CommonApi {
      * @param userId 用户id
      * @return
      */
-    Map<String,Object> queryUserById(Long userId);
+    Map<String, Object> queryUserById(Long userId, String... columns);
 }

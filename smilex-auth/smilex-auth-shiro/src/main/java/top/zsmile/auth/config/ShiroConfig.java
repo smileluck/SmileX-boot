@@ -75,7 +75,7 @@ public class ShiroConfig {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         chainDefinition.addPathDefinition("/sys/login/submit", "anon");
         chainDefinition.addPathDefinition("/sys/login/captcha/*", "anon");
-        chainDefinition.addPathDefinition("/**", "anon");
+        chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
     }
 
