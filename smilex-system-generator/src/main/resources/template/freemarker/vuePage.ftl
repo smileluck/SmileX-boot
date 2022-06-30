@@ -64,7 +64,7 @@
         >
             <el-table-column type="selection" width="50" />
             <#if primaryColumn??>
-            <el-table-column prop="${primaryColumn.humpColumnName}" label="ID" width="150" />
+            <el-table-column prop="${primaryColumn.humpColumnName}" label="ID" width="180" />
             </#if>
             <#list columnModels as var>
             <el-table-column prop="${var.humpColumnName}" label="${var.columnComment}" width="200" />
