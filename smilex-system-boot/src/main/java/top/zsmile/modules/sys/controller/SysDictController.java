@@ -21,7 +21,7 @@ public class SysDictController {
     private SysDictService sysDictService;
 
     @GetMapping("/list")
-    public R list(Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         IPage page = sysDictService.getPage(params);
         return R.success("查询成功",page);
     }

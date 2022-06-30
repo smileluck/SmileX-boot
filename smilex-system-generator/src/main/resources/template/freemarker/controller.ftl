@@ -21,7 +21,7 @@ public class ${bigHumpClass}Controller {
     private ${bigHumpClass}Service ${smallHumpClass}Service;
 
     @GetMapping("/list")
-    public R list(Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         IPage page = ${smallHumpClass}Service.getPage(params);
         return R.success("查询成功",page);
     }

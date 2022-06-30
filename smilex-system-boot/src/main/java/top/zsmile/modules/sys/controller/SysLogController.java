@@ -21,7 +21,7 @@ public class SysLogController {
     private SysLogService sysLogService;
 
     @GetMapping("/list")
-    public R list(Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         IPage page = sysLogService.getPage(params);
         return R.success("查询成功",page);
     }
