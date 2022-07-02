@@ -3,22 +3,22 @@ package top.zsmile.modules.generator.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zsmile.common.domain.ZipFileEntity;
+import top.zsmile.common.utils.SnowFlake;
+import top.zsmile.common.utils.StringPool;
 import top.zsmile.core.datasource.annotation.DataSource;
 import top.zsmile.modules.generator.constant.DefaultConstants;
 import top.zsmile.modules.generator.convert.MysqlTypeConvert;
 import top.zsmile.modules.generator.dao.GeneratorDao;
 import top.zsmile.modules.generator.domain.entity.GeneratorEntity;
 import top.zsmile.modules.generator.domain.model.ColumnModel;
+import top.zsmile.modules.generator.domain.model.MenuModel;
 import top.zsmile.modules.generator.domain.model.TableModel;
 import top.zsmile.modules.generator.service.GeneratorSerivce;
 import top.zsmile.utils.GeneratorUtils;
 import top.zsmile.utils.NameStyleUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static top.zsmile.modules.generator.constant.DefaultConstants.DEFAULT_DELETE_LOGIC_KEY;
 
@@ -31,6 +31,8 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
 
     @Autowired
     private MysqlTypeConvert mysqlTypeConvert;
+
+    private SnowFlake snowFlake = new SnowFlake(1, 1);
 
     @Override
     @DataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY)
@@ -118,11 +120,17 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
             tableModel.setModuleName(moduleName);
             tableModel.setBigHumpClass(NameStyleUtils.lineToHump(tableName, true));
             tableModel.setSmallDashName(NameStyleUtils.lineToDash(tableName));
+            tableModel.setSmallColonName(NameStyleUtils.lineToCustomStr(tableName, StringPool.COLON));
             tableModel.setSmallHumpClass(NameStyleUtils.lineToHump(tableName, false));
             tableModel.setReqMapping(NameStyleUtils.lineToSlash(tableName));
             tableModel.setTableName(tableName);
             tableModel.setTableComment(tableMapInfo.get("tableComment"));
             tableModel.setColumnModels(columns);
+
+            MenuModel menuModel = new MenuModel();
+            menuModel.setParentId(snowFlake.nextId());
+            menuModel.setMenuIds(Arrays.asList(snowFlake.nextId(), snowFlake.nextId(), snowFlake.nextId(), snowFlake.nextId(), snowFlake.nextId()));
+            tableModel.setMenuModel(menuModel);
             tableModels.add(tableModel);
         }
         return tableModels;

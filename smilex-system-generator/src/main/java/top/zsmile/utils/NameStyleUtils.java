@@ -45,24 +45,20 @@ public class NameStyleUtils {
     }
 
     public static String lineToSlash(String str) {
-        str = str.toLowerCase();
-        StringBuffer sb = new StringBuffer();
-
-        Matcher matcher = linePattern.matcher(str);
-        while (matcher.find()) {
-            matcher.appendReplacement(sb, StringPool.SLASH + matcher.group(1));
-        }
-        matcher.appendTail(sb);
-        return sb.toString();
+        return lineToCustomStr(str, StringPool.SLASH);
     }
 
     public static String lineToDash(String str) {
+        return lineToCustomStr(str, StringPool.DASH);
+    }
+
+    public static String lineToCustomStr(String str, String replacestr) {
         str = str.toLowerCase();
         StringBuffer sb = new StringBuffer();
 
         Matcher matcher = linePattern.matcher(str);
         while (matcher.find()) {
-            matcher.appendReplacement(sb, StringPool.DASH + matcher.group(1));
+            matcher.appendReplacement(sb, replacestr + matcher.group(1));
         }
         matcher.appendTail(sb);
         return sb.toString();

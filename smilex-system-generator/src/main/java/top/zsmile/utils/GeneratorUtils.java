@@ -73,7 +73,7 @@ public class GeneratorUtils {
             zipFileEntities.add(new ZipFileEntity("/service/impl", file));
             file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\controller\\", tableModel.getBigHumpClass() + "Controller.java", "controller.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/controller", file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\mapper\\" + generatorEntity.getModuleName()+"\\", tableModel.getBigHumpClass() + ".xml", "mapperXml.ftl", tableModel);
+            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\mapper\\" + generatorEntity.getModuleName() + "\\", tableModel.getBigHumpClass() + ".xml", "mapperXml.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/mapper/" + generatorEntity.getModuleName(), file));
 
             // admin-vue
@@ -81,6 +81,11 @@ public class GeneratorUtils {
             zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName(), file));
             file = generateByFtl(generatorEntity.getSavePath() + "\\vue\\" + generatorEntity.getModuleName() + "\\modules\\", tableModel.getBigHumpClass() + "Model.vue", "vuePageModel.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName() + "/modules", file));
+
+            // menu-sql
+            file = generateByFtl(generatorEntity.getSavePath() + "\\sql\\", tableModel.getBigHumpClass() + ".sql", "menuSql.ftl", tableModel);
+            zipFileEntities.add(new ZipFileEntity("/sql", file));
+
         }
         return zipFileEntities;
     }

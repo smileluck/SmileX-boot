@@ -27,6 +27,10 @@ public class TableModel {
      */
     private String smallDashName;
     /**
+     * :名称
+     */
+    private String smallColonName;
+    /**
      * 表名
      */
     private String tableName;
@@ -50,4 +54,8 @@ public class TableModel {
      * 字段列表,不包含主键字段
      */
     private List<ColumnModel> columnModels;
+    /**
+     * 菜单模型,用于生成SQL
+     */
+    private MenuModel menuModel;
 }
