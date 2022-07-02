@@ -3,6 +3,7 @@ package top.zsmile.modules.sys.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.core.api.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,31 +21,35 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
+    @RequiresPermissions("sys:role:list")
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         IPage page = sysRoleService.getPage(params);
         return R.success("查询成功",page);
     }
 
+    @RequiresPermissions("sys:role:info")
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         SysRoleEntity info = sysRoleService.getById(id);
         return R.success("查询成功",info);
     }
 
+    @RequiresPermissions("sys:role:update")
     @PostMapping("/update")
     public R update(@RequestBody SysRoleEntity sysRoleEntity){
         sysRoleService.updateById(sysRoleEntity);
         return R.success("修改成功");
     }
 
-
+    @RequiresPermissions("sys:role:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
         sysRoleService.removePhysicsBatchIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 
+    @RequiresPermissions("sys:role:save")
     @PostMapping("/save")
     public R save(@RequestBody SysRoleEntity sysRoleEntity){
         sysRoleService.save(sysRoleEntity);
