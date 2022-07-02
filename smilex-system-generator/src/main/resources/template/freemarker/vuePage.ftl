@@ -63,6 +63,25 @@
                 @selection-change="pageSelectChange"
         >
             <el-table-column type="selection" width="50" />
+            <el-table-column type="expand">
+                <template #default="props">
+                    <el-space wrap
+                    ><el-card class="box-card" style="min-width: 500px; width: 50%">
+                            <template #header>
+                                <div class="card-header">
+                                    <span>额外信息</span>
+                                </div>
+                            </template>
+                            <div class="text item">创建时间: {{ props.row.createTime }}</div>
+                            <div class="text item">创建人: {{ props.row.createBy }}</div>
+                            <div class="text item">
+                                最后更新时间: {{ props.row.updateTime }}
+                            </div>
+                            <div class="text item">最后更新人: {{ props.row.updateBy }}</div>
+                        </el-card>
+                    </el-space>
+                </template>
+            </el-table-column>
             <#if primaryColumn??>
             <el-table-column prop="${primaryColumn.humpColumnName}" label="ID" width="180" />
             </#if>
