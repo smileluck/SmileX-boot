@@ -55,7 +55,7 @@ public class SysMenuController {
 
     /**
      * vue3 前端获取菜单和权限
-     *
+     * TODO 查询实际授权的
      * @return
      */
     @GetMapping("/perms")

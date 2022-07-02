@@ -1,5 +1,6 @@
 package top.zsmile.core.api;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,4 +13,9 @@ public interface CommonApi {
      * @return
      */
     Map<String, Object> queryUserById(Long userId, String... columns);
+
+    /**
+     * 2查询用户权限信息
+     */
+    List<Object> queryUserPerms(Long userId);
 }

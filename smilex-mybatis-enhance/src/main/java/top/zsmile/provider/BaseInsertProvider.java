@@ -14,9 +14,7 @@ import java.util.stream.Stream;
 
 public class BaseInsertProvider extends BaseProvider {
 
-//    Map<String, Object> params
-    public String insert(Object entity,ProviderContext context) {
-//        Object entity = params.get(Constants.ENTITY);
+    public String insert(Object entity, ProviderContext context) {
 
         TableInfo tableInfo = getTableInfo(context);
 

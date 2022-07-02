@@ -1,10 +1,12 @@
 package top.zsmile.service;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.dao.BaseMapper;
 import top.zsmile.meta.IPage;
+import top.zsmile.provider.BaseSelectProvider;
 import top.zsmile.utils.PageQuery;
 import top.zsmile.utils.SqlHelper;
 
@@ -231,6 +233,13 @@ public interface BaseService<T> {
         page.setRecords(list);
         page.setTotal(count);
         return page;
+    }
+
+    /**
+     * 查询某个字段的集合
+     */
+    default List<Object> getSingleByMap(Map<String, Object> cm, String column) {
+        return getBaseMapper().selectSingleByMap(cm, column);
     }
 
 

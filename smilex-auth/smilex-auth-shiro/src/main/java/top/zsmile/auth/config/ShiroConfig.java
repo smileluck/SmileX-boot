@@ -20,6 +20,7 @@ import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisClusterManager;
 import org.crazycake.shiro.RedisManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;

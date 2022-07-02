@@ -28,7 +28,7 @@ public class SysUserController {
 
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
-        SysUserEntity info = sysUserService.getById(id);
+        SysUserEntity info = sysUserService.getById(id, "id", "tenantId", "username", "realName", "enableFlag", "remark", "createTime", "createBy", "updateTime", "updateBy");
         return R.success("查询成功", info);
     }
 
