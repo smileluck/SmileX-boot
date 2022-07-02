@@ -42,7 +42,7 @@ public class OAuth2Realm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         Map<String, Object> userInfo = (Map<String, Object>) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        List<Object> lists = commonApi.queryUserPerms(Long.valueOf(userInfo.get("userId").toString()));
+        List<Object> lists = commonApi.queryUserPerms(Long.valueOf(userInfo.get("id").toString()));
         Set<String> sets = lists.stream().map(Object::toString).collect(Collectors.toSet());
         simpleAuthorizationInfo.setStringPermissions(sets);
         return simpleAuthorizationInfo;
