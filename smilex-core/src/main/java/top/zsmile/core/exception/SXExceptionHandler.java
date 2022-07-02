@@ -50,6 +50,9 @@ public class SXExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R handleException(Exception e) {
         log.error(e.getMessage(), e);
+        if (e.getClass().getName().equals("org.apache.shiro.authz.UnauthorizedException")) {
+            return R.fail("操作失败，用户无权限");
+        }
         return R.fail("操作失败，" + e.getMessage());
     }
 
