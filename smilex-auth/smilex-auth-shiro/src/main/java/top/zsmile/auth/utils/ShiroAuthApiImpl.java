@@ -11,4 +11,11 @@ public class ShiroAuthApiImpl implements CommonAuthApi {
     public Map<String, Object> queryUserInfo() {
         return (Map<String, Object>) ShiroUtils.getSubject().getPrincipal();
     }
+
+    @Override
+    public Long queryUserId() {
+        Map<String, Object> map = queryUserInfo();
+        Long id = Long.valueOf(map.get("id").toString());
+        return id;
+    }
 }

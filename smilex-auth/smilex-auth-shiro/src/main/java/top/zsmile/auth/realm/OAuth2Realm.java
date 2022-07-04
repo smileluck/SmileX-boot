@@ -16,9 +16,7 @@ import top.zsmile.common.utils.JwtUtils;
 import top.zsmile.core.api.CommonApi;
 import top.zsmile.core.utils.SpringContextUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,6 +41,19 @@ public class OAuth2Realm extends AuthorizingRealm {
         Map<String, Object> userInfo = (Map<String, Object>) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         List<Object> lists = commonApi.queryUserPerms(Long.valueOf(userInfo.get("id").toString()));
+        ListIterator<Object> iterator = lists.listIterator();
+        while (iterator.hasNext()) {
+            Object obj = iterator.next();
+            String str = obj.toString();
+            if (str.contains(";")) {
+                iterator.remove();
+                String[] split = str.split(";");
+                for (String tempStr : split) {
+                    iterator.add(tempStr);
+                }
+                continue;
+            }
+        }
         Set<String> sets = lists.stream().map(Object::toString).collect(Collectors.toSet());
         simpleAuthorizationInfo.setStringPermissions(sets);
         return simpleAuthorizationInfo;

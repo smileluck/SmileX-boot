@@ -15,4 +15,30 @@ public interface CommonConstant {
     // 验证码过期时间
     public static final int SYS_LOGIN_CAPTCHA_EXPIRE = 120;
 
+
+    /**************************SysLog 日志常量**************************/
+    //查询
+    public static final int SYS_LOG_OPERATE_QUERY = 1;
+    //添加
+    public static final int SYS_LOG_OPERATE_SAVE = 2;
+    //更新
+    public static final int SYS_LOG_OPERATE_UPDATE = 3;
+    //删除
+    public static final int SYS_LOG_OPERATE_REMOVE = 4;
+    //导入
+    public static final int SYS_LOG_OPERATE_IMPORT = 5;
+    //导出
+    public static final int SYS_LOG_OPERATE_EXPORT = 6;
+
+
+    //登录
+    public static final int SYS_LOG_TYPE_LOGIN = 1;
+    //操作
+    public static final int SYS_LOG_TYPE_OPERATE = 2;
+    //定时
+    public static final int SYS_LOG_TYPE_TIME = 3;
+    //异常
+    public static final int SYS_LOG_TYPE_ERROR = 4;
+
+
 }

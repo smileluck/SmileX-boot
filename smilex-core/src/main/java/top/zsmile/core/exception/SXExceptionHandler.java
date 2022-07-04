@@ -65,7 +65,7 @@ public class SXExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public R handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error(e.getMessage(), e);
-        return R.fail("字段太长,超出数据库字段的限制");
+        return R.fail(e.getMessage());
     }
 
 
