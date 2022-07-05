@@ -2,6 +2,8 @@ package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import top.zsmile.entity.BaseEntity;
 
 public class SysDictEntity extends BaseEntity implements Serializable {

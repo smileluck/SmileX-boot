@@ -2,6 +2,8 @@ package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import top.zsmile.entity.BaseEntity;
 
 public class SysUserEntity extends BaseEntity implements Serializable {
@@ -26,10 +28,12 @@ public class SysUserEntity extends BaseEntity implements Serializable {
     /**
     * 密码
     */
+    @JSONField(serialize = false)
     private String password;
     /**
     * salt
     */
+    @JSONField(serialize = false)
     private String salt;
     /**
     * 是否启用，0禁用1启用

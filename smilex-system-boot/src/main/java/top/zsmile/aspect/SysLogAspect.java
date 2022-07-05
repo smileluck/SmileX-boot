@@ -1,5 +1,9 @@
 package top.zsmile.aspect;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.PropertyFilter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.RequestUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,6 +12,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
 import top.zsmile.common.enums.ModuleType;
@@ -18,9 +23,13 @@ import top.zsmile.modules.sys.entity.SysLogEntity;
 import top.zsmile.modules.sys.service.SysLogService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Enumeration;
 import java.util.Map;
 
+@Slf4j
 @Component
 @Aspect
 public class SysLogAspect {
@@ -36,30 +45,59 @@ public class SysLogAspect {
     }
 
     @Around("sysLogPointcut()")
-    public Object around(ProceedingJoinPoint joinPoint) {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long beginTime = System.currentTimeMillis();
-        //执行方法
-        Object result = null;
         try {
-            result = joinPoint.proceed();
+            //执行方法
+            Object result = joinPoint.proceed();
+            //执行时长(毫秒)
+            long time = System.currentTimeMillis() - beginTime;
+            //保存日志
+            saveSysLog(joinPoint, time, result);
+            return result;
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            // TODO 异常日志
+            // 异常日志
+            long time = System.currentTimeMillis() - beginTime;
+            saveErrorLog(joinPoint, time, throwable.getMessage());
+            throw throwable;
         }
-        //执行时长(毫秒)
-        long time = System.currentTimeMillis() - beginTime;
-        //保存日志
-        saveSysLog(joinPoint, time, result);
-        return result;
     }
 
+    /**
+     * 保存错误日志
+     *
+     * @param joinPoint
+     * @param costTime
+     * @param errMsg
+     */
+    private void saveErrorLog(ProceedingJoinPoint joinPoint, long costTime, String errMsg) {
+        SysLogEntity sysLogEntity = commonLog(joinPoint, costTime, CommonConstant.SYS_LOG_TYPE_ERROR);
+        sysLogEntity.setErrMsg(errMsg);
+        sysLogService.save(sysLogEntity);
+    }
+
+    /**
+     * 保存正常日志
+     *
+     * @param joinPoint
+     * @param costTime
+     * @param result
+     */
     private void saveSysLog(ProceedingJoinPoint joinPoint, long costTime, Object result) {
+        SysLogEntity sysLogEntity = commonLog(joinPoint, costTime);
+        sysLogService.save(sysLogEntity);
+    }
+
+    private SysLogEntity commonLog(ProceedingJoinPoint joinPoint, long costTime) {
+        return commonLog(joinPoint, costTime, 0);
+    }
+
+    private SysLogEntity commonLog(ProceedingJoinPoint joinPoint, long costTime, int logType) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
         SysLogEntity sysLogEntity = new SysLogEntity();
-
         SysLog sysLogAnno = method.getAnnotation(SysLog.class);
         if (sysLogAnno != null) {
             String title = sysLogAnno.title();
@@ -68,7 +106,7 @@ public class SysLogAspect {
             String value = sysLogAnno.value();
             sysLogEntity.setLogTitle(title);
             sysLogEntity.setLogValue(value);
-            sysLogEntity.setLogType(sysLogAnno.logType());
+            sysLogEntity.setLogType(logType > 0 ? logType : sysLogAnno.logType());
             sysLogEntity.setOperateType(getOperateType(method.getName(), operateType));
             sysLogEntity.setLogModule(module.name());
         }
@@ -88,14 +126,14 @@ public class SysLogAspect {
         // 耗时
         sysLogEntity.setCostTime(costTime);
 
-        // TODO 请求参数
-        sysLogEntity.setRequestParams("");
+        // 请求参数
+        sysLogEntity.setRequestParams(getParams(joinPoint, request));
 
         // 操作用户Id
         Long userId = commonAuthApi.queryUserId();
         sysLogEntity.setUserId(userId);
 
-        sysLogService.save(sysLogEntity);
+        return sysLogEntity;
     }
 
     private int getOperateType(String methodName, int operateType) {
@@ -118,4 +156,33 @@ public class SysLogAspect {
         return CommonConstant.SYS_LOG_OPERATE_QUERY;
     }
 
+    /**
+     * 获取Request参数
+     *
+     * @param httpServletRequest
+     * @return
+     */
+    private String getParams(ProceedingJoinPoint joinPoint, HttpServletRequest httpServletRequest) {
+        String method = httpServletRequest.getMethod();
+        if (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELET")) {
+            PropertyFilter profilter = new PropertyFilter() {
+                @Override
+                public boolean apply(Object o, String name, Object value) {
+                    if (value != null && value.toString().length() > 200) {
+                        return false;
+                    }
+                    return true;
+                }
+            };
+            return JSON.toJSONString(joinPoint.getArgs(), profilter);
+        } else {
+//            Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
+//            while (parameterNames.hasMoreElements()) {
+//                String param = parameterNames.nextElement();
+//                String value = httpServletRequest.getParameter(param);
+//
+//            }
+            return JSON.toJSONString(httpServletRequest.getParameterMap());
+        }
+    }
 }
