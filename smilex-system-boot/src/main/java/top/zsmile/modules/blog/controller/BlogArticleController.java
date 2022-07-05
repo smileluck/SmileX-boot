@@ -24,34 +24,34 @@ public class BlogArticleController {
     @RequiresPermissions("blog:article:list")
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        IPage page = blogArticleService.getPage(params);
-        return R.success("查询成功",page);
+        IPage page = blogArticleService.getPage(params, "id", "tenantId", "sectionId", "tagIds", "articleTitle", "articleContent", "grammarType", "visitType", "createTime", "createBy", "updateTime", "updateBy");
+        return R.success("查询成功", page);
     }
 
     @RequiresPermissions("blog:article:info")
     @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-        BlogArticleEntity info = blogArticleService.getById(id);
-        return R.success("查询成功",info);
+    public R info(@PathVariable("id") Long id) {
+        BlogArticleEntity info = blogArticleService.getById(id, "id", "tenantId", "sectionId", "tagIds", "articleTitle", "articleContent", "grammarType", "visitType", "createTime", "createBy", "updateTime", "updateBy");
+        return R.success("查询成功", info);
     }
 
     @RequiresPermissions("blog:article:update")
     @PostMapping("/update")
-    public R update(@RequestBody BlogArticleEntity blogArticleEntity){
+    public R update(@RequestBody BlogArticleEntity blogArticleEntity) {
         blogArticleService.updateById(blogArticleEntity);
         return R.success("修改成功");
     }
 
     @RequiresPermissions("blog:article:remove")
     @PostMapping("/remove")
-    public R remove(@RequestBody Long[] ids){
+    public R remove(@RequestBody Long[] ids) {
         blogArticleService.removePhysicsBatchIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 
     @RequiresPermissions("blog:article:save")
     @PostMapping("/save")
-    public R save(@RequestBody BlogArticleEntity blogArticleEntity){
+    public R save(@RequestBody BlogArticleEntity blogArticleEntity) {
         blogArticleService.save(blogArticleEntity);
         return R.success("添加成功");
     }
