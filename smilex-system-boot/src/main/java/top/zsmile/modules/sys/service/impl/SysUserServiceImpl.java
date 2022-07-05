@@ -33,11 +33,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUserEn
         String salt = RandomStringUtils.randomAlphanumeric(20);
         sysUserEntity.setSalt(salt);
         sysUserEntity.setPassword(PasswordUtils.sha256Hash(sysUserEntity.getPassword() + sysUserEntity.getSalt()));
-
-        Date date = new Date();
-        sysUserEntity.setCreateTime(date);
-        sysUserEntity.setUpdateTime(date);
-
         return save(sysUserEntity);
     }
 

@@ -2,6 +2,8 @@ package top.zsmile.modules.blog.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import top.zsmile.entity.BaseEntity;
 
 public class BlogArticleEntity extends BaseEntity implements Serializable {
@@ -42,10 +44,12 @@ public class BlogArticleEntity extends BaseEntity implements Serializable {
     /**
     * 独立密码
     */
+    @JSONField(serialize = false)
     private String password;
     /**
     * salt
     */
+    @JSONField(serialize = false)
     private String salt;
 
     /**
