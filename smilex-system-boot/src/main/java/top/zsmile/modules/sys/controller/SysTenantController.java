@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.core.api.R;
+import top.zsmile.annotation.SysLog;
+import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.meta.IPage;
@@ -21,6 +23,7 @@ public class SysTenantController {
     @Autowired
     private SysTenantService sysTenantService;
 
+    @SysLog(title = "多租户管理", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
     @RequiresPermissions("sys:tenant:list")
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
@@ -35,6 +38,8 @@ public class SysTenantController {
         return R.success("查询成功",info);
     }
 
+
+    @SysLog(title = "多租户管理", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("sys:tenant:update")
     @PostMapping("/update")
     public R update(@RequestBody SysTenantEntity sysTenantEntity){
@@ -42,6 +47,7 @@ public class SysTenantController {
         return R.success("修改成功");
     }
 
+    @SysLog(title = "多租户管理", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("sys:tenant:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
@@ -49,6 +55,7 @@ public class SysTenantController {
         return R.success("删除成功");
     }
 
+    @SysLog(title = "多租户管理", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("sys:tenant:save")
     @PostMapping("/save")
     public R save(@RequestBody SysTenantEntity sysTenantEntity){
