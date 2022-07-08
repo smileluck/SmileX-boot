@@ -74,8 +74,18 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+
+        /*swagger*/
+        chainDefinition.addPathDefinition("/doc.html", "anon");
+        chainDefinition.addPathDefinition("/webjars/**", "anon");
+        chainDefinition.addPathDefinition("/v2/api-docs", "anon");
+        chainDefinition.addPathDefinition("/swagger-resources", "anon");
+
+        /*SysLogin*/
         chainDefinition.addPathDefinition("/sys/login/submit", "anon");
         chainDefinition.addPathDefinition("/sys/login/captcha/*", "anon");
+
+
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
     }

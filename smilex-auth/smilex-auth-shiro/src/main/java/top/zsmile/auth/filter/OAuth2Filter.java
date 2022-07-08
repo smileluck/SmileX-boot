@@ -1,25 +1,20 @@
 package top.zsmile.auth.filter;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.constant.CommonConstant;
 import top.zsmile.common.utils.JwtUtils;
-import top.zsmile.core.api.R;
 import top.zsmile.core.api.ResultCode;
-import top.zsmile.core.utils.SpringContextUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * oauth2过滤器
@@ -80,7 +75,7 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
 //            String json = JSON.toJSONString(R.fail(ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN));
 //            httpServletResponse.getWriter().print(json);
 
-            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.S_INVALID_TOKEN);
+            JwtUtils.responseError(response, ResultCode.NO_AUTH, CommonConstant.X_INVALID_TOKEN);
             return false;
         }
         return executeLogin(request, response);
@@ -104,11 +99,11 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
      */
     private String getRequestToken(HttpServletRequest httpRequest) {
         //从header中获取token
-        String token = httpRequest.getHeader(CommonConstant.S_ACCESS_TOKEN);
+        String token = httpRequest.getHeader(CommonConstant.X_ACCESS_TOKEN);
 
         //如果header中不存在token，则从参数中获取token
         if (StringUtils.isBlank(token)) {
-            token = httpRequest.getParameter(CommonConstant.S_ACCESS_TOKEN);
+            token = httpRequest.getParameter(CommonConstant.X_ACCESS_TOKEN);
         }
 
         return token;

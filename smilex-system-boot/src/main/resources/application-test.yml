@@ -34,3 +34,16 @@ spring:
         enabled: true
         allow: 127.0.0.1
         url-pattern: /druid/*
+
+knife4j:
+  # 开启增强
+  enable: true
+  # 开启生产环境保护
+  production: false
+  # 开启Swagger的Basic认证功能,默认是false
+  basic:
+    enable: true
+    # Basic认证用户名
+    username: knifeAdmin
+    # Basic认证密码
+    password: knifeAdmin
