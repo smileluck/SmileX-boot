@@ -341,3 +341,4 @@ public class R<T> implements Serializable {
 只要在这里填入token，那么就会自动注入到所有请求的请求头中使用。
 
 ![1657274179863](springboot-swagger.assets/1657274179863.png)
+
