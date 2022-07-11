@@ -11,7 +11,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
@@ -22,12 +24,17 @@ import top.zsmile.core.utils.SpringContextUtils;
 import top.zsmile.modules.sys.entity.SysLogEntity;
 import top.zsmile.modules.sys.service.SysLogService;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -165,6 +172,13 @@ public class SysLogAspect {
     private String getParams(ProceedingJoinPoint joinPoint, HttpServletRequest httpServletRequest) {
         String method = httpServletRequest.getMethod();
         if (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELET")) {
+            Object[] args = joinPoint.getArgs();
+            List<Object> collect = Arrays.stream(args).filter(item -> {
+                if (item instanceof ServletRequest || item instanceof ServletResponse || item instanceof InputStreamSource) {
+                    return false;
+                }
+                return true;
+            }).collect(Collectors.toList());
             PropertyFilter profilter = new PropertyFilter() {
                 @Override
                 public boolean apply(Object o, String name, Object value) {
@@ -174,7 +188,7 @@ public class SysLogAspect {
                     return true;
                 }
             };
-            return JSON.toJSONString(joinPoint.getArgs(), profilter);
+            return JSON.toJSONString(collect, profilter);
         } else {
 //            Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
 //            while (parameterNames.hasMoreElements()) {
