@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import top.zsmile.entity.BaseEntity;
 
+@ApiModel(value="博客文章", description = "博客文章")
 public class BlogArticleEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
+    @ApiModelProperty(value = "更新时需要传参")
     private Long id;
     /**
     * 租户ID
@@ -44,11 +48,13 @@ public class BlogArticleEntity extends BaseEntity implements Serializable {
     /**
     * 独立密码
     */
+    @ApiModelProperty(value = "password",hidden = true)
     @JSONField(serialize = false)
     private String password;
     /**
     * salt
     */
+    @ApiModelProperty(value = "salt",hidden = true)
     @JSONField(serialize = false)
     private String salt;
 

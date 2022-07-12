@@ -3,7 +3,10 @@ package top.zsmile.modules.blog.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import springfox.documentation.annotations.ApiIgnore;
 import top.zsmile.core.api.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import top.zsmile.modules.blog.entity.BlogArticleEntity;
 /**
  * 租户博客文章
  */
+@Api(tags = "博客文章")
 @RestController
 @RequestMapping("/blog/article")
 public class BlogArticleController {
@@ -21,6 +25,7 @@ public class BlogArticleController {
     @Autowired
     private BlogArticleService blogArticleService;
 
+    @ApiOperation("查询列表（分页）")
     @RequiresPermissions("blog:article:list")
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {

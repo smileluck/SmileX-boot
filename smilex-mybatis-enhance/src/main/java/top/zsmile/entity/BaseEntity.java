@@ -1,30 +1,39 @@
 package top.zsmile.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@ApiModel(description = "基础类")
 public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 创建时间
      */
+    @ApiModelProperty(hidden = true)
     private Date createTime;
     /**
      * 创建人
      */
+    @ApiModelProperty(hidden = true)
     private String createBy;
     /**
      * 更新时间
      */
+    @ApiModelProperty(hidden = true)
     private Date updateTime;
     /**
      * 更新人
      */
+    @ApiModelProperty(hidden = true)
     private String updateBy;
     /**
      * 是否删除，1是，0否
      */
+    @ApiModelProperty(hidden = true)
     private Integer delFlag;
 
     /**
