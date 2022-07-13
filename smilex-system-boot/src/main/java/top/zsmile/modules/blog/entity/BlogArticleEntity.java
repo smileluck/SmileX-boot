@@ -2,180 +2,220 @@ package top.zsmile.modules.blog.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import com.alibaba.fastjson.annotation.JSONField;
+import top.zsmile.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import top.zsmile.entity.BaseEntity;
 
-@ApiModel(value="博客文章", description = "博客文章")
+/**
+ * 租户博客文章
+ */
+@ApiModel(value="租户博客文章", description = "租户博客文章")
 public class BlogArticleEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "更新时需要传参")
+    @ApiModelProperty(value = "Id，更新时需要传")
     private Long id;
     /**
     * 租户ID
     */
+    @ApiModelProperty(value = "租户ID", hidden=false)
     private Long tenantId;
     /**
     * 栏目ID
     */
+    @ApiModelProperty(value = "栏目ID", hidden=false)
     private Long sectionId;
     /**
     * 标签id，以,分割
     */
+    @ApiModelProperty(value = "标签id，以,分割", hidden=false)
     private String tagIds;
     /**
     * 文章标题
     */
+    @ApiModelProperty(value = "文章标题", hidden=false)
     private String articleTitle;
+    /**
+    * 文章简介
+    */
+    @ApiModelProperty(value = "文章简介", hidden=false)
+    private String articleDigest;
     /**
     * 文章内容
     */
+    @ApiModelProperty(value = "文章内容", hidden=false)
     private String articleContent;
     /**
     * 语法类型，1markdown，2html
     */
+    @ApiModelProperty(value = "语法类型，1markdown，2html", hidden=false)
     private Integer grammarType;
     /**
     * 访问类型,1通用类型，2统一密码，3独立密码
     */
+    @ApiModelProperty(value = "访问类型,1通用类型，2统一密码，3独立密码", hidden=false)
     private Integer visitType;
     /**
     * 独立密码
     */
-    @ApiModelProperty(value = "password",hidden = true)
-    @JSONField(serialize = false)
+    @ApiModelProperty(value = "独立密码", hidden=true)
     private String password;
     /**
     * salt
     */
-    @ApiModelProperty(value = "salt",hidden = true)
-    @JSONField(serialize = false)
+    @ApiModelProperty(value = "salt", hidden=true)
     private String salt;
+    /**
+    * 发布状态，0未发布，1已发布
+    */
+    @ApiModelProperty(value = "发布状态，0未发布，1已发布", hidden=false)
+    private Integer publishFlag;
 
     /**
     * ID
     */
     public Long getId(){
-    return this.id;
+        return this.id;
     }
     /**
     * ID
     */
     public void setId(Long id){
-    this.id = id;
+        this.id = id;
     }
     /**
     * 租户ID
     */
     public Long getTenantId(){
-    return this.tenantId;
+        return this.tenantId;
     }
     /**
     * 租户ID
     */
     public void setTenantId(Long tenantId){
-    this.tenantId = tenantId;
+        this.tenantId = tenantId;
     }
     /**
     * 栏目ID
     */
     public Long getSectionId(){
-    return this.sectionId;
+        return this.sectionId;
     }
     /**
     * 栏目ID
     */
     public void setSectionId(Long sectionId){
-    this.sectionId = sectionId;
+        this.sectionId = sectionId;
     }
     /**
     * 标签id，以,分割
     */
     public String getTagIds(){
-    return this.tagIds;
+        return this.tagIds;
     }
     /**
     * 标签id，以,分割
     */
     public void setTagIds(String tagIds){
-    this.tagIds = tagIds;
+        this.tagIds = tagIds;
     }
     /**
     * 文章标题
     */
     public String getArticleTitle(){
-    return this.articleTitle;
+        return this.articleTitle;
     }
     /**
     * 文章标题
     */
     public void setArticleTitle(String articleTitle){
-    this.articleTitle = articleTitle;
+        this.articleTitle = articleTitle;
+    }
+    /**
+    * 文章简介
+    */
+    public String getArticleDigest(){
+        return this.articleDigest;
+    }
+    /**
+    * 文章简介
+    */
+    public void setArticleDigest(String articleDigest){
+        this.articleDigest = articleDigest;
     }
     /**
     * 文章内容
     */
     public String getArticleContent(){
-    return this.articleContent;
+        return this.articleContent;
     }
     /**
     * 文章内容
     */
     public void setArticleContent(String articleContent){
-    this.articleContent = articleContent;
+        this.articleContent = articleContent;
     }
     /**
     * 语法类型，1markdown，2html
     */
     public Integer getGrammarType(){
-    return this.grammarType;
+        return this.grammarType;
     }
     /**
     * 语法类型，1markdown，2html
     */
     public void setGrammarType(Integer grammarType){
-    this.grammarType = grammarType;
+        this.grammarType = grammarType;
     }
     /**
     * 访问类型,1通用类型，2统一密码，3独立密码
     */
     public Integer getVisitType(){
-    return this.visitType;
+        return this.visitType;
     }
     /**
     * 访问类型,1通用类型，2统一密码，3独立密码
     */
     public void setVisitType(Integer visitType){
-    this.visitType = visitType;
+        this.visitType = visitType;
     }
     /**
     * 独立密码
     */
     public String getPassword(){
-    return this.password;
+        return this.password;
     }
     /**
     * 独立密码
     */
     public void setPassword(String password){
-    this.password = password;
+        this.password = password;
     }
     /**
     * salt
     */
     public String getSalt(){
-    return this.salt;
+        return this.salt;
     }
     /**
     * salt
     */
     public void setSalt(String salt){
-    this.salt = salt;
+        this.salt = salt;
+    }
+    /**
+    * 发布状态，0未发布，1已发布
+    */
+    public Integer getPublishFlag(){
+        return this.publishFlag;
+    }
+    /**
+    * 发布状态，0未发布，1已发布
+    */
+    public void setPublishFlag(Integer publishFlag){
+        this.publishFlag = publishFlag;
     }
 }
