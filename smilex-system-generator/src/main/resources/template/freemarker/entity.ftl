@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * tableComment
+ * ${tableComment}
  */
 <#--@TableName("${tableName}")-->
 @ApiModel(value="${tableComment}", description = "${tableComment}")
