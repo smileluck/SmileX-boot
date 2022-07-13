@@ -63,27 +63,30 @@ public class GeneratorUtils {
         List<ZipFileEntity> zipFileEntities = new ArrayList<>();
         for (TableModel tableModel : tableModels) {
             // admin
-            File file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\entity\\", tableModel.getBigHumpClass() + "Entity.java", "entity.ftl", tableModel);
+            String basePath = generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\java";
+            File file = generateByFtl(basePath + "\\entity\\", tableModel.getBigHumpClass() + "Entity.java", "entity.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/entity", file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\dao\\", tableModel.getBigHumpClass() + "Mapper.java", "mapper.ftl", tableModel);
+            file = generateByFtl(basePath + "\\dao\\", tableModel.getBigHumpClass() + "Mapper.java", "mapper.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/dao", file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\service\\", tableModel.getBigHumpClass() + "Service.java", "service.ftl", tableModel);
+            file = generateByFtl(basePath + "\\service\\", tableModel.getBigHumpClass() + "Service.java", "service.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/service", file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\service\\impl\\", tableModel.getBigHumpClass() + "ServiceImpl.java", "serviceimpl.ftl", tableModel);
+            file = generateByFtl(basePath + "\\service\\impl\\", tableModel.getBigHumpClass() + "ServiceImpl.java", "serviceimpl.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/service/impl", file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\controller\\", tableModel.getBigHumpClass() + "Controller.java", "controller.ftl", tableModel);
+            file = generateByFtl(basePath + "\\controller\\", tableModel.getBigHumpClass() + "Controller.java", "controller.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/controller", file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\mapper\\" + generatorEntity.getModuleName() + "\\", tableModel.getBigHumpClass() + ".xml", "mapperXml.ftl", tableModel);
+            file = generateByFtl(basePath + "\\mapper\\" + generatorEntity.getModuleName() + "\\", tableModel.getBigHumpClass() + ".xml", "mapperXml.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/mapper/" + generatorEntity.getModuleName(), file));
 
             // admin-vue
-            file = generateByFtl(generatorEntity.getSavePath() + "\\vue\\" + generatorEntity.getModuleName() + "\\", tableModel.getBigHumpClass() + ".vue", "vuePage.ftl", tableModel);
+            basePath = generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\vue\\" + generatorEntity.getModuleName() + "\\";
+            file = generateByFtl(basePath, tableModel.getBigHumpClass() + ".vue", "vuePage.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName(), file));
-            file = generateByFtl(generatorEntity.getSavePath() + "\\vue\\" + generatorEntity.getModuleName() + "\\modules\\", tableModel.getBigHumpClass() + "Model.vue", "vuePageModel.ftl", tableModel);
+            file = generateByFtl(basePath + "modules\\", tableModel.getBigHumpClass() + "Model.vue", "vuePageModel.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/vue/" + generatorEntity.getModuleName() + "/modules", file));
 
             // menu-sql
-            file = generateByFtl(generatorEntity.getSavePath() + "\\sql\\", tableModel.getBigHumpClass() + ".sql", "menuSql.ftl", tableModel);
+            basePath = generatorEntity.getSavePath() + "\\" + generatorEntity.getModuleName() + "\\sql\\";
+            file = generateByFtl(basePath, tableModel.getBigHumpClass() + ".sql", "menuSql.ftl", tableModel);
             zipFileEntities.add(new ZipFileEntity("/sql", file));
 
         }
