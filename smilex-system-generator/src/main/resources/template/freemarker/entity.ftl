@@ -25,7 +25,7 @@ public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
     /**
     * ${var.columnComment}
     */
-    @ApiModelProperty(value = "${var.columnComment}" hidden="${filterColumn?seq_contains(var.humpColumnName)?string("true","false")}")
+    @ApiModelProperty(value = "${var.columnComment}", hidden=${filterColumn?seq_contains(var.humpColumnName)?string("true","false")})
     private ${var.convertDataType} ${var.humpColumnName};
 </#list>
 

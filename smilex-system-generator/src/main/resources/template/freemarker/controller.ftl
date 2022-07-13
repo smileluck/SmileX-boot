@@ -3,6 +3,9 @@ package ${packages}.${moduleName}.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
@@ -24,6 +27,7 @@ public class ${bigHumpClass}Controller {
     @Autowired
     private ${bigHumpClass}Service ${smallHumpClass}Service;
 
+    @ApiOperation("查询列表（分页）")
     @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
     @RequiresPermissions("${smallColonName}:list")
     @GetMapping("/list")
@@ -32,6 +36,7 @@ public class ${bigHumpClass}Controller {
         return R.success("查询成功",page);
     }
 
+    @ApiOperation("根据Id查询信息")
     @RequiresPermissions("${smallColonName}:info")
     @GetMapping("/info/{id}")
     public R<${bigHumpClass}Entity> info(@PathVariable("id") Long id){
@@ -40,6 +45,7 @@ public class ${bigHumpClass}Controller {
     }
 
 
+    @ApiOperation("根据Id更新信息")
     @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("${smallColonName}:update")
     @PostMapping("/update")
@@ -48,6 +54,7 @@ public class ${bigHumpClass}Controller {
         return R.success("修改成功");
     }
 
+    @ApiOperation("根据id列表批量删除")
     @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("${smallColonName}:remove")
     @PostMapping("/remove")
@@ -56,6 +63,7 @@ public class ${bigHumpClass}Controller {
         return R.success("删除成功");
     }
 
+    @ApiOperation("保存")
     @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("${smallColonName}:save")
