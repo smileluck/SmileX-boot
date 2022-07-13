@@ -12,7 +12,7 @@
                 ref="formRef"
         >
             <#list columnModels as var>
-            <el-form-item label="${var.columnComment}">
+            <el-form-item label="${var.columnComment}" prop="${var.humpColumnName}">
             <el-input
                     v-model.trim="form.info.${var.humpColumnName}"
                     placeholder="请输入${var.columnComment}"
