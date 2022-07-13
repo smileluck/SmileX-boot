@@ -126,7 +126,8 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
             tableModel.setTableName(tableName);
             tableModel.setTableComment(tableMapInfo.get("tableComment"));
             tableModel.setColumnModels(columns);
-
+            String[] filterColumn = {"password", "salt"};
+            tableModel.setFilterColumn(filterColumn);
             MenuModel menuModel = new MenuModel();
             menuModel.setParentId(snowFlake.nextId());
             menuModel.setMenuIds(Arrays.asList(snowFlake.nextId(), snowFlake.nextId(), snowFlake.nextId(), snowFlake.nextId(), snowFlake.nextId()));

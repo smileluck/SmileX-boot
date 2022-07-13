@@ -16,6 +16,7 @@ import ${packages}.${moduleName}.entity.${bigHumpClass}Entity;
 /**
  * ${tableComment}
  */
+@Api(tags = "${tableComment}")
 @RestController
 @RequestMapping("/${reqMapping}")
 public class ${bigHumpClass}Controller {
@@ -26,14 +27,14 @@ public class ${bigHumpClass}Controller {
     @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
     @RequiresPermissions("${smallColonName}:list")
     @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
+    public R<IPage<${bigHumpClass}Entity>> list(@RequestParam Map<String, Object> params) {
         IPage page = ${smallHumpClass}Service.getPage(params);
         return R.success("查询成功",page);
     }
 
     @RequiresPermissions("${smallColonName}:info")
     @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
+    public R<${bigHumpClass}Entity> info(@PathVariable("id") Long id){
         ${bigHumpClass}Entity info = ${smallHumpClass}Service.getById(id);
         return R.success("查询成功",info);
     }
@@ -55,6 +56,7 @@ public class ${bigHumpClass}Controller {
         return R.success("删除成功");
     }
 
+    @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("${smallColonName}:save")
     @PostMapping("/save")

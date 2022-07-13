@@ -58,4 +58,9 @@ public class TableModel {
      * 菜单模型,用于生成SQL
      */
     private MenuModel menuModel;
+
+    /**
+     * 过滤字段名
+     */
+    private String[] filterColumn;
 }
