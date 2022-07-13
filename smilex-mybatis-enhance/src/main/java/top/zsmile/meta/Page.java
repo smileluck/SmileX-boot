@@ -1,29 +1,37 @@
 package top.zsmile.meta;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Collections;
 import java.util.List;
 
+@ApiModel(value = "分页对象", description = "分页对象")
 public class Page<T> implements IPage<T> {
     private static final long serialVersionUID = 1L;
 
     /**
      * 查询数据列表
      */
+    @ApiModelProperty(value = "数据列表")
     protected List<T> records = Collections.EMPTY_LIST;
 
     /**
      * 总数
      */
+    @ApiModelProperty(value = "总数", example = "0")
     protected long total = 0;
 
     /**
      * 每页显示条数，默认10
      */
+    @ApiModelProperty(value = "每页显示条数", example = "10")
     protected int size = 10;
 
     /**
      * 当前页，从1算起
      */
+    @ApiModelProperty(value = "当前页", example = "1")
     protected long current = 1;
 
     /**

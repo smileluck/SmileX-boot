@@ -13,27 +13,27 @@ public class BaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "创建时间", hidden = true)
     private Date createTime;
     /**
      * 创建人
      */
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "创建用户", hidden = true)
     private String createBy;
     /**
      * 更新时间
      */
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateTime;
     /**
      * 更新人
      */
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "更新用户", hidden = true)
     private String updateBy;
     /**
      * 是否删除，1是，0否
      */
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "逻辑删除，1是，0否", hidden = true)
     private Integer delFlag;
 
     /**
