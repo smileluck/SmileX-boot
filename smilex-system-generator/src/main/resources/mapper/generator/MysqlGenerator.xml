@@ -9,7 +9,7 @@
         <if test="tableName != null and tableName.trim() != ''">
             and table_name like concat('%', #{tableName}, '%')
         </if>
-        order by create_time desc
+        order by table_name,create_time desc
     </select>
 
     <select id="selectTable" resultType="map">
