@@ -1,11 +1,15 @@
 package top.zsmile.modules.generator.service.impl;
 
+import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zsmile.common.domain.ZipFileEntity;
+import top.zsmile.common.utils.FileUtils;
 import top.zsmile.common.utils.SnowFlake;
 import top.zsmile.common.utils.StringPool;
+import top.zsmile.common.utils.ZipUtils;
 import top.zsmile.core.datasource.annotation.DataSource;
+import top.zsmile.core.utils.SpringContextUtils;
 import top.zsmile.modules.generator.constant.DefaultConstants;
 import top.zsmile.modules.generator.convert.MysqlTypeConvert;
 import top.zsmile.modules.generator.dao.GeneratorDao;
@@ -51,26 +55,18 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
     }
 
     @Override
-    public List<ZipFileEntity> genCodeZip(GeneratorEntity generatorEntity) {
-        List<ZipFileEntity> List = new ArrayList<>();
-        String packagePath = generatorEntity.getPackagePath();
-        String modules = generatorEntity.getModuleName();
-        List<String> tableName = generatorEntity.getTableName();
-
-
-        return null;
-    }
-
-    private ZipFileEntity genCodeFile(String tableName) {
-
-        return null;
+    public File genZipCode(GeneratorEntity generatorEntity) {
+        List<TableModel> tableModels = genCodeModel(generatorEntity);
+        String contextPath = SpringContextUtils.getHttpServletRequest().getContextPath();
+        List<ZipFileEntity> zipFileEntities = GeneratorUtils.genZipCode(contextPath, generatorEntity, tableModels);
+        File zip = ZipUtils.createZip(contextPath + "/" + System.currentTimeMillis() + ".zip", "/", zipFileEntities);
+        return zip;
     }
 
     @Override
-    public File genCodeLocal(GeneratorEntity generatorEntity) {
+    public void genLocalCode(GeneratorEntity generatorEntity) {
         List<TableModel> tableModels = genCodeModel(generatorEntity);
-        GeneratorUtils.genCodeFiles(generatorEntity, tableModels);
-        return null;
+        GeneratorUtils.genLocalCode(generatorEntity, tableModels);
     }
 
     /**

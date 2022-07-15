@@ -1,11 +1,11 @@
 package top.zsmile.modules.generator.controller;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import top.zsmile.common.utils.FileUtils;
+import top.zsmile.common.validator.group.Add;
 import top.zsmile.core.api.R;
 import top.zsmile.core.datasource.DataSourceFactory;
 import top.zsmile.core.datasource.DynamicDataSource;
@@ -20,7 +20,6 @@ import top.zsmile.modules.generator.service.GeneratorSerivce;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +60,7 @@ public class GeneratorController {
         dataSourceProperties.setPassword(databaseConnEntity.getPassword());
         dataSourceProperties.setDriverClassName(DefaultConstants.MYSQL_DRIVER_CLASS);
         dataSourceProperties.setUrl(databaseConnEntity.getUrl());
-        DruidDataSource dataSource =  DataSourceFactory.createDataSource(dataSourceProperties);
+        DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
 
 //        DynamicDataSource.getInstance().delDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY);
         DynamicDataSource.getInstance().replaceDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
@@ -69,9 +68,16 @@ public class GeneratorController {
     }
 
     @PostMapping("/genFileByLocal")
-    public R genFileByLocal(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
-        File file = generatorService.genCodeLocal(generatorEntity);
+    public R genFileByLocal(@Validated(Add.class) @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
+        generatorService.genLocalCode(generatorEntity);
         return R.success();
+    }
+
+    @PostMapping("/genFileByZip")
+    public void genFileByZip(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
+        File file = generatorService.genZipCode(generatorEntity);
+        FileUtils.downloadFile(file, response);
+        file.delete();
     }
 
     @PostMapping("/genSingleFile")

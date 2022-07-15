@@ -37,22 +37,33 @@ public class ZipUtils {
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile));) {
             for (Object file : outFile) {
                 ZipEntry zipEntry = null;
-                FileInputStream fileInputStream;
-                if (file.getClass() == ZipFileEntity.class) {
-                    fileInputStream = new FileInputStream(((ZipFileEntity) file).getFile());
-                    zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((ZipFileEntity) file).getFilePath() + FILE_SEPARATE + ((ZipFileEntity) file).getFile().getName());
-                } else {
-                    fileInputStream = new FileInputStream((File) file);
-                    zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((File) file).getName());
+                FileInputStream fileInputStream = null;
+                try {
+                    if (file.getClass() == ZipFileEntity.class) {
+                        fileInputStream = new FileInputStream(((ZipFileEntity) file).getFile());
+                        zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((ZipFileEntity) file).getFilePath() + FILE_SEPARATE + ((ZipFileEntity) file).getFile().getName());
+                    } else {
+                        fileInputStream = new FileInputStream((File) file);
+                        zipEntry = new ZipEntry(rootSrc + FILE_SEPARATE + ((File) file).getName());
+                    }
+                    zipOutputStream.putNextEntry(zipEntry);
+                    int length;
+                    byte[] buffer = new byte[1024];
+                    while ((length = fileInputStream.read(buffer)) > 0) {
+                        zipOutputStream.write(buffer, 0, length);
+                    }
+                    zipOutputStream.flush();
+                    zipOutputStream.closeEntry();
+                } finally {
+                    if (fileInputStream != null) {
+                        fileInputStream.close();
+                    }
+                    if (file.getClass() == ZipFileEntity.class) {
+                        ((ZipFileEntity) file).getFile().delete();
+                    } else {
+                        ((File) file).delete();
+                    }
                 }
-                zipOutputStream.putNextEntry(zipEntry);
-                int length;
-                byte[] buffer = new byte[1024];
-                while ((length = fileInputStream.read(buffer)) > 0) {
-                    zipOutputStream.write(buffer, 0, length);
-                }
-                zipOutputStream.flush();
-                zipOutputStream.closeEntry();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

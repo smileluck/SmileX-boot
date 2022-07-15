@@ -1,6 +1,7 @@
 package top.zsmile.modules.generator.domain.entity;
 
 import lombok.Data;
+import top.zsmile.common.validator.group.Add;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -23,7 +24,7 @@ public class GeneratorEntity implements Serializable {
     /**
      * 保存位置
      */
-    @NotBlank(message = "保存位置不能为空")
+    @NotBlank(message = "保存位置不能为空", groups = Add.class)
     private String savePath;
     /**
      * 表名

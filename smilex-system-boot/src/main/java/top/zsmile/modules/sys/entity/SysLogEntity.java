@@ -77,7 +77,7 @@ public class SysLogEntity extends BaseEntity implements Serializable {
     * 耗费时间
     */
     @ApiModelProperty(value = "耗费时间", hidden=false)
-    private Integer costTime;
+    private Long costTime;
     /**
     * 异常信息
     */
@@ -231,13 +231,13 @@ public class SysLogEntity extends BaseEntity implements Serializable {
     /**
     * 耗费时间
     */
-    public Integer getCostTime(){
+    public Long getCostTime(){
         return this.costTime;
     }
     /**
     * 耗费时间
     */
-    public void setCostTime(Integer costTime){
+    public void setCostTime(Long costTime){
         this.costTime = costTime;
     }
     /**

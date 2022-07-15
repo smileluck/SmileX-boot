@@ -1,7 +1,6 @@
 package top.zsmile.modules.generator.service;
 
 
-
 import top.zsmile.common.domain.ZipFileEntity;
 import top.zsmile.modules.generator.domain.entity.GeneratorEntity;
 import top.zsmile.modules.generator.domain.model.ColumnModel;
@@ -17,8 +16,8 @@ public interface GeneratorSerivce {
 
     List<ColumnModel> queryTableColumns(String tableName);
 
-    List<ZipFileEntity> genCodeZip(GeneratorEntity generatorEntity);
+    File genZipCode(GeneratorEntity generatorEntity);
 
-    File genCodeLocal(GeneratorEntity generatorEntity);
+    void genLocalCode(GeneratorEntity generatorEntity);
 }
 
