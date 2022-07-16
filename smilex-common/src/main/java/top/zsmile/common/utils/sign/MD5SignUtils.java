@@ -1,4 +1,4 @@
-package top.zsmile.common.utils;
+package top.zsmile.common.utils.sign;
 
 import lombok.SneakyThrows;
 import java.io.UnsupportedEncodingException;

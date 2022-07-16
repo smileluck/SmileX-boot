@@ -30,7 +30,7 @@ smilex:
     dataCenterId: 1
   fileSys:
     # Local 本地, oss 阿里云OSS, minio
-    updateType: oss
+    uploadType: oss
     oss:
       accessKey: ??
       secretKey: ??

@@ -1,10 +1,6 @@
 package top.zsmile.modules.sys.utils;
 
-import org.springframework.util.FileSystemUtils;
-import top.zsmile.common.utils.FileUtils;
-
 import javax.tools.JavaCompiler;
-import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import java.io.*;
 

@@ -1,13 +1,11 @@
 package top.zsmile.modules.generator.service.impl;
 
-import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zsmile.common.domain.ZipFileEntity;
-import top.zsmile.common.utils.FileUtils;
 import top.zsmile.common.utils.SnowFlake;
 import top.zsmile.common.utils.StringPool;
-import top.zsmile.common.utils.ZipUtils;
+import top.zsmile.common.utils.file.ZipUtils;
 import top.zsmile.core.datasource.annotation.DataSource;
 import top.zsmile.core.utils.SpringContextUtils;
 import top.zsmile.modules.generator.constant.DefaultConstants;

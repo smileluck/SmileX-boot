@@ -23,10 +23,6 @@
         <!--SmileX-->
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.zsmile</groupId>
             <artifactId>smilex-common</artifactId>
         </dependency>
         <!--shiro-->

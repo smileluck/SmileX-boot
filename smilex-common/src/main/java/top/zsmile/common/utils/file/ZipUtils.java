@@ -1,4 +1,4 @@
-package top.zsmile.common.utils;
+package top.zsmile.common.utils.file;
 
 import top.zsmile.common.domain.ZipFileEntity;
 

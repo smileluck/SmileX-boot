@@ -1,7 +1,8 @@
-package top.zsmile.common.utils;
+package top.zsmile.common.utils.sign;
 
 
 import lombok.extern.slf4j.Slf4j;
+import top.zsmile.common.utils.CmdUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

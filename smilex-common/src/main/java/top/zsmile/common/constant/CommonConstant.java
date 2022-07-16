@@ -40,5 +40,11 @@ public interface CommonConstant {
     //异常
     public static final int SYS_LOG_TYPE_ERROR = 4;
 
-
+    /**************************文件上传**************************/
+    // 阿里云OSS
+    public static final String UPLOAD_TYPE_OSS = "oss";
+    // Minio
+    public static final String UPLOAD_TYPE_MINIO = "minio";
+    // Local 本地
+    public static final String UPLOAD_TYPE_LOCAL = "local";
 }
