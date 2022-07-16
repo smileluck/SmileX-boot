@@ -1,4 +1,4 @@
-package top.zsmile.core.api;
+package top.zsmile.api.common;
 
 import java.util.Map;
 

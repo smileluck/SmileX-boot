@@ -95,7 +95,6 @@
                 <artifactId>smilex-system-boot</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-core</artifactId>
@@ -103,23 +102,24 @@
             </dependency>
             <dependency>
                 <groupId>top.zsmile</groupId>
+                <artifactId>smilex-api</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
                 <artifactId>smilex-mybatis-enhance</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-common</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-auth</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
-
-
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-tool</artifactId>

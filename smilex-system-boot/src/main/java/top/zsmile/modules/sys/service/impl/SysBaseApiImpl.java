@@ -2,7 +2,7 @@ package top.zsmile.modules.sys.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.zsmile.core.api.CommonApi;
+import top.zsmile.api.common.CommonApi;
 import top.zsmile.modules.sys.service.SysMenuService;
 import top.zsmile.modules.sys.service.SysUserService;
 

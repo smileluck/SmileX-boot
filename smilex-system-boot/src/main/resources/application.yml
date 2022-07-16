@@ -28,3 +28,16 @@ smilex:
   server:
     workerId: 1
     dataCenterId: 1
+  fileSys:
+    # Local 本地, oss 阿里云OSS, minio
+    updateType: oss
+    oss:
+      accessKey: ??
+      secretKey: ??
+      endpoint: oss-cn-shenzhen.aliyuncs.com
+      bucketName: SmileX
+    minio:
+      minioUrl: ??
+      minioName: ??
+      minioPass: ??
+      bucketName: SmileX

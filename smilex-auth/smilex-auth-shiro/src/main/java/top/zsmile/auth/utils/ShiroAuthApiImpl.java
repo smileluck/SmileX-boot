@@ -1,7 +1,7 @@
 package top.zsmile.auth.utils;
 
 import org.springframework.stereotype.Service;
-import top.zsmile.core.api.CommonAuthApi;
+import top.zsmile.api.common.CommonAuthApi;
 
 import java.util.Map;
 

@@ -5,16 +5,14 @@ import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import top.zsmile.core.api.CommonAuthApi;
+import top.zsmile.api.common.CommonAuthApi;
 import top.zsmile.entity.BaseEntity;
 
 import java.sql.Statement;
 import java.util.Date;
 import java.util.Map;
-import java.util.Properties;
 
 @Component
 @Intercepts({

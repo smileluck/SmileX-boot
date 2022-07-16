@@ -12,18 +12,11 @@
     <artifactId>smilex-mybatis-enhance</artifactId>
 
     <dependencies>
-        <!--        <dependency>-->
-        <!--            <groupId>org.mybatis</groupId>-->
-        <!--            <artifactId>mybatis</artifactId>-->
-        <!--            <version>3.5.9</version>-->
-        <!--            <scope>compile</scope>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>org.mybatis</groupId>-->
-        <!--            <artifactId>mybatis-spring</artifactId>-->
-        <!--            <version>2.0.6</version>-->
-        <!--        </dependency>-->
+        <!--Smilex-->
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common</artifactId>
@@ -33,6 +26,12 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

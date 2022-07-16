@@ -1,9 +1,12 @@
-package top.zsmile.core.api;
+package top.zsmile.api.common;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 通用API
+ */
 public interface CommonApi {
 
     /**
