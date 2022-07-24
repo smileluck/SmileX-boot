@@ -23,6 +23,7 @@
         <module>smilex-tool</module>
         <module>smilex-mybatis-enhance</module>
         <module>smilex-im</module>
+        <module>smilex-study</module>
     </modules>
 
     <repositories>
