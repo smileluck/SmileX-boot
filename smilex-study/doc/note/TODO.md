@@ -43,3 +43,12 @@ https://rumenz.com/java-topic/hibernate/hibernate-validator-cdi/index.html
 - CacheResolver
 - CacheErrorHandler
 - 参考：https://blog.csdn.net/sz85850597/article/details/89301331
+
+
+# tcpip
+- websocket
+- sockjs
+- sockio
+- netty
+- 长轮询
+- stomp
