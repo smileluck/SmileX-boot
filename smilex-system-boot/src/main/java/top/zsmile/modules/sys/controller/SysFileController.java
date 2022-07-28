@@ -19,7 +19,7 @@ import top.zsmile.modules.sys.entity.SysFileEntity;
 /**
  * 
  */
-@Api(tags = "")
+@Api(tags = "系统文件管理")
 @RestController
 @RequestMapping("/sys/file")
 public class SysFileController {

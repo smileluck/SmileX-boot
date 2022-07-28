@@ -141,7 +141,9 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             WHERE(tableInfo.logicDelColumnWhere());
-            WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
+            if (entity != null) {
+                WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
+            }
         }}.toString();
 
         return TableQueryUtils.getSqlScript(s);
@@ -205,8 +207,10 @@ public class BaseSelectProvider extends BaseProvider {
                     WHERE(mapCondition);
                 }
             }
-            OFFSET(page.getOffset());
-            LIMIT(page.getSize());
+            if (page.getOffset() == Constants.PAGE_ALL_OFFSET) {
+                OFFSET(page.getOffset());
+                LIMIT(page.getSize());
+            }
 //            if (page.getOrderColumn() != null) {
 //                ORDER_BY(page.getOrderColumn());
 //            }

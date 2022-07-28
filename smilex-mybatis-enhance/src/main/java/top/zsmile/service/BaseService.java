@@ -4,9 +4,11 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.yaml.snakeyaml.scanner.Constant;
 import top.zsmile.dao.BaseMapper;
 import top.zsmile.meta.IPage;
 import top.zsmile.provider.BaseSelectProvider;
+import top.zsmile.utils.Constants;
 import top.zsmile.utils.PageQuery;
 import top.zsmile.utils.SqlHelper;
 
@@ -227,13 +229,25 @@ public interface BaseService<T> {
      * TODO 临时用来代替拦截器实现的分页功能，后续优化
      */
     default IPage<T> getPage(Map<String, Object> columnMap, String... columns) {
+        return getPage(columnMap, false, columns);
+    }
+
+
+    /**
+     * TODO 临时用来代替拦截器实现的分页功能，后续优化
+     */
+    default IPage<T> getPage(Map<String, Object> columnMap, boolean isAll, String... columns) {
         IPage<T> page = new PageQuery<T>().getPage(columnMap);
+        if (isAll) {
+            page.setSize(Constants.PAGE_ALL_OFFSET);
+        }
         List<T> list = getBaseMapper().selectListPage(page, columnMap, columns);
         Long count = getBaseMapper().selectCount(columnMap);
         page.setRecords(list);
         page.setTotal(count);
         return page;
     }
+
 
     /**
      * 查询某个字段的集合

@@ -1,5 +1,9 @@
 package top.zsmile.modules.sys.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +23,7 @@ import java.io.IOException;
 /**
  * 系统登录相关接口
  */
+@Api(tags = "系统登录接口")
 @RestController
 @RequestMapping("/sys/login")
 public class SysLoginController {
@@ -34,6 +39,7 @@ public class SysLoginController {
      *
      * @return
      */
+    @ApiOperation("登录接口")
     @PostMapping("/submit")
     public R submit(@RequestBody SysLoginModel sysLoginModel) {
         ValidatorUtils.validateEntity(sysLoginModel);
@@ -57,8 +63,9 @@ public class SysLoginController {
      *
      * @param captchaKey
      */
+    @ApiOperation("获取验证码")
     @GetMapping("/captcha/{captchaKey}")
-    public R captcha(@PathVariable String captchaKey) {
+    public R captcha(@ApiParam(name = "captchaKey", value = "验证码Key", required = true) @PathVariable String captchaKey) {
         String random = RandomStringUtils.randomAlphabetic(4);
         try {
             String generate = CaptchaImgUtils.generate(random);

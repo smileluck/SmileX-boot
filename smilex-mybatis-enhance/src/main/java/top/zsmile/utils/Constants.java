@@ -45,4 +45,9 @@ public class Constants {
      */
     public static final String SIZE = "size";
 
+    /**
+     * 分页查询所有数据标志
+     */
+    public static final Integer PAGE_ALL_OFFSET = -1;
+
 }

@@ -15,16 +15,16 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "登录对象", description = "登录对象")
 public class SysLoginModel {
     @NotBlank(message = "请输入账号")
-    @ApiModelProperty(value = "账号")
+    @ApiModelProperty(value = "账号",required = true)
     private String username;
     @NotBlank(message = "请输入密码")
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码",required = true)
     private String password;
     @NotBlank(message = "请输入验证码")
-    @ApiModelProperty(value = "验证码")
+    @ApiModelProperty(value = "验证码",required = true)
     private String captchaCode;
     @NotBlank(message = "请输入验证码KEY")
-    @ApiModelProperty(value = "验证码key")
+    @ApiModelProperty(value = "验证码key",required = true)
     private String captchaKey;
 
     public String getUsername() {

@@ -1,5 +1,8 @@
 package top.zsmile.modules.open.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.collections.CollectionUtils;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "开放博客接口")
 @RestController
 @RequestMapping("/open/blog")
 public class OpenBlogController {
@@ -32,8 +36,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
+    @ApiOperation("栏目列表")
     @GetMapping("/section/{tenantId}")
-    public R section(@PathVariable Long tenantId) {
+    public R section(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = Collections.singletonMap("tenantId", tenantId);
         List<Map<String, Object>> list = blogSectionService.getMapByMap(map, "id", "parentId", "sectionName");
         return R.success(list);
@@ -45,8 +50,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
+    @ApiOperation("标签云")
     @GetMapping("/tags/{tenantId}")
-    public R tags(@PathVariable Long tenantId) {
+    public R tags(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("tenantId", tenantId);
         map.put("enableFlag", 1);

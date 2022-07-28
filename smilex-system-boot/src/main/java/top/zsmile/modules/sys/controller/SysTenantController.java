@@ -19,7 +19,7 @@ import top.zsmile.modules.sys.entity.SysTenantEntity;
 /**
  * 多租户管理
  */
-@Api(tags = "多租户管理")
+@Api(tags = "系统多租户管理")
 @RestController
 @RequestMapping("/sys/tenant")
 public class SysTenantController {

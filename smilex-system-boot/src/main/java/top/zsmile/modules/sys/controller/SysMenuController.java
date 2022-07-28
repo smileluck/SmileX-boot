@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import top.zsmile.meta.IPage;
 import top.zsmile.modules.sys.service.SysMenuService;
 import top.zsmile.modules.sys.entity.SysMenuEntity;
+import top.zsmile.utils.Constants;
 
 /**
  * 系统菜单管理
@@ -34,16 +35,16 @@ public class SysMenuController {
     @RequiresPermissions("sys:menu:list")
     @GetMapping("/list")
     public R<IPage<SysMenuEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysMenuService.getPage(params);
-        return R.success("查询成功",page);
+        IPage page = sysMenuService.getPage(params,true);
+        return R.success("查询成功", page);
     }
 
     @ApiOperation("根据Id查询信息")
     @RequiresPermissions("sys:menu:info")
     @GetMapping("/info/{id}")
-    public R<SysMenuEntity> info(@PathVariable("id") Long id){
+    public R<SysMenuEntity> info(@PathVariable("id") Long id) {
         SysMenuEntity info = sysMenuService.getById(id);
-        return R.success("查询成功",info);
+        return R.success("查询成功", info);
     }
 
 
@@ -51,7 +52,7 @@ public class SysMenuController {
     @SysLog(title = "系统菜单管理", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("sys:menu:update")
     @PostMapping("/update")
-    public R update(@RequestBody SysMenuEntity sysMenuEntity){
+    public R update(@RequestBody SysMenuEntity sysMenuEntity) {
         sysMenuService.updateById(sysMenuEntity);
         return R.success("修改成功");
     }
@@ -60,7 +61,7 @@ public class SysMenuController {
     @SysLog(title = "系统菜单管理", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("sys:menu:remove")
     @PostMapping("/remove")
-    public R remove(@RequestBody Long[] ids){
+    public R remove(@RequestBody Long[] ids) {
         sysMenuService.removePhysicsBatchIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
@@ -70,7 +71,7 @@ public class SysMenuController {
     @SysLog(title = "系统菜单管理", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("sys:menu:save")
     @PostMapping("/save")
-    public R save(@RequestBody SysMenuEntity sysMenuEntity){
+    public R save(@RequestBody SysMenuEntity sysMenuEntity) {
         sysMenuService.save(sysMenuEntity);
         return R.success("添加成功");
     }

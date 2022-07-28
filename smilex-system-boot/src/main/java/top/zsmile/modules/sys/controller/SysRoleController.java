@@ -19,7 +19,7 @@ import top.zsmile.modules.sys.entity.SysRoleEntity;
 /**
  * 角色管理
  */
-@Api(tags = "角色管理")
+@Api(tags = "系统角色管理")
 @RestController
 @RequestMapping("/sys/role")
 public class SysRoleController {

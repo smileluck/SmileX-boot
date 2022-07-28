@@ -19,7 +19,7 @@ import top.zsmile.modules.sys.entity.SysDictItemEntity;
 /**
  * 数据字典信息
  */
-@Api(tags = "数据字典信息")
+@Api(tags = "系统数据字典信息")
 @RestController
 @RequestMapping("/sys/dict/item")
 public class SysDictItemController {

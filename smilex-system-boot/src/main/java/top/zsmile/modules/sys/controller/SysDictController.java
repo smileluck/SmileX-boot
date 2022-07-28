@@ -17,9 +17,9 @@ import top.zsmile.modules.sys.service.SysDictService;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 
 /**
- * 数据字典
+ * 系统数据字典
  */
-@Api(tags = "数据字典")
+@Api(tags = "系统数据字典")
 @RestController
 @RequestMapping("/sys/dict")
 public class SysDictController {

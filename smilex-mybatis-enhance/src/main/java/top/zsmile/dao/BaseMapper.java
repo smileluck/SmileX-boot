@@ -91,7 +91,7 @@ public interface BaseMapper<T> {
      * @param entity 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectList")
-    List<T> selectList(@Param(Constants.ENTITY) T entity, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectList(T entity, String... columns);
 
     /**
      * 根据 entity 条件，查询全部记录
