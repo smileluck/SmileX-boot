@@ -40,7 +40,7 @@ public @interface SysLog {
      *
      * @return （1查询，2添加，3修改，4删除，5导入，6导出）
      */
-    int operateType() default 0;
+    int operateType() default CommonConstant.SYS_LOG_OPERATE_QUERY;
 
     /**
      * 日志内容

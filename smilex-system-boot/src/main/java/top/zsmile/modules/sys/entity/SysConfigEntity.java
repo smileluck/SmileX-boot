@@ -42,7 +42,7 @@ public class SysConfigEntity extends BaseEntity implements Serializable {
     * 是否启用，0启用1禁用
     */
     @ApiModelProperty(value = "是否启用，0启用1禁用", hidden=false)
-    private Integer status;
+    private Integer enableFlag;
 
     /**
     * ID
@@ -107,13 +107,13 @@ public class SysConfigEntity extends BaseEntity implements Serializable {
     /**
     * 是否启用，0启用1禁用
     */
-    public Integer getStatus(){
-        return this.status;
+    public Integer getEnableFlag(){
+        return this.enableFlag;
     }
     /**
     * 是否启用，0启用1禁用
     */
-    public void setStatus(Integer status){
-        this.status = status;
+    public void setEnableFlag(Integer status){
+        this.enableFlag = status;
     }
 }

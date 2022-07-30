@@ -16,10 +16,10 @@
                         <#if var.humpColumnName=="enableFlag">
                          <el-col :span="4">
                             <el-form-item label="启用状态：">
-                              <dict-select
-                                dictCode="enableFlag"
-                                :value="pageSearchFormModel.enableFlag"
-                                :clearable="true" />
+                               <dict-select
+                                    dictCode="enableFlag"
+                                    v-model="pageSearchFormModel.enableFlag"
+                                    :clearable="true" />
                             </el-form-item
                         ></el-col>
                         <#else>

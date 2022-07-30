@@ -72,7 +72,7 @@ public class SysLogAspect {
      */
     private void saveErrorLog(ProceedingJoinPoint joinPoint, long costTime, String errMsg) {
         SysLogEntity sysLogEntity = commonLog(joinPoint, costTime, CommonConstant.SYS_LOG_TYPE_ERROR);
-        sysLogEntity.setErrMsg(errMsg);
+        sysLogEntity.setErrMsg(errMsg.length() > 500 ? errMsg.substring(0, 500) : errMsg);
         sysLogService.save(sysLogEntity);
     }
 

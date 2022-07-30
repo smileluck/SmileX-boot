@@ -207,7 +207,7 @@ public class BaseSelectProvider extends BaseProvider {
                     WHERE(mapCondition);
                 }
             }
-            if (page.getOffset() == Constants.PAGE_ALL_OFFSET) {
+            if (page.getSize() != Constants.PAGE_ALL_OFFSET) {
                 OFFSET(page.getOffset());
                 LIMIT(page.getSize());
             }
