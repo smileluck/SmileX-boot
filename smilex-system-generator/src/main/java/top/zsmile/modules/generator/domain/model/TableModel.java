@@ -63,4 +63,8 @@ public class TableModel {
      * 过滤字段名
      */
     private String[] filterColumn;
+    /**
+     * 是否包含字典
+     */
+    private Boolean hasDict = false;
 }

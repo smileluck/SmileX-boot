@@ -8,15 +8,27 @@
         <el-form
                 :model="form.info"
                 label-width="120px"
-                :rules="rules"
+                :rules="from.rules"
                 ref="formRef"
         >
             <#list columnModels as var>
+            <#if var.humpColumnName=="enableFlag">
+            <el-form-item label="状态" prop="${var.humpColumnName}">
+                <el-switch
+                        v-model="form.info.${var.humpColumnName}"
+                        active-text="启用"
+                        inactive-text="禁用"
+                        active-value="1"
+                        inactive-value="0"
+                />
+            </el-form-item>
+            <#else>
             <el-form-item label="${var.columnComment}" prop="${var.humpColumnName}">
             <el-input
                     v-model.trim="form.info.${var.humpColumnName}"
                     placeholder="请输入${var.columnComment}"
             /> </el-form-item>
+            </#if>
             </#list>
         </el-form>
         <template #footer>
@@ -44,12 +56,11 @@
             ${var.humpColumnName}:"",
             </#list>
         },
-    });
-
-    const rules = reactive({
-        <#list columnModels as var>
-        ${var.humpColumnName}:[ { required: true, message: "请选择${var.columnComment}", trigger: "blur" }],
-        </#list>
+        rules: {
+            <#list columnModels as var>
+            ${var.humpColumnName}:[ { required: true, message: "请输入${var.columnComment}", trigger: "blur" }],
+            </#list>
+        }
     });
 
     const getInfo = () => {

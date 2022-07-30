@@ -56,3 +56,24 @@ shiro:
   cookie:
     # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
     cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==
+
+
+
+# smilex-config
+smilex:
+  server:
+    workerId: 1
+    dataCenterId: 1
+  fileSys:
+    # Local 本地, oss 阿里云OSS, minio
+    uploadType: oss
+    oss:
+      accessKey: ??
+      secretKey: ??
+      endpoint: oss-cn-shenzhen.aliyuncs.com
+      bucketName: SmileX
+    minio:
+      minioUrl: ??
+      minioName: ??
+      minioPass: ??
+      bucketName: SmileX

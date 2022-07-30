@@ -109,6 +109,11 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
                     tableModel.setLogicDelColumn(next);
                     iterator1.remove();
                 }
+
+                // 包含字典项目时，记录表模型中
+                if(next.getHumpColumnName().equals("enableFlag")){
+                    tableModel.setHasDict(Boolean.TRUE);
+                }
             }
             tableModel.setPackages(packages);
             tableModel.setModuleName(moduleName);

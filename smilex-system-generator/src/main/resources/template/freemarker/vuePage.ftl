@@ -13,13 +13,23 @@
                         ></el-col>
                         </#if>
                         <#list columnModels as var>
+                        <#if var.humpColumnName=="enableFlag">
+                         <el-col :span="4">
+                            <el-form-item label="启用状态：">
+                              <dict-select
+                                dictCode="enableFlag"
+                                :value="pageSearchFormModel.enableFlag"
+                                :clearable="true" />
+                            </el-form-item
+                        ></el-col>
+                        <#else>
                         <el-col :span="4">
                             <el-form-item label="${var.columnComment}：">
-                                <el-input
-                                        v-model.trim="pageSearchFormModel.${var.humpColumnName}"
-                                        placeholder="请输入${var.columnComment}"
-                                /> </el-form-item
-                            ></el-col>
+                            <el-input
+                                    v-model.trim="pageSearchFormModel.${var.humpColumnName}"
+                                    placeholder="请输入${var.columnComment}"
+                            /> </el-form-item
+                        ></el-col>
                         </#list>
                     <el-col :span="4">
                         <el-button type="primary" @click="pageList()">
@@ -86,7 +96,18 @@
             <el-table-column prop="${primaryColumn.humpColumnName}" label="ID" width="180" />
             </#if>
             <#list columnModels as var>
+            <#if var.humpColumnName=="enableFlag">
+            <el-table-column prop="enableFlag" label="启用状态" width="200">
+                <template #default="scope">
+                    <table-column-dict
+                            dictCode="enableFlag"
+                            :value="scope.row.enableFlag"
+                    ></table-column-dict>
+                </template>
+            </el-table-column>
+            <#else>
             <el-table-column prop="${var.humpColumnName}" label="${var.columnComment}" width="200" />
+            </#if>
             </#list>
             <el-table-column fixed="right" label="Operations" width="120">
                 <template v-slot:default="scope">
@@ -96,7 +117,6 @@
                     <el-popconfirm
                             :title="'是否确认删除id=[' + scope.row.id + ']?'"
                             @confirm="pageOperaRemove(scope.row.id)"
-                            s
                     >
                         <template #reference>
                             <el-button type="danger" link>删除</el-button>
@@ -126,6 +146,9 @@
     import ${bigHumpClass}Model from "./modules/${bigHumpClass}Model.vue";
     import usePages from "@/composables/pages";
 
+    <#if hasDict==true>
+    import DictSelect from "@/components/DictSelect";
+    </#if>
 
     const pageSearchFormModel = reactive({
         <#if primaryColumn??>
