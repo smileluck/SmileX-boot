@@ -30,6 +30,7 @@
                                     placeholder="请输入${var.columnComment}"
                             /> </el-form-item
                         ></el-col>
+                        </#if>
                         </#list>
                     <el-col :span="4">
                         <el-button type="primary" @click="pageList()">
@@ -109,7 +110,7 @@
             <el-table-column prop="${var.humpColumnName}" label="${var.columnComment}" width="200" />
             </#if>
             </#list>
-            <el-table-column fixed="right" label="Operations" width="120">
+            <el-table-column fixed="right" label="操作" width="120">
                 <template v-slot:default="scope">
                     <el-button type="primary" link @click="pageOperaAdd(scope.row.id)"
                     >修改</el-button
@@ -145,10 +146,6 @@
     import { reactive } from "vue";
     import ${bigHumpClass}Model from "./modules/${bigHumpClass}Model.vue";
     import usePages from "@/composables/pages";
-
-    <#if hasDict==true>
-    import DictSelect from "@/components/DictSelect";
-    </#if>
 
     const pageSearchFormModel = reactive({
         <#if primaryColumn??>
