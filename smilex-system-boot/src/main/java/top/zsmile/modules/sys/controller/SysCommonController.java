@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import top.zsmile.core.api.R;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.entity.SysDictItemEntity;
+import top.zsmile.modules.sys.model.SysTableSelectModel;
 import top.zsmile.modules.sys.service.SysDictItemService;
 import top.zsmile.modules.sys.service.SysDictService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "系统通用接口")
@@ -29,4 +31,14 @@ public class SysCommonController {
         List<SysDictItemEntity> sysDictItemEntities = sysDictItemService.listByObj(null, "dictCode", "dictValue", "dictLabel");
         return R.success(sysDictItemEntities);
     }
+
+//    TODO 考虑数据权限和SASS问题，暂时先不开发。
+//    @ApiOperation("字典组件封装")
+//    @GetMapping("/dict/select")
+//    public R<List> dictSelect(@Valid SysTableSelectModel sysTableSelectModel) {
+//        switch(sysTableSelectModel.getDictTable()){
+//            case ""
+//        }
+//        return R.success();
+//    }
 }

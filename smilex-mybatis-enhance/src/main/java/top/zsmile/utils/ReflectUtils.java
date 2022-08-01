@@ -17,7 +17,7 @@ public class ReflectUtils {
                     return declaredField.get(obj);
                 }
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                log.error(clazz.getName() + "no find name => " + fieldName);
+//                log.error(clazz.getName() + " no find name => " + fieldName);
             }
         }
         return null;

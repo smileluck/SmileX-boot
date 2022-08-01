@@ -5,7 +5,7 @@
                 <el-row :gutter="10">
                     <el-col :span="4">
                         <#if primaryColumn??>
-                        <el-form-item label="ID：">
+                        <el-form-item label="ID：" prop="${primaryColumn.humpColumnName}">
                             <el-input
                                     v-model.trim="pageSearchFormModel.${primaryColumn.humpColumnName}"
                                     placeholder="请输入ID"
@@ -15,7 +15,7 @@
                         <#list columnModels as var>
                         <#if var.humpColumnName=="enableFlag">
                          <el-col :span="4">
-                            <el-form-item label="启用状态：">
+                            <el-form-item label="启用状态：" prop="${var.humpColumnName}">
                                <dict-select
                                     dictCode="enableFlag"
                                     v-model="pageSearchFormModel.enableFlag"
@@ -24,7 +24,7 @@
                         ></el-col>
                         <#else>
                         <el-col :span="4">
-                            <el-form-item label="${var.columnComment}：">
+                            <el-form-item label="${var.columnComment}：" prop="${var.humpColumnName}">
                             <el-input
                                     v-model.trim="pageSearchFormModel.${var.humpColumnName}"
                                     placeholder="请输入${var.columnComment}"
