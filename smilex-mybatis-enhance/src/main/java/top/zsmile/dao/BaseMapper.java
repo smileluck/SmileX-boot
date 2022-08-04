@@ -162,7 +162,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "batchInsert")
-    int batchInsert(List<T> list);
+    int batchInsert(List<? extends T> list);
 
     /**
      * 根据ID 逻辑删除

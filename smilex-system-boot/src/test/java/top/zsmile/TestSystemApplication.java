@@ -21,6 +21,9 @@ public class TestSystemApplication {
     @Autowired
     private SysDictMapper sysDictDao;
 
+    @Autowired
+    private SysDictService sysDictService;
+
     @Test
     public void testDict() {
 //        IPage<SysDictEntity> sysDictEntityIPage = sysDictDao.selectPageByMap(new Page<SysDictEntity>(1, 10), new HashMap<>());
@@ -68,7 +71,10 @@ public class TestSystemApplication {
         sysDictEntities.stream().forEach(item->{
             item.setId(null);
         });
-        int i = sysDictDao.batchInsert(sysDictEntities);
-        System.out.println(i);
+//        int i = sysDictDao.batchInsert(sysDictEntities);
+//        System.out.println(i);
+
+        boolean b = sysDictService.saveBatch(sysDictEntities);
+        System.out.println(b);
     }
 }

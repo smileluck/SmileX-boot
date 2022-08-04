@@ -1,5 +1,6 @@
 package top.zsmile.service.impl;
 
+import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,10 @@ import top.zsmile.service.BaseService;
 import top.zsmile.utils.SqlHelper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {
 
@@ -29,7 +33,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 
 
     /**
-     * TODO 批量新增
+     * 批量新增
      *
      * @param collection
      * @param size
@@ -38,7 +42,14 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
     @Transactional
     @Override
     public boolean saveBatch(Collection<? extends T> collection, int size) {
-        return false;
+        int skip = 0;
+        int updateCount = 0;
+        while (skip < collection.size()) {
+            List<? extends T> collect = collection.stream().skip(skip).limit(size).collect(Collectors.toList());
+            updateCount += getBaseMapper().batchInsert(collect);
+            skip += size;
+        }
+        return SqlHelper.retBool(updateCount);
     }
 
 

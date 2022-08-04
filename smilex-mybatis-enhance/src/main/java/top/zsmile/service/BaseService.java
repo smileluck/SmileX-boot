@@ -138,7 +138,7 @@ public interface BaseService<T> {
 
 
     /**
-     * TODO 批量插入数据
+     * 批量插入数据
      *
      * @return
      */
