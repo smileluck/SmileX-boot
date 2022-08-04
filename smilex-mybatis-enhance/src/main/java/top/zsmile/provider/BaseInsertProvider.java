@@ -44,8 +44,8 @@ public class BaseInsertProvider extends BaseProvider {
 
         return new SQL() {{
             INSERT_INTO(tableInfo.getTableName());
-            INTO_COLUMNS(Stream.of(fields).filter(field -> !StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field.getName()))).map(TableQueryUtils::humpToLineName).toArray(String[]::new));
-            INTO_VALUES(Stream.of(fields).filter(field -> !StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field.getName()))).map(TableQueryUtils::getInjectParameter).toArray(String[]::new));
+            INTO_COLUMNS(Stream.of(fields).filter(field -> !StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field))).map(TableQueryUtils::humpToLineName).toArray(String[]::new));
+            INTO_VALUES(Stream.of(fields).filter(field -> !StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field))).map(TableQueryUtils::getInjectParameter).toArray(String[]::new));
         }}.toString();
     }
 
@@ -74,7 +74,7 @@ public class BaseInsertProvider extends BaseProvider {
 //                }
 //                setDefaultIdValue(entity, tableInfo);
 //                INTO_VALUES(Stream.of(fields).map(field -> {
-//                            System.out.println(ReflectUtils.getFieldValue(entity, field.getName()).toString());
+//                            System.out.println(ReflectUtils.getFieldValue(entity, field).toString());
 //                            return "'" + getValue(entity, field) + "'";
 //                        }
 //                ).toArray(String[]::new));
@@ -103,7 +103,7 @@ public class BaseInsertProvider extends BaseProvider {
      * @param field
      */
     private String getValue(Object entity, Field field) {
-        Object fieldValue = ReflectUtils.getFieldValue(entity, field.getName());
+        Object fieldValue = ReflectUtils.getFieldValue(entity, field);
         if (field.getType() == Date.class) {
             fieldValue = DateFormatUtils.format((Date) fieldValue, "yyyy-MM-dd HH:mm:ss");
         }

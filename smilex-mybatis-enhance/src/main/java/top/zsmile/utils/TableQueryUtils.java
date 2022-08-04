@@ -129,7 +129,16 @@ public class TableQueryUtils {
      * 查询逻辑删除列
      */
     public static String queryLogicDelColumn(Field[] fields) {
-        return Stream.of(fields).filter(field -> field.isAnnotationPresent(TableLogic.class)).findFirst().map(TableQueryUtils::humpToLineName).orElse(Constants.DEFAULT_DELETE_LOGIC_KEY);
+        Optional<Field> optional = Stream.of(fields).filter(field -> field.isAnnotationPresent(TableLogic.class)).findFirst();
+        if (optional.isPresent()) {
+            return optional.map(TableQueryUtils::humpToLineName).get();
+        } else {
+            Optional<Field> first = Stream.of(fields).filter(field -> field.getName().equals(Constants.DEFAULT_DELETE_LOGIC_KEY)).findFirst();
+            if (first.isPresent()) {
+                return first.map(TableQueryUtils::humpToLineName).get();
+            }
+        }
+        return null;
     }
 
     /**

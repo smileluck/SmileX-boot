@@ -190,12 +190,13 @@ public interface BaseMapper<T> {
     int deletePhysicsByMap(Map<String, Object> cm);
 
     /**
-     * 根据ID进行物理删除
+     * 根据ID进行逻辑删除
+     * 如果不存在逻辑删除字段，则物理删除
      *
      * @param id
      * @return
      */
-    @UpdateProvider(type = BaseDeleteProvider.class, method = "deleteLogicById")
+    @UpdateProvider(type = BaseDeleteProvider.class, method = "deleteById")
     int deleteLogicById(Serializable id);
 
     /**
@@ -203,7 +204,7 @@ public interface BaseMapper<T> {
      *
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
-    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicBatchIds")
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteBatchIds")
     int deleteLogicByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
 
@@ -212,7 +213,7 @@ public interface BaseMapper<T> {
      *
      * @param cm 表字段 map 对象
      */
-    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicByMap")
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteByMap")
     int deleteLogicByMap(Map<String, Object> cm);
 
 

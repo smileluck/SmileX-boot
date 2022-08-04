@@ -121,6 +121,10 @@ public class TableInfo implements Serializable {
         return logicDelColumn + StringPool.EQUALS + LOGIC_DEL_NUMBER;
     }
 
+    public boolean hasLogicDelColumn() {
+        return logicDelColumn != null;
+    }
+
     public String logicDelColumnWhere() {
         return logicDelColumn + StringPool.EQUALS + LOGIC_NOT_DEL_NUMBER;
     }

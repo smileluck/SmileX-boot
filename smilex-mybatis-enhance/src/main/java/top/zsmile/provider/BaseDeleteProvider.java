@@ -13,20 +13,28 @@ import java.util.Map;
 
 public class BaseDeleteProvider extends BaseProvider {
 
+
     /**
-     * 逻辑删除
+     * 删除，优先逻辑删除，如果没有逻辑删除字段则物理删除
      *
      * @param context
      * @return
      */
-    public String deleteLogicById(ProviderContext context) {
+    public String deleteById(ProviderContext context) {
         TableInfo tableInfo = getTableInfo(context);
-        return new SQL() {{
-            UPDATE(tableInfo.getTableName());
-            SET(tableInfo.logicDelColumnSet());
-            WHERE(tableInfo.primaryColumnWhere());
-        }}.toString();
+        if (tableInfo.hasLogicDelColumn()) {
+            return new SQL() {{
+                UPDATE(tableInfo.getTableName());
+                SET(tableInfo.logicDelColumnSet());
+                WHERE(tableInfo.primaryColumnWhere());
+            }}.toString();
+        } else {
+            return new SQL() {{
+                DELETE_FROM(tableInfo.getTableName()).WHERE(tableInfo.primaryColumnWhere());
+            }}.toString();
+        }
     }
+
 
     /**
      * 批量逻辑删除
@@ -34,13 +42,21 @@ public class BaseDeleteProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String deleteLogicBatchIds(ProviderContext context) {
+    public String deleteBatchIds(ProviderContext context) {
         TableInfo tableInfo = getTableInfo(context);
-        String sql = new SQL() {{
-            UPDATE(tableInfo.getTableName());
-            SET(tableInfo.logicDelColumnSet());
-            WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
-        }}.toString();
+        String sql;
+        if (tableInfo.hasLogicDelColumn()) {
+            sql = new SQL() {{
+                UPDATE(tableInfo.getTableName());
+                SET(tableInfo.logicDelColumnSet());
+                WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
+            }}.toString();
+        } else {
+            sql = new SQL() {{
+                DELETE_FROM(tableInfo.getTableName());
+                WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
+            }}.toString();
+        }
         return TableQueryUtils.getSqlScript(sql);
     }
 
@@ -53,16 +69,29 @@ public class BaseDeleteProvider extends BaseProvider {
      */
     public String deleteLogicByMap(ProviderContext context, Map<String, Object> cm) {
         TableInfo tableInfo = getTableInfo(context);
-        String sql = new SQL() {{
-            UPDATE(tableInfo.getTableName());
-            SET(tableInfo.logicDelColumnSet());
-            if (!CollectionUtils.isEmpty(cm)) {
-                String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
-                if (!StringUtils.isEmpty(mapCondition)) {
-                    WHERE(mapCondition);
+        String sql;
+        if (tableInfo.hasLogicDelColumn()) {
+            sql = new SQL() {{
+                UPDATE(tableInfo.getTableName());
+                SET(tableInfo.logicDelColumnSet());
+                if (!CollectionUtils.isEmpty(cm)) {
+                    String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                    if (!StringUtils.isEmpty(mapCondition)) {
+                        WHERE(mapCondition);
+                    }
                 }
-            }
-        }}.toString();
+            }}.toString();
+        } else {
+            sql = new SQL() {{
+                DELETE_FROM(tableInfo.getTableName());
+                if (!CollectionUtils.isEmpty(cm)) {
+                    String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
+                    if (!StringUtils.isEmpty(mapCondition)) {
+                        WHERE(mapCondition);
+                    }
+                }
+            }}.toString();
+        }
         return TableQueryUtils.getSqlScript(sql);
     }
 

@@ -33,7 +33,7 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
         return s;
@@ -52,7 +52,7 @@ public class BaseSelectProvider extends BaseProvider {
         String sql = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + TableQueryUtils.convertForeach("#{item}", "coll", null, "item", ",") + ")");
@@ -83,7 +83,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
@@ -111,7 +111,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(TableQueryUtils.getSelectColumn(column));
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
@@ -140,9 +140,9 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             if (entity != null) {
-                WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field.getName()) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
+                WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
             }
         }}.toString();
 
@@ -163,7 +163,7 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(tableInfo.getCountColumn());
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
@@ -200,7 +200,7 @@ public class BaseSelectProvider extends BaseProvider {
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
-            WHERE(tableInfo.logicDelColumnWhere());
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
