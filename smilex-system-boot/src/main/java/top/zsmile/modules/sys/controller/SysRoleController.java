@@ -7,12 +7,14 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.checkerframework.checker.units.qual.A;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.meta.IPage;
+import top.zsmile.modules.sys.service.SysRoleMenuService;
 import top.zsmile.modules.sys.service.SysRoleService;
 import top.zsmile.modules.sys.entity.SysRoleEntity;
 
@@ -26,6 +28,9 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
 
     @ApiOperation("查询列表（分页）")
     @SysLog(title = "角色管理", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")

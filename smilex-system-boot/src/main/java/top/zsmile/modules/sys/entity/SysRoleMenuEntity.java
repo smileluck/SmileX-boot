@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 系统角色菜单
  */
 @ApiModel(value="系统角色菜单", description = "系统角色菜单")
-public class SysRoleMenuEntity extends BaseEntity implements Serializable {
+public class SysRoleMenuEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
