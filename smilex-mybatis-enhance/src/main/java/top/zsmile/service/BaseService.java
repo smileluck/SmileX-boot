@@ -1,19 +1,14 @@
 package top.zsmile.service;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.yaml.snakeyaml.scanner.Constant;
 import top.zsmile.dao.BaseMapper;
 import top.zsmile.meta.IPage;
-import top.zsmile.provider.BaseSelectProvider;
 import top.zsmile.utils.Constants;
 import top.zsmile.utils.PageQuery;
 import top.zsmile.utils.SqlHelper;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +39,7 @@ public interface BaseService<T> {
     }
 
     default T getObjByMap(Map<String, Object> map, String... columns) {
-        return getBaseMapper().selectOne(map, columns);
+        return getBaseMapper().selectOneByMap(map, columns);
     }
 
     /**
@@ -65,7 +60,7 @@ public interface BaseService<T> {
      * @param columns 字段名
      */
     default List<T> listByIds(Collection<? extends Serializable> idList, String... columns) {
-        return getBaseMapper().selectBatchIds(idList, columns);
+        return getBaseMapper().selectByIds(idList, columns);
     }
 
 
@@ -77,7 +72,7 @@ public interface BaseService<T> {
      * @return
      */
     default List<Map<String, Object>> listMapByIds(Collection<? extends Serializable> idList, String... columns) {
-        return getBaseMapper().selectMapBatchIds(idList, columns);
+        return getBaseMapper().selectMapByIds(idList, columns);
     }
 
     /**
@@ -87,7 +82,7 @@ public interface BaseService<T> {
      * @param columns   字段名
      * @return
      */
-    default List<T> getByMap(Map<String, Object> columnMap, String... columns) {
+    default List<T> listByMap(Map<String, Object> columnMap, String... columns) {
         return getBaseMapper().selectListByMap(columnMap, columns);
     }
 
@@ -98,8 +93,8 @@ public interface BaseService<T> {
      * @param columns   字段名
      * @return
      */
-    default List<Map<String, Object>> getMapByMap(Map<String, Object> columnMap, String... columns) {
-        return getBaseMapper().selectMapByMap(columnMap, columns);
+    default List<Map<String, Object>> listMapByMap(Map<String, Object> columnMap, String... columns) {
+        return getBaseMapper().selectMapListByMap(columnMap, columns);
     }
 
     /**
@@ -109,7 +104,7 @@ public interface BaseService<T> {
      * @param columns 字段名
      */
     default List<T> listByObj(T entity, String... columns) {
-        return getBaseMapper().selectList(entity, columns);
+        return getBaseMapper().selectListByObj(entity, columns);
     }
 
 
@@ -120,7 +115,7 @@ public interface BaseService<T> {
      * @param columns 字段名
      */
     default List<Map<String, Object>> listMapByObj(T entity, String... columns) {
-        return getBaseMapper().selectListMap(entity, columns);
+        return getBaseMapper().selectListMapByObj(entity, columns);
     }
 
     /**
@@ -170,11 +165,11 @@ public interface BaseService<T> {
      *
      * @param ids 主键ID列表或实体列表(不能为 null 以及 empty)
      */
-    default boolean removePhysicsBatchIds(Collection<? extends Serializable> ids) {
+    default boolean removePhysicsByIds(Collection<? extends Serializable> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return false;
         }
-        return SqlHelper.retBool(getBaseMapper().deletePhysicsBatchIds(ids));
+        return SqlHelper.retBool(getBaseMapper().deletePhysicsByIds(ids));
     }
 
     /**
@@ -204,11 +199,11 @@ public interface BaseService<T> {
      *
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
-    default boolean removeLogicBatchIds(Collection<? extends Serializable> idList) {
+    default boolean removeLogicByIds(Collection<? extends Serializable> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             return false;
         }
-        return SqlHelper.retBool(getBaseMapper().deleteLogicBatchIds(idList));
+        return SqlHelper.retBool(getBaseMapper().deleteLogicByIds(idList));
     }
 
 
@@ -228,21 +223,21 @@ public interface BaseService<T> {
     /**
      * TODO 临时用来代替拦截器实现的分页功能，后续优化
      */
-    default IPage<T> getPage(Map<String, Object> columnMap, String... columns) {
-        return getPage(columnMap, false, columns);
+    default IPage<T> getPageByMap(Map<String, Object> columnMap, String... columns) {
+        return getPageByMap(columnMap, false, columns);
     }
 
 
     /**
      * TODO 临时用来代替拦截器实现的分页功能，后续优化
      */
-    default IPage<T> getPage(Map<String, Object> columnMap, boolean isAll, String... columns) {
+    default IPage<T> getPageByMap(Map<String, Object> columnMap, boolean isAll, String... columns) {
         IPage<T> page = new PageQuery<T>().getPage(columnMap);
         if (isAll) {
             page.setSize(Constants.PAGE_ALL_OFFSET);
         }
-        List<T> list = getBaseMapper().selectListPage(page, columnMap, columns);
-        Long count = getBaseMapper().selectCount(columnMap);
+        List<T> list = getBaseMapper().selectListPageByMap(page, columnMap, columns);
+        Long count = getBaseMapper().selectCountByMap(columnMap);
         page.setRecords(list);
         page.setTotal(count);
         return page;

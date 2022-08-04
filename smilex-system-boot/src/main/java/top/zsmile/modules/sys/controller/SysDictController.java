@@ -32,7 +32,7 @@ public class SysDictController {
     @RequiresPermissions("sys:dict:list")
     @GetMapping("/list")
     public R<IPage<SysDictEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysDictService.getPage(params);
+        IPage page = sysDictService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysDictController {
     @RequiresPermissions("sys:dict:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysDictService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysDictService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

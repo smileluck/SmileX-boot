@@ -32,7 +32,7 @@ public class SysTenantController {
     @RequiresPermissions("sys:tenant:list")
     @GetMapping("/list")
     public R<IPage<SysTenantEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysTenantService.getPage(params, "tenantName", "createTime", "createBy", "updateTime", "updateBy");
+        IPage page = sysTenantService.getPageByMap(params, "tenantName", "createTime", "createBy", "updateTime", "updateBy");
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysTenantController {
     @RequiresPermissions("sys:tenant:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysTenantService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysTenantService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

@@ -3,8 +3,6 @@ package top.zsmile.modules.open.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.commons.collections.CollectionUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +38,7 @@ public class OpenBlogController {
     @GetMapping("/section/{tenantId}")
     public R section(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = Collections.singletonMap("tenantId", tenantId);
-        List<Map<String, Object>> list = blogSectionService.getMapByMap(map, "id", "parentId", "sectionName");
+        List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName");
         return R.success(list);
     }
 
@@ -56,7 +54,7 @@ public class OpenBlogController {
         Map<String, Object> map = new HashMap<>(2);
         map.put("tenantId", tenantId);
         map.put("enableFlag", 1);
-        List<Map<String, Object>> list = blogTagService.getMapByMap(map, "id", "tagName");
+        List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
         return R.success(list);
     }
 }

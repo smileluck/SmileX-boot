@@ -147,6 +147,7 @@ public class TableQueryUtils {
         return Stream.of(fields).map(TableQueryUtils::getInjectParameter).toArray(String[]::new);
     }
 
+
     /**
      * 转换Entity类名称为数据表名
      */
@@ -209,6 +210,18 @@ public class TableQueryUtils {
         return getInjectParameter(field.getName());
     }
 
+
+    /**
+     * 注入字段,#{exampleColumn}
+     *
+     * @param field
+     * @param prefix 前缀
+     * @return
+     */
+    public static String getInjectParameter(Field field, String prefix) {
+        return getInjectParameter(field.getName(), prefix);
+    }
+
     /**
      * 注入字段,#{exampleColumn}
      *
@@ -216,7 +229,22 @@ public class TableQueryUtils {
      * @return
      */
     public static String getInjectParameter(String fieldName) {
-        return (StringPool.HASH_LEFT_BRACE + fieldName + StringPool.RIGHT_BRACE).intern();
+        return getInjectParameter(fieldName, null);
+    }
+
+    /**
+     * 注入字段,#{exampleColumn}
+     *
+     * @param fieldName
+     * @param prefix    前缀
+     * @return
+     */
+    public static String getInjectParameter(String fieldName, String prefix) {
+        if (prefix != null) {
+            return (StringPool.HASH_LEFT_BRACE + prefix + fieldName + StringPool.RIGHT_BRACE).intern();
+        } else {
+            return (StringPool.HASH_LEFT_BRACE + fieldName + StringPool.RIGHT_BRACE).intern();
+        }
     }
 
     /**

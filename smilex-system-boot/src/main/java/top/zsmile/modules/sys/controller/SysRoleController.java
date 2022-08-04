@@ -32,7 +32,7 @@ public class SysRoleController {
     @RequiresPermissions("sys:role:list")
     @GetMapping("/list")
     public R<IPage<SysRoleEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysRoleService.getPage(params);
+        IPage page = sysRoleService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysRoleController {
     @RequiresPermissions("sys:role:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysRoleService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysRoleService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

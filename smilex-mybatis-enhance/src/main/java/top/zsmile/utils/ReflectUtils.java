@@ -7,6 +7,13 @@ import java.util.Arrays;
 
 @Slf4j
 public class ReflectUtils {
+    /**
+     * 根据字段名获取值
+     *
+     * @param obj
+     * @param fieldName
+     * @return
+     */
     public static Object getFieldValue(Object obj, String fieldName) {
         Class clazz = obj.getClass();
         for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
@@ -22,4 +29,22 @@ public class ReflectUtils {
         }
         return null;
     }
+
+    /**
+     * 根据字段获取对象值
+     *
+     * @param obj
+     * @param field
+     * @return
+     */
+    public static Object getFieldValue(Object obj, Field field) {
+        try {
+            field.setAccessible(true);
+            return field.get(obj);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

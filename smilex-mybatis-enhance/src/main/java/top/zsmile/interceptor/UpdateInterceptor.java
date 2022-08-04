@@ -14,11 +14,11 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Map;
 
-@Component
-@Intercepts({
-        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-})
+//@Component
+//@Intercepts({
+//        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
+//        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+//})
 public class UpdateInterceptor implements Interceptor {
     @Autowired
     private CommonAuthApi commonAuthApi;

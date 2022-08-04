@@ -9,8 +9,10 @@ import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
 import top.zsmile.modules.sys.dao.SysDictMapper;
 import top.zsmile.modules.sys.entity.SysDictEntity;
+import top.zsmile.modules.sys.service.SysDictService;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SmileSystemApplication.class)
@@ -21,8 +23,8 @@ public class TestSystemApplication {
 
     @Test
     public void testDict() {
-        IPage<SysDictEntity> sysDictEntityIPage = sysDictDao.selectPage(new Page<SysDictEntity>(1, 10), new HashMap<>());
-        System.out.println(sysDictEntityIPage);
+//        IPage<SysDictEntity> sysDictEntityIPage = sysDictDao.selectPageByMap(new Page<SysDictEntity>(1, 10), new HashMap<>());
+//        System.out.println(sysDictEntityIPage);
 
 //        SysDictEntity sysDictEntity = new SysDictEntity();
 //        sysDictEntity.setDictName("11");
@@ -61,5 +63,12 @@ public class TestSystemApplication {
 //        List<SysDictEntity> sysDictEntities1 = sysDictDao.selectByMap(map);
 //        System.out.println(System.currentTimeMillis());
 
+        List<SysDictEntity> sysDictEntities = sysDictDao.selectListByMap(null);
+        System.out.println(sysDictEntities);
+        sysDictEntities.stream().forEach(item->{
+            item.setId(null);
+        });
+        int i = sysDictDao.batchInsert(sysDictEntities);
+        System.out.println(i);
     }
 }

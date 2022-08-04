@@ -32,7 +32,7 @@ public class SysRoleMenuController {
     @RequiresPermissions("sys:role:menu:list")
     @GetMapping("/list")
     public R<IPage<SysRoleMenuEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysRoleMenuService.getPage(params);
+        IPage page = sysRoleMenuService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysRoleMenuController {
     @RequiresPermissions("sys:role:menu:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysRoleMenuService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysRoleMenuService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

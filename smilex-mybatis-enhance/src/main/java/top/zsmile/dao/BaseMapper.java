@@ -45,7 +45,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectBatchIds")
-    List<T> selectBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
@@ -56,7 +56,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectBatchIds")
-    List<Map<String, Object>> selectMapBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
+    List<Map<String, Object>> selectMapByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
@@ -76,7 +76,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
-    List<Map<String, Object>> selectMapByMap(Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    List<Map<String, Object>> selectMapListByMap(Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 查询某个字段的集合
@@ -91,7 +91,7 @@ public interface BaseMapper<T> {
      * @param entity 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectList")
-    List<T> selectList(T entity, String... columns);
+    List<T> selectListByObj(T entity, String... columns);
 
     /**
      * 根据 entity 条件，查询全部记录
@@ -99,7 +99,7 @@ public interface BaseMapper<T> {
      * @param entity 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectList")
-    List<Map<String, Object>> selectListMap(@Param(Constants.ENTITY) T entity, @Param(Constants.COLUMNS) String... columns);
+    List<Map<String, Object>> selectListMapByObj(@Param(Constants.ENTITY) T entity, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，查询总条数
@@ -107,7 +107,7 @@ public interface BaseMapper<T> {
      * @param cm 实体对象封装操作类（可以为 null）
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectCount")
-    Long selectCount(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
+    Long selectCountByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
     /**
      * 根据 entity 条件，查询一条记录
@@ -115,7 +115,7 @@ public interface BaseMapper<T> {
      *
      * @param cm 实体对象封装操作类（可以为 null）
      */
-    default T selectOne(Map<String, Object> cm, String... column) {
+    default T selectOneByMap(Map<String, Object> cm, String... column) {
         List<T> ts = this.selectListByMap(cm, column);
         if (ts != null && !ts.isEmpty()) {
             if (ts.size() != 1) {
@@ -133,7 +133,7 @@ public interface BaseMapper<T> {
      * @return 是否存在记录
      */
     default boolean exists(Map<String, Object> cm) {
-        Long count = this.selectCount(cm);
+        Long count = this.selectCountByMap(cm);
         return null != count && count > 0;
     }
 
@@ -148,13 +148,21 @@ public interface BaseMapper<T> {
 
 
     /**
-     * 插入数据
+     * 插入单挑数据
      *
      * @param t
      * @return
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "insert")
     int insert(T t);
+
+    /**
+     * 批量插入数据
+     * @param list
+     * @return
+     */
+    @InsertProvider(type = BaseInsertProvider.class, method = "batchInsert")
+    int batchInsert(List<T> list);
 
     /**
      * 根据ID 逻辑删除
@@ -171,7 +179,7 @@ public interface BaseMapper<T> {
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
     @UpdateProvider(type = BaseDeleteProvider.class, method = "deletePhysicsBatchIds")
-    int deletePhysicsBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
+    int deletePhysicsByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
     /**
      * 根据 cm 条件，物理删除记录
@@ -196,7 +204,7 @@ public interface BaseMapper<T> {
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteLogicBatchIds")
-    int deleteLogicBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
+    int deleteLogicByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
 
     /**
@@ -212,12 +220,13 @@ public interface BaseMapper<T> {
      * TODO 单表分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    IPage<T> selectPage(IPage<T> page, Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    IPage<T> selectPageByMap(IPage<T> page, Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
      * 分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    List<T> selectListPage(IPage<T> page, Map<String, Object> cm, String... columns);
+    List<T> selectListPageByMap(IPage<T> page, Map<String, Object> cm, String... columns);
+
 }

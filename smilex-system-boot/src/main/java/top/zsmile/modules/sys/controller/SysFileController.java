@@ -32,7 +32,7 @@ public class SysFileController {
     @RequiresPermissions("sys:file:list")
     @GetMapping("/list")
     public R<IPage<SysFileEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysFileService.getPage(params);
+        IPage page = sysFileService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysFileController {
     @RequiresPermissions("sys:file:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysFileService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysFileService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

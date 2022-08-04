@@ -32,7 +32,7 @@ public class BlogSectionController {
     @RequiresPermissions("blog:section:list")
     @GetMapping("/list")
     public R<IPage<BlogSectionEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = blogSectionService.getPage(params);
+        IPage page = blogSectionService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class BlogSectionController {
     @RequiresPermissions("blog:section:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        blogSectionService.removePhysicsBatchIds(Arrays.asList(ids));
+        blogSectionService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

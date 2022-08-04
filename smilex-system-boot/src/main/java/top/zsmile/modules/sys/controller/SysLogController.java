@@ -32,7 +32,7 @@ public class SysLogController {
     @RequiresPermissions("sys:log:list")
     @GetMapping("/list")
     public R<IPage<SysLogEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysLogService.getPage(params);
+        IPage page = sysLogService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysLogController {
     @RequiresPermissions("sys:log:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysLogService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysLogService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

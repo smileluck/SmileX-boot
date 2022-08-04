@@ -32,7 +32,7 @@ public class SysUserController {
     @RequiresPermissions("sys:user:list")
     @GetMapping("/list")
     public R<IPage<SysUserEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysUserService.getPage(params, "id", "tenantId", "username", "realName", "enableFlag", "remark", "createTime", "createBy", "updateTime", "updateBy");
+        IPage page = sysUserService.getPageByMap(params, "id", "tenantId", "username", "realName", "enableFlag", "remark", "createTime", "createBy", "updateTime", "updateBy");
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysUserController {
     @RequiresPermissions("sys:user:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysUserService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysUserService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

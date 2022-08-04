@@ -32,7 +32,7 @@ public class BlogArticleDraftController {
     @RequiresPermissions("blog:article:draft:list")
     @GetMapping("/list")
     public R<IPage<BlogArticleDraftEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = blogArticleDraftService.getPage(params);
+        IPage page = blogArticleDraftService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class BlogArticleDraftController {
     @RequiresPermissions("blog:article:draft:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        blogArticleDraftService.removePhysicsBatchIds(Arrays.asList(ids));
+        blogArticleDraftService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

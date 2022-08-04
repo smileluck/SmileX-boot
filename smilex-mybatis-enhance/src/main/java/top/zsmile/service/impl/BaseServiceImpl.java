@@ -18,7 +18,6 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 
     protected Logger log = LoggerFactory.getLogger(getClass());
 
-    private SnowFlake snowFlake = new SnowFlake(0, 0);
 
     @Autowired
     protected M baseMapper;
@@ -28,9 +27,6 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
         return baseMapper;
     }
 
-    public SnowFlake getSnowFlake() {
-        return snowFlake;
-    }
 
     /**
      * TODO 批量新增
@@ -48,27 +44,8 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 
     @Override
     public boolean save(T entity) {
-        setDefaultIdValue(entity);
+//        setDefaultIdValue(entity);
         return SqlHelper.retBool(getBaseMapper().insert(entity));
     }
 
-    /**
-     * 设置雪花ID
-     *
-     * @param t
-     */
-    private void setDefaultIdValue(T t) {
-        try {
-            Field field = FieldUtils.getField(t.getClass(), "id", true);
-            if (null != field) {
-                Object id = FieldUtils.readField(t, "id", true);
-                if (null == id || "0".equals(String.valueOf(id))) {
-                    FieldUtils.writeField(t, "id", this.getSnowFlake().nextId(), true);
-                }
-            }
-
-        } catch (IllegalAccessException var4) {
-            throw new IllegalArgumentException(var4.getMessage());
-        }
-    }
 }

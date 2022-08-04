@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import top.zsmile.meta.IPage;
 import top.zsmile.modules.sys.service.SysMenuService;
 import top.zsmile.modules.sys.entity.SysMenuEntity;
-import top.zsmile.utils.Constants;
 
 /**
  * 系统菜单管理
@@ -35,7 +34,7 @@ public class SysMenuController {
     @RequiresPermissions("sys:menu:list")
     @GetMapping("/list")
     public R<IPage<SysMenuEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysMenuService.getPage(params,true);
+        IPage page = sysMenuService.getPageByMap(params,true);
         return R.success("查询成功", page);
     }
 
@@ -62,7 +61,7 @@ public class SysMenuController {
     @RequiresPermissions("sys:menu:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids) {
-        sysMenuService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysMenuService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

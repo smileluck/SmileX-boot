@@ -32,7 +32,7 @@ public class BlogCommentController {
     @RequiresPermissions("blog:comment:list")
     @GetMapping("/list")
     public R<IPage<BlogCommentEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = blogCommentService.getPage(params);
+        IPage page = blogCommentService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class BlogCommentController {
     @RequiresPermissions("blog:comment:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        blogCommentService.removePhysicsBatchIds(Arrays.asList(ids));
+        blogCommentService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

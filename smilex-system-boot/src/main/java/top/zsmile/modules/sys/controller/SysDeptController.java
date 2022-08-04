@@ -32,7 +32,7 @@ public class SysDeptController {
     @RequiresPermissions("sys:dept:list")
     @GetMapping("/list")
     public R<IPage<SysDeptEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysDeptService.getPage(params);
+        IPage page = sysDeptService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysDeptController {
     @RequiresPermissions("sys:dept:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysDeptService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysDeptService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

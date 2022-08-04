@@ -32,7 +32,7 @@ public class SysConfigController {
     @RequiresPermissions("sys:config:list")
     @GetMapping("/list")
     public R<IPage<SysConfigEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysConfigService.getPage(params);
+        IPage page = sysConfigService.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class SysConfigController {
     @RequiresPermissions("sys:config:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        sysConfigService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysConfigService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 

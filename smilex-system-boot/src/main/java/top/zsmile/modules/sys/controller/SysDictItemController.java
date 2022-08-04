@@ -38,7 +38,7 @@ public class SysDictItemController {
     @RequiresPermissions("sys:dict:item:list")
     @GetMapping("/list")
     public R<IPage<SysDictItemEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysDictItemService.getPage(params);
+        IPage page = sysDictItemService.getPageByMap(params);
         return R.success("查询成功", page);
     }
 
@@ -55,7 +55,7 @@ public class SysDictItemController {
     @RequiresPermissions("sys:dict:item:info")
     @GetMapping("/info/dictList")
     public R<List<SysDictEntity>> dictList() {
-        List<SysDictEntity> list = sysDictService.getByMap(null, "dictCode", "dictName");
+        List<SysDictEntity> list = sysDictService.listByMap(null, "dictCode", "dictName");
         return R.success("查询成功", list);
     }
 
@@ -76,7 +76,7 @@ public class SysDictItemController {
     @RequiresPermissions("sys:dict:item:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids) {
-        sysDictItemService.removePhysicsBatchIds(Arrays.asList(ids));
+        sysDictItemService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 
