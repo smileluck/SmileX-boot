@@ -9,5 +9,23 @@ import java.util.Map;
 
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenuEntity> {
-    List<Map<String, Object>> selectMenusByUser();
+    /**
+     * 获取用户的菜单
+     *
+     * @param userId
+     * @return
+     */
+    List<Map<String, Object>> selectMenusByUser(Long userId);
+    /**
+     * 获取用户的菜单(超管使用)
+     *
+     * @return
+     */
+    List<Map<String, Object>> selectMenus();
+
+
+    /**
+     * 获取用户的权限
+     */
+    List<Object> selectPermsByUser(Long userId);
 }

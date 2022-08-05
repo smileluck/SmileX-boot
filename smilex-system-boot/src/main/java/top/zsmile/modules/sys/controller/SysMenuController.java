@@ -1,9 +1,6 @@
 package top.zsmile.modules.sys.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
@@ -34,7 +31,7 @@ public class SysMenuController {
     @RequiresPermissions("sys:menu:list")
     @GetMapping("/list")
     public R<IPage<SysMenuEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = sysMenuService.getPageByMap(params,true);
+        IPage page = sysMenuService.getPageByMap(params, true);
         return R.success("查询成功", page);
     }
 
@@ -77,16 +74,14 @@ public class SysMenuController {
 
     /**
      * vue3 前端获取菜单和权限
-     * TODO 查询实际授权的
      *
      * @return
      */
     @GetMapping("/perms")
     public R perms() {
         List<Map<String, Object>> menus = sysMenuService.queryMenusByUser();
-        List<Object> perms = sysMenuService.queryPermsByUser();
-
-        Map<String, List> result = new HashMap<>(2);
+        Set<String> perms = sysMenuService.queryPermsByUser();
+        Map<String, Object> result = new HashMap<>(2);
         result.put("menus", menus);
         result.put("perms", perms);
 

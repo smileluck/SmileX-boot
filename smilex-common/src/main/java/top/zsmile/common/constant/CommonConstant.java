@@ -1,6 +1,11 @@
 package top.zsmile.common.constant;
 
 public interface CommonConstant {
+
+    // 超级管理员默认ID
+    public static final Long SUPER_ADMIN_ID = 1L;
+
+
     // SHIRO 请求头相关信息
     public static final String X_ACCESS_TOKEN = "X-Access-Token";
     public static final String X_SIGN = "X-Sign";

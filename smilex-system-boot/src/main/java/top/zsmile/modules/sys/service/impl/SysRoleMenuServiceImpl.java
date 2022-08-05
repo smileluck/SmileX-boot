@@ -23,7 +23,7 @@ public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuMapper, S
             sysRoleMenuEntity.setMenuType(1);
             return sysRoleMenuEntity;
         }).collect(Collectors.toList());
-        List<SysRoleMenuEntity> collect2 = Arrays.stream(sysRoleMenuSaveDto.getMenuIds()).distinct().map(item -> {
+        List<SysRoleMenuEntity> collect2 = Arrays.stream(sysRoleMenuSaveDto.getHalfMenuIds()).distinct().map(item -> {
             SysRoleMenuEntity sysRoleMenuEntity = new SysRoleMenuEntity();
             sysRoleMenuEntity.setRoleId(sysRoleMenuSaveDto.getRoleId());
             sysRoleMenuEntity.setMenuId(item);

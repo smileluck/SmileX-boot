@@ -20,5 +20,5 @@ public interface CommonApi {
     /**
      * 2查询用户权限信息
      */
-    List<Object> queryUserPerms(Long userId);
+    Set<String> queryUserPerms(Long userId);
 }

@@ -1,5 +1,8 @@
 package top.zsmile.modules.sys.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import top.zsmile.api.common.CommonAuthApi;
+import top.zsmile.common.constant.CommonConstant;
 import top.zsmile.service.BaseService;
 import top.zsmile.service.impl.BaseServiceImpl;
 import top.zsmile.modules.sys.entity.SysMenuEntity;
@@ -7,26 +10,53 @@ import top.zsmile.modules.sys.dao.SysMenuMapper;
 import top.zsmile.modules.sys.service.SysMenuService;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("sysMenuService")
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenuEntity> implements SysMenuService {
+
+    @Autowired
+    private CommonAuthApi commonAuthApi;
+
     @Override
     public List<Map<String, Object>> queryMenusByUser() {
-
-        List<Map<String, Object>> maps = baseMapper.selectMenusByUser();
+        Long userId = commonAuthApi.queryUserId();
+        List<Map<String, Object>> maps;
+        if (userId.equals(CommonConstant.SUPER_ADMIN_ID)) {
+            maps = getBaseMapper().selectMenus();
+        } else {
+            maps = getBaseMapper().selectMenusByUser(userId);
+        }
         return maps;
     }
 
     @Override
-    public List<Object> queryPermsByUser() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("menuType", 2);
-        map.put("enableFlag", 1);
-
-        List<Object> perm = baseMapper.selectSingleByMap(map, "perm");
-        return perm;
+    public Set<String> queryPermsByUser() {
+        Long userId = commonAuthApi.queryUserId();
+        List<Object> lists;
+        if (userId.equals(CommonConstant.SUPER_ADMIN_ID)) {
+            Map<String, Object> map = new HashMap<>(2);
+            map.put("menuType", 2);
+            map.put("enableFlag", 1);
+            lists = getBaseMapper().selectSingleByMap(map, "perm");
+        } else {
+            lists = getBaseMapper().selectPermsByUser(userId);
+        }
+        ListIterator<Object> iterator = lists.listIterator();
+        while (iterator.hasNext()) {
+            Object obj = iterator.next();
+            String str = obj.toString();
+            if (str.contains(";")) {
+                iterator.remove();
+                String[] split = str.split(";");
+                for (String tempStr : split) {
+                    iterator.add(tempStr);
+                }
+                continue;
+            }
+        }
+        Set<String> sets = lists.stream().map(Object::toString).collect(Collectors.toSet());
+        return sets;
     }
 }

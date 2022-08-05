@@ -8,6 +8,7 @@ import top.zsmile.modules.sys.service.SysUserService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service("sysBaseApiImpl")
 public class SysBaseApiImpl implements CommonApi {
@@ -23,7 +24,7 @@ public class SysBaseApiImpl implements CommonApi {
     }
 
     @Override
-    public List<Object> queryUserPerms(Long userId) {
+    public Set<String> queryUserPerms(Long userId) {
         //TODO 查询实际授权的
         return sysMenuService.queryPermsByUser();
     }
