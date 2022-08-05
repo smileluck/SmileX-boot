@@ -31,13 +31,13 @@ public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
 
 <#if primaryColumn??>
     /**
-    * ${primaryColumn.columnComment}
+    * 获取：${primaryColumn.columnComment}
     */
     public ${primaryColumn.convertDataType} get${primaryColumn.bigHumpColumnName}(){
         return this.${primaryColumn.humpColumnName};
     }
     /**
-    * ${primaryColumn.columnComment}
+    * 设置：${primaryColumn.columnComment}
     */
     public void set${primaryColumn.bigHumpColumnName}(${primaryColumn.convertDataType} ${primaryColumn.humpColumnName}){
         this.${primaryColumn.humpColumnName} = ${primaryColumn.humpColumnName};
@@ -45,13 +45,13 @@ public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
 </#if>
 <#list columnModels as var>
     /**
-    * ${var.columnComment}
+    * 获取：${var.columnComment}
     */
     public ${var.convertDataType} get${var.bigHumpColumnName}(){
         return this.${var.humpColumnName};
     }
     /**
-    * ${var.columnComment}
+    * 设置： ${var.columnComment}
     */
     public void set${var.bigHumpColumnName}(${var.convertDataType} ${var.humpColumnName}){
         this.${var.humpColumnName} = ${var.humpColumnName};
