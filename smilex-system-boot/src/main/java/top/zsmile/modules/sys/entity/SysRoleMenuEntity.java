@@ -1,8 +1,7 @@
 package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
-import java.util.Date;
-import top.zsmile.entity.BaseEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -33,7 +32,7 @@ public class SysRoleMenuEntity implements Serializable {
      * 选中状态.1选中，2半选中
      */
     @ApiModelProperty(value = "选中状态1选中，2半选中", hidden=false)
-    private Integer menuType;
+    private Integer checkType;
 
     /**
     * ID
@@ -72,11 +71,11 @@ public class SysRoleMenuEntity implements Serializable {
         this.menuId = menuId;
     }
 
-    public Integer getMenuType() {
-        return menuType;
+    public Integer getCheckType() {
+        return checkType;
     }
 
-    public void setMenuType(Integer menuType) {
-        this.menuType = menuType;
+    public void setCheckType(Integer checkType) {
+        this.checkType = checkType;
     }
 }

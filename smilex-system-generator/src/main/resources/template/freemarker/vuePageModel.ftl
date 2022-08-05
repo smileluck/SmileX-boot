@@ -18,8 +18,8 @@
                         v-model="form.info.${var.humpColumnName}"
                         active-text="启用"
                         inactive-text="禁用"
-                        active-value="1"
-                        inactive-value="0"
+                        :active-value="1"
+                        :inactive-value="0"
                 />
             </el-form-item>
             <#else>
