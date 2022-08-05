@@ -63,6 +63,14 @@ public interface BaseService<T> {
         return getBaseMapper().selectByIds(idList, columns);
     }
 
+    /**
+     * 查询字段信息
+     *
+     * @param columns 字段名
+     */
+    default List<T> list(String... columns) {
+        return getBaseMapper().selectListByMap(null, columns);
+    }
 
     /**
      * 根据ID集合查询，可传入字段名查询需要得字段
@@ -191,7 +199,7 @@ public interface BaseService<T> {
      * @return
      */
     default boolean removeLogicById(Serializable id) {
-        return SqlHelper.retBool(getBaseMapper().deleteLogicById(id));
+        return SqlHelper.retBool(getBaseMapper().deleteById(id));
     }
 
     /**
@@ -203,7 +211,7 @@ public interface BaseService<T> {
         if (CollectionUtils.isEmpty(idList)) {
             return false;
         }
-        return SqlHelper.retBool(getBaseMapper().deleteLogicByIds(idList));
+        return SqlHelper.retBool(getBaseMapper().deleteByIds(idList));
     }
 
 
@@ -216,7 +224,7 @@ public interface BaseService<T> {
         if (CollectionUtils.isEmpty(columnMap)) {
             return false;
         }
-        return SqlHelper.retBool(getBaseMapper().deleteLogicByMap(columnMap));
+        return SqlHelper.retBool(getBaseMapper().deleteByMap(columnMap));
     }
 
 

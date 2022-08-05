@@ -67,7 +67,8 @@ public class BaseDeleteProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String deleteLogicByMap(ProviderContext context, Map<String, Object> cm) {
+    public String deleteByMap(ProviderContext context, Map<String, Object> params) {
+        Map<String, Object> cm = (Map<String, Object>) params.get(Constants.COLUMNS_MAP);
         TableInfo tableInfo = getTableInfo(context);
         String sql;
         if (tableInfo.hasLogicDelColumn()) {
@@ -129,7 +130,8 @@ public class BaseDeleteProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String deletePhysicsByMap(ProviderContext context, Map<String, Object> cm) {
+    public String deletePhysicsByMap(ProviderContext context, Map<String, Object> params) {
+        Map<String, Object> cm = (Map<String, Object>) params.get(Constants.COLUMNS_MAP);
         TableInfo tableInfo = getTableInfo(context);
         String sql = new SQL() {{
             DELETE_FROM(tableInfo.getTableName());

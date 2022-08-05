@@ -187,7 +187,7 @@ public interface BaseMapper<T> {
      * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deletePhysicsByMap")
-    int deletePhysicsByMap(Map<String, Object> cm);
+    int deletePhysicsByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
     /**
      * 根据ID进行逻辑删除
@@ -197,7 +197,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @UpdateProvider(type = BaseDeleteProvider.class, method = "deleteById")
-    int deleteLogicById(Serializable id);
+    int deleteById(Serializable id);
 
     /**
      * 根据ID集合 批量逻辑删除
@@ -205,7 +205,7 @@ public interface BaseMapper<T> {
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteBatchIds")
-    int deleteLogicByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
+    int deleteByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
 
     /**
@@ -214,7 +214,7 @@ public interface BaseMapper<T> {
      * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteByMap")
-    int deleteLogicByMap(Map<String, Object> cm);
+    int deleteByMap(@Param(Constants.COLUMNS_MAP)  Map<String, Object> cm);
 
 
     /**

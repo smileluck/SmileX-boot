@@ -53,7 +53,7 @@ public class SXExceptionHandler {
         if (e.getClass().getName().equals("org.apache.shiro.authz.UnauthorizedException")) {
             return R.fail("操作失败，用户无权限");
         }
-        return R.fail("操作失败，" + e.getMessage());
+        return R.fail("操作异常，请联系管理员");
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

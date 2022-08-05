@@ -30,6 +30,12 @@ public class SysRoleMenuEntity implements Serializable {
     private Long menuId;
 
     /**
+     * 选中状态.1选中，2半选中
+     */
+    @ApiModelProperty(value = "选中状态1选中，2半选中", hidden=false)
+    private Integer menuType;
+
+    /**
     * ID
     */
     public Long getId(){
@@ -64,5 +70,13 @@ public class SysRoleMenuEntity implements Serializable {
     */
     public void setMenuId(Long menuId){
         this.menuId = menuId;
+    }
+
+    public Integer getMenuType() {
+        return menuType;
+    }
+
+    public void setMenuType(Integer menuType) {
+        this.menuType = menuType;
     }
 }
