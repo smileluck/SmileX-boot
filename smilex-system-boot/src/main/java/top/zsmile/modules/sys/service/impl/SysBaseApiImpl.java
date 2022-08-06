@@ -25,7 +25,6 @@ public class SysBaseApiImpl implements CommonApi {
 
     @Override
     public Set<String> queryUserPerms(Long userId) {
-        //TODO 查询实际授权的
         return sysMenuService.queryPermsByUser();
     }
 }

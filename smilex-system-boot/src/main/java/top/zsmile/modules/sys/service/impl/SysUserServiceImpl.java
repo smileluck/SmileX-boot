@@ -45,21 +45,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUserEn
         Map<String, Object> map = Collections.singletonMap("username", username);
         SysUserEntity sysUserEntity = getObjByMap(map, "password", "salt", "enableFlag");
         if (sysUserEntity == null) {
-            throw new SXException("ÇëÊäÈëÕıÈ·µÄÕËºÅÃÜÂë");
+            throw new SXException("è¯·è¾“å…¥æ­£ç¡®çš„è´¦å·å¯†ç ");
         }
         if (sysUserEntity.getEnableFlag().equals(0)) {
-            throw new SXException("ÕËºÅÒÑ±»Ëø¶¨£¬ÇëÁªÏµ¹ÜÀíÔ±");
+            throw new SXException("è´¦å·å·²è¢«é”å®šï¼Œè¯·è”ç³»ç®¡ç†å‘˜");
         }
         String encryptPwd = PasswordUtils.sha256Hash(password + sysUserEntity.getSalt());
 
         if (!encryptPwd.equals(sysUserEntity.getPassword())) {
-            throw new SXException("ÇëÊäÈëÕıÈ·µÄÕËºÅÃÜÂë");
+            throw new SXException("è¯·è¾“å…¥æ­£ç¡®çš„è´¦å·å¯†ç ");
         }
 
-        log.info(sysUserEntity.getUsername() + "-ÓÃ»§µÇÂ½³É¹¦");
+        log.info(sysUserEntity.getUsername() + "-ç”¨æˆ·ç™»é™†æˆåŠŸ");
         String token = JwtUtils.generatorToken(sysUserEntity.getId(), sysUserEntity.getPassword());
 
-        // TODO Ìí¼Ó»º´æ
+        // TODO æ·»åŠ ç¼“å­˜
 
         return token;
     }
