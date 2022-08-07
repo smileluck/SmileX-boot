@@ -18,4 +18,11 @@ public class ShiroAuthApiImpl implements CommonAuthApi {
         Long id = Long.valueOf(map.get("id").toString());
         return id;
     }
+
+    @Override
+    public Long queryTenantId() {
+        Map<String, Object> map = queryUserInfo();
+        Long id = Long.valueOf(map.get("tenantId").toString());
+        return id;
+    }
 }

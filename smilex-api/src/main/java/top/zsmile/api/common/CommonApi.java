@@ -21,4 +21,12 @@ public interface CommonApi {
      * 2查询用户权限信息
      */
     Set<String> queryUserPerms(Long userId);
+
+    /**
+     * 查询租户信息
+     * @param tenantId
+     * @param column
+     * @return
+     */
+    Map<String, Object> queryTenantById(Object tenantId, String... column);
 }

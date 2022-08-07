@@ -3,7 +3,9 @@ package top.zsmile.utils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class ReflectUtils {
@@ -47,4 +49,17 @@ public class ReflectUtils {
         }
     }
 
+
+
+    /**
+     * 查询当前类及父级所有类的字段
+     */
+    public static List<Field> queryThisAndSuperClassColumn(Class<?> clazz) {
+        List<Field> fields = new ArrayList<>();
+        for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
+            Field[] declaredFields = clazz.getDeclaredFields();
+            fields.addAll(Arrays.asList(declaredFields));
+        }
+        return fields;
+    }
 }

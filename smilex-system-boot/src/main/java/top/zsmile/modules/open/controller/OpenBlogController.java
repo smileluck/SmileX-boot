@@ -35,7 +35,7 @@ public class OpenBlogController {
      * @return
      */
     @ApiOperation("栏目列表")
-    @GetMapping("/section/{tenantId}")
+    @GetMapping("/{tenantId}/sections/list")
     public R section(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = Collections.singletonMap("tenantId", tenantId);
         List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName");
@@ -49,7 +49,7 @@ public class OpenBlogController {
      * @return
      */
     @ApiOperation("标签云")
-    @GetMapping("/tags/{tenantId}")
+    @GetMapping("/{tenantId}/tags/list")
     public R tags(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("tenantId", tenantId);
@@ -57,4 +57,21 @@ public class OpenBlogController {
         List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
         return R.success(list);
     }
+
+    /**
+     * 文章列表
+     *
+     * @param tenantId
+     * @return
+     */
+    @ApiOperation("文章列表")
+    @GetMapping("/{tenantId}/article/list")
+    public R articleList(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("tenantId", tenantId);
+        map.put("enableFlag", 1);
+        List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
+        return R.success(list);
+    }
+
 }

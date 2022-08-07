@@ -6,12 +6,12 @@ import top.zsmile.service.BaseService;
 
 public interface SysUserService extends BaseService<SysUserEntity> {
     /**
-     * 保存用户
+     * 淇濆瓨鐢ㄦ埛
      */
     boolean saveUser(SysUserEntity sysUserEntity);
 
     /**
-     * 用户登录
+     * 鐢ㄦ埛鐧诲綍
      */
     String login(SysLoginModel sysLoginModel);
 }

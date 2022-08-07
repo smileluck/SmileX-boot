@@ -71,7 +71,7 @@ public class TableQueryUtils {
      * 查询@TableField(exist=false),final/static之外的所有字段
      */
     public static Field[] queryExistColumn(Class<?> clazz) {
-        List<Field> beforeFilterFields = queryThisAndSuperClassColumn(clazz);
+        List<Field> beforeFilterFields = ReflectUtils.queryThisAndSuperClassColumn(clazz);
         Field[] fields = beforeFilterFields.stream().parallel().filter(field -> {
             TableField tableField = field.getAnnotation(TableField.class);
             if ((tableField != null && !tableField.exist()) || Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
@@ -83,17 +83,6 @@ public class TableQueryUtils {
         return fields;
     }
 
-    /**
-     * 查询当前类及父级所有类的字段
-     */
-    public static List<Field> queryThisAndSuperClassColumn(Class<?> clazz) {
-        List<Field> fields = new ArrayList<>();
-        for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
-            Field[] declaredFields = clazz.getDeclaredFields();
-            fields.addAll(Arrays.asList(declaredFields));
-        }
-        return fields;
-    }
 
     /**
      * 查询所有列名

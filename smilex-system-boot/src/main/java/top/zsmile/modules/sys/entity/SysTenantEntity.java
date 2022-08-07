@@ -33,7 +33,11 @@ public class SysTenantEntity extends BaseEntity implements Serializable {
     */
     @ApiModelProperty(value = "salt", hidden=true)
     private String salt;
-
+    /**
+     * 是否启用，0禁用1启用
+     */
+    @ApiModelProperty(value = "是否启用，0禁用1启用", hidden=false)
+    private Integer enableFlag;
     /**
     * ID
     */
@@ -81,5 +85,19 @@ public class SysTenantEntity extends BaseEntity implements Serializable {
     */
     public void setSalt(String salt){
         this.salt = salt;
+    }
+
+    /**
+     * 是否启用，0禁用1启用
+     */
+    public Integer getEnableFlag() {
+        return enableFlag;
+    }
+
+    /**
+     * 是否启用，0禁用1启用
+     */
+    public void setEnableFlag(Integer enableFlag) {
+        this.enableFlag = enableFlag;
     }
 }
