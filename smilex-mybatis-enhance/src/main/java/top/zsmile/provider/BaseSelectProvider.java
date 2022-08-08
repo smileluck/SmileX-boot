@@ -34,6 +34,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+          // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
         return s;
@@ -53,6 +54,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+          // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             WHERE(tableInfo.getPrimaryColumn() + " in <foreach item='item' collection='coll' open='(' separator=',' close=')'>#{item}</foreach>");
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + TableQueryUtils.convertForeach("#{item}", "coll", null, "item", ",") + ")");
@@ -84,6 +86,7 @@ public class BaseSelectProvider extends BaseProvider {
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+           // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
@@ -112,6 +115,7 @@ public class BaseSelectProvider extends BaseProvider {
             FROM(tableInfo.getTableName());
 //            WHERE(tableInfo.getPrimaryColumn() + " in (" + Joiner.on(",").join(ids) + ")");
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+          // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
@@ -141,6 +145,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+          // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
             if (entity != null) {
                 WHERE(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(entity, field) != null).map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
             }
@@ -164,6 +169,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(tableInfo.getCountColumn());
             FROM(tableInfo.getTableName());
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+          // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {
@@ -201,6 +207,7 @@ public class BaseSelectProvider extends BaseProvider {
             SELECT(selectColumn(tableInfo, columns));
             FROM(tableInfo.getTableName());
             if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+          // if (tableInfo.hasTenantColumn()) WHERE(tableInfo.tenantColumnWhere());
             if (!CollectionUtils.isEmpty(cm)) {
                 String mapCondition = TableQueryUtils.getMapCondition(tableInfo, cm);
                 if (!StringUtils.isEmpty(mapCondition)) {

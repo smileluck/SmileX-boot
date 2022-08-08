@@ -7,17 +7,18 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
+import top.zsmile.api.common.CommonAuthApi;
+import top.zsmile.common.utils.NameStyleUtils;
 import top.zsmile.common.utils.SnowFlake;
 import top.zsmile.core.exception.SXException;
+import top.zsmile.core.utils.SpringContextUtils;
 import top.zsmile.meta.TableInfo;
-import top.zsmile.utils.Constants;
 import top.zsmile.utils.ReflectUtils;
 import top.zsmile.utils.TableQueryUtils;
 
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -41,6 +42,7 @@ public class BaseInsertProvider extends BaseProvider {
         Field[] fields = tableInfo.getFields();
 
         setDefaultIdValue(entity, tableInfo);
+        setTenantIdValue(entity, tableInfo);
 
         return new SQL() {{
             INSERT_INTO(tableInfo.getTableName());
@@ -84,6 +86,7 @@ public class BaseInsertProvider extends BaseProvider {
         // 方式二：使用注入的方式
         for (int i = 0; i < list.size(); i++) {
             setDefaultIdValue(list.get(i), tableInfo);
+            setTenantIdValue(list.get(i), tableInfo);
         }
         String[] strings = Stream.of(fields).map(item ->
                 TableQueryUtils.getInjectParameter(item, "item.")).toArray(String[]::new);
@@ -125,6 +128,28 @@ public class BaseInsertProvider extends BaseProvider {
                 }
             }
 
+        } catch (IllegalAccessException var4) {
+            throw new IllegalArgumentException(var4.getMessage());
+        }
+    }
+
+    /**
+     * 设置租户ID
+     */
+    private void setTenantIdValue(Object t, TableInfo tableInfo) {
+
+        try {
+            if (tableInfo.hasTenantColumn()) {
+                String tenantColumn = NameStyleUtils.lineToHump(tableInfo.getTenantColumn(), false);
+                Field field = FieldUtils.getField(t.getClass(), tenantColumn, true);
+                if (null != field) {
+                    Object id = FieldUtils.readField(t, tenantColumn, true);
+                    if (null == id || "0".equals(String.valueOf(id))) {
+                        CommonAuthApi commonAuthApi = SpringContextUtils.getBean(CommonAuthApi.class);
+                        FieldUtils.writeField(t, tenantColumn, commonAuthApi.queryTenantId(), true);
+                    }
+                }
+            }
         } catch (IllegalAccessException var4) {
             throw new IllegalArgumentException(var4.getMessage());
         }

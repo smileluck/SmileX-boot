@@ -1,12 +1,8 @@
 package top.zsmile.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import top.zsmile.annotation.TableField;
-import top.zsmile.annotation.TableId;
-import top.zsmile.annotation.TableLogic;
-import top.zsmile.annotation.TableName;
+import top.zsmile.annotation.*;
 import top.zsmile.common.utils.StringPool;
 import top.zsmile.dao.BaseMapper;
 import top.zsmile.meta.TableInfo;
@@ -118,11 +114,25 @@ public class TableQueryUtils {
      * 查询逻辑删除列
      */
     public static String queryLogicDelColumn(Field[] fields) {
-        Optional<Field> optional = Stream.of(fields).filter(field -> field.isAnnotationPresent(TableLogic.class)).findFirst();
+        return queryColumnByAnno(fields, TableLogic.class, Constants.DEFAULT_DELETE_LOGIC_KEY);
+    }
+
+    /**
+     * 查询租户ID列
+     */
+    public static String queryTenantColumn(Field[] fields) {
+        return queryColumnByAnno(fields, TenantId.class, Constants.DEFAULT_TENANT_ID_KEY);
+    }
+
+    /**
+     * 根据注解查询字段，存在就返回字段，否则返回对应默认值
+     */
+    public static String queryColumnByAnno(Field[] fields, Class clazz, String defaultStr) {
+        Optional<Field> optional = Stream.of(fields).filter(field -> field.isAnnotationPresent(clazz)).findFirst();
         if (optional.isPresent()) {
             return optional.map(TableQueryUtils::humpToLineName).get();
         } else {
-            Optional<Field> first = Stream.of(fields).filter(field -> field.getName().equals(Constants.DEFAULT_DELETE_LOGIC_KEY)).findFirst();
+            Optional<Field> first = Stream.of(fields).filter(field -> field.getName().equals(defaultStr)).findFirst();
             if (first.isPresent()) {
                 return first.map(TableQueryUtils::humpToLineName).get();
             }

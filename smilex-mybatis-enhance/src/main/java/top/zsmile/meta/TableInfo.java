@@ -6,7 +6,6 @@ import top.zsmile.utils.TableQueryUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableInfo implements Serializable {
@@ -24,6 +23,11 @@ public class TableInfo implements Serializable {
      * 表名
      */
     private String tableName;
+
+    /**
+     * 租户ID
+     */
+    private String tenantColumn;
 
     /**
      * 实体类型不含@NoColunm注解的field
@@ -86,6 +90,7 @@ public class TableInfo implements Serializable {
         tableInfo.selectColumns = TableQueryUtils.querySelectColumn(fields);
         tableInfo.injectParameter = TableQueryUtils.queryInjectParameter(fields);
         tableInfo.whereColumn = TableQueryUtils.queryWhereColumn(fields);
+        tableInfo.tenantColumn = TableQueryUtils.queryTenantColumn(fields);
         return tableInfo;
     }
 
@@ -95,6 +100,10 @@ public class TableInfo implements Serializable {
 
     public String getPrimaryColumn() {
         return primaryColumn;
+    }
+
+    public String getTenantColumn() {
+        return tenantColumn;
     }
 
     public String[] getColumns() {
@@ -125,8 +134,16 @@ public class TableInfo implements Serializable {
         return logicDelColumn != null;
     }
 
+    public boolean hasTenantColumn() {
+        return tenantColumn != null;
+    }
+
     public String logicDelColumnWhere() {
         return logicDelColumn + StringPool.EQUALS + LOGIC_NOT_DEL_NUMBER;
+    }
+
+    public String tenantColumnWhere() {
+        return tenantColumn + StringPool.EQUALS + TableQueryUtils.getInjectParameter(tenantColumn);
     }
 
     public String[] getInjectParameter() {

@@ -34,7 +34,13 @@ public class Constants {
     /**
      * 删除键名，1删除，0未删除
      */
-    public static final String DEFAULT_DELETE_LOGIC_KEY = "del_flag";
+    public static final String DEFAULT_DELETE_LOGIC_KEY = "delFlag";
+
+    /**
+     * 租户键名
+     */
+    public static final String DEFAULT_TENANT_ID_KEY = "tenantId";
+
     /**
      * 主键名
      */
