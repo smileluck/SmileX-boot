@@ -19,9 +19,6 @@ import java.util.Map;
 
 //@Component
 @Intercepts({
-//        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class}),
-//        @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})
-
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
 })

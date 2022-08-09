@@ -58,6 +58,7 @@ spring:
 logging:
   level:
     top.zsmile: debug
+    tk.mybatis.simple.mapper: trace
 
 knife4j:
   # 开启增强

@@ -41,3 +41,16 @@ smilex:
       minioName: ??
       minioPass: ??
       bucketName: SmileX
+  #多租户配置
+  tenant:
+    #多租户增强
+    enhance: true
+    #动态数据源功能
+    dynamic-datasource: false
+    #动态数据源全局扫描
+    dynamic-global: false
+    #多租户字段名
+    column: tenant_id
+    #排除多租户逻辑
+    exclude-tables:
+      - blade_user

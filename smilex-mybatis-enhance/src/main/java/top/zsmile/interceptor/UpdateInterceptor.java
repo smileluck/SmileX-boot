@@ -5,6 +5,8 @@ import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.zsmile.api.common.CommonAuthApi;
@@ -16,7 +18,6 @@ import java.util.Map;
 
 @Component
 @Intercepts({
-        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
 })
 public class UpdateInterceptor implements Interceptor {
@@ -25,47 +26,50 @@ public class UpdateInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        System.out.println(invocation);
         if (invocation.getTarget() instanceof Executor) {
             MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
             Object params = invocation.getArgs()[1];
             SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
-            Map<String, Object> userInfo = commonAuthApi.queryUserInfo();
-            if (sqlCommandType == SqlCommandType.UPDATE) {
-                if (params instanceof BaseEntity) {
-                    BaseEntity baseEntity = (BaseEntity) params;
-                    Date date = new Date();
-                    String username = userInfo.get("username").toString();
-                    baseEntity.setUpdateTime(date);
-                    baseEntity.setUpdateBy(username);
-                } else if (params instanceof Map) {
-                    Map baseMap = (Map) params;
-                    Date date = new Date();
-                    String username = userInfo.get("username").toString();
-                    baseMap.put("updateTime", date);
-                    baseMap.put("updateBy", username);
-                }
-            } else if (sqlCommandType == SqlCommandType.INSERT) {
-                if (params instanceof BaseEntity) {
-                    BaseEntity baseEntity = (BaseEntity) params;
-                    Date date = new Date();
-                    String username = userInfo.get("username").toString();
-                    baseEntity.setCreateTime(date);
-                    baseEntity.setCreateBy(username);
-                    baseEntity.setUpdateTime(date);
-                    baseEntity.setUpdateBy(username);
-                } else if (params instanceof Map) {
-                    Map baseMap = (Map) params;
-                    Date date = new Date();
-                    String username = userInfo.get("username").toString();
-                    baseMap.put("createTime", date);
-                    baseMap.put("createBy", username);
-                    baseMap.put("updateTime", date);
-                    baseMap.put("updateBy", username);
-                }
-            }
+            operateTime(params, sqlCommandType);
         }
         return invocation.proceed();
+    }
+
+    private void operateTime(Object params, SqlCommandType sqlCommandType) {
+        Map<String, Object> userInfo = commonAuthApi.queryUserInfo();
+        if (sqlCommandType == SqlCommandType.UPDATE || sqlCommandType == SqlCommandType.DELETE) {
+            if (params instanceof BaseEntity) {
+                BaseEntity baseEntity = (BaseEntity) params;
+                Date date = new Date();
+                String username = userInfo.get("username").toString();
+                baseEntity.setUpdateTime(date);
+                baseEntity.setUpdateBy(username);
+            } else if (params instanceof Map) {
+                Map baseMap = (Map) params;
+                Date date = new Date();
+                String username = userInfo.get("username").toString();
+                baseMap.put("updateTime", date);
+                baseMap.put("updateBy", username);
+            }
+        } else if (sqlCommandType == SqlCommandType.INSERT) {
+            if (params instanceof BaseEntity) {
+                BaseEntity baseEntity = (BaseEntity) params;
+                Date date = new Date();
+                String username = userInfo.get("username").toString();
+                baseEntity.setCreateTime(date);
+                baseEntity.setCreateBy(username);
+                baseEntity.setUpdateTime(date);
+                baseEntity.setUpdateBy(username);
+            } else if (params instanceof Map) {
+                Map baseMap = (Map) params;
+                Date date = new Date();
+                String username = userInfo.get("username").toString();
+                baseMap.put("createTime", date);
+                baseMap.put("createBy", username);
+                baseMap.put("updateTime", date);
+                baseMap.put("updateBy", username);
+            }
+        }
     }
 
     @Override

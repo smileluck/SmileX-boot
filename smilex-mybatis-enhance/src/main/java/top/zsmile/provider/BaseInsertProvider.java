@@ -91,7 +91,7 @@ public class BaseInsertProvider extends BaseProvider {
         String[] strings = Stream.of(fields).map(item ->
                 TableQueryUtils.getInjectParameter(item, "item.")).toArray(String[]::new);
 
-        sql += " VALUES <foreach item='item' collection='list' open='(' separator='),(' close=')'>" +
+        sql += " VALUES <foreach item='item' collection='coll' open='(' separator='),(' close=')'>" +
                 Joiner.on(",").join(strings) +
                 "</foreach>";
 

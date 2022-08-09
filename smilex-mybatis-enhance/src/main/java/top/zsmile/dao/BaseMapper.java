@@ -162,7 +162,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "batchInsert")
-    int batchInsert(List<? extends T> list);
+    int batchInsert(@Param(Constants.COLLECTION) List<? extends T> list);
 
     /**
      * 根据ID 逻辑删除
@@ -221,13 +221,13 @@ public interface BaseMapper<T> {
      * TODO 单表分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    IPage<T> selectPageByMap(IPage<T> page, Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    IPage<T> selectPageByMap(IPage<T> page, @Param(Constants.COLUMNS_MAP)  Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
      * 分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    List<T> selectListPageByMap(IPage<T> page, Map<String, Object> cm, String... columns);
+    List<T> selectListPageByMap(IPage<T> page, @Param(Constants.COLUMNS_MAP)  Map<String, Object> cm, String... columns);
 
 }
