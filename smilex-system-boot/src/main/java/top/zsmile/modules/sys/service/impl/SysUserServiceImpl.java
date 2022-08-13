@@ -7,6 +7,7 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.zsmile.annotation.TenantIgnore;
 import top.zsmile.cache.utils.RedisUtils;
 import top.zsmile.common.utils.JwtUtils;
 import top.zsmile.common.utils.PasswordUtils;

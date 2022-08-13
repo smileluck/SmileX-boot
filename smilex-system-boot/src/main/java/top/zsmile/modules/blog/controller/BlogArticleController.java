@@ -33,15 +33,15 @@ public class BlogArticleController {
     @GetMapping("/list")
     public R<IPage<BlogArticleEntity>> list(@RequestParam Map<String, Object> params) {
         IPage page = blogArticleService.getPageByMap(params, "id", "tenantId", "sectionId", "tagIds", "articleTitle", "articleContent", "grammarType", "visitType", "createTime", "createBy", "updateTime", "updateBy");
-        return R.success("查询成功",page);
+        return R.success("查询成功", page);
     }
 
     @ApiOperation("根据Id查询信息")
     @RequiresPermissions("blog:article:info")
     @GetMapping("/info/{id}")
-    public R<BlogArticleEntity> info(@PathVariable("id") Long id){
+    public R<BlogArticleEntity> info(@PathVariable("id") Long id) {
         BlogArticleEntity info = blogArticleService.getById(id, "id", "tenantId", "sectionId", "tagIds", "articleTitle", "articleContent", "grammarType", "visitType", "createTime", "createBy", "updateTime", "updateBy");
-        return R.success("查询成功",info);
+        return R.success("查询成功", info);
     }
 
 
@@ -49,7 +49,7 @@ public class BlogArticleController {
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("blog:article:update")
     @PostMapping("/update")
-    public R update(@RequestBody BlogArticleEntity blogArticleEntity){
+    public R update(@RequestBody BlogArticleEntity blogArticleEntity) {
         blogArticleService.updateById(blogArticleEntity);
         return R.success("修改成功");
     }
@@ -58,7 +58,7 @@ public class BlogArticleController {
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("blog:article:remove")
     @PostMapping("/remove")
-    public R remove(@RequestBody Long[] ids){
+    public R remove(@RequestBody Long[] ids) {
         blogArticleService.removePhysicsByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
@@ -68,8 +68,8 @@ public class BlogArticleController {
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("blog:article:save")
     @PostMapping("/save")
-    public R save(@RequestBody BlogArticleEntity blogArticleEntity){
-        blogArticleService.save(blogArticleEntity);
+    public R save(@RequestBody BlogArticleEntity blogArticleEntity) {
+        blogArticleService.saveArticle(blogArticleEntity);
         return R.success("添加成功");
     }
 }

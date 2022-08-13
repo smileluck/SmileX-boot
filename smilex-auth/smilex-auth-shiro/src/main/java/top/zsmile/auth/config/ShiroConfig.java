@@ -85,6 +85,8 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/sys/login/submit", "anon");
         chainDefinition.addPathDefinition("/sys/login/captcha/*", "anon");
 
+        /*开放博客接口*/
+        chainDefinition.addPathDefinition("/open/blog/**", "anon");
 
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;

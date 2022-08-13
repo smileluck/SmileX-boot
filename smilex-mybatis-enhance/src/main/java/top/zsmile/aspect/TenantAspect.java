@@ -5,9 +5,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 import top.zsmile.holder.TenantHolder;
 
 @Slf4j
+@Component
 @Aspect
 public class TenantAspect {
 
@@ -20,7 +22,7 @@ public class TenantAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         //执行方法
         try {
-            TenantHolder.setIgnore(Boolean.TRUE);
+            TenantHolder.setIgnore(Boolean.FALSE);
             Object result = joinPoint.proceed();
             return result;
         } finally {

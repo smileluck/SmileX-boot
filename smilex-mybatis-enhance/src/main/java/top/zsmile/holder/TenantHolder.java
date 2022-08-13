@@ -8,7 +8,7 @@ public class TenantHolder {
     private static final ThreadLocal<Boolean> TENANT_IGNORE_HOLDER = new NamedThreadLocal<Boolean>("smilex-tenant") {
         @Override
         protected Boolean initialValue() {
-            return Boolean.TRUE;
+            return Boolean.FALSE;
         }
     };
 

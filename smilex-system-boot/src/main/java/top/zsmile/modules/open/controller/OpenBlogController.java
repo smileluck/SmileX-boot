@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zsmile.core.api.R;
+import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.service.BlogSectionService;
 import top.zsmile.modules.blog.service.BlogTagService;
 
@@ -27,6 +28,9 @@ public class OpenBlogController {
 
     @Autowired
     private BlogTagService blogTagService;
+
+    @Autowired
+    private BlogArticleService blogArticleService;
 
     /**
      * 栏目列表
@@ -64,14 +68,15 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("文章列表")
-    @GetMapping("/{tenantId}/article/list")
+    @ApiOperation("首页文章列表")
+    @GetMapping("/{tenantId}/article/home")
     public R articleList(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("tenantId", tenantId);
         map.put("enableFlag", 1);
-        List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
+        List<Map<String, Object>> list = blogArticleService.listMapByMap(map, "id", "tagName");
         return R.success(list);
     }
+
 
 }
