@@ -52,4 +52,9 @@ public interface CommonConstant {
     public static final String UPLOAD_TYPE_MINIO = "minio";
     // Local 本地
     public static final String UPLOAD_TYPE_LOCAL = "local";
+
+    // 默认前缀名
+    public static final String UPLOAD_PREFIX_COMMON = "common";
+    // 博客前缀
+    public static final String UPLOAD_PREFIX_BLOG = "blog";
 }
