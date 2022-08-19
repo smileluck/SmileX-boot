@@ -2,11 +2,18 @@ package top.zsmile.common.filter;
 
 import top.zsmile.core.exception.SXException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class FileTypeFilter {
 
     private static String[] filterTypes = {"jsp", "php"};
 
-    private static String[] allowTypes = {".jpg", ".png", ".mp4"};
+    private static String[] allowTypes = {
+            ".jpg", ".jpeg", ".png",
+            ".mp4", ".wmv", ".mpg", ".ram", ".rm"};
+
+//    private static final Pattern pattern = Pattern.compile("/\\.(mp4|wmv|mpg|mpeg|ram|rm|gif|jpg|jpeg|png)$/i");
 
     public static void filterAllowType(String suffix) {
         if (suffix == null) {
@@ -15,6 +22,10 @@ public class FileTypeFilter {
         for (String allowType : allowTypes) {
             if (allowType.equals(suffix)) return;
         }
+//        Matcher m = pattern.matcher(suffix);
+//        if (m.find()) {
+//            return;
+//        }
         throw new SXException("该文件类型不允许上传");
     }
 
