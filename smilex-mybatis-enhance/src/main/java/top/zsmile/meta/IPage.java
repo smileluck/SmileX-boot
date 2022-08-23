@@ -52,12 +52,12 @@ public interface IPage<T> extends Serializable {
      *
      * @return 当前页
      */
-    long getCurrent();
+    int getCurrent();
 
     /**
      * 设置当前页
      */
-    IPage<T> setCurrent(long current);
+    IPage<T> setCurrent(int current);
 
     /**
      * 获取排序字段

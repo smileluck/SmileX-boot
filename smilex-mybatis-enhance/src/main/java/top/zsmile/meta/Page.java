@@ -13,13 +13,13 @@ public class Page<T> implements IPage<T> {
     /**
      * 查询数据列表
      */
-    @ApiModelProperty(value = "数据列表")
+    @ApiModelProperty(value = "数据列表", hidden = true)
     protected List<T> records = Collections.EMPTY_LIST;
 
     /**
      * 总数
      */
-    @ApiModelProperty(value = "总数", example = "0")
+    @ApiModelProperty(value = "总数", example = "0", hidden = true)
     protected long total = 0;
 
     /**
@@ -32,7 +32,7 @@ public class Page<T> implements IPage<T> {
      * 当前页，从1算起
      */
     @ApiModelProperty(value = "当前页", example = "1")
-    protected long current = 1;
+    protected int current = 1;
 
     /**
      * 排序字段
@@ -53,19 +53,19 @@ public class Page<T> implements IPage<T> {
      * @param current 当前页
      * @param size    每页显示条数
      */
-    public Page(long current, int size) {
+    public Page(int current, int size) {
         this(current, size, 0);
     }
 
-    public Page(long current, int size, long total) {
+    public Page(int current, int size, long total) {
         this(current, size, total, true);
     }
 
-    public Page(long current, int size, boolean searchCount) {
+    public Page(int current, int size, boolean searchCount) {
         this(current, size, 0, searchCount);
     }
 
-    public Page(long current, int size, long total, boolean searchCount) {
+    public Page(int current, int size, long total, boolean searchCount) {
         if (current > 1) {
             this.current = current;
         }
@@ -115,12 +115,12 @@ public class Page<T> implements IPage<T> {
     }
 
     @Override
-    public long getCurrent() {
+    public int getCurrent() {
         return this.current;
     }
 
     @Override
-    public IPage<T> setCurrent(long current) {
+    public IPage<T> setCurrent(int current) {
         this.current = current;
         return this;
     }

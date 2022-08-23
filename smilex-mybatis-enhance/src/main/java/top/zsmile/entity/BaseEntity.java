@@ -92,10 +92,16 @@ public class BaseEntity implements Serializable {
         this.updateBy = updateBy;
     }
 
+    /**
+     * 是否删除，1是，0否
+     */
     public Integer getDelFlag() {
         return delFlag;
     }
 
+    /**
+     * 是否删除，1是，0否
+     */
     public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
     }

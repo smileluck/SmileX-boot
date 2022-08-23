@@ -35,6 +35,11 @@ public class BlogArticleEntity extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "标签id，以,分割", hidden = false)
     private String tagIds;
     /**
+     * 标签名称，以,分割
+     */
+    @ApiModelProperty(value = "标签名称，以,分割", hidden = false)
+    private String tagNames;
+    /**
      * 文章封面
      */
     @ApiModelProperty(value = "文章封面", hidden = false)
@@ -248,11 +253,31 @@ public class BlogArticleEntity extends BaseEntity implements Serializable {
         this.publishFlag = publishFlag;
     }
 
+    /**
+     * 文章封面
+     */
     public String getPoster() {
         return poster;
     }
 
+    /**
+     * 文章封面
+     */
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    /**
+     * 标签名称，以,分割
+     */
+    public String getTagNames() {
+        return tagNames;
+    }
+
+    /**
+     * 标签名称，以,分割
+     */
+    public void setTagNames(String tagNames) {
+        this.tagNames = tagNames;
     }
 }

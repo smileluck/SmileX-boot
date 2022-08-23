@@ -12,11 +12,11 @@ public class PageQuery<T> {
 
     public IPage<T> getPage(Map<String, Object> params, boolean isAsc, String... orderColumn) {
         // 分页参数
-        long current = 1;
+        int current = 1;
         Integer size = 10;
 
         if (params.get(Constants.PAGE) != null) {
-            current = Long.parseLong((String) params.get(Constants.PAGE));
+            current = Integer.parseInt((String) params.get(Constants.PAGE));
         }
         if (params.get(Constants.SIZE) != null) {
             size = Integer.parseInt((String) params.get(Constants.SIZE));

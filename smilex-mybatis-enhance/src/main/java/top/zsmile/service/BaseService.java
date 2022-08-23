@@ -105,6 +105,7 @@ public interface BaseService<T> {
         return getBaseMapper().selectMapListByMap(columnMap, columns);
     }
 
+
     /**
      * 根据 entity 条件，查询全部记录
      *
@@ -198,7 +199,7 @@ public interface BaseService<T> {
      * @param id
      * @return
      */
-    default boolean removeLogicById(Serializable id) {
+    default boolean removeById(Serializable id) {
         return SqlHelper.retBool(getBaseMapper().deleteById(id));
     }
 
@@ -207,7 +208,7 @@ public interface BaseService<T> {
      *
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
-    default boolean removeLogicByIds(Collection<? extends Serializable> idList) {
+    default boolean removeByIds(Collection<? extends Serializable> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             return false;
         }
@@ -220,7 +221,7 @@ public interface BaseService<T> {
      *
      * @param columnMap 表字段 map 对象
      */
-    default boolean removeLogicByMap(Map<String, Object> columnMap) {
+    default boolean removeByMap(Map<String, Object> columnMap) {
         if (CollectionUtils.isEmpty(columnMap)) {
             return false;
         }
