@@ -47,7 +47,7 @@ public class OpenBlogController {
     @GetMapping("/{tenantId}/section/list")
     public R<List> section(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = Collections.singletonMap("tenantId", tenantId);
-        List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName");
+        List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName","type","routeUrl");
         return R.success(list);
     }
 
