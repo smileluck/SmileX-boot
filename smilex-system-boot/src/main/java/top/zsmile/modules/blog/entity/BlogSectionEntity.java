@@ -45,9 +45,9 @@ public class BlogSectionEntity extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "访问类型，1无限制，2统一密码访问", hidden = false)
     private Integer visitType;
     /**
-     * 栏目类型，1板块，2路由
+     * 栏目类型，1板块，2分组，3路由
      */
-    @ApiModelProperty(value = "栏目类型，1板块，2路由", hidden = false)
+    @ApiModelProperty(value = "栏目类型，1板块，2分组，3路由", hidden = false)
     private Integer type;
     /**
      * 路由URL
@@ -159,14 +159,14 @@ public class BlogSectionEntity extends BaseEntity implements Serializable {
     }
 
     /**
-     * 栏目类型，1板块，2路由
+     * 栏目类型，1板块，2分组，3路由
      */
     public Integer getType() {
         return type;
     }
 
     /**
-     * 栏目类型，1板块，2路由
+     * 栏目类型，1板块，2分组，3路由
      */
     public void setType(Integer type) {
         this.type = type;

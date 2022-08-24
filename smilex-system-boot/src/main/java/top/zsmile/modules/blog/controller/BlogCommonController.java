@@ -14,6 +14,7 @@ import top.zsmile.modules.blog.service.BlogTagService;
 import top.zsmile.modules.sys.entity.SysDictItemEntity;
 import top.zsmile.modules.sys.service.SysDictItemService;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +30,10 @@ public class BlogCommonController {
     @Autowired
     private BlogTagService blogTagService;
 
-    @ApiOperation("查询栏目列表")
+    @ApiOperation("查询分组栏目列表")
     @GetMapping("/section")
     public R<List<BlogSectionEntity>> section() {
-        List<BlogSectionEntity> list = blogSectionService.listByObj(null, "sectionName");
+        List<BlogSectionEntity> list = blogSectionService.listByMap(Collections.singletonMap("type", 2), "sectionName");
         return R.success(list);
     }
 
