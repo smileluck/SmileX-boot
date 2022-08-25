@@ -57,11 +57,11 @@ smilex:
   fileSys:
     # Local 本地, oss 阿里云OSS, minio
     uploadType: oss
-      oss:
-        accessKey: ??
-        secretKey: ??
-        endpoint: ??
-        bucketName: SmileX
+    oss:
+      accessKey: ??
+      secretKey: ??
+      endpoint: ??
+      bucketName: SmileX
     minio:
       minioUrl: ??
       minioName: ??
