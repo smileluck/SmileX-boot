@@ -32,7 +32,7 @@ public class ${bigHumpClass}Controller {
     @RequiresPermissions("${smallColonName}:list")
     @GetMapping("/list")
     public R<IPage<${bigHumpClass}Entity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = ${smallHumpClass}Service.getPage(params);
+        IPage page = ${smallHumpClass}Service.getPageByMap(params);
         return R.success("查询成功",page);
     }
 
@@ -59,7 +59,7 @@ public class ${bigHumpClass}Controller {
     @RequiresPermissions("${smallColonName}:remove")
     @PostMapping("/remove")
     public R remove(@RequestBody Long[] ids){
-        ${smallHumpClass}Service.removePhysicsBatchIds(Arrays.asList(ids));
+        ${smallHumpClass}Service.removeByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 
