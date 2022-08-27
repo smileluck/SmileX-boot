@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import top.zsmile.core.api.R;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
+import top.zsmile.modules.blog.entity.BlogTimelineEntity;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.service.BlogSectionService;
 import top.zsmile.modules.blog.service.BlogTagService;
+import top.zsmile.modules.blog.service.BlogTimelineService;
 import top.zsmile.modules.open.entity.dto.BlogArticleDto;
 import top.zsmile.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.modules.open.entity.vo.BlogTagVo;
@@ -37,6 +39,9 @@ public class OpenBlogController {
     @Autowired
     private BlogArticleService blogArticleService;
 
+    @Autowired
+    private BlogTimelineService blogTimelineService;
+
     /**
      * 栏目列表
      *
@@ -47,7 +52,7 @@ public class OpenBlogController {
     @GetMapping("/{tenantId}/section/list")
     public R<List> section(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = Collections.singletonMap("tenantId", tenantId);
-        List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName","type","routeUrl");
+        List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName", "type", "routeUrl");
         return R.success(list);
     }
 
@@ -83,6 +88,20 @@ public class OpenBlogController {
 //        map.put("publishFlag", 1);
 //        List<Map<String, Object>> list = blogArticleService.listMapByMap(map, "id", "sectionId", "poster", "tagIds", "tagNames", "articleTitle", "articleDigest", "createTime", "visitType");
         IPage<BlogArticleVo> list = blogArticleService.getListBySearch(page, blogArticleDto);
+        return R.success(list);
+    }
+
+
+    /**
+     * 文章列表
+     *
+     * @param tenantId
+     * @return
+     */
+    @ApiOperation("时间线")
+    @GetMapping("/{tenantId}/timeline")
+    public R timeline(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
+        List<Map<String, Object>> list = blogTimelineService.listMapByMap(Collections.singletonMap("tenantId", tenantId), "year", "title", "description");
         return R.success(list);
     }
 

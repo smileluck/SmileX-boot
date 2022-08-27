@@ -8,7 +8,7 @@
         <el-form
                 :model="form.info"
                 label-width="120px"
-                :rules="from.rules"
+                :rules="form.rules"
                 ref="formRef"
         >
             <#list columnModels as var>
