@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 19/08/2022 17:36:28
+ Date: 01/09/2022 14:56:48
 */
 
 SET NAMES utf8mb4;
@@ -52,6 +52,7 @@ CREATE TABLE `blog_article`  (
   `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
   `section_id` bigint(20) NOT NULL COMMENT '栏目ID',
   `tag_ids` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签id，以,分割',
+  `tag_names` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签名称，以，分割',
   `poster` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '封面图',
   `article_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
   `article_digest` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章简介',
@@ -72,7 +73,7 @@ CREATE TABLE `blog_article`  (
 -- ----------------------------
 -- Records of blog_article
 -- ----------------------------
-INSERT INTO `blog_article` VALUES (311663526009634816, 297516356822106112, 298873227894063104, '298873337780633600', NULL, '123', '123', '123123213\n\n', 1, 1, '123123', NULL, 0, '2022-08-08 17:24:04', 'admin', '2022-08-08 17:24:04', 'admin', 0);
+INSERT INTO `blog_article` VALUES (311663526009634816, 297516356822106112, 298873227894063104, '298873337780633600', '', NULL, '123', '123', '123123213\n\n', 1, 1, '123123', NULL, 1, '2022-08-08 17:24:04', 'admin', '2022-08-08 17:24:04', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for blog_article_draft
@@ -126,10 +127,13 @@ CREATE TABLE `blog_comment`  (
 DROP TABLE IF EXISTS `blog_section`;
 CREATE TABLE `blog_section`  (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `parent_id` bigint(20) NOT NULL COMMENT '父ID,最上级为0',
+  `parent_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '父ID,最上级为0',
   `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
   `section_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '栏目名称',
+  `level` smallint(1) NOT NULL DEFAULT 1 COMMENT '层级',
   `visit_type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '访问类型，1无限制，2统一密码访问',
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '栏目类型，1板块，2分组，3路由',
+  `route_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由URL',
   `order_num` smallint(5) NOT NULL DEFAULT 0 COMMENT '排序',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
@@ -142,10 +146,16 @@ CREATE TABLE `blog_section`  (
 -- ----------------------------
 -- Records of blog_section
 -- ----------------------------
-INSERT INTO `blog_section` VALUES (298873227894063104, 0, 297516356822106112, '技术人生', 1, 0, '2022-07-04 10:19:59', 'admin', '2022-07-04 10:19:59', 'admin', 0);
-INSERT INTO `blog_section` VALUES (298873481892724736, 298873227894063104, 297516356822106112, '框架集成', 1, 0, '2022-07-04 10:21:00', 'admin', '2022-07-04 10:21:00', 'admin', 0);
-INSERT INTO `blog_section` VALUES (298873526486564864, 298873227894063104, 297516356822106112, '问题解决', 1, 0, '2022-07-04 10:21:10', 'admin', '2022-07-04 10:21:10', 'admin', 0);
-INSERT INTO `blog_section` VALUES (298873692006383616, 0, 297516356822106112, '翻译', 1, 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873227894063100, 0, 297516356822106112, '首页', 1, 1, 3, '/blog', 0, '2022-07-04 10:19:59', 'admin', '2022-07-04 10:19:59', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873227894063104, 0, 297516356822106112, '技术人生', 1, 1, 2, '', 0, '2022-07-04 10:19:59', 'admin', '2022-07-04 10:19:59', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873481892724736, 298873227894063104, 297516356822106112, '框架集成', 1, 1, 1, '', 0, '2022-07-04 10:21:00', 'admin', '2022-07-04 10:21:00', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873526486564864, 298873227894063104, 297516356822106112, '问题解决', 1, 1, 1, '', 0, '2022-07-04 10:21:10', 'admin', '2022-07-04 10:21:10', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873692006383615, 0, 297516356822106112, '探索世界', 1, 1, 2, '', 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873692006383616, 298873692006383615, 297516356822106112, '翻译', 1, 1, 1, '', 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873692006383700, 0, 297516356822106112, '记录生活', 1, 1, 2, '', 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873692006383701, 298873692006383700, 297516356822106112, '生活技巧', 1, 1, 1, '', 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873692006383702, 298873692006383700, 297516356822106112, '学点厨艺', 1, 1, 1, '', 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
+INSERT INTO `blog_section` VALUES (298873692006383803, 0, 297516356822106112, '历程', 1, 1, 3, '/blog/timeline', 0, '2022-07-04 10:21:50', 'admin', '2022-07-04 10:21:50', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for blog_tag
@@ -173,6 +183,28 @@ INSERT INTO `blog_tag` VALUES (298873790459281408, 297516356822106112, 'SpringBo
 INSERT INTO `blog_tag` VALUES (298877098859167744, 297516356822106112, '面试', 1, '2022-07-04 10:35:22', 'admin', '2022-07-04 10:35:22', 'admin', 0);
 INSERT INTO `blog_tag` VALUES (312008233210347520, 297516356822106112, '12321312321', 1, '2022-08-09 16:13:49', 'admin', '2022-08-09 16:13:49', 'admin', 0);
 INSERT INTO `blog_tag` VALUES (312009182742052864, 297516356822106112, '123', 1, '2022-08-09 16:17:35', 'admin', '2022-08-09 16:17:35', 'admin', 0);
+
+-- ----------------------------
+-- Table structure for blog_timeline
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_timeline`;
+CREATE TABLE `blog_timeline`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `year` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '年份',
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '说明',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `del_flag` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除，1是，0否',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客时间线' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of blog_timeline
+-- ----------------------------
+INSERT INTO `blog_timeline` VALUES (318466839598333952, '2022', 'demo', '当你老了，头发白了，炉火旁打盹，回忆青春', '2022-08-27 11:58:00', 'admin', '2022-08-29 15:25:21', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for open_user
@@ -327,34 +359,6 @@ INSERT INTO `sys_dict` VALUES (309038187844468736, 'logModule', '日志模块', 
 INSERT INTO `sys_dict` VALUES (310931621354143744, 'blogSectionVisitType', '博客栏目访问类型', '博客栏目访问类型，1通用类型，2统一密码', '2022-08-06 16:55:44', 'admin', '2022-08-06 17:00:01', 'admin', 0);
 INSERT INTO `sys_dict` VALUES (310934578296520704, 'blogGrammarType', '博客语法类型', '语法类型，1markdown，2html', '2022-08-06 17:07:29', 'admin', '2022-08-06 17:07:29', 'admin', 0);
 INSERT INTO `sys_dict` VALUES (310934681941966848, 'blogPublishFlag', '博客发布状态', '发布状态，0未发布，1已发布', '2022-08-06 17:07:54', 'admin', '2022-08-06 17:07:54', 'admin', 0);
-
--- ----------------------------
--- Table structure for sys_dict_copy1
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dict_copy1`;
-CREATE TABLE `sys_dict_copy1`  (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `dict_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典编码',
-  `dict_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典名称',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `del_flag` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除，1是，0否',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_dict_copy1
--- ----------------------------
-INSERT INTO `sys_dict_copy1` VALUES (297874820157145088, 'enableFlag', '启用状态', '0未启用，1启用', '2022-07-01 16:12:40', 'admin', '2022-07-01 16:12:40', 'admin', 0);
-INSERT INTO `sys_dict_copy1` VALUES (297892445075537920, 'upgradeType', 'APP包更新类型', '是否需要更新，0无需更新，1需要更新，2需要且强制更新', '2022-07-01 17:22:42', 'admin', '2022-07-01 17:22:42', 'admin', 0);
-INSERT INTO `sys_dict_copy1` VALUES (297893233105567744, 'sysMenuType', '系统菜单类型', '菜单类型(0:菜单组; 1:子菜单; 2:按钮权限)', '2022-07-01 17:25:50', 'admin', '2022-07-02 09:28:15', 'admin', 0);
-INSERT INTO `sys_dict_copy1` VALUES (298869120441516032, 'blogVisitType', '访问类型', '博客访问类型：1通用类型，2统一密码，3独立密码', '2022-07-04 10:03:40', 'admin', '2022-07-04 10:03:40', 'admin', 0);
-INSERT INTO `sys_dict_copy1` VALUES (308376560618962944, 'logType', '日志类型', '1:登录日志;2:操作日志;3:定时任务;4:异常日志;', '2022-07-30 15:42:50', 'admin', '2022-07-30 15:42:50', 'admin', 0);
-INSERT INTO `sys_dict_copy1` VALUES (308376657037623296, 'logOperateType', '日志操作类型', '1查询，2添加，3修改，4删除，5导入，6导出', '2022-07-30 15:43:13', 'admin', '2022-07-30 15:43:13', 'admin', 0);
-INSERT INTO `sys_dict_copy1` VALUES (309038187844468736, 'logModule', '日志模块', 'sys:系统模块;blog:博客模块', '2022-08-01 11:31:55', 'admin', '2022-08-01 11:31:55', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -1171,6 +1175,34 @@ INSERT INTO `sys_log` VALUES (314531562009919488, 'SYS', '系统部门', '分页
 INSERT INTO `sys_log` VALUES (315302550427402240, 'SYS', '租户博客文章', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogArticleController.list', NULL, 'GET', '{\"id\":[\"\"],\"sectionId\":[\"\"],\"articleTitle\":[\"\"],\"grammarType\":[\"\"],\"visitType\":[\"\"],\"publishFlag\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 62, NULL, '2022-08-18 18:24:15', 'admin', '2022-08-18 18:24:15', 'admin', 0);
 INSERT INTO `sys_log` VALUES (315302554915307520, 'SYS', '租户博客评论', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogCommentController.list', NULL, 'GET', '{\"id\":[\"\"],\"openUserId\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 28, NULL, '2022-08-18 18:24:16', 'admin', '2022-08-18 18:24:16', 'admin', 0);
 INSERT INTO `sys_log` VALUES (315302555276017664, 'SYS', '租户博客标签', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTagController.list', NULL, 'GET', '{\"id\":[\"\"],\"tagName\":[\"\"],\"enableFlag\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 29, NULL, '2022-08-18 18:24:16', 'admin', '2022-08-18 18:24:16', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318182641234870272, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 23, NULL, '2022-08-26 17:08:42', 'admin', '2022-08-26 17:08:42', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318182653968777216, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 13, NULL, '2022-08-26 17:08:45', 'admin', '2022-08-26 17:08:45', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318203401844293632, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 22, NULL, '2022-08-26 18:31:12', 'admin', '2022-08-26 18:31:12', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318203559579484160, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 12, NULL, '2022-08-26 18:31:49', 'admin', '2022-08-26 18:31:49', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466185760866304, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 21, NULL, '2022-08-27 11:55:24', 'admin', '2022-08-27 11:55:24', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466236818128896, 'SYS', '博客时间线', '新增', 4, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572536443,\"description\":\"11111\",\"id\":318466236319006720,\"title\":\"测试\",\"updateBy\":\"admin\",\"updateTime\":1661572536443,\"year\":\"2020-12-31T16:00:00.000Z\"}]', 97, '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'year\' at row 1\r\n### The error may exist in top/zsmile/modules/blog/dao/BlogTimelineMapper.java (best guess)\r\n### The error may involve top.zsmile.modules.blog.dao.BlogTimelineMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: INSERT INTO blog_timeline  (id, year, title, description, create_time, create_by, update_time, update_by) VALUES ', '2022-08-27 11:55:37', 'admin', '2022-08-27 11:55:37', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466471921451008, 'SYS', '博客时间线', '新增', 4, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572592609,\"description\":\"11111\",\"id\":318466471896285184,\"title\":\"测试\",\"updateBy\":\"admin\",\"updateTime\":1661572592609,\"year\":\"2020-12-31T16:00:00.000Z\"}]', 12, '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'year\' at row 1\r\n### The error may exist in top/zsmile/modules/blog/dao/BlogTimelineMapper.java (best guess)\r\n### The error may involve top.zsmile.modules.blog.dao.BlogTimelineMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: INSERT INTO blog_timeline  (id, year, title, description, create_time, create_by, update_time, update_by) VALUES ', '2022-08-27 11:56:33', 'admin', '2022-08-27 11:56:33', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466483065716736, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 12, NULL, '2022-08-27 11:56:35', 'admin', '2022-08-27 11:56:35', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466531933552640, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 10, NULL, '2022-08-27 11:56:47', 'admin', '2022-08-27 11:56:47', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466553966231552, 'SYS', '博客时间线', '新增', 4, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572612170,\"description\":\"1111\",\"id\":318466553941065728,\"title\":\"111\",\"updateBy\":\"admin\",\"updateTime\":1661572612170,\"year\":\"2021-12-31T16:00:00.000Z\"}]', 10, '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'year\' at row 1\r\n### The error may exist in top/zsmile/modules/blog/dao/BlogTimelineMapper.java (best guess)\r\n### The error may involve top.zsmile.modules.blog.dao.BlogTimelineMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: INSERT INTO blog_timeline  (id, year, title, description, create_time, create_by, update_time, update_by) VALUES ', '2022-08-27 11:56:52', 'admin', '2022-08-27 11:56:52', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466669871628288, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 15, NULL, '2022-08-27 11:57:20', 'admin', '2022-08-27 11:57:20', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466724527603712, 'SYS', '博客时间线', '新增', 4, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572652836,\"description\":\"1111\",\"id\":318466724506632192,\"title\":\"111\",\"updateBy\":\"admin\",\"updateTime\":1661572652836,\"year\":\"2021-12-31T16:00:00.000Z\"}]', 8, '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'year\' at row 1\r\n### The error may exist in top/zsmile/modules/blog/dao/BlogTimelineMapper.java (best guess)\r\n### The error may involve top.zsmile.modules.blog.dao.BlogTimelineMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: INSERT INTO blog_timeline  (id, year, title, description, create_time, create_by, update_time, update_by) VALUES ', '2022-08-27 11:57:33', 'admin', '2022-08-27 11:57:33', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466803305021440, 'SYS', '博客时间线', '新增', 4, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572671617,\"description\":\"1111\",\"id\":318466803279855616,\"title\":\"111\",\"updateBy\":\"admin\",\"updateTime\":1661572671617,\"year\":\"2021-12-31T16:00:00.000Z\"}]', 11, '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'year\' at row 1\r\n### The error may exist in top/zsmile/modules/blog/dao/BlogTimelineMapper.java (best guess)\r\n### The error may involve top.zsmile.modules.blog.dao.BlogTimelineMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: INSERT INTO blog_timeline  (id, year, title, description, create_time, create_by, update_time, update_by) VALUES ', '2022-08-27 11:57:52', 'admin', '2022-08-27 11:57:52', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466821764153344, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 28, NULL, '2022-08-27 11:57:56', 'admin', '2022-08-27 11:57:56', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466839631888384, 'SYS', '博客时间线', '新增', 2, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572680276,\"description\":\"123\",\"id\":318466839598333952,\"title\":\"12\",\"updateBy\":\"admin\",\"updateTime\":1661572680276,\"year\":\"2022\"}]', 14, NULL, '2022-08-27 11:58:00', 'admin', '2022-08-27 11:58:00', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318466839858380800, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 11, NULL, '2022-08-27 11:58:00', 'admin', '2022-08-27 11:58:00', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318467337399304192, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 9, NULL, '2022-08-27 11:59:59', 'admin', '2022-08-27 11:59:59', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318467786068197376, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 11, NULL, '2022-08-27 12:01:46', 'admin', '2022-08-27 12:01:46', 'admin', 0);
+INSERT INTO `sys_log` VALUES (318468144496640000, 'SYS', '博客时间线', '新增', 2, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"description\":\"111\",\"title\":\"111\",\"year\":\"2022\"}]', 4, NULL, '2022-08-27 12:03:11', 'admin', '2022-08-27 12:03:11', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319189739158634496, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 27, NULL, '2022-08-29 11:50:33', 'admin', '2022-08-29 11:50:33', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319189802375184384, 'SYS', '博客时间线', '新增', 2, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"description\":\"111\",\"title\":\"111\",\"year\":\"2022\"}]', 10, NULL, '2022-08-29 11:50:48', 'admin', '2022-08-29 11:50:48', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319190225672732672, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 12, NULL, '2022-08-29 11:52:29', 'admin', '2022-08-29 11:52:29', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319190252935708672, 'SYS', '博客时间线', '新增', 2, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"description\":\"111\",\"title\":\"1111\",\"year\":\"2022\"}]', 5, NULL, '2022-08-29 11:52:35', 'admin', '2022-08-29 11:52:35', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319243797168914432, 'SYS', '博客时间线', '更新', 2, 1, 3, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.update', NULL, 'POST', '[{\"createBy\":\"admin\",\"createTime\":1661572680000,\"delFlag\":0,\"description\":\"111\",\"id\":318466839598333952,\"title\":\"111\",\"updateBy\":\"admin\",\"updateTime\":1661757921363,\"year\":\"2022\"}]', 31, NULL, '2022-08-29 15:25:21', 'admin', '2022-08-29 15:25:21', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319243797424766976, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 20, NULL, '2022-08-29 15:25:21', 'admin', '2022-08-29 15:25:21', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319243811542794240, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 19, NULL, '2022-08-29 15:25:25', 'admin', '2022-08-29 15:25:25', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319243839678185472, 'SYS', '博客时间线', '新增', 2, 1, 2, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.save', NULL, 'POST', '[{\"description\":\"111\",\"title\":\"111\",\"year\":\"2022\"}]', 6, NULL, '2022-08-29 15:25:32', 'admin', '2022-08-29 15:25:32', 'admin', 0);
+INSERT INTO `sys_log` VALUES (319244345234423808, 'SYS', '博客时间线', '分页查询', 2, 1, 1, '0:0:0:0:0:0:0:1', 'top.zsmile.modules.blog.controller.BlogTimelineController.list', NULL, 'GET', '{\"id\":[\"\"],\"year\":[\"\"],\"title\":[\"\"],\"description\":[\"\"],\"size\":[\"10\"],\"page\":[\"1\"]}', 13, NULL, '2022-08-29 15:27:32', 'admin', '2022-08-29 15:27:32', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1269,6 +1301,11 @@ INSERT INTO `sys_menu` VALUES (298867137412333568, 0, '博客管理', NULL, '/bl
 INSERT INTO `sys_menu` VALUES (298878824412610560, 298867137412333568, '发表博客', NULL, '/blog/publish', '/blog/BlogPublish', 1, NULL, 0, '2022-07-04 10:42:14', 'admin', '2022-07-04 10:42:14', 'admin', 0, 1);
 INSERT INTO `sys_menu` VALUES (309048942035865600, 0, 'DEMO示例', NULL, '/demo/list', '/demo/DemoList', 1, NULL, 9, NULL, NULL, NULL, NULL, 0, 1);
 INSERT INTO `sys_menu` VALUES (309048942035865601, 309048942035865600, '所有权限', NULL, NULL, NULL, 2, 'sys:demo:all', 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (318178864713043968, 298867137412333568, '博客时间线', NULL, '/blog/timeline', '/blog/BlogTimeline', 1, NULL, 4, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (318178864713043969, 318178864713043968, '查询', NULL, NULL, NULL, 2, 'blog:timeline:list', 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (318178864713043970, 318178864713043968, '更新', NULL, NULL, NULL, 2, 'blog:timeline:info;blog:timeline:update', 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (318178864713043971, 318178864713043968, '新增', NULL, NULL, NULL, 2, 'blog:timeline:save', 0, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `sys_menu` VALUES (318178864713043972, 318178864713043968, '删除', NULL, NULL, NULL, 2, 'blog:timeline:remove', 0, NULL, NULL, NULL, NULL, 0, 1);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -1313,30 +1350,6 @@ INSERT INTO `sys_role_menu` VALUES (310581560187289602, 310185715658915840, 2988
 INSERT INTO `sys_role_menu` VALUES (310581560187289603, 310185715658915840, 298866286056837123, 1);
 INSERT INTO `sys_role_menu` VALUES (310581560187289604, 310185715658915840, 298866286056837124, 1);
 INSERT INTO `sys_role_menu` VALUES (310581560187289605, 310185715658915840, 298867137412333568, 2);
-
--- ----------------------------
--- Table structure for sys_role_menu_copy2
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role_menu_copy2`;
-CREATE TABLE `sys_role_menu_copy2`  (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id',
-  `menu_id` bigint(20) NOT NULL COMMENT '菜单id',
-  `check_type` tinyint(2) NOT NULL COMMENT '选中状态1选中，2半选中',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色菜单' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_role_menu_copy2
--- ----------------------------
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552666738688, 310185715658915840, 298866286056837121, 1);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932992, 310185715658915840, 298866286056837123, 1);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932993, 310185715658915840, 298866286056837124, 1);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932994, 310185715658915840, 308038523393409024, 1);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932995, 310185715658915840, 298866286056837121, 2);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932996, 310185715658915840, 298866286056837123, 2);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932997, 310185715658915840, 298866286056837124, 2);
-INSERT INTO `sys_role_menu_copy2` VALUES (310493552670932998, 310185715658915840, 308038523393409024, 2);
 
 -- ----------------------------
 -- Table structure for sys_tenant
