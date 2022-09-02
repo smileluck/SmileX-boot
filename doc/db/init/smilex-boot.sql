@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 01/09/2022 14:56:48
+ Date: 02/09/2022 17:04:28
 */
 
 SET NAMES utf8mb4;
@@ -190,6 +190,7 @@ INSERT INTO `blog_tag` VALUES (312009182742052864, 297516356822106112, '123', 1,
 DROP TABLE IF EXISTS `blog_timeline`;
 CREATE TABLE `blog_timeline`  (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
   `year` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '年份',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
   `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '说明',
@@ -204,7 +205,9 @@ CREATE TABLE `blog_timeline`  (
 -- ----------------------------
 -- Records of blog_timeline
 -- ----------------------------
-INSERT INTO `blog_timeline` VALUES (318466839598333952, '2022', 'demo', '当你老了，头发白了，炉火旁打盹，回忆青春', '2022-08-27 11:58:00', 'admin', '2022-08-29 15:25:21', 'admin', 0);
+INSERT INTO `blog_timeline` VALUES (318466839598333951, 297516356822106112, '2021', 'demo', '当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春', '2022-08-27 11:58:00', 'admin', '2022-08-29 15:25:21', 'admin', 0);
+INSERT INTO `blog_timeline` VALUES (318466839598333952, 297516356822106112, '2022', 'demo', '当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春', '2022-08-27 11:58:00', 'admin', '2022-08-29 15:25:21', 'admin', 0);
+INSERT INTO `blog_timeline` VALUES (318466839598333953, 297516356822106112, '2023', 'demo', '当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春当你老了，头发白了，炉火旁打盹，回忆青春', '2022-08-27 11:58:00', 'admin', '2022-08-29 15:25:21', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for open_user
