@@ -23,7 +23,7 @@ public class BlogArticleVo {
      * 栏目名称
      */
     @ApiModelProperty(value = "栏目名称", hidden = false)
-    private Long sectionName;
+    private String sectionName;
     /**
      * 标签id，以,分割
      */

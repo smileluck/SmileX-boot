@@ -5,6 +5,7 @@
     <select id="selectListBySearch" resultType="top.zsmile.modules.open.entity.vo.BlogArticleVo">
         select blog_article.id,
         blog_article.section_id,
+        blog_section.section_name,
         blog_article.poster,
         blog_article.tag_ids,
         blog_article.tag_names,
