@@ -50,6 +50,11 @@ public class BlogArticleVo {
     @ApiModelProperty(value = "文章简介", hidden = false)
     private String articleDigest;
     /**
+     * 文章内容
+     */
+    @ApiModelProperty(value = "文章内容", hidden = false)
+    private String articleContent;
+    /**
      * 访问类型,1通用类型，2统一密码，3独立密码
      */
     @ApiModelProperty(value = "访问类型,1通用类型，2统一密码，3独立密码", hidden = false)

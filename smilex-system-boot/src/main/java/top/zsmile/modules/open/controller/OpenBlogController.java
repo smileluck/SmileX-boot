@@ -4,22 +4,29 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import top.zsmile.common.utils.ValidatorUtils;
 import top.zsmile.core.api.R;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
+import top.zsmile.modules.blog.entity.BlogArticleEntity;
 import top.zsmile.modules.blog.entity.BlogTimelineEntity;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.service.BlogSectionService;
 import top.zsmile.modules.blog.service.BlogTagService;
 import top.zsmile.modules.blog.service.BlogTimelineService;
+import top.zsmile.modules.open.entity.dto.BlogArticleCommonDto;
+import top.zsmile.modules.open.entity.dto.BlogArticleDetailDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDto;
+import top.zsmile.modules.open.entity.vo.BlogArticleLNVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.modules.open.entity.vo.BlogTagVo;
+import top.zsmile.modules.sys.entity.SysTenantEntity;
+import top.zsmile.modules.sys.service.SysTenantService;
+import top.zsmile.modules.sys.utils.AssertUtils;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +98,37 @@ public class OpenBlogController {
         return R.success(list);
     }
 
+    /**
+     * 获取文章内容
+     *
+     * @param tenantId
+     * @return
+     */
+    @ApiOperation("获取文章内容")
+    @PostMapping("/{tenantId}/article/detail")
+    public R<BlogArticleVo> articleDetail(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId,
+                                          @Validated @RequestBody BlogArticleDetailDto blogArticleDto) {
+        blogArticleDto.setTenantId(tenantId);
+        BlogArticleVo detail = blogArticleService.getDetailById(blogArticleDto);
+        AssertUtils.notNull(detail, "文章不存在");
+        blogArticleService.checkPassToken(tenantId, blogArticleDto.getPassToken(), detail);
+        return R.success(detail);
+    }
+
+    /**
+     * 获取文章上下页
+     *
+     * @param tenantId
+     * @return
+     */
+    @ApiOperation("获取文章上下页")
+    @GetMapping("/{tenantId}/article/ln")
+    public R<BlogArticleLNVo> articleLn(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId,
+                                        @Valid BlogArticleCommonDto blogArticleCommonDto) {
+        blogArticleCommonDto.setTenantId(tenantId);
+        BlogArticleLNVo blogArticleLNVo = blogArticleService.getLnArticle(blogArticleCommonDto);
+        return R.success(blogArticleLNVo);
+    }
 
     /**
      * 文章列表

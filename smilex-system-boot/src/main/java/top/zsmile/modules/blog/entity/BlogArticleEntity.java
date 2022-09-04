@@ -86,6 +86,12 @@ public class BlogArticleEntity extends BaseEntity implements Serializable {
     private Integer publishFlag;
 
     /**
+     * 置顶状态，0未置顶，1已置顶
+     */
+    @ApiModelProperty(value = "置顶状态，0未置顶，1已置顶", hidden = false)
+    private Integer topFlag;
+
+    /**
      * ID
      */
     public Long getId() {
@@ -279,5 +285,19 @@ public class BlogArticleEntity extends BaseEntity implements Serializable {
      */
     public void setTagNames(String tagNames) {
         this.tagNames = tagNames;
+    }
+
+    /**
+     * 置顶状态，0未置顶，1已置顶
+     */
+    public Integer getTopFlag() {
+        return topFlag;
+    }
+
+    /**
+     * 置顶状态，0未置顶，1已置顶
+     */
+    public void setTopFlag(Integer topFlag) {
+        this.topFlag = topFlag;
     }
 }
