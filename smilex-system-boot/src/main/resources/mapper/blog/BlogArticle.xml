@@ -133,4 +133,33 @@
         </where>
         order by blog_article.create_time desc limit 1
     </select>
+    <select id="selectTopList" resultType="top.zsmile.modules.open.entity.vo.BlogArticleTopVo">
+        select blog_article.id,
+        blog_article.poster,
+        blog_article.article_title,
+        blog_article.create_time
+        from blog_article
+        join blog_section on blog_section.id = blog_article.section_id
+        <where>
+            blog_article.del_flag = 0
+            and blog_article.top_flag = 1
+            <if test="dto.tenantId!=null">
+                and blog_article.tenant_id = #{dto.tenantId}
+            </if>
+            <if test="dto.sectionId!=null">
+                and blog_article.section_id = #{dto.sectionId}
+            </if>
+            <if test="dto.tagId!=null">
+                and find_in_set(#{dto.tagId},blog_article.tag_ids)
+            </if>
+            <if test='dto.articleTitle!=null and dto.articleTitle!=""'>
+                and blog_article.articleTitle like CONCAT("%",#{dto.articleTitle})
+            </if>
+            <if test="dto.publishFlag!=null">
+                and blog_article.publish_flag = #{dto.publishFlag}
+            </if>
+
+        </where>
+        order by blog_article.update_time desc;
+    </select>
 </mapper>

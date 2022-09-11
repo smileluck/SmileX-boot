@@ -6,12 +6,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.common.utils.ValidatorUtils;
 import top.zsmile.core.api.R;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
-import top.zsmile.modules.blog.entity.BlogArticleEntity;
-import top.zsmile.modules.blog.entity.BlogTimelineEntity;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.service.BlogSectionService;
 import top.zsmile.modules.blog.service.BlogTagService;
@@ -20,10 +17,8 @@ import top.zsmile.modules.open.entity.dto.BlogArticleCommonDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDetailDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDto;
 import top.zsmile.modules.open.entity.vo.BlogArticleLNVo;
+import top.zsmile.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleVo;
-import top.zsmile.modules.open.entity.vo.BlogTagVo;
-import top.zsmile.modules.sys.entity.SysTenantEntity;
-import top.zsmile.modules.sys.service.SysTenantService;
 import top.zsmile.modules.sys.utils.AssertUtils;
 
 import javax.validation.Valid;
@@ -128,6 +123,23 @@ public class OpenBlogController {
         blogArticleCommonDto.setTenantId(tenantId);
         BlogArticleLNVo blogArticleLNVo = blogArticleService.getLnArticle(blogArticleCommonDto);
         return R.success(blogArticleLNVo);
+    }
+
+
+    /**
+     * 获取文章排行帮
+     *
+     * @param tenantId
+     * @return
+     */
+    @ApiOperation("获取文章排行榜")
+    @GetMapping("/{tenantId}/article/top")
+    public R<List<BlogArticleTopVo>> articleTop(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId,
+                                                @Valid BlogArticleDto blogArticleDto) {
+        blogArticleDto.setTenantId(tenantId);
+        blogArticleDto.setPublishFlag(1);
+        List<BlogArticleTopVo> list = blogArticleService.getTopList(blogArticleDto);
+        return R.success(list);
     }
 
     /**

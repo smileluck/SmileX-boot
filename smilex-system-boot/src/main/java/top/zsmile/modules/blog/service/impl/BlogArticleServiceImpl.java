@@ -1,7 +1,6 @@
 package top.zsmile.modules.blog.service.impl;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import top.zsmile.common.utils.PasswordUtils;
@@ -10,23 +9,18 @@ import top.zsmile.meta.Page;
 import top.zsmile.modules.open.entity.dto.BlogArticleCommonDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDetailDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDto;
-import top.zsmile.modules.open.entity.vo.BlogArticleLNBodyVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleLNVo;
+import top.zsmile.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.modules.sys.entity.SysTenantEntity;
 import top.zsmile.modules.sys.service.SysTenantService;
-import top.zsmile.service.BaseService;
 import top.zsmile.service.impl.BaseServiceImpl;
 import top.zsmile.modules.blog.entity.BlogArticleEntity;
 import top.zsmile.modules.blog.dao.BlogArticleMapper;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import org.springframework.stereotype.Service;
-import top.zsmile.utils.Constants;
-import top.zsmile.utils.PageQuery;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service("blogArticleService")
 public class BlogArticleServiceImpl extends BaseServiceImpl<BlogArticleMapper, BlogArticleEntity> implements BlogArticleService {
@@ -86,5 +80,10 @@ public class BlogArticleServiceImpl extends BaseServiceImpl<BlogArticleMapper, B
         blogArticleLNVo.setNext(getBaseMapper().selectNextArticle(blogArticleCommonDto));
         blogArticleLNVo.setPrev(getBaseMapper().selectPrevArticle(blogArticleCommonDto));
         return blogArticleLNVo;
+    }
+
+    @Override
+    public List<BlogArticleTopVo> getTopList(BlogArticleDto blogArticleDto) {
+        return getBaseMapper().selectTopList(blogArticleDto);
     }
 }

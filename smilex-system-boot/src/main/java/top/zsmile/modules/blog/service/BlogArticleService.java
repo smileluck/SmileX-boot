@@ -1,18 +1,17 @@
 package top.zsmile.modules.blog.service;
 
-import org.apache.ibatis.annotations.Param;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
 import top.zsmile.modules.open.entity.dto.BlogArticleCommonDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDetailDto;
 import top.zsmile.modules.open.entity.dto.BlogArticleDto;
 import top.zsmile.modules.open.entity.vo.BlogArticleLNVo;
+import top.zsmile.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.service.BaseService;
 import top.zsmile.modules.blog.entity.BlogArticleEntity;
 
 import java.util.List;
-import java.util.Map;
 
 public interface BlogArticleService extends BaseService<BlogArticleEntity> {
     /**
@@ -56,4 +55,12 @@ public interface BlogArticleService extends BaseService<BlogArticleEntity> {
      * @return
      */
     BlogArticleLNVo getLnArticle(BlogArticleCommonDto blogArticleCommonDto);
+
+    /**
+     * 获取排行榜文章列表
+     *
+     * @param blogArticleDto
+     * @return
+     */
+    List<BlogArticleTopVo> getTopList(BlogArticleDto blogArticleDto);
 }
