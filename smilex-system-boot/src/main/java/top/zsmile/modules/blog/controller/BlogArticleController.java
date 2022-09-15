@@ -1,20 +1,26 @@
 package top.zsmile.modules.blog.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.google.common.base.Joiner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.checkerframework.checker.units.qual.A;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.meta.IPage;
+import top.zsmile.modules.blog.entity.BlogTagEntity;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.entity.BlogArticleEntity;
+import top.zsmile.modules.blog.service.BlogTagService;
 
 /**
  * 租户博客文章
@@ -26,6 +32,9 @@ public class BlogArticleController {
 
     @Autowired
     private BlogArticleService blogArticleService;
+
+    @Autowired
+    private BlogTagService blogTagService;
 
     @ApiOperation("查询列表（分页）")
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
@@ -69,6 +78,10 @@ public class BlogArticleController {
     @RequiresPermissions("blog:article:save")
     @PostMapping("/save")
     public R save(@RequestBody BlogArticleEntity blogArticleEntity) {
+        String[] tagIds = blogArticleEntity.getTagIds().split(",");
+        List<BlogTagEntity> tagName = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
+        List<String> collect = tagName.stream().map(item -> item.getTagName()).collect(Collectors.toList());
+        blogArticleEntity.setTagNames(Joiner.on(",").join(collect));
         blogArticleService.saveArticle(blogArticleEntity);
         return R.success("添加成功");
     }
