@@ -76,7 +76,7 @@
             <el-table-column type="selection" width="50" />
             <el-table-column type="expand">
                 <template #default="props">
-                    <el-space wrap
+                    <el-space wrap alignment="stretch"
                     ><el-card class="box-card" style="min-width: 500px; width: 50%">
                             <template #header>
                                 <div class="card-header">
