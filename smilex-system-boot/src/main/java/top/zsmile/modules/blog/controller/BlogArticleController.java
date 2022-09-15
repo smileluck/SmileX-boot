@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.checkerframework.checker.units.qual.A;
+import org.springframework.validation.annotation.Validated;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
@@ -18,9 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.meta.IPage;
 import top.zsmile.modules.blog.entity.BlogTagEntity;
+import top.zsmile.modules.blog.entity.dto.BlogArticlePublishDto;
+import top.zsmile.modules.blog.entity.dto.BlogArticleTopDto;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.entity.BlogArticleEntity;
 import top.zsmile.modules.blog.service.BlogTagService;
+
+import javax.validation.Valid;
 
 /**
  * 租户博客文章
@@ -84,5 +89,30 @@ public class BlogArticleController {
         blogArticleEntity.setTagNames(Joiner.on(",").join(collect));
         blogArticleService.saveArticle(blogArticleEntity);
         return R.success("添加成功");
+    }
+
+
+    @ApiOperation("根据Id置顶或取消置顶文章")
+    @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "置顶")
+    @RequiresPermissions("blog:article:update")
+    @PostMapping("/top")
+    public R top(@Validated @RequestBody BlogArticleTopDto blogArticleTopDto) {
+        BlogArticleEntity blogArticleEntity = new BlogArticleEntity();
+        blogArticleEntity.setId(blogArticleTopDto.getId());
+        blogArticleEntity.setTopFlag(blogArticleTopDto.getTopFlag());
+        blogArticleService.updateById(blogArticleEntity);
+        return R.success(blogArticleTopDto.getTopFlag() == 0 ? "取消成功" : "置顶成功");
+    }
+
+    @ApiOperation("根据Id发布或撤回文章")
+    @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "发布")
+    @RequiresPermissions("blog:article:update")
+    @PostMapping("/publish")
+    public R publish(@Validated @RequestBody BlogArticlePublishDto blogArticlePublishDto) {
+        BlogArticleEntity blogArticleEntity = new BlogArticleEntity();
+        blogArticleEntity.setId(blogArticlePublishDto.getId());
+        blogArticleEntity.setPublishFlag(blogArticlePublishDto.getPublishFlag());
+        blogArticleService.updateById(blogArticleEntity);
+        return R.success(blogArticlePublishDto.getPublishFlag() == 0 ? "取消成功" : "发布成功");
     }
 }
