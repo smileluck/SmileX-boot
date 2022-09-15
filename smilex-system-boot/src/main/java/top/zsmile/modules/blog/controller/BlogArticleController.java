@@ -32,7 +32,7 @@ public class BlogArticleController {
     @RequiresPermissions("blog:article:list")
     @GetMapping("/list")
     public R<IPage<BlogArticleEntity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = blogArticleService.getPageByMap(params, "id", "tenantId", "sectionId", "tagIds", "articleTitle", "articleContent", "grammarType", "visitType", "createTime", "createBy", "updateTime", "updateBy");
+        IPage page = blogArticleService.getPageByMap(params, "id", "tenantId", "sectionId", "tagIds", "articleTitle", "articleContent", "grammarType", "visitType", "publishFlag", "topFlag", "createTime", "createBy", "updateTime", "updateBy");
         return R.success("查询成功", page);
     }
 
