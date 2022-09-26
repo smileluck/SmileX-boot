@@ -11,5 +11,11 @@
 
     <artifactId>smilex-study</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
