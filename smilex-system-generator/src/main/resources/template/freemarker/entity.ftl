@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * ${tableComment}
  */
-<#--@TableName("${tableName}")-->
+@TableName("${tableName}")
 @ApiModel(value="${tableComment}", description = "${tableComment}")
 public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package top.zsmile.jvm.utils;
+package top.zsmile.test.jvm.utils;
 
 import lombok.SneakyThrows;
 
