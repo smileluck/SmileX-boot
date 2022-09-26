@@ -2,6 +2,8 @@ package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import top.zsmile.annotation.TableName;
 import top.zsmile.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 系统部门
  */
+@TableName("sys_dept")
 @ApiModel(value="系统部门", description = "系统部门")
 public class SysDeptEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;

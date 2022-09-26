@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import top.zsmile.annotation.TableName;
 
 /**
  * 系统角色菜单
  */
+@TableName("sys_role_menu")
 @ApiModel(value="系统角色菜单", description = "系统角色菜单")
 public class SysRoleMenuEntity implements Serializable {
     private static final long serialVersionUID = 1L;

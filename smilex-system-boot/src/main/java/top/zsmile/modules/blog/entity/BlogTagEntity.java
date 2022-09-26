@@ -2,6 +2,8 @@ package top.zsmile.modules.blog.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import top.zsmile.annotation.TableName;
 import top.zsmile.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 租户博客标签
  */
+@TableName("blog_tag")
 @ApiModel(value="租户博客标签", description = "租户博客标签")
 public class BlogTagEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;

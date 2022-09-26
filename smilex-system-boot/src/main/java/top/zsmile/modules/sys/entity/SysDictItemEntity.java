@@ -2,6 +2,8 @@ package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import top.zsmile.annotation.TableName;
 import top.zsmile.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 数据字典信息
  */
+@TableName("sys_dict_item")
 @ApiModel(value="数据字典信息", description = "数据字典信息")
 public class SysDictItemEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;

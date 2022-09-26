@@ -2,6 +2,8 @@ package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import top.zsmile.annotation.TableName;
 import top.zsmile.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 系统配置
  */
+@TableName("sys_config")
 @ApiModel(value="系统配置", description = "系统配置")
 public class SysConfigEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;

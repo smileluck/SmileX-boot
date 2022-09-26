@@ -3,6 +3,7 @@ package top.zsmile.modules.blog.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import top.zsmile.annotation.TableName;
 import top.zsmile.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 博客时间线
  */
+@TableName("blog_timeline")
 @ApiModel(value = "博客时间线", description = "博客时间线")
 public class BlogTimelineEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
