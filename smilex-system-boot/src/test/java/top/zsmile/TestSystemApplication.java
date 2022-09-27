@@ -13,6 +13,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ClassUtils;
 import top.zsmile.annotation.TableName;
+import top.zsmile.common.utils.file.SpringFileUtils;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
 import top.zsmile.modules.sys.dao.SysDictMapper;
@@ -24,8 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = SmileSystemApplication.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = SmileSystemApplication.class)
 public class TestSystemApplication {
 
     @Autowired
@@ -89,12 +90,13 @@ public class TestSystemApplication {
     }
 
 
-    private final String BASE_PACKAGE = "top.zsmile";
-    private final String RESOURCE_PATTERN = "/**/*.class";
-
     @Test
-    public void test() {
+    public void test() throws IOException {
 
+        Map<String, Class> classByAnnotation = SpringFileUtils.getClassByAnnotation("top/zsmile/**/*.class", TableName.class);
+        int size = classByAnnotation.size();
 
+//        Class<SysDictMapper> sysDictMapperClass = SysDictMapper.class;
+//        System.out.println(sysDictMapperClass.getSuperclass());
     }
 }
