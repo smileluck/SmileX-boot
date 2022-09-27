@@ -1,7 +1,14 @@
 package top.zsmile.common.utils.file;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import top.zsmile.common.utils.Asserts;
 import top.zsmile.common.utils.StringPool;
@@ -9,104 +16,17 @@ import top.zsmile.common.utils.StringPool;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.annotation.Annotation;
 import java.net.URLEncoder;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+/**
+ * 通用文件工具
+ */
 @Slf4j
 public class FileUtils {
-    /**
-     * response 下载
-     *
-     * @param file
-     * @param response
-     */
-    public static void downloadFile(File file, HttpServletResponse response) {
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        try {
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
-            FileInputStream fileInputStream = new FileInputStream(file);
-            inputStream = new BufferedInputStream(fileInputStream);
-            outputStream = response.getOutputStream();
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = inputStream.read(buf)) > 0) {
-                outputStream.write(buf, 0, len);
-            }
-            response.flushBuffer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    log.error(e.getMessage(), e);
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    log.error(e.getMessage(), e);
-                }
-            }
-        }
-    }
-
-
-    /**
-     * 获取符合条件的路径列表
-     *
-     * @param searchPath 路径，支持ANT
-     * @return
-     */
-    public static List<String> getDirPaths(String searchPath) throws IOException {
-        List<String> paths = parsePath(searchPath);
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
-        List<String> matchList = new ArrayList<>();
-        Files.walkFileTree(Paths.get(paths.get(0)), new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                String absolutePath = dir.toAbsolutePath().toString();
-                if (antPathMatcher.match(searchPath, absolutePath)) {
-                    log.debug("文件夹：" + absolutePath);
-                    matchList.add(absolutePath);
-                }
-                return super.preVisitDirectory(dir, attrs);
-            }
-        });
-        return matchList;
-    }
-
-
-    /**
-     * 获取符合条件的文件列表
-     *
-     * @param searchPath 路径，支持ANT
-     * @return
-     */
-    public static List<String> getFilePaths(String searchPath) throws IOException {
-        List<String> paths = parsePath(searchPath);
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
-        List<String> matchList = new ArrayList<>();
-        Files.walkFileTree(Paths.get(paths.get(0)), new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                String absolutePath = file.toAbsolutePath().toString();
-                if (antPathMatcher.match(searchPath, absolutePath)) {
-                    log.debug("文件夹：" + absolutePath);
-                    matchList.add(absolutePath);
-                }
-                return super.visitFile(file, attrs);
-            }
-        });
-        return matchList;
-    }
 
 
     /**
@@ -159,5 +79,6 @@ public class FileUtils {
         }
         return pathList;
     }
+
 
 }

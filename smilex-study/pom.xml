@@ -16,6 +16,11 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-mybatis-enhance</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

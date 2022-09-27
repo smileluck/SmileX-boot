@@ -1,5 +1,6 @@
 package top.zsmile.common.utils.file;
 
+import lombok.extern.slf4j.Slf4j;
 import top.zsmile.common.domain.ZipFileEntity;
 
 import java.io.*;
@@ -8,7 +9,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-
+/**
+ * 压缩包工具
+ */
+@Slf4j
 public class ZipUtils {
 
     private final static String FILE_SEPARATE = "/";

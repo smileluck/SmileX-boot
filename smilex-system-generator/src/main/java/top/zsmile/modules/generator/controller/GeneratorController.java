@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.common.utils.file.FileUtils;
+import top.zsmile.common.utils.file.HttpFileUtils;
 import top.zsmile.common.validator.group.Add;
 import top.zsmile.core.api.R;
 import top.zsmile.core.datasource.DataSourceFactory;
@@ -75,7 +76,7 @@ public class GeneratorController {
     @PostMapping("/genFileByZip")
     public void genFileByZip(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
         File file = generatorService.genZipCode(generatorEntity);
-        FileUtils.downloadFile(file, response);
+        HttpFileUtils.downloadFile(file, response);
         file.delete();
     }
 

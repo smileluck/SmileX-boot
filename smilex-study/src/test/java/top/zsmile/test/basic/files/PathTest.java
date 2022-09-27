@@ -3,19 +3,25 @@ package top.zsmile.test.basic.files;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
+import top.zsmile.annotation.TableName;
 import top.zsmile.common.utils.Asserts;
 import top.zsmile.common.utils.StringPool;
 import top.zsmile.common.utils.file.FileUtils;
+import top.zsmile.common.utils.file.SpringFileUtils;
 
 import javax.swing.text.StringContent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Spliterators;
+import java.util.*;
 
 /**
  * 路径测试类
@@ -71,7 +77,7 @@ public class PathTest {
 
     @Test
     public void getPath() throws IOException {
-        List<String> paths = FileUtils.getDirPaths("D:\\my\\project\\SmileX-boot\\smilex-system-boot\\src\\main\\java\\top\\zsmile\\modules\\*\\entity");
+        List<String> paths = SpringFileUtils.getDirPaths("D:\\my\\project\\SmileX-boot\\smilex-system-boot\\src\\main\\java\\top\\zsmile\\modules\\*\\entity");
         log.info(paths.toString());
     }
 

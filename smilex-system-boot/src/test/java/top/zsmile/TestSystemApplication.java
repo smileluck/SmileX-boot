@@ -4,15 +4,25 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ClassUtils;
+import top.zsmile.annotation.TableName;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
 import top.zsmile.modules.sys.dao.SysDictMapper;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.service.SysDictService;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SmileSystemApplication.class)
@@ -68,7 +78,7 @@ public class TestSystemApplication {
 
         List<SysDictEntity> sysDictEntities = sysDictDao.selectListByMap(null);
         System.out.println(sysDictEntities);
-        sysDictEntities.stream().forEach(item->{
+        sysDictEntities.stream().forEach(item -> {
             item.setId(null);
         });
 //        int i = sysDictDao.batchInsert(sysDictEntities);
@@ -76,5 +86,15 @@ public class TestSystemApplication {
 
         boolean b = sysDictService.saveBatch(sysDictEntities);
         System.out.println(b);
+    }
+
+
+    private final String BASE_PACKAGE = "top.zsmile";
+    private final String RESOURCE_PATTERN = "/**/*.class";
+
+    @Test
+    public void test() {
+
+
     }
 }
