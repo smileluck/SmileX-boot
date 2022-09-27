@@ -1,6 +1,8 @@
 package top.zsmile.common.utils.file;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.ResourceUtils;
 import top.zsmile.common.utils.Asserts;
 import top.zsmile.common.utils.StringPool;
 
@@ -8,6 +10,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,18 +65,49 @@ public class FileUtils {
      * @param searchPath 路径，支持ANT
      * @return
      */
-    public static List<String> getPaths(String searchPath) {
+    public static List<String> getDirPaths(String searchPath) throws IOException {
         List<String> paths = parsePath(searchPath);
-        StringBuilder strBuild = new StringBuilder();
-
-        for (String path : paths) {
-            if (path.contains("*") || path.contains("?")) {
-
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        List<String> matchList = new ArrayList<>();
+        Files.walkFileTree(Paths.get(paths.get(0)), new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                String absolutePath = dir.toAbsolutePath().toString();
+                if (antPathMatcher.match(searchPath, absolutePath)) {
+                    log.debug("文件夹：" + absolutePath);
+                    matchList.add(absolutePath);
+                }
+                return super.preVisitDirectory(dir, attrs);
             }
-        }
-
-        return null;
+        });
+        return matchList;
     }
+
+
+    /**
+     * 获取符合条件的文件列表
+     *
+     * @param searchPath 路径，支持ANT
+     * @return
+     */
+    public static List<String> getFilePaths(String searchPath) throws IOException {
+        List<String> paths = parsePath(searchPath);
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        List<String> matchList = new ArrayList<>();
+        Files.walkFileTree(Paths.get(paths.get(0)), new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                String absolutePath = file.toAbsolutePath().toString();
+                if (antPathMatcher.match(searchPath, absolutePath)) {
+                    log.debug("文件夹：" + absolutePath);
+                    matchList.add(absolutePath);
+                }
+                return super.visitFile(file, attrs);
+            }
+        });
+        return matchList;
+    }
+
 
     /**
      * 解析出多个文件路径。统一采用正斜杠，并将反斜杠变为正斜杠处理
@@ -107,7 +142,9 @@ public class FileUtils {
                 stringBuilder.setLength(0);
                 continue;
             }
-            stringBuilder.append(StringPool.SLASH);
+            if (i != 0) {
+                stringBuilder.append(StringPool.SLASH);
+            }
             stringBuilder.append(before);
             if (i != split.length - 1) {
                 String after = split[i + 1];

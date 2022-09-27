@@ -11,6 +11,7 @@ import top.zsmile.common.utils.file.FileUtils;
 
 import javax.swing.text.StringContent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +58,7 @@ public class PathTest {
      * 根据路径获取路径分组
      */
     @Test
-    public void getPaths() {
+    public void parsePaths() {
         List<String> strings = FileUtils.parsePath("top/zsmile\\*\\entity");
         log.info(strings.toString());
 
@@ -66,7 +67,12 @@ public class PathTest {
 
         List<String> strings2 = FileUtils.parsePath("top/zsmile\\*\\entity\\Test*.java");
         log.info(strings2.toString());
+    }
 
+    @Test
+    public void getPath() throws IOException {
+        List<String> paths = FileUtils.getDirPaths("D:\\my\\project\\SmileX-boot\\smilex-system-boot\\src\\main\\java\\top\\zsmile\\modules\\*\\entity");
+        log.info(paths.toString());
     }
 
 

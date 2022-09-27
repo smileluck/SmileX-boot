@@ -62,7 +62,7 @@ public class OAuth2Realm extends AuthorizingRealm {
 
         Long userId = JwtUtils.getUserId(token);
         if (userId == null) {
-            throw new AuthenticationException("用户不存在");
+            throw new AuthenticationException("登录失效");
         }
         Map<String, Object> userMap = commonApi.queryUserById(userId, "username", "enableFlag", "tenantId");
         if (userMap == null) {
