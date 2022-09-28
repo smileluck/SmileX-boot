@@ -10,7 +10,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.web.multipart.MultipartFile;
 import top.zsmile.api.common.FileUploadApi;
 import top.zsmile.core.api.R;

@@ -2,6 +2,10 @@ server:
   port: 8080
   servlet:
     context-path: /smilex-boot
+  undertow:
+    threads:
+      io: 2
+      worker: 64
 
 spring:
   servlet:
