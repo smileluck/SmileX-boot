@@ -11,6 +11,18 @@
     <artifactId>druid-spring-boot-starter</artifactId>
     <version>1.2.8</version>
 </dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jdbc</artifactId>
+    <exclusions>
+        <!-- 移除HikariCp数据源 -->
+        <exclusion>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
 ```
 
 
