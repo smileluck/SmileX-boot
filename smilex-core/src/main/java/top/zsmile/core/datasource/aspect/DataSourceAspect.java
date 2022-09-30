@@ -1,14 +1,12 @@
 package top.zsmile.core.datasource.aspect;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.Joinpoint;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import top.zsmile.core.datasource.DataSourceContentHolder;
@@ -61,6 +59,6 @@ public class DataSourceAspect {
 
     @After("dataSourceAspect()")
     public void afterSwitchDS() {
-        DataSourceContentHolder.clear();
+        DataSourceContentHolder.pollDataSource();
     }
 }

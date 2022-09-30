@@ -287,4 +287,65 @@ public class DataSourceAspect {
 
 3. 在需要切换数据源的地方添加注解
 
+## 多次切换数据源
+
+前面我们使用的是ThreadLocal<String> 来处理数据源的切换问题，那么相应的也有了新的问题，如果我们有以下伪代码，那这时会有什么结果。
+
+```java
+@DataSource("test1")
+public void A(){
+	AMapper.queryById(1);
+    B();
+	AMapper.queryById(3);
+}
+
+@DataSource("test2")
+public void B(){
+    BMapper.queryById(2)
+}
+```
+
+这里我们可以预计一个样子。
+
+1. 当 AMapper.queryById(1) 时，指向数据源 test1
+2. 当执行 BMapper.queryById(2) 时，指向 test2
+3. 再执行 AMapper.queryById(1) 时，指向数据源 test1。
+
+可是问题来了，我们用ThreadLocal<String>时，他就只支持了一个变量来存储，这意味着，当一个线程存在多次切换环境时无法支持。
+
+我们应该如何来解决这个问题。
+
+我们可以通过替换ThreadLocal<String> 为 ThreadLocal<Queue<String>>来实现。修改DataSourceContentHolder 文件如下
+
+```java
+
+@Slf4j
+public class DataSourceContentHolder {
+    private static final ThreadLocal<Queue<String>> contentHolder = new ThreadLocal() {
+        @Override
+        protected Object initialValue() {
+            return new LinkedList<>();
+        }
+    };
+
+    public synchronized static void setDataSource(String dataSource) {
+        contentHolder.get().add(dataSource);
+    }
+
+    public static String getDataSource() {
+        String ds = contentHolder.get().peek();
+        log.debug("当前数据源 => {}", ds);
+        return ds;
+    }
+
+    public static void pollDataSource() {
+        Queue<String> queue = contentHolder.get();
+        String ds = queue.poll();
+        log.debug("移除数据源 => {}", ds);
+        if (queue.isEmpty()) {
+            contentHolder.remove();
+        }
+    }
+}
+```
 

@@ -5,8 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 
 @Slf4j
@@ -16,49 +15,77 @@ public class QueueTest {
     @Test
     public void queue() {
         // 先入先出
-        Queue<String> strings = new LinkedList<>();
+        Queue<String> queue = new LinkedList<>();
 
         // 从头部加入
-        strings.add("1");
-        strings.add("2");
-        strings.add("3");
-        strings.add("4");
-        System.out.println(strings);
+        queue.add("1");
+        queue.add("2");
+        queue.add("3");
+        queue.add("4");
+        log.info("queue => {}", queue.toString());
 
         // 取出并删除元素，为空不抛出异常
-        String poll = strings.poll();
-        System.out.println(poll);
-        System.out.println(strings);
+        String poll = queue.poll();
+        log.info("queue poll => {}", poll);
+        log.info("queue => {}", queue.toString());
 
         // 取出并删除元素，为空抛出异常
-        strings.remove();
-        System.out.println(strings);
+        queue.remove();
+        log.info("queue => ", queue.toString());
 
         // 取出首部元素，但不移除，队列为空不抛出异常
-        String peek = strings.peek();
-        System.out.println(peek);
-        System.out.println(strings);
+        String peek = queue.peek();
+        log.info("queue peek => {}", peek);
+        log.info("queue => {}", queue.toString());
 
         // 取出首部元素，但不移除，队列为空会抛出异常
-        String element = strings.element();
-        System.out.println(element);
-        System.out.println(strings);
+        String element = queue.element();
+        log.info("queue element => {}", element);
+        log.info("queue => {}", queue.toString());
 
         // 如果不存在且未超过容器限制,插入一个元素到尾部
-        boolean offer = strings.offer("5");
-        System.out.println(offer);
-        System.out.println(strings);
+        boolean offer = queue.offer("5");
+        log.info("queue offer => {}", offer);
+        log.info("queue => {}", queue.toString());
 
         // 判断队列是否为空
-        boolean empty = strings.isEmpty();
-        System.out.println(empty);
+        boolean empty = queue.isEmpty();
+        log.info("queue isEmpty => {}", empty);
 
         // 清空队列
-        strings.clear();
-        System.out.println(strings);
+        queue.clear();
+        log.info("queue => {}", queue.toString());
 
         // 判断队列是否为空
-        empty = strings.isEmpty();
-        System.out.println(empty);
+        empty = queue.isEmpty();
+        log.info("queue isEmpty => {}", empty);
+    }
+
+
+    @Test
+    public void deque() {
+        Deque<String> deque = new ArrayDeque<>();
+
+        deque.add("1");
+        deque.add("2");
+        deque.add("3");
+        deque.add("4");
+        log.info("deque => {}", deque);
+
+        // 首尾元素
+        deque.addFirst("first");
+        deque.addFirst("first2");
+        deque.addLast("last");
+        deque.addLast("last2");
+        log.info("deque => {}", deque);
+
+
+        // 删除元素
+        String poll = deque.poll();
+        String pollFirst = deque.pollFirst();
+        String pollLast = deque.pollLast();
+        log.info("deque poll=>{},poll first=>{},poll last=>{}", poll, pollFirst, pollLast);
+        log.info("deque => {}", deque);
+
     }
 }
