@@ -2,7 +2,18 @@
 
 ----
 
-# ubuntu 18.04
+# 说明
+
+## 支持系统
+
+- 方法1
+  - ubuntu 18.04
+  - ubuntu 16.04
+- 方法2
+  - ubuntu 18.04
+  - ubuntu 16.04
+
+# 方法1
 
 ## 安装步骤
 ### 安装并解压nginx
@@ -25,6 +36,13 @@ tar -xvf nginx-1.21.6.tar.gz -C /usr/local/
 
 ```shell
 apt-get install libpcre3 libpcre3-dev
+
+## 待尝试
+apt-get install gcc
+apt-get install zlib1g zlib1g-dev
+apt-get install openssl openssl-dev
+apt-get install openssl
+apt-get install libssl-dev
 ```
 
 2. 检查pcre是否安装成功。如果打印版本，则安装完成。
@@ -41,7 +59,7 @@ pcre-config --version
 cd /usr/local/nginx-1.21.6
 ```
 
-2. 配置编译和安装选项
+2. 配置编译和安装选项。--prefix=yourpath。默认为/usr/local/nginx
 
 ```shell
 ./configure
@@ -62,6 +80,7 @@ ls -lh /usr/local/nginx/sbin/
 ```
 
 ### 添加环境变量（可选）
+
 1. 进入 /etc/profile.d/ 目录，新建export_user.sh
 
 ```
@@ -96,4 +115,51 @@ source /etc/profile
 ```shell
 nginx -v
 ```
+
+### 踩坑：腾讯云服务器
+
+腾讯云服务器需要使用加上sudo才行,因为腾讯云给出来的账号是ubuntu,非root.
+
+```shell
+# 这里的./一定需要添加,不然会显示异常:
+# sudo: nginx: command not found
+
+# 启动nginx 
+sudo ./nginx
+# 加载配置
+sudo ./nginx -s reload
+# 停止服务
+sudo ./nginx -s stop
+```
+
+# 方法2
+1. 安装依赖
+```shell
+apt-get update
+apt-get install libpcre3 libpcre3-dev
+apt-get install zlib1g-dev
+apt-get install openssl libssl-dev
+apt install nginx
+apt-get update
+```
+
+2. 启动
+
+```shell
+启动:$ nginx
+加载配置:$ nginx -s reload
+重启:service nginx restart
+```
+
+3. 卸载
+
+```shell
+# 彻底卸载nginx
+sudo apt-get --purge autoremove nginx
+#查看nginx的版本号
+nginx -v
+```
+
+
+
 
