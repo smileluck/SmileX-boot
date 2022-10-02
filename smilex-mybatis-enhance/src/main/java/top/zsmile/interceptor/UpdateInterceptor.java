@@ -13,6 +13,8 @@ import top.zsmile.api.common.CommonAuthApi;
 import top.zsmile.entity.BaseEntity;
 
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -40,33 +42,33 @@ public class UpdateInterceptor implements Interceptor {
         if (sqlCommandType == SqlCommandType.UPDATE || sqlCommandType == SqlCommandType.DELETE) {
             if (params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
-                Date date = new Date();
+                LocalDateTime now = LocalDateTime.now();
                 String username = userInfo.get("username").toString();
-                baseEntity.setUpdateTime(date);
+                baseEntity.setUpdateTime(now);
                 baseEntity.setUpdateBy(username);
             } else if (params instanceof Map) {
                 Map baseMap = (Map) params;
-                Date date = new Date();
+                LocalDateTime now = LocalDateTime.now();
                 String username = userInfo.get("username").toString();
-                baseMap.put("updateTime", date);
+                baseMap.put("updateTime", now);
                 baseMap.put("updateBy", username);
             }
         } else if (sqlCommandType == SqlCommandType.INSERT) {
             if (params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
-                Date date = new Date();
+                LocalDateTime now = LocalDateTime.now();
                 String username = userInfo.get("username").toString();
-                baseEntity.setCreateTime(date);
+                baseEntity.setCreateTime(now);
                 baseEntity.setCreateBy(username);
-                baseEntity.setUpdateTime(date);
+                baseEntity.setUpdateTime(now);
                 baseEntity.setUpdateBy(username);
             } else if (params instanceof Map) {
                 Map baseMap = (Map) params;
-                Date date = new Date();
+                LocalDateTime now = LocalDateTime.now();
                 String username = userInfo.get("username").toString();
-                baseMap.put("createTime", date);
+                baseMap.put("createTime", now);
                 baseMap.put("createBy", username);
-                baseMap.put("updateTime", date);
+                baseMap.put("updateTime", now);
                 baseMap.put("updateBy", username);
             }
         }

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @ApiModel(description = "基础类")
@@ -14,7 +15,7 @@ public class BaseEntity implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间", hidden = true)
-    private Date createTime;
+    private LocalDateTime createTime;
     /**
      * 创建人
      */
@@ -24,7 +25,7 @@ public class BaseEntity implements Serializable {
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间", hidden = true)
-    private Date updateTime;
+    private LocalDateTime updateTime;
     /**
      * 更新人
      */
@@ -39,14 +40,14 @@ public class BaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return this.createTime;
     }
 
     /**
      * 创建时间
      */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -67,14 +68,14 @@ public class BaseEntity implements Serializable {
     /**
      * 更新时间
      */
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return this.updateTime;
     }
 
     /**
      * 更新时间
      */
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 
