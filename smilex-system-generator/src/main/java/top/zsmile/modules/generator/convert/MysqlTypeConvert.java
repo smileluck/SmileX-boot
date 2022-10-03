@@ -30,9 +30,9 @@ public class MysqlTypeConvert implements TypeConverter {
         convertMap.put("mediumtext", "String");
         convertMap.put("longtext", "String");
 
-        convertMap.put("date", "Date");
-        convertMap.put("datetime", "Date");
-        convertMap.put("timestamp", "Date");
+        convertMap.put("date", "LocalDateTime");
+        convertMap.put("datetime", "LocalDateTime");
+        convertMap.put("timestamp", "LocalDateTime");
     }
 
     @Override
