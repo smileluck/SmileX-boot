@@ -23,6 +23,7 @@ public class MysqlTypeConvert implements TypeConverter {
         convertMap.put("decimal", "BigDecimal");
         convertMap.put("bit", "Boolean");
 
+        // 字符串类型
         convertMap.put("char", "String");
         convertMap.put("varchar", "String");
         convertMap.put("tinytext", "String");
@@ -30,6 +31,7 @@ public class MysqlTypeConvert implements TypeConverter {
         convertMap.put("mediumtext", "String");
         convertMap.put("longtext", "String");
 
+        // 时间类型
         convertMap.put("date", "LocalDateTime");
         convertMap.put("datetime", "LocalDateTime");
         convertMap.put("timestamp", "LocalDateTime");
