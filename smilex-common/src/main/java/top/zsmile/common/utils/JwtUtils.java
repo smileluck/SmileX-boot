@@ -10,6 +10,7 @@ import top.zsmile.core.api.R;
 import top.zsmile.core.api.ResultCode;
 import top.zsmile.core.utils.SpringContextUtils;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
@@ -61,6 +62,35 @@ public class JwtUtils {
     }
 
     /**
+     * 获取解码后的对象
+     *
+     * @param token
+     * @return
+     */
+    public static DecodedJWT getDecodedJwt(String token) {
+        try {
+            DecodedJWT decode = JWT.decode(token);
+            return decode;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * 获取用户ID
+     *
+     * @param decode
+     * @return
+     */
+    public static Long getUserId(DecodedJWT decode) {
+        try {
+            return decode.getClaim(CLAIM_USERID).asLong();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    /**
      * 获取用户ID
      *
      * @param token
@@ -69,11 +99,12 @@ public class JwtUtils {
     public static Long getUserId(String token) {
         try {
             DecodedJWT decode = JWT.decode(token);
-            return decode.getClaim(CLAIM_USERID).asLong();
+            return getUserId(decode);
         } catch (Exception ex) {
             return null;
         }
     }
+
 
     public static void responseError(ServletResponse response, Integer code, String msg) {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
