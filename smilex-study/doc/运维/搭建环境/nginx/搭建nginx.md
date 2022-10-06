@@ -40,9 +40,9 @@ apt-get install libpcre3 libpcre3-dev
 ## 待尝试
 apt-get install gcc
 apt-get install zlib1g zlib1g-dev
-apt-get install openssl openssl-dev
-apt-get install openssl
-apt-get install libssl-dev
+apt-get install openssl openssl-dev # ssl模块需要
+apt-get install openssl   # ssl模块需要
+apt-get install libssl-dev   # ssl模块需要
 ```
 
 2. 检查pcre是否安装成功。如果打印版本，则安装完成。
@@ -59,7 +59,11 @@ pcre-config --version
 cd /usr/local/nginx-1.21.6
 ```
 
-2. 配置编译和安装选项。--prefix=yourpath。默认为/usr/local/nginx
+2. 配置编译和安装选项
+
+- --prefix=/usr/local/nginx。安装路径
+- --with-http_stub_status_module --with-http_ssl_module。开启ssl模块
+- --with-openssl=/usr/bin/openssl。请填写系统的openssl路径。如果使用指令安装则不需要配置，会使用系统的。
 
 ```shell
 ./configure

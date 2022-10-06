@@ -42,3 +42,15 @@
 </style>
 ```
 
+或者使用 :deep(选择器)替代
+
+```html
+
+<style lang="scss" scoped>
+.editor {
+  :deep(ol){
+    list-style: auto !important;
+  }
+}
+</style>
+```
