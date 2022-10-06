@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>smilex-tool-dev</module>
+        <module>smilex-tool-pay</module>
     </modules>
 
     <dependencies>
