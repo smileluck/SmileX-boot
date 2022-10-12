@@ -1,7 +1,6 @@
 package top.zsmile.pay.wechat.v2;
 
 
-
 import top.zsmile.pay.constant.WxV2Constant;
 import top.zsmile.pay.enums.SignTypeEnum;
 import top.zsmile.pay.wechat.v2.config.WxPayConfig;
@@ -54,9 +53,9 @@ public class WxPayCore {
         }
 
         if (SignTypeEnum.MD5.equals(this.signType)) {
-            reqData.put("sign_type", "MD5");
+            reqData.put("sign_type", SignTypeEnum.MD5.getValue());
         } else if (SignTypeEnum.HMACSHA256.equals(this.signType)) {
-            reqData.put("sign_type", "HMAC-SHA256");
+            reqData.put("sign_type", SignTypeEnum.HMACSHA256.getValue());
         }
 
         reqData.put("sign", WxPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));
@@ -78,9 +77,9 @@ public class WxPayCore {
 
 
         if (SignTypeEnum.MD5.equals(this.signType)) {
-            reqData.put("sign_type", "MD5");
+            reqData.put("sign_type", SignTypeEnum.MD5.getValue());
         } else if (SignTypeEnum.HMACSHA256.equals(this.signType)) {
-            reqData.put("sign_type", "HMAC-SHA256");
+            reqData.put("sign_type", SignTypeEnum.HMACSHA256.getValue());
         }
 
         reqData.put("sign", WxPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));

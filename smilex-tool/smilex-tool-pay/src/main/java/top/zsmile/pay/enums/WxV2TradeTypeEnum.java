@@ -6,7 +6,7 @@ public enum WxV2TradeTypeEnum {
     APP("APP"),
     // 小程序
     JSAPI("JSAPI"),
-    // 原生Native
+    // 微信扫一扫支付
     NATIVE("NATIVE"),
     // H5支付
     MWEB("MWEB");

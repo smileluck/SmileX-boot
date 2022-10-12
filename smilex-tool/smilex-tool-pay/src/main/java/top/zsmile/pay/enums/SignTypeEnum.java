@@ -2,9 +2,16 @@ package top.zsmile.pay.enums;
 
 public enum SignTypeEnum {
 
-    MD5,
-    HMACSHA256;
+    MD5("MD5"),
+    HMACSHA256("HMAC-SHA256");
 
-    private SignTypeEnum() {
+    private String value;
+
+    private SignTypeEnum(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

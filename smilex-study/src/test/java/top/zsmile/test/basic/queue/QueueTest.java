@@ -17,7 +17,7 @@ public class QueueTest {
         // 先入先出
         Queue<String> queue = new LinkedList<>();
 
-        // 从头部加入
+        // 加入到尾部加入
         queue.add("1");
         queue.add("2");
         queue.add("3");
@@ -66,26 +66,36 @@ public class QueueTest {
     public void deque() {
         Deque<String> deque = new ArrayDeque<>();
 
+        log.info("deque add to Last");
         deque.add("1");
         deque.add("2");
         deque.add("3");
         deque.add("4");
         log.info("deque => {}", deque);
 
+        log.info("deque push to First");
+        deque.push("5");
+        deque.push("6");
+        deque.push("7");
+        deque.push("8");
+        log.info("deque => {}", deque);
+
+        log.info("peek=>{}", deque.peek());
+
         // 首尾元素
-        deque.addFirst("first");
-        deque.addFirst("first2");
-        deque.addLast("last");
-        deque.addLast("last2");
-        log.info("deque => {}", deque);
-
-
-        // 删除元素
-        String poll = deque.poll();
-        String pollFirst = deque.pollFirst();
-        String pollLast = deque.pollLast();
-        log.info("deque poll=>{},poll first=>{},poll last=>{}", poll, pollFirst, pollLast);
-        log.info("deque => {}", deque);
+//        deque.addFirst("first");
+//        deque.addFirst("first2");
+//        deque.addLast("last");
+//        deque.addLast("last2");
+//        log.info("deque => {}", deque);
+//
+//
+//        // 删除元素
+//        String poll = deque.poll();
+//        String pollFirst = deque.pollFirst();
+//        String pollLast = deque.pollLast();
+//        log.info("deque poll=>{},poll first=>{},poll last=>{}", poll, pollFirst, pollLast);
+//        log.info("deque => {}", deque);
 
     }
 }

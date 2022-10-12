@@ -1,5 +1,8 @@
 package top.zsmile.pay.constant;
 
+/**
+ * v2: https://pay.weixin.qq.com/wiki/doc/api/index.html
+ */
 public class WxV2Constant {
     public static final String FAIL = "FAIL";
     public static final String SUCCESS = "SUCCESS";
@@ -7,7 +10,6 @@ public class WxV2Constant {
     public static final String MD5 = "MD5";
     public static final String FIELD_SIGN = "sign";
     public static final String FIELD_SIGN_TYPE = "sign_type";
-
 
     /********************正式系统*****************/
     //付款码                    API：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1
