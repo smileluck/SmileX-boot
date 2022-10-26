@@ -4,12 +4,16 @@ package top.zsmile.pay.constant;
  * v2: https://pay.weixin.qq.com/wiki/doc/api/index.html
  */
 public class WxV2Constant {
+    /********************变量名*****************/
     public static final String FAIL = "FAIL";
     public static final String SUCCESS = "SUCCESS";
-    public static final String HMACSHA256 = "HMAC-SHA256";
-    public static final String MD5 = "MD5";
     public static final String FIELD_SIGN = "sign";
     public static final String FIELD_SIGN_TYPE = "sign_type";
+    public static final String FIELD_APP_ID = "appid";
+    public static final String FIELD_MCH_ID = "mch_id";
+    public static final String FIELD_NONCE_STR = "nonce_str";
+    public static final String FIELD_SUB_APP_ID = "sub_appid";
+    public static final String FIELD_SUB_MCH_ID = "sub_mch_id";
 
     /********************正式系统*****************/
     //付款码                    API：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1
@@ -40,7 +44,6 @@ public class WxV2Constant {
     public static final String TRANSFERSWALLETINFO_URL = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo";
 
     /********************仿真测试系统*****************/
-
     public static final String SANDBOX_MICROPAY_URL = "https://api.mch.weixin.qq.com/sandboxnew/pay/micropay";
     public static final String SANDBOX_UNIFIEDORDER_URL = "https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder";
     public static final String SANDBOX_ORDERQUERY_URL = "https://api.mch.weixin.qq.com/sandboxnew/pay/orderquery";

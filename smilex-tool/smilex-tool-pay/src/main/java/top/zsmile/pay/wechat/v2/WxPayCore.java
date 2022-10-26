@@ -44,21 +44,21 @@ public class WxPayCore {
      * @throws Exception
      */
     public Map<String, String> commonFillRequestData(Map<String, String> reqData) throws Exception {
-        reqData.put("appid", this.config.getAppID());
-        reqData.put("mch_id", this.config.getMchID());
-        reqData.put("nonce_str", WxPayUtil.generateNonceStr());
+        reqData.put(WxV2Constant.FIELD_APP_ID, this.config.getAppID());
+        reqData.put(WxV2Constant.FIELD_MCH_ID, this.config.getMchID());
+        reqData.put(WxV2Constant.FIELD_NONCE_STR, WxPayUtil.generateNonceStr());
         if (this.config.getMchType() == 2) {//服务商
             reqData.put("sub_appid", this.config.getSubAppID());
             reqData.put("sub_mch_id", this.config.getSubMchID());
         }
 
         if (SignTypeEnum.MD5.equals(this.signType)) {
-            reqData.put("sign_type", SignTypeEnum.MD5.getValue());
+            reqData.put(WxV2Constant.FIELD_SIGN_TYPE, SignTypeEnum.MD5.getValue());
         } else if (SignTypeEnum.HMACSHA256.equals(this.signType)) {
-            reqData.put("sign_type", SignTypeEnum.HMACSHA256.getValue());
+            reqData.put(WxV2Constant.FIELD_SIGN_TYPE, SignTypeEnum.HMACSHA256.getValue());
         }
 
-        reqData.put("sign", WxPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));
+        reqData.put(WxV2Constant.FIELD_SIGN, WxPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));
         return reqData;
     }
 
@@ -73,16 +73,16 @@ public class WxPayCore {
     public Map<String, String> mchFillRequestData(Map<String, String> reqData) throws Exception {
         reqData.put("mch_appid", this.config.getAppID());
         reqData.put("mchid", this.config.getMchID());
-        reqData.put("nonce_str", WxPayUtil.generateNonceStr());
+        reqData.put(WxV2Constant.FIELD_NONCE_STR, WxPayUtil.generateNonceStr());
 
 
         if (SignTypeEnum.MD5.equals(this.signType)) {
-            reqData.put("sign_type", SignTypeEnum.MD5.getValue());
+            reqData.put(WxV2Constant.FIELD_SIGN_TYPE, SignTypeEnum.MD5.getValue());
         } else if (SignTypeEnum.HMACSHA256.equals(this.signType)) {
-            reqData.put("sign_type", SignTypeEnum.HMACSHA256.getValue());
+            reqData.put(WxV2Constant.FIELD_SIGN_TYPE, SignTypeEnum.HMACSHA256.getValue());
         }
 
-        reqData.put("sign", WxPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));
+        reqData.put(WxV2Constant.FIELD_SIGN, WxPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));
         return reqData;
     }
 
@@ -92,9 +92,9 @@ public class WxPayCore {
         Map<String, String> respData = WxPayUtil.xmlToMap(xmlStr);
         if (respData.containsKey(RETURN_CODE)) {
             String return_code = (String) respData.get(RETURN_CODE);
-            if (return_code.equals("FAIL")) {
+            if (return_code.equals(WxV2Constant.FAIL)) {
                 return respData;
-            } else if (return_code.equals("SUCCESS")) {
+            } else if (return_code.equals(WxV2Constant.SUCCESS)) {
                 if (this.isResponseSignatureValid(respData)) {
                     return respData;
                 } else {
@@ -114,7 +114,7 @@ public class WxPayCore {
 
 
     public boolean isPayResultNotifySignatureValid(Map<String, String> reqData) throws Exception {
-        String signTypeInData = (String) reqData.get("sign_type");
+        String signTypeInData = (String) reqData.get(WxV2Constant.FIELD_SIGN_TYPE);
         SignTypeEnum signType;
         if (signTypeInData == null) {
             signType = SignTypeEnum.MD5;
@@ -122,10 +122,10 @@ public class WxPayCore {
             signTypeInData = signTypeInData.trim();
             if (signTypeInData.length() == 0) {
                 signType = SignTypeEnum.MD5;
-            } else if ("MD5".equals(signTypeInData)) {
+            } else if (SignTypeEnum.MD5.getValue().equals(signTypeInData)) {
                 signType = SignTypeEnum.MD5;
             } else {
-                if (!"HMAC-SHA256".equals(signTypeInData)) {
+                if (!SignTypeEnum.HMACSHA256.getValue().equals(signTypeInData)) {
                     throw new Exception(String.format("Unsupported sign_type: %s", signTypeInData));
                 }
 

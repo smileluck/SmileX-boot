@@ -41,4 +41,22 @@
   - [ ] 开放博客API。
 - [ ] 微信公众号接入
 - [ ] 多租户插件
+- [ ] 动态编译
+    - [ ] 动态添加接口和数据库查询等
+    - [ ] 模块化
+    - 参考
+        - https://www.jianshu.com/p/32a1e01070d7
+        - https://blog.csdn.net/weixin_39996256/article/details/90750318
+        - https://blog.csdn.net/qq_39149275/article/details/118968520
+        - https://www.jianshu.com/p/32a1e01070d7
+- [ ] 支付开发库
+    - [ ] 微信支付
+        - [ ] v2版本
+            - H5支付
+            - 小程序支付
+            - APP支付
+            - 微信扫码支付
+        - [ ] v3版本
+    - [ ] 支付宝支付
+    
     
