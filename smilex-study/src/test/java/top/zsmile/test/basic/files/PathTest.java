@@ -20,7 +20,9 @@ import top.zsmile.common.utils.file.SpringFileUtils;
 
 import javax.swing.text.StringContent;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**
@@ -37,7 +39,6 @@ public class PathTest {
     public void wildcard() {
         String path = ClassLoader.getSystemClassLoader().getResource("").getPath();
         System.out.println(path);
-
     }
 
 
