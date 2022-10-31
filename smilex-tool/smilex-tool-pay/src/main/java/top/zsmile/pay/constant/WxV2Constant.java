@@ -15,6 +15,20 @@ public class WxV2Constant {
     public static final String FIELD_SUB_APP_ID = "sub_appid";
     public static final String FIELD_SUB_MCH_ID = "sub_mch_id";
 
+    /********************返回值*****************/
+    public static final String FIELD_RETURN_CODE = "return_code";
+    public static final String FIELD_RETURN_MSG = "return_msg";
+    public static final String FIELD_RESULT_CODE = "result_code";
+    public static final String FIELD_ERR_CODE = "err_code";
+    public static final String FIELD_ERR_CODE_DES = "err_code_des";
+    public static final String FIELD_DEVICE_INFO = "device_info";
+    public static final String FIELD_TRADE_TYPE = "trade_type";
+    public static final String FIELD_PREPAY_ID = "prepay_id";
+    public static final String FIELD_CODE_URL = "code_url";
+    public static final String FIELD_MWEB_URL = "mweb_url";
+
+
+
     /********************正式系统*****************/
     //付款码                    API：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1
     public static final String MICROPAY_URL = "https://api.mch.weixin.qq.com/pay/micropay";

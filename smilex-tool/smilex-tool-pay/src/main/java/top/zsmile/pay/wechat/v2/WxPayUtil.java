@@ -1,11 +1,16 @@
 package top.zsmile.pay.wechat.v2;
 
+import top.zsmile.pay.constant.WxV2Constant;
+import top.zsmile.pay.entity.vo.JsApiPayVO;
+import top.zsmile.pay.entity.vo.MicroPayVO;
+import top.zsmile.pay.entity.vo.ReturnVO;
 import top.zsmile.pay.enums.SignTypeEnum;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import top.zsmile.pay.wechat.v2.config.WxPayConfig;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,8 +24,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * 微信支付工具
+ */
 public class WxPayUtil {
 
 
@@ -129,7 +138,7 @@ public class WxPayUtil {
 
     public static String generateSignature(Map<String, String> data, String key, SignTypeEnum signType) throws Exception {
         Set<String> keySet = data.keySet();
-        String[] keyArray = (String[]) keySet.toArray(new String[keySet.size()]);
+        String[] keyArray = keySet.toArray(new String[keySet.size()]);
         Arrays.sort(keyArray);
         StringBuilder sb = new StringBuilder();
         String[] var6 = keyArray;
@@ -150,12 +159,6 @@ public class WxPayUtil {
         } else {
             throw new Exception(String.format("Invalid sign_type: %s", signType));
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        String str = "appId=wx3d3727478c78b488&nonceStr=oNnASZJKU4joKrWy&package=Sign=WXPAY&partnerid=1625211631&prepayid=wx0709413261540710b5a255cc4e096e0000&timeStamp=1651887717&key=xiaoheitankeji1234xiaoheitankeji";
-        String s = MD5(str.toString()).toUpperCase();
-        System.out.println(s);
     }
 
     public static String generateNonceStr() {
@@ -194,7 +197,7 @@ public class WxPayUtil {
         return sb.toString().toUpperCase();
     }
 
-    public static Boolean checkResponState(Map<String, String> resp) {
+    public static Boolean checkResponseState(Map<String, String> resp) {
         if ("SUCCESS".equals(resp.get("return_code"))) {
             if (resp.containsKey("result_code")) {
                 if ("SUCCESS".equals(resp.get("result_code"))) {
@@ -208,4 +211,71 @@ public class WxPayUtil {
             return false;
         }
     }
+
+    public static Boolean checkResultState(ReturnVO vo) {
+        if ("SUCCESS".equals(vo.getReturnCode())) {
+            if ("SUCCESS".equals(vo.getReturnCode())) {
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    public static ReturnVO mapToResult(Map<String, String> resp) {
+        ReturnVO vo = ReturnVO.of(resp.get(WxV2Constant.FIELD_RETURN_CODE), resp.get(WxV2Constant.FIELD_RETURN_MSG));
+        if (vo.getReturnCode().equals(WxV2Constant.SUCCESS)) {
+            vo.setAppId(resp.get(WxV2Constant.FIELD_APP_ID));
+            vo.setMchId(resp.get(WxV2Constant.FIELD_MCH_ID));
+            vo.setDeviceInfo(resp.get(WxV2Constant.FIELD_DEVICE_INFO));
+            vo.setNonceStr(resp.get(WxV2Constant.FIELD_NONCE_STR));
+            vo.setSign(resp.get(WxV2Constant.FIELD_SIGN));
+
+            String resultCode = resp.get(WxV2Constant.FIELD_RESULT_CODE);
+            vo.setResultCode(resultCode);
+            if (WxV2Constant.SUCCESS.equals(resultCode)) {
+                vo.setTradeType(resp.get(WxV2Constant.FIELD_TRADE_TYPE));
+                vo.setPrepayId(resp.get(WxV2Constant.FIELD_PREPAY_ID));
+                switch (vo.getTradeType()) {
+                    case "NATIVE":// 微信通过扫一扫支付
+                        vo.setCodeUrl(resp.get(WxV2Constant.FIELD_CODE_URL));
+                        break;
+                    case "MWEB":// H5 支付
+                        vo.setMwebUrl(resp.get(WxV2Constant.FIELD_MWEB_URL));
+                        break;
+                    case "MICROPAY": // 付款码支付
+                        vo.setMicroPayVO(MicroPayVO.of(resp));
+                        break;
+                }
+            } else {
+                vo.setErrCode(resp.get(WxV2Constant.FIELD_ERR_CODE));
+                vo.setErrCodeDes(resp.get(WxV2Constant.FIELD_ERR_CODE_DES));
+            }
+        }
+        return vo;
+    }
+
+
+    /**
+     * 包装并签名返回给JSAPI调用的实体
+     *
+     * @return
+     */
+    public static JsApiPayVO packageJsApiResult(WxPayConfig config, ReturnVO returnVO) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("package", "prepay_id=" + returnVO.getPrepayId());
+        if (!config.isMch()) {
+            map.put("appId", returnVO.getAppId());
+        }
+//                 else {
+//                    map.put("appId", resp.get("sub_appid"));
+//                }
+        map.put("timeStamp", LocalDateTime.now().getNano() / 1000 + "");
+        map.put("nonceStr", returnVO.getNonceStr());
+        String signature = WxPayUtil.generateSignature(map, config.getKey());
+        map.put("paySign", signature);
+        return JsApiPayVO.of(map);
+    }
+
 }

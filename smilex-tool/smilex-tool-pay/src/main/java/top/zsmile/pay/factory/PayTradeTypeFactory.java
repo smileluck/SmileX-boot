@@ -1,7 +1,6 @@
-package top.zsmile.pay.wechat.v2.factory;
+package top.zsmile.pay.factory;
 
 import top.zsmile.common.utils.Asserts;
-import top.zsmile.pay.enums.PayTradeTypeEnum;
 import top.zsmile.pay.wechat.v2.handler.BaseHandler;
 
 import java.util.Map;
@@ -15,9 +14,9 @@ public class PayTradeTypeFactory {
         return services.get(type);
     }
 
-    public static void register(String type, BaseHandler userPayService) {
+    public static void register(String type, BaseHandler baseHandler) {
         Asserts.isNotNull(type, "type can't be null");
-        Asserts.isNotNull(type, "type can't be null");
-        services.put(type, userPayService);
+        Asserts.isNotNull(baseHandler, "handler can't be null");
+        services.put(type, baseHandler);
     }
 }

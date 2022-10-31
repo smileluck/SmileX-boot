@@ -1,12 +1,24 @@
 package top.zsmile.pay.wechat.v2;
 
 import lombok.extern.slf4j.Slf4j;
-import top.zsmile.pay.enums.WxV2TradeTypeEnum;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
+import top.zsmile.common.utils.Asserts;
+import top.zsmile.core.exception.SXException;
+import top.zsmile.pay.entity.dto.OrderDTO;
+import top.zsmile.pay.entity.dto.OrderRefundDTO;
+import top.zsmile.pay.entity.dto.OrderRefundQueryDTO;
+import top.zsmile.pay.entity.vo.OrderRefundVO;
+import top.zsmile.pay.entity.vo.ReturnVO;
+import top.zsmile.pay.entity.vo.OrderQueryVO;
+import top.zsmile.pay.enums.PayTradeTypeEnum;
+import top.zsmile.pay.factory.PayTradeTypeFactory;
 import top.zsmile.pay.wechat.v2.config.WxPayConfig;
+import top.zsmile.pay.wechat.v2.handler.BaseHandler;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * 微信接口库
@@ -14,169 +26,168 @@ import java.util.TreeMap;
 @Slf4j
 public class WxPayManage {
 
-    public static SortedMap<String, String> unifiedOrder(WxPayConfig config, Map<String, String> data) throws Exception {
-        SortedMap<String, String> finalpackage = null;
-        WxPayCore wxpay = new WxPayCore(config);
-        Map<String, String> resp = null;
-        resp = wxpay.unifiedOrder(data);
-        log.info("unifiedOrder Res: " + resp.toString());
-        if (WxPayUtil.checkResponState(resp)) {
-            String timestamp = System.currentTimeMillis() / 1000L + "";
-            finalpackage = new TreeMap<String, String>();
-            String prepayid = null;
-            if (data.get("trade_type").equals(WxV2TradeTypeEnum.JSAPI.getValue())) {
-                prepayid = "prepay_id=" + resp.get("prepay_id");
-                finalpackage.put("signType", "MD5");
-                finalpackage.put("package", prepayid);
-                if (config.getMchType() == 1) {
-                    finalpackage.put("appId", resp.get("appid"));
-                } else {
-                    finalpackage.put("appId", resp.get("sub_appid"));
-                }
-                finalpackage.put("timeStamp", timestamp);
-                finalpackage.put("nonceStr", resp.get("nonce_str"));
-                String signature = WxPayUtil.generateSignature(finalpackage, config.getKey());
-                finalpackage.put("paySign", signature);
-            } else {
-                prepayid = resp.get("prepay_id");
-                finalpackage.put("partnerid", resp.get("mch_id"));
-                finalpackage.put("package", "Sign=WXPay");
-                finalpackage.put("prepayid", prepayid);
-                if (config.getMchType() == 1) {
-                    finalpackage.put("appid", resp.get("appid"));
-                } else {
-                    finalpackage.put("appid", resp.get("sub_appid"));
-                }
-                finalpackage.put("timestamp", timestamp);
-                finalpackage.put("noncestr", resp.get("nonce_str"));
-                String signature = WxPayUtil.generateSignature(finalpackage, config.getKey());
-                finalpackage.put("sign", signature);
-            }
-        }
-        return finalpackage;
-    }
-
-
     /**
-     * 退款
+     * 统一下单
+     *
+     * @param config
+     * @param payTradeTypeEnum
+     * @param data
+     * @return
+     * @throws Exception
      */
-    public static Map<String, String> refund(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxpay = new WxPayCore(config);
-        Map<String, String> resp = wxpay.refund(data);
-        log.info("refund res: " + resp);
-        return resp;
+    public static ReturnVO unifiedOrder(WxPayConfig config, PayTradeTypeEnum payTradeTypeEnum, Map<String, String> data) throws Exception {
+        log.debug("正在进行操作 ==> {}，参数值 ==> {}", payTradeTypeEnum.getValue(), data);
+        BaseHandler baseHandler = PayTradeTypeFactory.get(payTradeTypeEnum.getValue());
+        ReturnVO returnVO = baseHandler.unifiedOrder(config, data);
+        return returnVO;
     }
-
 
     /**
      * 查询订单
+     *
+     * @param config        配置
+     * @param orderQueryDTO 查询订单实体
+     * @return
+     * @throws Exception
      */
-    public static Map<String, String> searchOrder(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.orderQuery(data);
-        log.info("searchOrder res: " + resMap);
-        return resMap;
+    public static ReturnVO orderQuery(WxPayConfig config, OrderDTO orderQueryDTO) throws Exception {
+        log.debug("正在进行操作 ==> 查询订单，参数值 ==> {}", orderQueryDTO);
+        Map map = checkOrderDTO(orderQueryDTO);
+        WxPayCore wxPay = WxPayCore.of(config);
+        Map resMap = wxPay.orderQuery(map);
+        ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+        if (WxPayUtil.checkResultState(returnVO)) {
+            returnVO.setOrderQueryVO(OrderQueryVO.of(map));
+            return returnVO;
+        } else {
+            throw new SXException("查询订单异常，异常原因：" + returnVO.getReturnMsg());
+        }
     }
 
-
-    /**
-     * 查询退款
-     */
-    public static Map<String, String> refundQuery(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.refundQuery(data);
-        log.info("refundQuery res: " + resMap);
-        return resMap;
-    }
 
     /**
      * 撤销订单
+     *
+     * @param config        配置
+     * @param orderQueryDTO 查询订单实体
+     * @return
+     * @throws Exception
      */
-    public static Map<String, String> reverse(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.reverse(data);
-        log.info("reverse res: " + resMap);
-        return resMap;
+    public static ReturnVO reverse(WxPayConfig config, OrderDTO orderQueryDTO) throws Exception {
+        log.debug("正在进行操作 ==> 撤销订单，参数值 ==> {}", orderQueryDTO);
+        Map map = checkOrderDTO(orderQueryDTO);
+        WxPayCore wxPay = WxPayCore.of(config);
+        Map resMap = wxPay.reverse(map);
+        ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+        if (WxPayUtil.checkResultState(returnVO)) {
+            returnVO.setOrderQueryVO(OrderQueryVO.of(map));
+            return returnVO;
+        } else {
+            throw new SXException("撤销订单异常，异常原因：" + returnVO.getReturnMsg());
+        }
     }
 
 
     /**
-     * 关闭订单
+     * 退款订单
+     *
+     * @param config   配置
+     * @param orderDTO 退款订单实体
+     * @return
+     * @throws Exception
      */
-    public static Map<String, String> closeOrder(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.closeOrder(data);
-        log.info("closeOrder res: " + resMap);
-        return resMap;
+    public static ReturnVO refund(WxPayConfig config, OrderRefundDTO orderDTO) throws Exception {
+        log.debug("正在进行操作 ==> 退款订单，参数值 ==> {}", orderDTO);
+        Map map = checkOrderDTO(orderDTO);
+
+        Asserts.isBlank(orderDTO.getOutRefundNo(), "商户退款单号不能为空");
+        if (orderDTO.getTotalFee() == null || orderDTO.getTotalFee() <= 0) {
+            throw new IllegalArgumentException("订单金额需大于0");
+        }
+        if (orderDTO.getRefundFee() == null || orderDTO.getRefundFee() <= 0) {
+            throw new IllegalArgumentException("退款金额需大于0");
+        }
+        map.put("out_refund_no", orderDTO.getOutRefundNo());
+        map.put("total_fee", orderDTO.getTotalFee());
+        map.put("refund_fee", orderDTO.getRefundFee());
+        if (StringUtils.isNotBlank(orderDTO.getRefundFeeType()))
+            map.put("refund_fee_type", orderDTO.getRefundFeeType());
+
+        if (StringUtils.isNotBlank(orderDTO.getRefundDesc()))
+            map.put("refund_desc", orderDTO.getRefundDesc());
+
+        if (orderDTO.getRefundAccount() != null)
+            map.put("refund_account", orderDTO.getRefundAccount().getValue());
+
+        if (StringUtils.isNotBlank(orderDTO.getNotifyUrl()))
+            map.put("notify_url", orderDTO.getNotifyUrl());
+
+        WxPayCore wxPay = WxPayCore.of(config);
+        Map resMap = wxPay.reverse(map);
+        ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+        if (WxPayUtil.checkResultState(returnVO)) {
+            returnVO.setOrderRefundVO(OrderRefundVO.of(map));
+            return returnVO;
+        } else {
+            throw new SXException("撤销订单异常，异常原因：" + returnVO.getReturnMsg());
+        }
     }
 
 
     /**
-     * 下载对账单
+     * 退款订单查询
+     *
+     * @param config        配置
+     * @param orderQueryDTO 查询订单实体
+     * @return
+     * @throws Exception
      */
-    public static Map<String, String> downloadBill(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.downloadBill(data);
-        log.info("downloadBill res: " + resMap);
-        return resMap;
+    public static ReturnVO refundQuery(WxPayConfig config, OrderRefundQueryDTO orderQueryDTO) throws Exception {
+        log.debug("正在进行操作 ==> 退款订单查询，参数值 ==> {}", orderQueryDTO);
+
+        Map<String, String> map = null;
+        if (StringUtils.isNotBlank(orderQueryDTO.getRefundId())) {
+            map = new HashMap<>();
+            map.put("refund_id", orderQueryDTO.getRefundId());
+        } else if (StringUtils.isNotBlank(orderQueryDTO.getOutRefundNo())) {
+            map = new HashMap<>();
+            map.put("out_refund_no", orderQueryDTO.getOutRefundNo());
+        } else if (StringUtils.isNotBlank(orderQueryDTO.getTransactionId())) {
+            map = new HashMap<>();
+            map.put("transaction_id", orderQueryDTO.getTransactionId());
+        } else if (StringUtils.isNotBlank(orderQueryDTO.getOutTradeNo())) {
+            map = new HashMap<>();
+            map.put("out_trade_no", orderQueryDTO.getOutTradeNo());
+        } else {
+            throw new IllegalArgumentException("transaction_id/out_trade_no/out_refund_no/refund_id cannot be empty at the same time");
+        }
+
+        if (orderQueryDTO.getOffset() != null && orderQueryDTO.getOffset() >= 0)
+            map.put("offset", orderQueryDTO.getOffset().intValue() + "");
+
+        WxPayCore wxPay = WxPayCore.of(config);
+        Map resMap = wxPay.refundQuery(map);
+        ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+        if (WxPayUtil.checkResultState(returnVO)) {
+            returnVO.setOrderQueryVO(OrderQueryVO.of(map));
+            return returnVO;
+        } else {
+            throw new SXException("退款订单查询异常，异常原因：" + returnVO.getReturnMsg());
+        }
     }
 
 
-    /**
-     * 转换短链接
-     */
-    public static Map<String, String> shortUrl(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.shortUrl(data);
-        log.info("shortUrl res: " + resMap);
-        return resMap;
+    private static Map<String, String> checkOrderDTO(OrderDTO orderQueryDTO) {
+        if (StringUtils.isNotBlank(orderQueryDTO.getTransactionId())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("transaction_id", orderQueryDTO.getTransactionId());
+            return map;
+        } else if (StringUtils.isNotBlank(orderQueryDTO.getOutTradeNo())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("out_trade_no", orderQueryDTO.getOutTradeNo());
+            return map;
+        } else {
+            throw new IllegalArgumentException("Both transaction_id and out_trade_no cannot be empty at the same time");
+        }
     }
-
-    /**
-     * 授权码查询openid
-     */
-    public static Map<String, String> authCodeToOpenid(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.authCodeToOpenid(data);
-        log.info("authCodeToOpenid res: " + resMap);
-        return resMap;
-    }
-
-    /**
-     * 企业付款到零钱
-     */
-    public static Map<String, String> transfersWallet(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.transfersWallet(data);
-        log.info("transfersWallet res: " + resMap);
-        return resMap;
-    }
-
-
-    /**
-     * 企业付款到零钱查询
-     */
-    public static Map<String, String> transfersWalletInfo(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
-        Map<String, String> resMap = wxPay.transfersWalletInfo(data);
-        log.info("transfersWallet res: " + resMap);
-        return resMap;
-    }
-
-//    /**
-//     * 获取openid
-//     */
-//    public static JSONObject getOpenid(String appid, String secret, String code) {
-//        JSONObject jsonObject = null;
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("appid", appid);
-//        params.put("secret", secret);
-//        params.put("grant_type", "authorization_code");
-//        params.put("js_code", code);
-//
-//        jsonObject = JSON.parseObject(OkHttpUtil.get("https://api.weixin.qq.com/sns/jscode2session", params));
-//
-//        log.info("getOpenid res: " + jsonObject);
-//        return jsonObject;
-//    }
 }

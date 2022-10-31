@@ -108,6 +108,15 @@ public class WxPayConfig implements IWxPay {
         return this.mchType;
     }
 
+    /**
+     * 如果是服务商返回true，否则返回false
+     *
+     * @return
+     */
+    public boolean isMch() {
+        return this.mchType == 2;
+    }
+
     @Override
     public InputStream getCertStream() {
         return new ByteArrayInputStream(this.certData);

@@ -24,7 +24,7 @@ public class WxPayV3Manage {
         Map<String, String> resp = null;
         resp = wxpay.payTransactionsApp(data);
         log.info("unifiedOrder Res: " + resp.toString());
-        if (WxPayUtil.checkResponState(resp)) {
+        if (WxPayUtil.checkResponseState(resp)) {
             String timestamp = System.currentTimeMillis() / 1000L + "";
             finalpackage = new TreeMap<String, String>();
             String packages = "prepay_id=" + resp.get("prepay_id");
@@ -48,7 +48,7 @@ public class WxPayV3Manage {
      * 退款
      */
     public static Map<String, String> refund(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxpay = new WxPayCore(config);
+        WxPayCore wxpay = WxPayCore.of(config);
         Map<String, String> resp = wxpay.refund(data);
         log.info("refund res: " + resp);
         return resp;
@@ -59,7 +59,7 @@ public class WxPayV3Manage {
      * 查询订单
      */
     public static Map<String, String> searchOrder(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.orderQuery(data);
         log.info("searchOrder res: " + resMap);
         return resMap;
@@ -70,7 +70,7 @@ public class WxPayV3Manage {
      * 查询退款
      */
     public static Map<String, String> refundQuery(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.refundQuery(data);
         log.info("refundQuery res: " + resMap);
         return resMap;
@@ -80,7 +80,7 @@ public class WxPayV3Manage {
      * 撤销订单
      */
     public static Map<String, String> reverse(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.reverse(data);
         log.info("reverse res: " + resMap);
         return resMap;
@@ -91,7 +91,7 @@ public class WxPayV3Manage {
      * 关闭订单
      */
     public static Map<String, String> closeOrder(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.closeOrder(data);
         log.info("closeOrder res: " + resMap);
         return resMap;
@@ -102,7 +102,7 @@ public class WxPayV3Manage {
      * 下载对账单
      */
     public static Map<String, String> downloadBill(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.downloadBill(data);
         log.info("downloadBill res: " + resMap);
         return resMap;
@@ -113,7 +113,7 @@ public class WxPayV3Manage {
      * 转换短链接
      */
     public static Map<String, String> shortUrl(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.shortUrl(data);
         log.info("shortUrl res: " + resMap);
         return resMap;
@@ -123,7 +123,7 @@ public class WxPayV3Manage {
      * 授权码查询openid
      */
     public static Map<String, String> authCodeToOpenid(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.authCodeToOpenid(data);
         log.info("authCodeToOpenid res: " + resMap);
         return resMap;
@@ -133,7 +133,7 @@ public class WxPayV3Manage {
      * 企业付款到零钱
      */
     public static Map<String, String> transfersWallet(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.transfersWallet(data);
         log.info("transfersWallet res: " + resMap);
         return resMap;
@@ -144,7 +144,7 @@ public class WxPayV3Manage {
      * 企业付款到零钱查询
      */
     public static Map<String, String> transfersWalletInfo(WxPayConfig config, Map<String, String> data) throws Exception {
-        WxPayCore wxPay = new WxPayCore(config);
+        WxPayCore wxPay = WxPayCore.of(config);
         Map<String, String> resMap = wxPay.transfersWalletInfo(data);
         log.info("transfersWallet res: " + resMap);
         return resMap;

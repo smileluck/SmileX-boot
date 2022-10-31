@@ -22,20 +22,23 @@ public class WxPayCore {
     private SignTypeEnum signType;
     private boolean useSandbox;//仿真测试系统
 
-    public WxPayCore(WxPayConfig config) {
-        this(config, SignTypeEnum.MD5, false);
+    public static WxPayCore of(WxPayConfig config) {
+        return of(config, SignTypeEnum.MD5, false);
     }
 
-    public WxPayCore(WxPayConfig config, SignTypeEnum signType) {
-        this(config, signType, false);
+    public static WxPayCore of(WxPayConfig config, SignTypeEnum signType) {
+        return of(config, signType, false);
     }
 
-    public WxPayCore(WxPayConfig config, SignTypeEnum signType, boolean useSandbox) {
+    public static WxPayCore of(WxPayConfig config, SignTypeEnum signType, boolean useSandbox) {
+        return new WxPayCore(config, signType, useSandbox);
+    }
+
+    private WxPayCore(WxPayConfig config, SignTypeEnum signType, boolean useSandbox) {
         this.config = config;
         this.signType = signType;
         this.useSandbox = useSandbox;
     }
-
 
     /***
      * 通用补全加密方法
@@ -48,8 +51,8 @@ public class WxPayCore {
         reqData.put(WxV2Constant.FIELD_MCH_ID, this.config.getMchID());
         reqData.put(WxV2Constant.FIELD_NONCE_STR, WxPayUtil.generateNonceStr());
         if (this.config.getMchType() == 2) {//服务商
-            reqData.put("sub_appid", this.config.getSubAppID());
-            reqData.put("sub_mch_id", this.config.getSubMchID());
+            reqData.put(WxV2Constant.FIELD_SUB_APP_ID, this.config.getSubAppID());
+            reqData.put(WxV2Constant.FIELD_SUB_MCH_ID, this.config.getSubMchID());
         }
 
         if (SignTypeEnum.MD5.equals(this.signType)) {

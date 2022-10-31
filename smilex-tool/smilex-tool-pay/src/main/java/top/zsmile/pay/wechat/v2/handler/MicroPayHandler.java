@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import top.zsmile.core.exception.SXException;
-import top.zsmile.pay.entity.vo.JsApiPayVO;
 import top.zsmile.pay.entity.vo.ReturnVO;
 import top.zsmile.pay.enums.PayTradeTypeEnum;
 import top.zsmile.pay.wechat.v2.WxPayCore;
@@ -15,24 +14,18 @@ import top.zsmile.pay.factory.PayTradeTypeFactory;
 
 import java.util.Map;
 
-/**
- * 小程序下单支付
- */
 @Slf4j
 @Component
-public class MiniPayHandler extends BaseHandler implements InitializingBean {
+public class MicroPayHandler extends BaseHandler implements InitializingBean {
 
     @Override
     public ReturnVO unifiedOrder(WxPayConfig config, Map<String, String> data) {
         WxPayCore wxPayCore = WxPayCore.of(config);
         try {
-            Map<String, String> resMap = wxPayCore.unifiedOrder(data);
+            Map<String, String> resMap = wxPayCore.microPay(data);
             ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
-            log.debug("{} unifiedOrder result ==> {}",this.type, returnVO);
+            log.debug("{} unifiedOrder result ==> {}", this.type, returnVO);
             if (WxPayUtil.checkResultState(returnVO)) {
-                // 包装调起类信息
-                JsApiPayVO jsApiPayVO = WxPayUtil.packageJsApiResult(config, returnVO);
-                returnVO.setJsApiPayVO(jsApiPayVO);
                 return returnVO;
             } else {
                 throw new SXException("下单异常，异常原因：" + returnVO.getReturnMsg());
@@ -45,8 +38,7 @@ public class MiniPayHandler extends BaseHandler implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.type = PayTradeTypeEnum.MINI_PAY.getValue();
+        this.type = PayTradeTypeEnum.PAYMENT_CODE.getValue();
         PayTradeTypeFactory.register(this.type, this);
     }
-
 }

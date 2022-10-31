@@ -24,7 +24,7 @@ public class MD5SignUtils {
     @SneakyThrows
     public static String generateSignature(Map<String, String> data, String key, String signType) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Set<String> keySet = data.keySet();
-        String[] keyArray = (String[]) keySet.toArray(new String[keySet.size()]);
+        String[] keyArray = keySet.toArray(new String[keySet.size()]);
         Arrays.sort(keyArray);
         StringBuilder sb = new StringBuilder();
         String[] var6 = keyArray;
@@ -36,7 +36,6 @@ public class MD5SignUtils {
                 sb.append(k).append("=").append(((String) data.get(k)).trim()).append("&");
             }
         }
-        String str1 = sb.toString();
         sb.append("key=").append(key);
         if ("MD5".equals(signType)) {
             return MD5Utils.MD5(sb.toString()).toUpperCase();
@@ -55,7 +54,7 @@ public class MD5SignUtils {
      * @return
      * @throws Exception
      */
-    public static Boolean vaildSignature(Map<String, String> data, String key, String signType) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public static Boolean validSignature(Map<String, String> data, String key, String signType) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String sign = generateSignature(data, key, signType);
         String checkSign = data.get("sign").toString();
         if (sign.equalsIgnoreCase(checkSign)) {
