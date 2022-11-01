@@ -18,7 +18,7 @@ public class LambdaUtils {
      * @param <T>
      * @return
      */
-    public <T> String getMethodName(SFunction<T> fn) {
+    public <T,R> String getMethodName(SFunction<T,R> fn) {
         try {
             Method writeReplace = fn.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
@@ -30,7 +30,7 @@ public class LambdaUtils {
         }
     }
 
-    public <T> String getColumnName(SFunction<T> fn) {
+    public <T,R> String getColumnName(SFunction<T,R> fn) {
         String methodName = getMethodName(fn);
         if (methodName == null) {
             throw new RuntimeException("lambda转换异常");
