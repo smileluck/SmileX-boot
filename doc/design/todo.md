@@ -49,14 +49,16 @@
         - https://blog.csdn.net/weixin_39996256/article/details/90750318
         - https://blog.csdn.net/qq_39149275/article/details/118968520
         - https://www.jianshu.com/p/32a1e01070d7
-- [ ] 支付开发库
-    - [ ] 微信支付
-        - [ ] v2版本
+- [x] 支付开发库
+    - [x] 微信支付
+        - [x] v2版本
             - H5支付
             - 小程序支付
             - APP支付
             - 微信扫码支付
-        - [ ] v3版本
-    - [ ] 支付宝支付
+        - [x] v3版本（搁置）
+            - 官方有提供包
+    - [x] 支付宝支付（搁置）
+        - 官方有提供包
     
     
