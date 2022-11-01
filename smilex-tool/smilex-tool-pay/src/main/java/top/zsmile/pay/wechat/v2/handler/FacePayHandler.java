@@ -26,9 +26,9 @@ public class FacePayHandler extends BaseHandler implements InitializingBean {
         WxPayCore wxPayCore = WxPayCore.of(config);
         try {
             Map<String, String> resMap = wxPayCore.unifiedOrder(data);
-            ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+            ReturnVO returnVO = WxPayUtil.mapToResult(config,resMap);
             log.debug("{} unifiedOrder result ==> {}", this.type, returnVO);
-            if (WxPayUtil.checkResultState(returnVO)) {
+            if (WxPayUtil.checkResponseState(returnVO)) {
                 return returnVO;
             } else {
                 throw new SXException("下单异常，异常原因：" + returnVO.getReturnMsg());

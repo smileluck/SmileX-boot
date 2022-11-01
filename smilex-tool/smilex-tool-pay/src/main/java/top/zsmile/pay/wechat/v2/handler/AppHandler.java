@@ -6,7 +6,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import top.zsmile.core.exception.SXException;
 import top.zsmile.pay.entity.vo.AppPayVO;
-import top.zsmile.pay.entity.vo.JsApiPayVO;
 import top.zsmile.pay.entity.vo.ReturnVO;
 import top.zsmile.pay.enums.PayTradeTypeEnum;
 import top.zsmile.pay.wechat.v2.WxPayCore;
@@ -27,9 +26,9 @@ public class AppHandler extends BaseHandler implements InitializingBean {
         WxPayCore wxPayCore = WxPayCore.of(config);
         try {
             Map<String, String> resMap = wxPayCore.unifiedOrder(data);
-            ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+            ReturnVO returnVO = WxPayUtil.mapToResult(config,resMap);
             log.debug("{} unifiedOrder result ==> {}", this.type, returnVO);
-            if (WxPayUtil.checkResultState(returnVO)) {
+            if (WxPayUtil.checkResponseState(returnVO)) {
                 AppPayVO appPayVO = packageAppResult(config, returnVO);
                 returnVO.setAppPayVO(appPayVO);
                 return returnVO;

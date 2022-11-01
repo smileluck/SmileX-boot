@@ -367,6 +367,34 @@ public class WxPayCore {
         return this.processResponseXml(respXml);
     }
 
+
+    public Map<String, String> downloadFundFlow(Map<String, String> reqData) throws Exception {
+        return this.downloadFundFlow(reqData, this.config.getHttpConnectTimeoutMs(), this.config.getHttpReadTimeoutMs());
+    }
+
+    public Map<String, String> downloadFundFlow(Map<String, String> reqData, int connectTimeoutMs, int readTimeoutMs) throws Exception {
+        String url;
+        if (this.useSandbox) {
+            url = WxV2Constant.SANDBOX_DOWNLOADFUNDFLOW_URL;
+        } else {
+            url = WxV2Constant.DOWNLOADFUNDFLOW_URL;
+        }
+
+        String respStr = this.requestWithCert(url, this.commonFillRequestData(reqData), connectTimeoutMs, readTimeoutMs).trim();
+        Object ret;
+        if (respStr.indexOf("<") == 0) {
+            ret = WxPayUtil.xmlToMap(respStr);
+        } else {
+            ret = new HashMap();
+            ((Map) ret).put("return_code", WxV2Constant.SUCCESS);
+            ((Map) ret).put("return_msg", WxV2Constant.OK);
+            ((Map) ret).put("result_code", WxV2Constant.SUCCESS);
+            ((Map) ret).put("data", respStr);
+        }
+
+        return (Map) ret;
+    }
+
     public Map<String, String> downloadBill(Map<String, String> reqData) throws Exception {
         return this.downloadBill(reqData, this.config.getHttpConnectTimeoutMs(), this.config.getHttpReadTimeoutMs());
     }
@@ -385,8 +413,9 @@ public class WxPayCore {
             ret = WxPayUtil.xmlToMap(respStr);
         } else {
             ret = new HashMap();
-            ((Map) ret).put("return_code", "SUCCESS");
-            ((Map) ret).put("return_msg", "ok");
+            ((Map) ret).put("return_code", WxV2Constant.SUCCESS);
+            ((Map) ret).put("return_msg", WxV2Constant.OK);
+            ((Map) ret).put("result_code", WxV2Constant.SUCCESS);
             ((Map) ret).put("data", respStr);
         }
 

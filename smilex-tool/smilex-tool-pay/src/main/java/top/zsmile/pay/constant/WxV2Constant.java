@@ -7,6 +7,7 @@ public class WxV2Constant {
     /********************变量名*****************/
     public static final String FAIL = "FAIL";
     public static final String SUCCESS = "SUCCESS";
+    public static final String OK = "OK";
     public static final String FIELD_SIGN = "sign";
     public static final String FIELD_SIGN_TYPE = "sign_type";
     public static final String FIELD_APP_ID = "appid";
@@ -44,8 +45,10 @@ public class WxV2Constant {
     public static final String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
     //查询退款                  API：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_5
     public static final String REFUNDQUERY_URL = "https://api.mch.weixin.qq.com/pay/refundquery";
-    //下载对账单                API：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_6
+    //下载对账单                API：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_18&index=7
     public static final String DOWNLOADBILL_URL = "https://api.mch.weixin.qq.com/pay/downloadbill";
+    //下载资金账单                API：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_6
+    public static final String DOWNLOADFUNDFLOW_URL = "https://api.mch.weixin.qq.com/pay/downloadfundflow";
     //交易保障                  API：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_8&index=9
     public static final String REPORT_URL = "https://api.mch.weixin.qq.com/payitil/report";
     //转换短链接                API：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_9&index=10
@@ -66,6 +69,7 @@ public class WxV2Constant {
     public static final String SANDBOX_REFUND_URL = "https://api.mch.weixin.qq.com/sandboxnew/secapi/pay/refund";
     public static final String SANDBOX_REFUNDQUERY_URL = "https://api.mch.weixin.qq.com/sandboxnew/pay/refundquery";
     public static final String SANDBOX_DOWNLOADBILL_URL = "https://api.mch.weixin.qq.com/sandboxnew/pay/downloadbill";
+    public static final String SANDBOX_DOWNLOADFUNDFLOW_URL = "https://api.mch.weixin.qq.com/pay/downloadfundflow";
     public static final String SANDBOX_REPORT_URL = "https://api.mch.weixin.qq.com/sandboxnew/payitil/report";
     public static final String SANDBOX_SHORTURL_URL = "https://api.mch.weixin.qq.com/sandboxnew/tools/shorturl";
     public static final String SANDBOX_AUTHCODETOOPENID_URL = "https://api.mch.weixin.qq.com/sandboxnew/tools/authcodetoopenid";

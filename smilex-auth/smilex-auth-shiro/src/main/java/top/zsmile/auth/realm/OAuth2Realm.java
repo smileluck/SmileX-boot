@@ -64,7 +64,10 @@ public class OAuth2Realm extends AuthorizingRealm {
         if (userId == null) {
             throw new AuthenticationException("登录失效");
         }
-        Map<String, Object> userMap = commonApi.queryUserById(userId, "username", "enableFlag", "tenantId");
+        Map<String, Object> userMap = commonApi.queryUserById(userId, "username", "enableFlag", "tenantId", "password");
+        if (JwtUtils.verify(token, userId, userMap.get("password").toString())) {
+            throw new AuthenticationException("登录失效");
+        }
         if (userMap == null) {
             throw new AuthenticationException("用户不存在");
         }
@@ -72,6 +75,7 @@ public class OAuth2Realm extends AuthorizingRealm {
             throw new AuthenticationException("用户已被锁定，请联系管理员");
         }
 
+        userMap.remove("password");
         userMap.remove("enableFlag");
         Map<String, Object> tenantMap = commonApi.queryTenantById(userMap.get("tenantId"), "enableFlag");
         if (!Boolean.valueOf(tenantMap.get("enableFlag").toString())) {

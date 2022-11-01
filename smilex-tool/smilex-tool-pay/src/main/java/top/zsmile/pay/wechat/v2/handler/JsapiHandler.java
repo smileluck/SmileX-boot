@@ -27,9 +27,9 @@ public class JsapiHandler extends BaseHandler implements InitializingBean {
         WxPayCore wxPayCore = WxPayCore.of(config);
         try {
             Map<String, String> resMap = wxPayCore.unifiedOrder(data);
-            ReturnVO returnVO = WxPayUtil.mapToResult(resMap);
+            ReturnVO returnVO = WxPayUtil.mapToResult(config,resMap);
             log.debug("{} unifiedOrder result ==> {}",this.type, returnVO);
-            if (WxPayUtil.checkResultState(returnVO)) {
+            if (WxPayUtil.checkResponseState(returnVO)) {
                 // 包装调起类信息
                 JsApiPayVO jsApiPayVO = WxPayUtil.packageJsApiResult(config, returnVO);
                 returnVO.setJsApiPayVO(jsApiPayVO);

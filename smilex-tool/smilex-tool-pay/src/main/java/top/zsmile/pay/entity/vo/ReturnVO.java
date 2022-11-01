@@ -24,8 +24,14 @@ public class ReturnVO implements Serializable {
     @ApiModelProperty(value = "应用ID")
     private String appId;
 
+    @ApiModelProperty(value = "子商户应用ID")
+    private String subAppId;
+
     @ApiModelProperty(value = "商户ID")
     private String mchId;
+
+    @ApiModelProperty(value = "子商户ID")
+    private String subMchId;
 
     @ApiModelProperty(value = "设备号")
     private String deviceInfo;
