@@ -212,7 +212,7 @@ public class WxPayUtil {
         }
     }
 
-    public static Boolean checkResultState(ReturnVO vo) {
+    public static Boolean checkResponseState(ReturnVO vo) {
         if ("SUCCESS".equals(vo.getReturnCode())) {
             if ("SUCCESS".equals(vo.getReturnCode())) {
                 return true;
@@ -223,7 +223,7 @@ public class WxPayUtil {
         }
     }
 
-    public static ReturnVO mapToResult(Map<String, String> resp) {
+    public static ReturnVO mapToResult(WxPayConfig config, Map<String, String> resp) {
         ReturnVO vo = ReturnVO.of(resp.get(WxV2Constant.FIELD_RETURN_CODE), resp.get(WxV2Constant.FIELD_RETURN_MSG));
         if (vo.getReturnCode().equals(WxV2Constant.SUCCESS)) {
             vo.setAppId(resp.get(WxV2Constant.FIELD_APP_ID));
@@ -267,10 +267,9 @@ public class WxPayUtil {
         map.put("package", "prepay_id=" + returnVO.getPrepayId());
         if (!config.isMch()) {
             map.put("appId", returnVO.getAppId());
+        } else {
+            map.put("appId", returnVO.getSubAppId());
         }
-//                 else {
-//                    map.put("appId", resp.get("sub_appid"));
-//                }
         map.put("timeStamp", LocalDateTime.now().getNano() / 1000 + "");
         map.put("nonceStr", returnVO.getNonceStr());
         String signature = WxPayUtil.generateSignature(map, config.getKey());
