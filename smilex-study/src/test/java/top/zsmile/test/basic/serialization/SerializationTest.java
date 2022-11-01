@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
+import java.util.ArrayList;
 
 @Slf4j
 @SpringBootTest
@@ -53,6 +54,48 @@ public class SerializationTest {
             exception.printStackTrace();
         }
     }
+
+    @Test
+    public void SerializationTest3() {
+        SerializationClazz3 serializationClazz = new SerializationClazz3("Serialization", 222, 1);
+        try {
+            //序列化
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("out.txt"));
+            objectOutputStream.writeObject(serializationClazz);
+            objectOutputStream.close();
+
+            // 反序列化
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("out.txt"));
+            SerializationClazz3 newClazz = (SerializationClazz3) objectInputStream.readObject();
+            log.info("反序列化后对象：{}", newClazz);
+            objectInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
+    }
+    @Test
+    public void SerializationTest4() {
+        SerializationClazz4 serializationClazz = new SerializationClazz4("Serialization", 222, 1);
+        try {
+            //序列化
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("out.txt"));
+            objectOutputStream.writeObject(serializationClazz);
+            objectOutputStream.close();
+
+            // 反序列化
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("out.txt"));
+            SerializationClazz4 newClazz = (SerializationClazz4) objectInputStream.readObject();
+            log.info("反序列化后对象：{}", newClazz);
+            objectInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
+    }
+
 
     @Test
     public void ExternalizationTest() {
@@ -186,6 +229,116 @@ class SerializationClazz2 implements Serializable {
 
     public SerializationClazz2(String name, Integer age, int sex) {
         log.info("SerializationClazz Construct：name={},age={},sex={}", name, age, sex);
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+}
+
+
+/**
+ * Test writeReplace
+ */
+@Slf4j
+@Data
+class SerializationClazz3 implements Serializable {
+    //    private static String staticVar = "123";
+    private static final Long serialVersionUID = 1L;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 性别
+     */
+    private int sex;
+
+    private Object writeReplace() throws IOException {
+        log.info("writeReplace");
+        return new SerializationClazz3("writeReplace", 2, 2);
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        log.info("writeObject");
+        out.writeObject(this.name);
+        out.writeInt(age);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        log.info("readObject");
+        this.name = in.readObject().toString();
+        this.age = in.readInt();
+    }
+
+    /**
+     * 构造器
+     */
+    public SerializationClazz3(String name) {
+        log.info("SerializationClazz3 Construct：name={}", name);
+        this.name = name;
+    }
+
+    public SerializationClazz3(String name, Integer age) {
+        log.info("SerializationClazz3 Construct：name={},age={}", name, age);
+        this.name = name;
+        this.age = age;
+    }
+
+    public SerializationClazz3(String name, Integer age, int sex) {
+        log.info("SerializationClazz3 Construct：name={},age={},sex={}", name, age, sex);
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+}
+
+
+/**
+ * Test readResolve
+ */
+@Slf4j
+@Data
+class SerializationClazz4 implements Serializable {
+    //    private static String staticVar = "123";
+    private static final Long serialVersionUID = 1L;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 性别
+     */
+    private int sex;
+
+    private Object readResolve() throws IOException {
+        log.info("readResolve");
+        return new SerializationClazz4("readResolve", 1, 1);
+    }
+
+    /**
+     * 构造器
+     */
+    public SerializationClazz4(String name) {
+        log.info("SerializationClazz4 Construct：name={}", name);
+        this.name = name;
+    }
+
+    public SerializationClazz4(String name, Integer age) {
+        log.info("SerializationClazz4 Construct：name={},age={}", name, age);
+        this.name = name;
+        this.age = age;
+    }
+
+    public SerializationClazz4(String name, Integer age, int sex) {
+        log.info("SerializationClazz4 Construct：name={},age={},sex={}", name, age, sex);
         this.name = name;
         this.age = age;
         this.sex = sex;

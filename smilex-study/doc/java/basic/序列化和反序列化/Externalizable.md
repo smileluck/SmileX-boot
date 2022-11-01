@@ -303,5 +303,198 @@ public void SerializationTest2() {
 
 如果发生上述场景的时候，**没有定义readObjectNoData，那么就会初始化成类型的默认值**；如果这时定义 readObjectNoData，**那么 readObjectNoData 会替代 readObject 方法生效。**
 
+### writeReplace 和 readResolve 方法
+
+#### writeReplace
+**在序列化时，会先调用此方法，再调用writeObject方法。此方法可将任意对象代替目标序列化对象**。
+
+```java
+
+/**
+ * Test writeReplace
+ */
+@Slf4j
+@Data
+class SerializationClazz3 implements Serializable {
+    //    private static String staticVar = "123";
+    private static final Long serialVersionUID = 1L;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 性别
+     */
+    private int sex;
+
+    private Object writeReplace() throws IOException {
+        log.info("writeReplace");
+        return new SerializationClazz3("writeReplace", 2, 2);
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        log.info("writeObject");
+        out.writeObject(this.name);
+        out.writeInt(age);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        log.info("readObject");
+        this.name = in.readObject().toString();
+        this.age = in.readInt();
+    }
+
+    /**
+     * 构造器
+     */
+    public SerializationClazz3(String name) {
+        log.info("SerializationClazz3 Construct：name={}", name);
+        this.name = name;
+    }
+
+    public SerializationClazz3(String name, Integer age) {
+        log.info("SerializationClazz3 Construct：name={},age={}", name, age);
+        this.name = name;
+        this.age = age;
+    }
+
+    public SerializationClazz3(String name, Integer age, int sex) {
+        log.info("SerializationClazz3 Construct：name={},age={},sex={}", name, age, sex);
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+}
+
+
+// Test Func
+@Test
+public void SerializationTest3() {
+    SerializationClazz3 serializationClazz = new SerializationClazz3("Serialization", 222, 1);
+    try {
+        //序列化
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("out.txt"));
+        objectOutputStream.writeObject(serializationClazz);
+        objectOutputStream.close();
+
+        // 反序列化
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("out.txt"));
+        SerializationClazz3 newClazz = (SerializationClazz3) objectInputStream.readObject();
+        log.info("反序列化后对象：{}", newClazz);
+        objectInputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException exception) {
+        exception.printStackTrace();
+    }
+}
+
+```
+
+输出结果：
+
+```
+SerializationClazz3 - SerializationClazz3 Construct：name=Serialization,age=222,sex=1
+SerializationClazz3 - writeReplace
+SerializationClazz3 - SerializationClazz3 Construct：name=writeReplace,age=2,sex=2
+SerializationClazz3 - writeObject
+SerializationClazz3 - readObject
+SerializationTest - 反序列化后对象：SerializationClazz3(name=writeReplace, age=2, sex=0)
+```
+
+1. writeReplace先于writeObject执行
+2. writeReplace返回的对象可以是任意类型
+
+#### readResolve
+
+**反序列化时替换反序列化出的对象，反序列化出来的对象被立即丢弃。此方法在readeObject后调用。** 
+
+```java
+
+
+/**
+ * Test readResolve
+ */
+@Slf4j
+@Data
+class SerializationClazz4 implements Serializable {
+    //    private static String staticVar = "123";
+    private static final Long serialVersionUID = 1L;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 性别
+     */
+    private int sex;
+    
+    private Object readResolve() throws IOException {
+        log.info("readResolve");
+        return new SerializationClazz4("readResolve", 1, 1);
+    }
+
+    /**
+     * 构造器
+     */
+    public SerializationClazz4(String name) {
+        log.info("SerializationClazz4 Construct：name={}", name);
+        this.name = name;
+    }
+
+    public SerializationClazz4(String name, Integer age) {
+        log.info("SerializationClazz4 Construct：name={},age={}", name, age);
+        this.name = name;
+        this.age = age;
+    }
+
+    public SerializationClazz4(String name, Integer age, int sex) {
+        log.info("SerializationClazz4 Construct：name={},age={},sex={}", name, age, sex);
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+}
+
+
+
+// Test Func
+@Test
+public void SerializationTest4() {
+    SerializationClazz4 serializationClazz = new SerializationClazz4("Serialization", 222, 1);
+    try {
+        //序列化
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("out.txt"));
+        objectOutputStream.writeObject(serializationClazz);
+        objectOutputStream.close();
+
+        // 反序列化
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("out.txt"));
+        SerializationClazz4 newClazz = (SerializationClazz4) objectInputStream.readObject();
+        log.info("反序列化后对象：{}", newClazz);
+        objectInputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException exception) {
+        exception.printStackTrace();
+    }
+}
+```
+
+**readResolve常用来反序列单例类，保证单例类的唯一性。**
+
+**注意：**
+
+- **readResolve与writeReplace的访问修饰符可以是private、protected、public，如果父类重写了这两个方法，子类都需要根据自身需求重写，这显然不是一个好的设计。**
+- **通常建议对于final修饰的类重写readResolve方法没有问题；否则，重写readResolve使用private修饰。**
+
 ## Externalizable
 
