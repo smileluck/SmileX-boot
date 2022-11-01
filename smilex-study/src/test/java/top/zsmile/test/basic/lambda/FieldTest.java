@@ -16,10 +16,12 @@ public class FieldTest {
     @Test
     public void test() {
         get(TempTest::getName);
+        get(TempTest::getName);
     }
 
-    private <T> void get(SFunction<T> fn) {
+    private <T,R> void get(SFunction<T,R> fn) {
         try {
+            System.out.println(fn.getClass());
             Method writeReplace = fn.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
             SerializedLambda invoke = (SerializedLambda) writeReplace.invoke(fn);
@@ -39,4 +41,12 @@ public class FieldTest {
 @Data
 class TempTest {
     private String name;
+
+    private String stuName;
+}
+
+@Data
+class TempTest2 {
+    private String name;
+
 }
