@@ -98,6 +98,28 @@ public class SerializationTest {
 
 
     @Test
+    public void SerializationTest5() {
+        SerializationClazz5 serializationClazz = new SerializationClazz5("Serialization", 222, 1);
+        try {
+            //序列化
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("out.txt"));
+            objectOutputStream.writeObject(serializationClazz);
+            objectOutputStream.close();
+
+            // 反序列化
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("out.txt"));
+            SerializationClazz5 newClazz = (SerializationClazz5) objectInputStream.readObject();
+            log.info("反序列化后对象：{}", newClazz);
+            objectInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+
+    @Test
     public void ExternalizationTest() {
         ExternalizationClazz externalizationClazz = new ExternalizationClazz("Externalization", 30);
     }
@@ -339,6 +361,74 @@ class SerializationClazz4 implements Serializable {
 
     public SerializationClazz4(String name, Integer age, int sex) {
         log.info("SerializationClazz4 Construct：name={},age={},sex={}", name, age, sex);
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+}
+
+
+/**
+ * Test all
+ */
+@Slf4j
+@Data
+class SerializationClazz5 implements Serializable {
+    //    private static String staticVar = "123";
+    private static final Long serialVersionUID = 1L;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 性别
+     */
+    private int sex;
+
+    private Object writeReplace() throws IOException {
+        log.info("writeReplace");
+        return new SerializationClazz5("writeReplace", 2, 2);
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        log.info("writeObject");
+        out.writeObject(this.name);
+        out.writeInt(age);
+    }
+
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        log.info("readObject");
+        this.name = in.readObject().toString();
+        this.age = in.readInt();
+    }
+
+
+    private Object readResolve() throws IOException {
+        log.info("readResolve");
+        return new SerializationClazz5("readResolve", 9, 9);
+    }
+
+    /**
+     * 构造器
+     */
+    public SerializationClazz5(String name) {
+        log.info("SerializationClazz5 Construct：name={}", name);
+        this.name = name;
+    }
+
+    public SerializationClazz5(String name, Integer age) {
+        log.info("SerializationClazz5 Construct：name={},age={}", name, age);
+        this.name = name;
+        this.age = age;
+    }
+
+    public SerializationClazz5(String name, Integer age, int sex) {
+        log.info("SerializationClazz5 Construct：name={},age={},sex={}", name, age, sex);
         this.name = name;
         this.age = age;
         this.sex = sex;
