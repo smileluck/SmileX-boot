@@ -119,45 +119,9 @@ public class SerializationTest {
     }
 
 
-    @Test
-    public void ExternalizationTest() {
-        ExternalizationClazz externalizationClazz = new ExternalizationClazz("Externalization", 30);
-    }
 
 }
 
-@Slf4j
-@Data
-class ExternalizationClazz implements Externalizable {
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 年龄
-     */
-    private Integer age;
-
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-
-    }
-
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-
-    }
-
-    /**
-     * 构造器
-     */
-    public ExternalizationClazz(String name, Integer age) {
-        log.info("ExternalizationClazz Construct：name={},age={}", name, age);
-        this.name = name;
-        this.age = age;
-    }
-
-}
 
 @Slf4j
 @Data
