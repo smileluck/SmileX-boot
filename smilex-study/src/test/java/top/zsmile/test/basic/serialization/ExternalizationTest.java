@@ -16,6 +16,7 @@ public class ExternalizationTest {
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("out.txt"));
             objectOutputStream.writeObject(clazz);
+            objectOutputStream.flush();
             objectOutputStream.close();
 
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("out.txt"));
@@ -45,6 +46,7 @@ class ExternalizationClazz implements Externalizable {
      * 年龄
      */
     private Integer age;
+
 
     public void writeExternal(ObjectOutput out) throws IOException {
         log.info("writeExternal");
@@ -82,10 +84,13 @@ class ExternalizationClazz implements Externalizable {
         return new ExternalizationClazz("readResolve", 9);
     }
 
-
     /**
      * 构造器
      */
+    public ExternalizationClazz(){
+
+    }
+
     public ExternalizationClazz(String name, Integer age) {
         log.info("ExternalizationClazz Construct：name={},age={}", name, age);
         this.name = name;
