@@ -87,6 +87,7 @@ public class ShiroConfig {
 
         /*开放博客接口*/
         chainDefinition.addPathDefinition("/open/blog/**", "anon");
+        chainDefinition.addPathDefinition("/open/git/**", "anon");
 
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
