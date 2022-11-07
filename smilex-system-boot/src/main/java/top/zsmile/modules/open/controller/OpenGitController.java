@@ -23,7 +23,7 @@ import java.util.Enumeration;
 public class OpenGitController {
 
     @PostMapping("/webhook")
-    public String webhook(@RequestBody JSONObject jsonObject, HttpServletRequest httpServletRequest) throws IOException {
+    public String webhook(HttpServletRequest httpServletRequest) throws IOException {
 
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
         log.info("headerNames==>{}", headerNames);
@@ -32,7 +32,7 @@ public class OpenGitController {
             String header = httpServletRequest.getHeader(name);
             log.info("header {} ==> {}", name, header);
         }
-        log.info("payload ==> {}", jsonObject);
+//        log.info("payload ==> {}", jsonObject);
 
         StringBuilder builder = new StringBuilder();
         String aux = "";
