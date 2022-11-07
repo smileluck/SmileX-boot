@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ import java.util.Enumeration;
 @RequestMapping("/open/git")
 public class OpenGitController {
 
-    @RequestMapping("/webhook")
+    @PostMapping("/webhook")
     public String webhook(@RequestBody JSONObject jsonObject, HttpServletRequest httpServletRequest) {
 
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
@@ -29,7 +30,6 @@ public class OpenGitController {
             log.info("header {} ==> {}", name, header);
         }
         log.info("payload ==> {}", jsonObject);
-
 
         return "SUCCESS";
     }
