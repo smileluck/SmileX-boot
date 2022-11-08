@@ -70,7 +70,7 @@ public class CmdUtils {
             }
             stringBuilder.append(hv);
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().toUpperCase();
     }
 
 
