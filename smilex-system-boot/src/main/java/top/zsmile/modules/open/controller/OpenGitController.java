@@ -1,20 +1,29 @@
 package top.zsmile.modules.open.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.zsmile.common.utils.sign.SignUtils;
 import top.zsmile.core.api.R;
+import top.zsmile.modules.blog.entity.BlogGitArticleEntity;
+import top.zsmile.modules.blog.service.BlogGitArticleService;
 
+import javax.annotation.Resource;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Map;
 
 @Api(tags = "开放Git webHook接口")
 @RestController
@@ -22,51 +31,68 @@ import java.util.Enumeration;
 @RequestMapping("/open/git")
 public class OpenGitController {
 
+
+    @Value("${smilex.github.webhook.secret}")
+    private String secret;
+
+    @Resource
+    private BlogGitArticleService blogGitArticleService;
+
     @PostMapping("/webhook")
     public String webhook(HttpServletRequest httpServletRequest) throws IOException {
-
-        Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
-        log.info("headerNames==>{}", headerNames);
-        while (headerNames.hasMoreElements()) {
-            String name = headerNames.nextElement();
-            String header = httpServletRequest.getHeader(name);
-            log.info("header {} ==> {}", name, header);
-        }
-//        log.info("payload ==> {}", jsonObject);
-
         StringBuilder builder = new StringBuilder();
         String aux = "";
-
         while ((aux = httpServletRequest.getReader().readLine()) != null) {
             builder.append(aux);
         }
-
         log.info("body ==> {}", builder.toString());
-
         try {
-            log.info("sha256 ==> {}", sha256Hash("qOuEvHEArNQNsIbocniY", builder.toString()));
+            String sign = SignUtils.hmacSha256Hash(secret, builder.toString());
+            String reqSign = httpServletRequest.getHeader("X-Hub-Signature-256");
+            log.info("sha256 ==> {},{}", sign, reqSign);
+            if (!sign.equalsIgnoreCase(reqSign)) {
+                return "FAILURE";
+            }
+
+            JSONObject resObject = JSONObject.parseObject(builder.toString());
+            JSONObject repository = resObject.getJSONObject("repository");
+            if (repository.getInteger("id").equals(427627989)) {
+                String contentsUrl = repository.getString("contents_url");
+                JSONArray commits = resObject.getJSONArray("commits");
+                for (int i = 0; i < commits.size(); i++) {
+                    JSONObject jsonObject = commits.getJSONObject(i);
+                    JSONArray added = jsonObject.getJSONArray("added");
+                    JSONArray modified = jsonObject.getJSONArray("modified");
+                    save(contentsUrl, added);
+                    save(contentsUrl, modified);
+                }
+            }
+
         } catch (Exception exception) {
             exception.printStackTrace();
+            return "FAILURE";
         }
-
-
         return "SUCCESS";
     }
 
-    public static String sha256Hash(String key, String data) throws Exception {
-        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
-        sha256_HMAC.init(secret_key);
-        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
-        StringBuilder sb = new StringBuilder();
-        byte[] var6 = array;
-        int var7 = array.length;
-
-        for (int var8 = 0; var8 < var7; ++var8) {
-            byte item = var6[var8];
-            sb.append(Integer.toHexString(item & 255 | 256).substring(1, 3));
+    private void save(String contentsUrl, JSONArray jsonArray) {
+        Map<String, Object> map = Collections.singletonMap("contentUrl", null);
+        for (int j = 0; j < jsonArray.size(); j++) {
+            String idx = jsonArray.getString(j);
+            if (idx.startsWith("smilex-study/doc")) {
+                String url = contentsUrl.replace("{+path}", idx);
+                map.put("contentUrl", url);
+                BlogGitArticleEntity obj = blogGitArticleService.getObjByMap(map, "contentUrl", "updateFlag");
+                if (obj == null) {
+                    obj = new BlogGitArticleEntity();
+                    obj.setContentUrl(url);
+                    obj.setUpdateFlag(1);
+                    blogGitArticleService.save(obj);
+                } else {
+                    obj.setUpdateFlag(1);
+                    blogGitArticleService.updateById(obj);
+                }
+            }
         }
-
-        return sb.toString().toUpperCase();
     }
 }
