@@ -13,6 +13,7 @@ import top.zsmile.modules.blog.entity.BlogGitArticleEntity;
 import top.zsmile.modules.blog.service.BlogGitArticleService;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class ScheduleConfig {
         List<BlogGitArticleEntity> blogGitArticleEntities = blogGitArticleService.listByMap(stringIntegerMap, "contentUrl");
         if (blogGitArticleEntities.size() > 0) {
             log.info("检查有{}篇文章需要更新", blogGitArticleEntities.size());
+            LocalDateTime now = LocalDateTime.now();
             blogGitArticleEntities.stream().forEach(item -> {
                 String res = OkHttpUtil.get(item.getContentUrl(), "");
                 log.info("{} RES ==> {}", item.getContentUrl(), res);
@@ -42,7 +44,7 @@ public class ScheduleConfig {
                         String decode = Base64.decodeToString(replace);
                         item.setUpdateFlag(0);
                         item.setContentText(decode);
-                        item.setUpdateBy("GIT");
+                        item.setAsyncTime(now);
                         blogGitArticleService.updateById(item);
                     }
                 }

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import top.zsmile.common.utils.PasswordUtils;
+import top.zsmile.enums.VisitTypeEnum;
 import top.zsmile.meta.IPage;
 import top.zsmile.meta.Page;
 import top.zsmile.modules.open.entity.dto.BlogArticleCommonDto;
@@ -32,8 +33,10 @@ public class BlogArticleServiceImpl extends BaseServiceImpl<BlogArticleMapper, B
     @Transactional
     public boolean saveArticle(BlogArticleEntity blogArticleEntity) {
         String salt = RandomStringUtils.randomAlphanumeric(20);
-        blogArticleEntity.setSalt(salt);
-        blogArticleEntity.setPassword(PasswordUtils.sha256Hash(blogArticleEntity.getPassword() + blogArticleEntity.getSalt()));
+        if (blogArticleEntity.getVisitType().equals(VisitTypeEnum.ISOLATE.getValue())) {
+            blogArticleEntity.setSalt(salt);
+            blogArticleEntity.setPassword(PasswordUtils.sha256Hash(blogArticleEntity.getPassword() + blogArticleEntity.getSalt()));
+        }
         return save(blogArticleEntity);
     }
 

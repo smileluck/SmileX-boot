@@ -1,5 +1,6 @@
 package top.zsmile.modules.blog.controller;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,17 +10,23 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.google.common.base.Joiner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
+import top.zsmile.common.utils.ValidatorUtils;
+import top.zsmile.common.validator.group.Add;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.zsmile.enums.VisitTypeEnum;
 import top.zsmile.meta.IPage;
 import top.zsmile.modules.blog.entity.BlogArticleEntity;
 import top.zsmile.modules.blog.entity.BlogTagEntity;
 import top.zsmile.modules.blog.entity.dto.BlogArticlePublishDto;
+import top.zsmile.modules.blog.entity.dto.BlogGitArticlePublish;
 import top.zsmile.modules.blog.service.BlogArticleService;
 import top.zsmile.modules.blog.service.BlogGitArticleService;
 import top.zsmile.modules.blog.entity.BlogGitArticleEntity;
@@ -43,6 +50,7 @@ public class BlogGitArticleController {
 
     @Resource
     private BlogTagService blogTagService;
+
 
     @ApiOperation("查询列表（分页）")
     @SysLog(title = "租户博客-git文章同步", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
@@ -95,12 +103,43 @@ public class BlogGitArticleController {
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "发布")
     @RequiresPermissions("blog:git:article:publish")
     @PostMapping("/publish")
-    public R publish(@RequestBody BlogArticleEntity blogArticleEntity) {
-        String[] tagIds = blogArticleEntity.getTagIds().split(",");
-        List<BlogTagEntity> tagName = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
-        List<String> collect = tagName.stream().map(item -> item.getTagName()).collect(Collectors.toList());
-        blogArticleEntity.setTagNames(Joiner.on(",").join(collect));
-        blogArticleService.saveArticle(blogArticleEntity);
+    public R publish(@RequestBody BlogGitArticlePublish blogGitArticlePublish) {
+        BlogGitArticleEntity info = blogGitArticleService.getById(blogGitArticlePublish.getId());
+        if (info == null) {
+            return R.fail("该文章不存在");
+        }
+        // 如果已经发布过则更新文章内容
+        if (info.getBlogArticleId() != null) {
+            BlogArticleEntity articleEntity = new BlogArticleEntity();
+            articleEntity.setId(info.getBlogArticleId());
+            articleEntity.setArticleContent(info.getContentText());
+            blogArticleService.updateById(articleEntity);
+            BlogGitArticleEntity blogGitArticleEntity = new BlogGitArticleEntity();
+            blogGitArticleEntity.setId(info.getId());
+            blogGitArticleEntity.setPublishTime(LocalDateTime.now());
+            blogGitArticleService.updateById(blogGitArticleEntity);
+        } else {
+            ValidatorUtils.validateEntity(blogGitArticlePublish, Add.class);
+            if (blogGitArticlePublish.getVisitType() == VisitTypeEnum.ISOLATE.getValue()) {
+                if (StringUtils.isBlank(blogGitArticlePublish.getPassword())) {
+                    return R.fail("请输入独立密码");
+                }
+            }
+            BlogArticleEntity articleEntity = new BlogArticleEntity();
+            BeanUtils.copyProperties(blogGitArticlePublish, articleEntity);
+            articleEntity.setId(null);
+            String[] tagIds = articleEntity.getTagIds().split(",");
+            List<BlogTagEntity> tagName = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
+            List<String> collect = tagName.stream().map(item -> item.getTagName()).collect(Collectors.toList());
+            articleEntity.setTagNames(Joiner.on(",").join(collect));
+            blogArticleService.saveArticle(articleEntity);
+
+            BlogGitArticleEntity blogGitArticleEntity = new BlogGitArticleEntity();
+            blogGitArticleEntity.setId(info.getId());
+            blogGitArticleEntity.setBlogArticleId(articleEntity.getId());
+            blogGitArticleEntity.setPublishTime(LocalDateTime.now());
+            blogGitArticleService.updateById(blogGitArticleEntity);
+        }
         return R.success("添加成功");
     }
 

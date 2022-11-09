@@ -46,6 +46,16 @@ public class BlogGitArticleEntity extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value = "是否更新，1是，0否", hidden = false)
     private Integer updateFlag;
+    /**
+     * 同步时间
+     */
+    @ApiModelProperty(value = "同步时间", hidden = false)
+    private LocalDateTime asyncTime;
+    /**
+     * 发布时间
+     */
+    @ApiModelProperty(value = "发布时间", hidden = false)
+    private LocalDateTime publishTime;
 
     /**
      * 获取：ID
@@ -129,5 +139,33 @@ public class BlogGitArticleEntity extends BaseEntity implements Serializable {
      */
     public void setFileTitle(String fileTitle) {
         this.fileTitle = fileTitle;
+    }
+
+    /**
+     * 设置： 同步时间
+     */
+    public LocalDateTime getAsyncTime() {
+        return asyncTime;
+    }
+
+    /**
+     * 设置： 同步时间
+     */
+    public void setAsyncTime(LocalDateTime asyncTime) {
+        this.asyncTime = asyncTime;
+    }
+
+    /**
+     * 设置： 发布时间
+     */
+    public LocalDateTime getPublishTime() {
+        return publishTime;
+    }
+
+    /**
+     * 设置： 发布时间
+     */
+    public void setPublishTime(LocalDateTime publishTime) {
+        this.publishTime = publishTime;
     }
 }
