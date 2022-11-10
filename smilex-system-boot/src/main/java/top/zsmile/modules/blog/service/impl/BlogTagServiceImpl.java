@@ -13,4 +13,9 @@ import java.util.List;
 @Service("blogTagService")
 public class BlogTagServiceImpl extends BaseServiceImpl<BlogTagMapper, BlogTagEntity> implements BlogTagService {
 
+
+    @Override
+    public List<BlogTagVo> getRandomTagList(Long tenantId) {
+        return getBaseMapper().selectRandomTagList(tenantId);
+    }
 }

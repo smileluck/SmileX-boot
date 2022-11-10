@@ -19,6 +19,7 @@ import top.zsmile.modules.open.entity.dto.BlogArticleDto;
 import top.zsmile.modules.open.entity.vo.BlogArticleLNVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.modules.open.entity.vo.BlogArticleVo;
+import top.zsmile.modules.open.entity.vo.BlogTagVo;
 import top.zsmile.modules.sys.utils.AssertUtils;
 
 import javax.validation.Valid;
@@ -66,11 +67,12 @@ public class OpenBlogController {
      */
     @ApiOperation("标签云")
     @GetMapping("/{tenantId}/tag/list")
-    public R<List> tags(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("tenantId", tenantId);
-        map.put("enableFlag", 1);
-        List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
+    public R<List<BlogTagVo>> tags(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
+//        Map<String, Object> map = new HashMap<>(2);
+//        map.put("tenantId", tenantId);
+//        map.put("enableFlag", 1);
+//        List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
+        List<BlogTagVo> list = blogTagService.getRandomTagList(tenantId);
         return R.success(list);
     }
 

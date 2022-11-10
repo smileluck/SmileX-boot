@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="top.zsmile.modules.blog.dao.BlogTagMapper">
+    <select id="selectRandomTagList" resultType="top.zsmile.modules.open.entity.vo.BlogTagVo">
+        SELECT
+            id,
+            tag_name
+        FROM
+            `blog_tag`
+        WHERE
+            id >= ( SELECT floor( RAND() * ( SELECT MAX( id ) FROM `blog_tag` ) ) )
+            and del_flag = 0
+            and enable_flag = 1
+        ORDER BY
+            id
+            LIMIT 10;
+    </select>
 </mapper>
