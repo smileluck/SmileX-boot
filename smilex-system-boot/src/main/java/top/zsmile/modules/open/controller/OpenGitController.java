@@ -21,8 +21,10 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 @Api(tags = "开放Git webHook接口")
@@ -49,10 +51,10 @@ public class OpenGitController {
         try {
             String sign = SignUtils.hmacSha256Hash(secret, builder.toString());
             String reqSign = httpServletRequest.getHeader("X-Hub-Signature-256");
-            log.info("sha256 ==> {},{}", sign, reqSign);
-            if (!sign.equalsIgnoreCase(reqSign)) {
-                return "FAILURE";
-            }
+//            log.info("sha256 ==> {},{}", sign, reqSign);
+//            if (!sign.equalsIgnoreCase(reqSign)) {
+//                return "FAILURE";
+//            }
 
             JSONObject resObject = JSONObject.parseObject(builder.toString());
             JSONObject repository = resObject.getJSONObject("repository");
@@ -76,12 +78,13 @@ public class OpenGitController {
     }
 
     private void save(String contentsUrl, JSONArray jsonArray) {
-        Map<String, Object> map = Collections.singletonMap("contentUrl", null);
+        Map<String, Object> map = new HashMap<>();
         for (int j = 0; j < jsonArray.size(); j++) {
             String idx = jsonArray.getString(j);
             if (idx.startsWith("smilex-study/doc")) {
                 String url = contentsUrl.replace("{+path}", idx);
                 map.put("contentUrl", url);
+                log.info("sync contentUrl ==> {}", url);
                 BlogGitArticleEntity obj = blogGitArticleService.getObjByMap(map, "contentUrl", "updateFlag");
                 if (obj == null) {
                     obj = new BlogGitArticleEntity();

@@ -18,7 +18,13 @@ public class ShiroAuthApiImpl implements CommonAuthApi, InitializingBean {
     @Override
     public Map<String, Object> queryUserInfo() {
         try {
-            return (Map<String, Object>) ShiroUtils.getSubject().getPrincipal();
+            Map<String, Object> principal = (Map<String, Object>) ShiroUtils.getSubject().getPrincipal();
+            if (principal == null) {
+                log.info("用户信息为空");
+                return userInfo;
+            } else {
+                return principal;
+            }
         } catch (Exception e) {
             log.info("非用户执行SQL");
             return userInfo;
