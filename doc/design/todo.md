@@ -35,10 +35,10 @@
   - [ ] 数据脱敏拦截器
   - [ ] 增加Query查询
   - [x] 初始化
-- [ ] Smilex-Blog 
-  - [ ] 对接 博客API并部署。
-- [ ] Smilex-Boot
-  - [ ] 开放博客API。
+- [x] Smilex-Blog 
+  - [x] 对接 博客API并部署。
+- [x] Smilex-Boot
+  - [x] 开放博客API。
 - [ ] 微信公众号接入
 - [ ] 多租户插件
 - [ ] 动态编译
