@@ -68,11 +68,11 @@ public class OpenBlogController {
     @ApiOperation("标签云")
     @GetMapping("/{tenantId}/tag/list")
     public R<List<BlogTagVo>> tags(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
-//        Map<String, Object> map = new HashMap<>(2);
-//        map.put("tenantId", tenantId);
-//        map.put("enableFlag", 1);
-//        List<Map<String, Object>> list = blogTagService.listMapByMap(map, "id", "tagName");
-        List<BlogTagVo> list = blogTagService.getRandomTagList(tenantId);
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("tenantId", tenantId);
+        map.put("enableFlag", 1);
+        List list = blogTagService.listMapByMap(map, "id", "tagName");
+//        List<BlogTagVo> list = blogTagService.getRandomTagList(tenantId);
         return R.success(list);
     }
 
