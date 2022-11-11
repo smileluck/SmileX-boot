@@ -51,10 +51,10 @@ public class OpenGitController {
         try {
             String sign = SignUtils.hmacSha256Hash(secret, builder.toString());
             String reqSign = httpServletRequest.getHeader("X-Hub-Signature-256");
-//            log.info("sha256 ==> {},{}", sign, reqSign);
-//            if (!sign.equalsIgnoreCase(reqSign)) {
-//                return "FAILURE";
-//            }
+            log.info("sha256 ==> {},{}", sign, reqSign);
+            if (!sign.equalsIgnoreCase(reqSign)) {
+                return "FAILURE";
+            }
 
             JSONObject resObject = JSONObject.parseObject(builder.toString());
             JSONObject repository = resObject.getJSONObject("repository");
