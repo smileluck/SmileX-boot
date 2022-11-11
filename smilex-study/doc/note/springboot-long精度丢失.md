@@ -33,17 +33,17 @@ SELECT id AS id, dict_code AS dictCode, dict_name AS dictName, remark AS remark,
 
 再来看一下Springboot准备返回时的数据显示：
 
-![1656669653094](springboot-long精度丢失.assets/1656669653094.png)
+![1656669653094](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-long精度丢失.assets/1656669653094.png)
 
 这里可以看到返回类型是Long类型且精度并未丢失。
 
-![1656670066184](springboot-long精度丢失.assets/1656670066184.png)
+![1656670066184](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-long精度丢失.assets/1656670066184.png)
 
-![1656671674895](springboot-long精度丢失.assets/1656671674895.png)
+![1656671674895](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-long精度丢失.assets/1656671674895.png)
 
 可以看到这时前端显示出来的，就出现问题了。是不是网络传输的过程有问题呢？我们换PostMan试一下。
 
-![1656671764798](springboot-long精度丢失.assets/1656671764798.png)
+![1656671764798](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-long精度丢失.assets/1656671764798.png)
 
 可以看见这里的id是正确的，那么应该时JavaScript导致的精度丢失了。
 
@@ -73,7 +73,7 @@ spring:
 
 
 
-![1656725666768](springboot-long精度丢失.assets/1656725666768.png)
+![1656725666768](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-long精度丢失.assets/1656725666768.png)
 
 这个方法会将全局所有的数字类型包括int/long等都转换为string类型返回，不推荐使用。
 
@@ -170,7 +170,7 @@ converters.add(0,jackson2HttpMessageConverter);
 
 先看一下都有什么转换器。
 
-![1656731252962](springboot-long精度丢失.assets/1656731252962.png)
+![1656731252962](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-long精度丢失.assets/1656731252962.png)
 
 可以看到在我们添加转换器前，就已经有了2个 Mappingjackson2HttpMessageConverter 了。我们说过springboot 自带了 HttpMessageConverter 。
 

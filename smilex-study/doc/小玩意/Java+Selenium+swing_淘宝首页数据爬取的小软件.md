@@ -14,7 +14,7 @@
 
 # 项目说明
 ## 界面说明
-![在这里插入图片描述](Java+Selenium+swing_淘宝首页数据爬取的小软件.assets/ae6c4f466b5f4920820e0bed207bc585_tplv-k3u1fbpfcp-zoom-1.image)   
+![在这里插入图片描述](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/Java+Selenium+swing_淘宝首页数据爬取的小软件.assets/ae6c4f466b5f4920820e0bed207bc585_tplv-k3u1fbpfcp-zoom-1.image)   
 
  1. 淘宝账号和淘宝密码是用来登陆账号使用的，可能中途需要输入手机验证码登录，建议第一次先输入验证码后；
  2. 浏览器、浏览器路径和驱动路径是以谷歌浏览器和火狐浏览器为主。**注意浏览器版本要和驱动对应**
@@ -38,7 +38,7 @@ loop 查询
 end 
 ```
 ## 项目结构
-![在这里插入图片描述](Java+Selenium+swing_淘宝首页数据爬取的小软件.assets/d34d8aa14e3e41ca8142b463164eb13b_tplv-k3u1fbpfcp-zoom-1.image)
+![在这里插入图片描述](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/Java+Selenium+swing_淘宝首页数据爬取的小软件.assets/d34d8aa14e3e41ca8142b463164eb13b_tplv-k3u1fbpfcp-zoom-1.image)
  1. /entity 存放实体类。CheckHomeGoodEntity是用来记录商品信息的类
  2. /lib 开发库
  3. /selenium 爬虫库。

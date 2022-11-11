@@ -6,7 +6,7 @@
 
 1. 开启隐私邮箱。
 
-![1667804088546](git启用隐私邮箱后push问题.assets/1667804088546.png)
+![1667804088546](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/git%E5%90%AF%E7%94%A8%E9%9A%90%E7%A7%81%E9%82%AE%E7%AE%B1%E5%90%8Epush%E9%97%AE%E9%A2%98.assets/1667804088546.png)
 
 2. 执行推送 git push，出现异常
 

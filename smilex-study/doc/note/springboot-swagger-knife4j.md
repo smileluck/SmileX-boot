@@ -336,9 +336,9 @@ public class R<T> implements Serializable {
 
 ### 设置全局token
 
-![1657274108194](springboot-swagger.assets/1657274108194.png)
+![1657274108194](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-swagger.assets/1657274108194.png)
 
 只要在这里填入token，那么就会自动注入到所有请求的请求头中使用。
 
-![1657274179863](springboot-swagger.assets/1657274179863.png)
+![1657274179863](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-swagger.assets/1657274179863.png)
 

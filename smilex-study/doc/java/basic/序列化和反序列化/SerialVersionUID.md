@@ -205,11 +205,11 @@ void initNonProxy(ObjectStreamClass model,
 
 1. 进入 Settings 设置。
 
-![1667635809599](SerialVersionUID.assets/1667635809599.png)
+![1667635809599](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/SerialVersionUID.assets/1667635809599.png)
 
 2. 在实现了 `Serializable` 的类使用快捷键 `Alt + Enter`。
 
-![1667635849118](SerialVersionUID.assets/1667635849118.png)
+![1667635849118](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/SerialVersionUID.assets/1667635849118.png)
 
 # 总结
 

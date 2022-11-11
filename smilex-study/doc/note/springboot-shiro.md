@@ -747,7 +747,7 @@ public class ShiroConfig {
 
 结果显示：
 
-![](springboot-shiro.assets/1655523548495.png)
+![1655523548495](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-shiro.assets/1655523548495.png)
 
 配置信息：
 
@@ -788,7 +788,7 @@ public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager s
 
 那么这里的异常界面就会显示为：提示重定向次数过多。
 
-![1655523801051](springboot-shiro.assets/1655523801051.png)
+![1655523801051](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-shiro.assets/1655523801051.png)
 
 ###  定位原因
 
@@ -932,7 +932,7 @@ public ShiroFilterChainDefinition shiroFilterChainDefinition() {
 
 让我们看一下效果。
 
-![1655544256383](springboot-shiro.assets/1655544256383.png)
+![1655544256383](https://smile-sxd.oss-cn-shenzhen.aliyuncs.com/smilex/images/github/springboot-shiro.assets/1655544256383.png)
 
 ### 总结
 
