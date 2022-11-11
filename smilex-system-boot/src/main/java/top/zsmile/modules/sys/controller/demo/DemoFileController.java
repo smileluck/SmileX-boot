@@ -17,7 +17,7 @@ import top.zsmile.annotation.SysLog;
 import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.meta.IPage;
+import top.zsmile.mybatis.meta.IPage;
 
 
 /**

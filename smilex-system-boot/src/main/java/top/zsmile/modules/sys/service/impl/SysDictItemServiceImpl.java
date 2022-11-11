@@ -1,7 +1,7 @@
 package top.zsmile.modules.sys.service.impl;
 
-import top.zsmile.service.BaseService;
-import top.zsmile.service.impl.BaseServiceImpl;
+import top.zsmile.mybatis.service.BaseService;
+import top.zsmile.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.sys.entity.SysDictItemEntity;
 import top.zsmile.modules.sys.dao.SysDictItemMapper;
 import top.zsmile.modules.sys.service.SysDictItemService;

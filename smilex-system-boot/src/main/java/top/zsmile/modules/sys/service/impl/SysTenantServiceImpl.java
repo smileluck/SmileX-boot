@@ -2,8 +2,8 @@ package top.zsmile.modules.sys.service.impl;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import top.zsmile.common.utils.PasswordUtils;
-import top.zsmile.service.BaseService;
-import top.zsmile.service.impl.BaseServiceImpl;
+import top.zsmile.mybatis.service.BaseService;
+import top.zsmile.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.sys.entity.SysTenantEntity;
 import top.zsmile.modules.sys.dao.SysTenantMapper;
 import top.zsmile.modules.sys.service.SysTenantService;

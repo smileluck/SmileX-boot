@@ -7,7 +7,7 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.zsmile.annotation.TenantIgnore;
+import top.zsmile.mybatis.annotation.TenantIgnore;
 import top.zsmile.cache.utils.RedisUtils;
 import top.zsmile.common.utils.JwtUtils;
 import top.zsmile.common.utils.PasswordUtils;
@@ -16,7 +16,7 @@ import top.zsmile.modules.sys.dao.SysUserMapper;
 import top.zsmile.modules.sys.entity.SysUserEntity;
 import top.zsmile.modules.sys.model.SysLoginModel;
 import top.zsmile.modules.sys.service.SysUserService;
-import top.zsmile.service.impl.BaseServiceImpl;
+import top.zsmile.mybatis.service.impl.BaseServiceImpl;
 
 import java.util.Collections;
 import java.util.Date;

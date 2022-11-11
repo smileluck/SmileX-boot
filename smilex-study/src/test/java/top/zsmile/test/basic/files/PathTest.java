@@ -12,7 +12,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
-import top.zsmile.annotation.TableName;
+import top.zsmile.mybatis.annotation.TableName;
 import top.zsmile.common.utils.Asserts;
 import top.zsmile.common.utils.StringPool;
 import top.zsmile.common.utils.file.FileUtils;

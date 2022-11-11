@@ -2,8 +2,8 @@ package ${packages}.${moduleName}.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import top.zsmile.annotation.TableName;
-import top.zsmile.entity.BaseEntity;
+import top.zsmile.mybatis.annotation.TableName;
+import top.zsmile.mybatis.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

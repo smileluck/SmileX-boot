@@ -1,7 +1,7 @@
 package top.zsmile.modules.blog.service.impl;
 
-import top.zsmile.service.BaseService;
-import top.zsmile.service.impl.BaseServiceImpl;
+import top.zsmile.mybatis.service.BaseService;
+import top.zsmile.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.blog.entity.BlogSectionEntity;
 import top.zsmile.modules.blog.dao.BlogSectionMapper;
 import top.zsmile.modules.blog.service.BlogSectionService;

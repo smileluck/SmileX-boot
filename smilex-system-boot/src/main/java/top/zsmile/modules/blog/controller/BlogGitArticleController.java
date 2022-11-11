@@ -22,7 +22,7 @@ import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.enums.VisitTypeEnum;
-import top.zsmile.meta.IPage;
+import top.zsmile.mybatis.meta.IPage;
 import top.zsmile.modules.blog.entity.BlogArticleEntity;
 import top.zsmile.modules.blog.entity.BlogTagEntity;
 import top.zsmile.modules.blog.entity.dto.BlogArticlePublishDto;

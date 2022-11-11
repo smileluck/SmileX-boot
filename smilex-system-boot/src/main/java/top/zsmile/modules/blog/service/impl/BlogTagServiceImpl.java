@@ -1,8 +1,8 @@
 package top.zsmile.modules.blog.service.impl;
 
 import top.zsmile.modules.open.entity.vo.BlogTagVo;
-import top.zsmile.service.BaseService;
-import top.zsmile.service.impl.BaseServiceImpl;
+import top.zsmile.mybatis.service.BaseService;
+import top.zsmile.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.blog.entity.BlogTagEntity;
 import top.zsmile.modules.blog.dao.BlogTagMapper;
 import top.zsmile.modules.blog.service.BlogTagService;

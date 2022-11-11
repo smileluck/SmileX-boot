@@ -3,8 +3,8 @@ package top.zsmile.modules.blog.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import top.zsmile.annotation.TableName;
-import top.zsmile.entity.BaseEntity;
+import top.zsmile.mybatis.annotation.TableName;
+import top.zsmile.mybatis.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
