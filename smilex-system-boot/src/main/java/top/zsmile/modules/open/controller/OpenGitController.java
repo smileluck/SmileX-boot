@@ -47,14 +47,16 @@ public class OpenGitController {
         while ((aux = httpServletRequest.getReader().readLine()) != null) {
             builder.append(aux);
         }
-        log.info("body ==> {}", builder.toString());
         try {
-            String sign = SignUtils.hmacSha256Hash(secret, builder.toString());
+            String sign = "sha256=" + SignUtils.hmacSha256Hash(secret, builder.toString());
             String reqSign = httpServletRequest.getHeader("X-Hub-Signature-256");
             log.info("sha256 ==> {},{}", sign, reqSign);
             if (!sign.equalsIgnoreCase(reqSign)) {
                 return "FAILURE";
             }
+
+            log.info("start upload webhook");
+            log.info("body ==> {}", builder.toString());
 
             JSONObject resObject = JSONObject.parseObject(builder.toString());
             JSONObject repository = resObject.getJSONObject("repository");
