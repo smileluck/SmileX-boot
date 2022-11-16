@@ -125,4 +125,20 @@ public class DateTest {
         log.info("sec isBefore now: {}", afterLocalDateTime.isBefore(localDateTime));
     }
 
+    @Test
+    public void durationTest() {
+        log.info("==========时间间隔(Duration)==========");
+        LocalDateTime beforeLocalDateTime = LocalDateTime.of(2022, 1, 1, 1, 0);
+        LocalDateTime afterLocalDateTime = LocalDateTime.of(2022, 1, 2, 0, 59);
+        log.info("first : {}", beforeLocalDateTime);
+        log.info("sec : {}", afterLocalDateTime);
+        Duration duration = Duration.between(beforeLocalDateTime, afterLocalDateTime);
+        log.info("duration => {}", duration);
+        log.info("duration to days : {}", duration.toDays());
+        log.info("duration to hours : {}", duration.toHours());
+        log.info("duration to minute : {}", duration.toMinutes());
+        log.info("duration seconds : {}", duration.getSeconds());
+        log.info("duration to millis : {}", duration.toMillis());
+    }
+
 }
