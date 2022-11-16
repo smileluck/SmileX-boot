@@ -42,6 +42,8 @@ public class ScheduleConfig {
                     if (StringUtils.isNotBlank(content)) {
                         String replace = content.replace("\n", "");
                         String decode = Base64.decodeToString(replace);
+                        String name = resObj.getString("name");
+                        item.setFileTitle(name.substring(0, name.lastIndexOf(".")));
                         item.setUpdateFlag(0);
                         item.setContentText(decode);
                         item.setAsyncTime(now);
