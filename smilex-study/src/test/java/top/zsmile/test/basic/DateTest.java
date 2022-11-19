@@ -139,6 +139,8 @@ public class DateTest {
         log.info("duration to minute : {}", duration.toMinutes());
         log.info("duration seconds : {}", duration.getSeconds());
         log.info("duration to millis : {}", duration.toMillis());
+
+        log.info("after ==> {}",beforeLocalDateTime.isAfter(afterLocalDateTime));
     }
 
 }
