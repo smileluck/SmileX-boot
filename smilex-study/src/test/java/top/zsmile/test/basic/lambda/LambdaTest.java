@@ -2,7 +2,7 @@ package top.zsmile.test.basic.lambda;
 
 //@SpringBootTest
 public class LambdaTest {
-//    @Test
+    //    @Test
 //    public void lambdaCompere() {
 //        String fff = "fff";
 //        // 匿名函数类
@@ -21,8 +21,10 @@ public class LambdaTest {
 //        });
 //
 //    }
+    private String name="123";
 
-    public void run(){
+    public void run() {
+        String fff = "";
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +36,9 @@ public class LambdaTest {
 
         // lambda
         new Thread(() -> {
-            System.out.println(this);
+            this.name = "456";
+//                fff="456";
+            System.out.println(this.name);
             System.out.println("lambda线程输出");
         }).start();
     }
