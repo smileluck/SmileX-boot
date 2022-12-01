@@ -40,6 +40,8 @@
 
 # 语法
 
+## 简写
+
 ```java
 (parameters) -> expression
     
@@ -53,7 +55,15 @@
 - **可选的大括号：**如果主体包含了一个语句，就不需要使用大括号。
 - **可选的返回关键字：**如果主体只有一个表达式返回值则编译器会自动返回值，大括号需要指定表达式返回了一个数值。
 
+## 方法引用
 
+如果我们使用`lambda` 表达式的时候，如果要执行的表达式只是调用一个类已有的方法，那么就可以用方法引用的方式来替代。
+
+重要特种：
+
+- **引用静态方法：**类名::静态方法名。如果静态方法需要传参数，只要确保参数是一一对应的，编译器会自行推断出来。
+- **引用对象方法**：对象引用::方法名。如果执行的类是调用 `lambda` 表达式所在的类的方法时，可以才作用一下写法 `this::方法名`。
+- **引用构造方法**：类名::new。
 
 # 实战
 
@@ -62,7 +72,7 @@
 ```java
 class LambdaTest {
     public static void main(String[] args) {
-        // 匿名内部类
+        // 匿名内部类, Runnable
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -203,7 +213,44 @@ public class top.zsmile.test.basic.lambda.LambdaTest {
    
    ```
 
+## 为什么不能修改外部变量
 
+`lambda` 表达式的局部变量可以不用声明为 `final` ，但是必须不可被 `lambda` 内部的代码修改（即具有隐性的 `final` ）。可是我们有时又能修改局部变量的值，这是为什么呢？
+
+其实这和变量的类型和 `final` 的作用有关联，如果我们使用一些常用的类型。例如：
+
+- 基础类型：int,float等
+- 简单引用类型：String，Integer等
+- 复杂对象引用
+- 静态类型引用
+
+上个简单的例子说明一下；
+
+```java
+
+public class LambdaTest {
+    public void run() {
+        String fff = "";
+        new Thread(() -> {
+            this.name = "456";
+//                fff="456";
+            //Variable used in lambda expression should be final or effectively final
+            System.out.println(this.name);
+            System.out.println("lambda线程输出");
+        }).start();
+    }
+}
+```
+
+这里提到了 final or effectively final。
+
+>  **对于一个变量，如果没有给它加final修饰，而且没有对它的二次赋值，那么这个变量就是effectively final(有效的不会变的)，如果加了final那肯定是不会变了哈。** 
+
+那么如果我们想要在内部更改外部的属性，有什么方式？
+
+1. 使用对象的属性
+2. 使用引用的属性
+3. 使用静态的属性
 
 
 # 总结
