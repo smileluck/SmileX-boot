@@ -8,6 +8,11 @@ public class NameStyleUtils {
     private static Pattern linePattern = Pattern.compile("_(\\w)");
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
 
+    public static String lineToHump(String str) {
+        return lineToHump(str, false);
+    }
+
+
     public static String lineToHump(String str, boolean state) {
         str = str.toLowerCase();
         StringBuffer sb = new StringBuffer();
