@@ -16,13 +16,12 @@
 1. 下载jdk，二进制压缩包.tar.gz结尾的。
 
 2. 上传jdk到服务器上，用户目录下。例如/home/ubuntu。
-
 3. 解压tar文件
 ```shell
 cd /usr/local
-mkdir java
+sudo mkdir java
 cd java
-tar -zxvf /home/ubuntu/jdk-8u261-linux-x64.tar.gz -C /usr/local/java
+sudo tar -zxvf /home/ubuntu/jdk-8u261-linux-x64.tar.gz -C /usr/local/java
 ```
 
 4. 配置环境变量。用VIM来打开环境变量配置文件

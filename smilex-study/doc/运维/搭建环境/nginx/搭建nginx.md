@@ -139,12 +139,12 @@ sudo ./nginx -s stop
 # 方法2
 1. 安装依赖
 ```shell
-apt-get update
-apt-get install libpcre3 libpcre3-dev
-apt-get install zlib1g-dev
-apt-get install openssl libssl-dev
-apt install nginx
-apt-get update
+sudo apt-get update
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install openssl libssl-dev
+sudo apt install nginx
+sudo apt-get update
 ```
 
 2. 启动
