@@ -67,8 +67,10 @@ public class OpenGitController {
                     JSONObject jsonObject = commits.getJSONObject(i);
                     JSONArray added = jsonObject.getJSONArray("added");
                     JSONArray modified = jsonObject.getJSONArray("modified");
+                    JSONArray removed = jsonObject.getJSONArray("removed");
                     save(contentsUrl, added);
                     save(contentsUrl, modified);
+                    remove(contentsUrl, removed);
                 }
             }
 
@@ -96,6 +98,22 @@ public class OpenGitController {
                 } else {
                     obj.setUpdateFlag(1);
                     blogGitArticleService.updateById(obj);
+                }
+            }
+        }
+    }
+
+    private void remove(String contentsUrl, JSONArray jsonArray) {
+        Map<String, Object> map = new HashMap<>();
+        for (int j = 0; j < jsonArray.size(); j++) {
+            String idx = jsonArray.getString(j);
+            if (idx.startsWith("smilex-study/doc")) {
+                String url = contentsUrl.replace("{+path}", idx);
+                map.put("contentUrl", url);
+                log.info("sync contentUrl ==> {}", url);
+                BlogGitArticleEntity obj = blogGitArticleService.getObjByMap(map, "contentUrl", "updateFlag");
+                if (obj != null) {
+                    blogGitArticleService.removeById(obj);
                 }
             }
         }
