@@ -55,3 +55,43 @@
 
 ```
 
+## 前端版本更新
+
+```nginx
+server {
+   listen 80;
+   server_name api.dev.com;
+   client_max_body_size 10m;
+
+   # 老网页 v1.1.0 配置
+   location ~ ^/v110 {
+               alias  /home/ubuntu/api.dev.com/V110;
+               index  index.html index.htm;
+       }
+       
+   # 新网页 v1.2.0 配置
+   location ~ ^/v120 {
+               alias  /home/ubuntu/api.dev.com/V120;
+               index  index.html index.htm;
+       }
+
+}
+```
+
+ 在 `nginx` 配置文件语法中，`location` 语句可以使用正则表达式，定义 `set $s $1` 变量，实现了通用配置 
+
+```nginx
+server {
+   listen 80;
+   server_name api.dev.com;
+   client_max_body_size 10m;
+
+   # 配置正则 localtion
+   location ~ ^/pageV(.*) {
+               set $s $1; # 定义后缀变量
+               alias  /home/wwwroot/api.dev.com/pageV$s;
+               index  index.html index.htm;
+       }
+
+}
+```
