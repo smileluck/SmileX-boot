@@ -27,6 +27,7 @@ public class ConsumerTest {
             System.out.println(item);
             System.out.println("先执行了我");
 //            ff = "2";
+            item.set("fjasdf");
             String s = new StringBuilder(item.toString()).reverse().toString();
             System.out.println(s);
         }, item -> {
