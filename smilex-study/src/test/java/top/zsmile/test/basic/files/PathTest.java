@@ -3,26 +3,12 @@ package top.zsmile.test.basic.files;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
-import top.zsmile.mybatis.annotation.TableName;
-import top.zsmile.common.utils.Asserts;
-import top.zsmile.common.utils.StringPool;
 import top.zsmile.common.utils.file.FileUtils;
 import top.zsmile.common.utils.file.SpringFileUtils;
 
-import javax.swing.text.StringContent;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**

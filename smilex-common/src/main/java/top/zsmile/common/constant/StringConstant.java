@@ -1,11 +1,10 @@
-package top.zsmile.common.utils;
+package top.zsmile.common.constant;
 
-public interface StringPool {
-
+public interface StringConstant {
     String COUNT = "COUNT";
     String AMPERSAND = "&";
     String AND = "and";
-    String AND_SPACE= " and ";
+    String AND_SPACE = " and ";
     String AT = "@";
     String ASTERISK = "*";
     String STAR = ASTERISK;
@@ -55,9 +54,6 @@ public interface StringPool {
     String RIGHT_SQ_BRACKET = "]";
     String TRUE = "true";
     String UNDERSCORE = "_";
-    String UTF_8 = "UTF-8";
-    String US_ASCII = "US-ASCII";
-    String ISO_8859_1 = "ISO-8859-1";
     String Y = "y";
     String YES = "yes";
     String ONE = "1";
@@ -72,9 +68,16 @@ public interface StringPool {
     String HTML_LT = "&lt;";
     String HTML_GT = "&gt;";
 
-    // ---------------------------------------------------------------- array
+
+    /*****************字符集*********************/
+    String UTF_8 = "UTF-8";
+    String US_ASCII = "US-ASCII";
+    String ISO_8859_1 = "ISO-8859-1";
+
+
+    /*****************数组*********************/
 
     String[] EMPTY_ARRAY = new String[0];
 
-    byte[] BYTES_NEW_LINE = StringPool.NEWLINE.getBytes();
+    byte[] BYTES_NEW_LINE = StringConstant.NEWLINE.getBytes();
 }

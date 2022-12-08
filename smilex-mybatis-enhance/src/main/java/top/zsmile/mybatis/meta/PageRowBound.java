@@ -1,7 +1,5 @@
 package top.zsmile.mybatis.meta;
 
-import top.zsmile.common.utils.StringPool;
-
 public class PageRowBound {
     /**
      * 每页显示条数，默认10

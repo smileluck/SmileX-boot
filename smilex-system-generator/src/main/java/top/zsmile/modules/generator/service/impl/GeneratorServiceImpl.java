@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zsmile.common.domain.ZipFileEntity;
 import top.zsmile.common.utils.SnowFlake;
-import top.zsmile.common.utils.StringPool;
+import top.zsmile.common.constant.StringConstant;
 import top.zsmile.common.utils.file.ZipUtils;
 import top.zsmile.core.datasource.annotation.DataSource;
 import top.zsmile.core.utils.SpringContextUtils;
@@ -119,7 +119,7 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
             tableModel.setModuleName(moduleName);
             tableModel.setBigHumpClass(NameStyleUtils.lineToHump(tableName, true));
             tableModel.setSmallDashName(NameStyleUtils.lineToDash(tableName));
-            tableModel.setSmallColonName(NameStyleUtils.lineToCustomStr(tableName, StringPool.COLON));
+            tableModel.setSmallColonName(NameStyleUtils.lineToCustomStr(tableName, StringConstant.COLON));
             tableModel.setSmallHumpClass(NameStyleUtils.lineToHump(tableName, false));
             tableModel.setReqMapping(NameStyleUtils.lineToSlash(tableName));
             tableModel.setTableName(tableName);

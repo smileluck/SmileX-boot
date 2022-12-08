@@ -1,26 +1,12 @@
 package top.zsmile.common.utils.file;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.ResourceUtils;
+import top.zsmile.common.constant.StringConstant;
 import top.zsmile.common.utils.Asserts;
-import top.zsmile.common.utils.StringPool;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.lang.annotation.Annotation;
-import java.net.URLEncoder;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 通用文件工具
@@ -45,7 +31,7 @@ public class FileUtils {
     public static List<String> parsePath(String path) {
         Asserts.isNotBlank(path, "路径为空");
         // 将反斜杠转化为正斜杠后，并根据正斜杠切割。
-        String[] split = path.replace(StringPool.BACK_SLASH, StringPool.SLASH).split(StringPool.SLASH);
+        String[] split = path.replace(StringConstant.BACK_SLASH, StringConstant.SLASH).split(StringConstant.SLASH);
 
         // 路径无法切割
         if (split.length == 1) return Collections.singletonList(split[0]);
@@ -63,7 +49,7 @@ public class FileUtils {
                 continue;
             }
             if (i != 0) {
-                stringBuilder.append(StringPool.SLASH);
+                stringBuilder.append(StringConstant.SLASH);
             }
             stringBuilder.append(before);
             if (i != split.length - 1) {

@@ -1,7 +1,6 @@
 package top.zsmile.mybatis.meta;
 
 import top.zsmile.common.utils.NameStyleUtils;
-import top.zsmile.common.utils.StringPool;
 import top.zsmile.mybatis.utils.TableQueryUtils;
 
 import java.io.Serializable;
