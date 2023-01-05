@@ -103,3 +103,14 @@ sudo apt-key del dsa1024
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
 ```
 
+
+
+# 启动服务
+
+1. 启动服务
+
+```shell
+cd /usr/bin
+sudo mysqld restart --user=root
+```
+
