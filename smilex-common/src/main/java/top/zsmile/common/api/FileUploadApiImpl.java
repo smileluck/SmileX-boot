@@ -8,21 +8,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zsmile.api.common.FileUploadApi;
 import top.zsmile.common.cloud.CloudStoreService;
+import top.zsmile.common.cloud.LocalCloudStoreService;
 import top.zsmile.common.cloud.OssCloudStoreService;
-import top.zsmile.common.config.oss.OssConfig;
+import top.zsmile.common.config.upload.OssConfig;
+import top.zsmile.common.config.upload.PathConfig;
 import top.zsmile.common.constant.CommonConstant;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 @Slf4j
 @Service("fileUploadApi")
 public class FileUploadApiImpl implements FileUploadApi {
 
-    @Value("${smilex.fileSys.uploadType}")
-    private String uploadType;
+    @Value("${smilex.upload.type}")
+    private String type;
 
     @Autowired
     private OssConfig ossConfig;
+
+    @Resource
+    private PathConfig pathConfig;
+
+    private CloudStoreService cloudStoreService;
 
     @Override
     public String doUpload(MultipartFile multipartFile) {
@@ -35,11 +42,15 @@ public class FileUploadApiImpl implements FileUploadApi {
     }
 
     @Bean(name = "cloudStoreService")
-    public CloudStoreService init() {
-        switch (uploadType) {
+    private CloudStoreService init() {
+        switch (type) {
             case CommonConstant.UPLOAD_TYPE_OSS:
                 // 使用阿里云OSS上传
-                cloudStoreService = new OssCloudStoreService(ossConfig);
+                cloudStoreService = new OssCloudStoreService(pathConfig, ossConfig);
+                break;
+            case CommonConstant.UPLOAD_TYPE_LOCAL:
+                cloudStoreService = new LocalCloudStoreService(pathConfig);
+                break;
             default:
                 // 默认上传到服务器本地，只适用于单机服务
                 break;
@@ -47,6 +58,5 @@ public class FileUploadApiImpl implements FileUploadApi {
         return cloudStoreService;
     }
 
-    private CloudStoreService cloudStoreService = null;
 
 }

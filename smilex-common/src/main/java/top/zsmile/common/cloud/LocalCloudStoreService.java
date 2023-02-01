@@ -1,38 +1,28 @@
 package top.zsmile.common.cloud;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-import top.zsmile.common.config.upload.OssConfig;
 import top.zsmile.common.config.upload.PathConfig;
 import top.zsmile.common.filter.FileTypeFilter;
 import top.zsmile.core.exception.SXException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
- * 阿里云 oss上传
+ * @Version: 1.0.0
+ * @Author: Administrator
+ * @Date: 2023/01/30/12:34
+ * @ClassName: LocalCloudStoreService
+ * @Description: 本地上传
  */
-public class OssCloudStoreService extends CloudStoreService {
-
-    private OssConfig ossConfig;
-
-    private OSS ossClient;
+public class LocalCloudStoreService extends CloudStoreService {
 
     private PathConfig pathConfig;
 
-    public OssConfig getOssConfig() {
-        return ossConfig;
-    }
-
-    public OssCloudStoreService(PathConfig pathConfig, OssConfig ossConfig) {
-        this.ossConfig = ossConfig;
+    public LocalCloudStoreService(PathConfig pathConfig) {
         this.pathConfig = pathConfig;
-        this.ossClient = new OSSClientBuilder().build(ossConfig.getEndpoint(), ossConfig.getAccessKey(), ossConfig.getSecretKey());
     }
 
     @Override
@@ -44,17 +34,38 @@ public class OssCloudStoreService extends CloudStoreService {
     public String upload(String prefix, String suffix, InputStream inputStream) {
         FileTypeFilter.filterAllowType(suffix);
 
-        String networkPath = getPath(prefix);
-        if (StringUtils.isNotBlank(suffix)) {
-            networkPath += suffix;
-        }
+        String networkPath = getSimplePath(prefix);
+//        if (StringUtils.isNotBlank(suffix)) {
+//            networkPath += suffix;
+//        }
 
-        PutObjectRequest putObjectRequest = new PutObjectRequest(ossConfig.getBucketName(), networkPath, inputStream);
+        OutputStream os = null;
         try {
-            ossClient.putObject(putObjectRequest);
+            String localPath = pathConfig.getLocal() + networkPath;
+            byte[] bs = new byte[1024];
+            int len;
+            File file = new File(localPath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            os = new FileOutputStream(localPath.concat(getName(suffix)));
+            while ((len = inputStream.read(bs)) != -1) {
+                os.write(bs, 0, len);
+            }
             return networkPath;
         } catch (Exception ex) {
             return null;
+        } finally {
+            try {
+                if (os != null) {
+                    os.close();
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -72,5 +83,4 @@ public class OssCloudStoreService extends CloudStoreService {
             throw new SXException("上传失败");
         }
     }
-
 }

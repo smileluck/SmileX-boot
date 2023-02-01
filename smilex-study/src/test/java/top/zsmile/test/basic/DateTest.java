@@ -140,7 +140,10 @@ public class DateTest {
         log.info("duration seconds : {}", duration.getSeconds());
         log.info("duration to millis : {}", duration.toMillis());
 
+        LocalDate localDate = beforeLocalDateTime.toLocalDate();
+        LocalDate localDate1 = afterLocalDateTime.toLocalDate();
         log.info("after ==> {}",beforeLocalDateTime.isAfter(afterLocalDateTime));
+
     }
 
 }
