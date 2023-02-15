@@ -47,13 +47,14 @@
         <okhttp3.version>4.4.1</okhttp3.version>
         <lombok.version>1.18.20</lombok.version>
         <commons.version>2.6</commons.version>
-        <shiro.version>1.9.0</shiro.version>
+        <shiro.version>1.11.0</shiro.version>
         <freemarker.version>2.3.30</freemarker.version>
         <jsch.version>0.1.55</jsch.version>
         <log4j2.version>2.17.1</log4j2.version>
         <jwt.version>3.19.2</jwt.version>
         <druid.version>1.2.8</druid.version>
         <knife4j.version>2.0.9</knife4j.version>
+        <aliyun-oss.version>3.10.2</aliyun-oss.version>
     </properties>
 
 
@@ -213,6 +214,13 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+
+            <!-- 阿里云 -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
