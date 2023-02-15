@@ -103,7 +103,21 @@ sudo apt-key del dsa1024
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
 ```
 
+## 关于groupby 的sqlmode配置问题
 
+1. 进入mysqld配置文件目录
+
+```shell
+cd /etc/mysql/mysql.conf.d
+```
+
+2. 增加sql_mode
+
+```shell
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION 
+
+sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+```
 
 # 启动服务
 
