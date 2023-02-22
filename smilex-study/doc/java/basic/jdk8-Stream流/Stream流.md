@@ -147,7 +147,17 @@ java.lang.IllegalStateException: stream has already been operated upon or closed
 public class User {
     private String name;
     private Integer age;
+    private Integer score;
     private List<String> roles;
+
+    public static User of(String name, Integer age, Integer score, List<String> roles) {
+        User user = new User();
+        user.setAge(age);
+        user.setScore(score);
+        user.setName(name);
+        user.setRoles(roles);
+        return user;
+    }
 
     public static User of(String name, Integer age, List<String> roles) {
         User user = new User();
@@ -160,6 +170,7 @@ public class User {
 
 
 private static List<User> userList;
+private static List<User> userList2;
 
 @Before
 private void init() {
@@ -167,6 +178,14 @@ private void init() {
     userList.add(User.of("张三", 18, Arrays.asList("ADMIN", "USER")));
     userList.add(User.of("李四", 19, Arrays.asList("TEMP:USER")));
     userList.add(User.of("王五", 20, Arrays.asList("USER")));
+    
+    userList2 = new ArrayList<>();
+    userList2.add(User.of("张三", 18, 55, Arrays.asList("ADMIN", "USER")));
+    userList2.add(User.of("李四", 19, 100, Arrays.asList("TEMP:USER")));
+    userList2.add(User.of("甲", 30, 100, Arrays.asList("TEMP:USER")));
+    userList2.add(User.of("乙", 35, 90, Arrays.asList("TEMP:USER")));
+    userList2.add(User.of("王五", 20, 80, Arrays.asList("USER")));
+    userList2.add(User.of("丁", 20, 90, Arrays.asList("TEMP:USER")));
 }
 ```
 
@@ -313,6 +332,67 @@ User(name=张三, age=18, roles=[ADMIN, USER])
 User(name=李四, age=19, roles=[TEMP:USER])
 User(name=王五, age=20, roles=[USER])
 ```
+
+### 扩展-Comparator
+
+> 关于Comparator的使用
+
+`Comparator` 的 `thenComparing` 用在 `comparing` 及相关方法之后, 是以上次排序为结果进行再排序。 
+
+`thenComparing` 和 `comparing` 的参数相同。
+
+- public static <T, U extends Comparable<? super U>> Comparator<T> comparing(Function<? super T, ? extends U> keyExtractor)
+- public static <T, U> Comparator<T> comparing( Function<? super T, ? extends U> keyExtractor, Comparator<? super U> keyComparator)
+- 这里有两个参数，第一个接收`Function` 函数，第二个参数为排序方式。
+
+`Java8` 提供了以下几种常见的排序方式：
+
+| 方法名       | 含义                                                         |
+| ------------ | ------------------------------------------------------------ |
+| naturalOrder | 自然顺序，正序排列                                           |
+| reverseOrder | 自然顺序，倒序排列                                           |
+| nullsFirst   | 自然顺序排序，如果有null，则null在最前。<br />注意：如果字符串类型为空，则对该字段进行排序时，会抛出异常。 |
+| nullsLast    | 与nullsFirst类似，但null值会排在最后                         |
+
+```java
+@Test
+public void sorted2() {
+    log.info("扩展：Comparator。");
+    log.info("先按照年龄正序，再按照成绩排序倒叙");
+    userList2.stream().sorted(Comparator.comparing(User::getAge).thenComparing(User::getScore, Comparator.reverseOrder())).forEach(System.out::println);
+
+    log.info("使用reversed()方法");
+    userList2.stream().sorted(Comparator.comparing(User::getAge).thenComparing(User::getScore).reversed()).forEach(System.out::println);
+
+}
+```
+
+输出结果：
+
+```java
+20:19:51.251 [main] INFO top.zsmile.test.basic.stream.StreamTest - 扩展：Comparator。
+20:19:51.255 [main] INFO top.zsmile.test.basic.stream.StreamTest - 先按照年龄正序，再按照成绩排序倒叙
+User(name=张三, age=18, score=55, roles=[ADMIN, USER])
+User(name=李四, age=19, score=100, roles=[TEMP:USER])
+User(name=丁, age=20, score=90, roles=[TEMP:USER])
+User(name=王五, age=20, score=80, roles=[USER])
+User(name=甲, age=30, score=100, roles=[TEMP:USER])
+User(name=乙, age=35, score=90, roles=[TEMP:USER])
+20:19:51.319 [main] INFO top.zsmile.test.basic.stream.StreamTest - 使用reversed()方法
+User(name=乙, age=35, score=90, roles=[TEMP:USER])
+User(name=甲, age=30, score=100, roles=[TEMP:USER])
+User(name=丁, age=20, score=90, roles=[TEMP:USER])
+User(name=王五, age=20, score=80, roles=[USER])
+User(name=李四, age=19, score=100, roles=[TEMP:USER])
+User(name=张三, age=18, score=55, roles=[ADMIN, USER])
+```
+
+#### 注意事项
+
+这里需要注意 `reverse()` 和 `Comparator.reverseOrder()` 的区别
+
+1. `reverse()` 是将排序结果反转，而 `Comparator.reverseOrder()` 是直接进行排序。
+2. 建议使用 `Comparator.reverseOrder()` ，更容易理解，并符合排序逻辑。
 
 ## 限制和跳过 limit&skip
 

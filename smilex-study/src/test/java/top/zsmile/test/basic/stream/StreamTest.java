@@ -7,10 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import top.zsmile.test.entity.User;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -20,12 +17,22 @@ public class StreamTest {
 
     private static List<User> userList;
 
+    private static List<User> userList2;
+
     @Before
     public void init() {
         userList = new ArrayList<>();
         userList.add(User.of("张三", 18, Arrays.asList("ADMIN", "USER")));
         userList.add(User.of("李四", 19, Arrays.asList("TEMP:USER")));
         userList.add(User.of("王五", 20, Arrays.asList("USER")));
+
+        userList2 = new ArrayList<>();
+        userList2.add(User.of("张三", 18, 55, Arrays.asList("ADMIN", "USER")));
+        userList2.add(User.of("李四", 19, 100, Arrays.asList("TEMP:USER")));
+        userList2.add(User.of("甲", 30, 100, Arrays.asList("TEMP:USER")));
+        userList2.add(User.of("乙", 35, 90, Arrays.asList("TEMP:USER")));
+        userList2.add(User.of("王五", 20, 80, Arrays.asList("USER")));
+        userList2.add(User.of("丁", 20, 90, Arrays.asList("TEMP:USER")));
     }
 
     @Test
@@ -93,6 +100,17 @@ public class StreamTest {
             log.info("排序比较值:{}", o2.getAge() + o1.getAge());
             return o2.getAge() + o1.getAge();
         }).forEach(System.out::println);
+    }
+
+    @Test
+    public void sorted2() {
+        log.info("扩展：Comparator。");
+        log.info("先按照年龄正序，再按照成绩排序倒叙");
+        userList2.stream().sorted(Comparator.comparing(User::getAge).thenComparing(User::getScore, Comparator.reverseOrder())).forEach(System.out::println);
+
+        log.info("使用reversed()方法");
+        userList2.stream().sorted(Comparator.comparing(User::getAge).thenComparing(User::getScore).reversed()).forEach(System.out::println);
+
     }
 
     @Test
