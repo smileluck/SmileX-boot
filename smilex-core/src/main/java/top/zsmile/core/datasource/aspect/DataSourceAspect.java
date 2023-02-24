@@ -43,7 +43,7 @@ public class DataSourceAspect {
             }
         }
         if (checkValue(value)) {
-            DataSourceContentHolder.setDataSource(value);
+            DataSourceContentHolder.add(value);
         }
     }
 
@@ -59,6 +59,6 @@ public class DataSourceAspect {
 
     @After("dataSourceAspect()")
     public void afterSwitchDS() {
-        DataSourceContentHolder.pollDataSource();
+        DataSourceContentHolder.poll();
     }
 }

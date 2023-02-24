@@ -1,13 +1,11 @@
 package top.zsmile.core.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import top.zsmile.core.datasource.properties.DataSourceProperties;
 import top.zsmile.core.exception.SXException;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -110,6 +108,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return DataSourceContentHolder.getDataSource();
+        return DataSourceContentHolder.get();
     }
 }
