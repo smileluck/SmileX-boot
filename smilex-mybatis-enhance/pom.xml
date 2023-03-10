@@ -12,10 +12,16 @@
     <artifactId>smilex-mybatis-enhance</artifactId>
 
     <dependencies>
-        <!--Smilex-->
+        <!-- 通用模块 -->
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common</artifactId>
+        </dependency>
+
+        <!-- SQL语法解析AST -->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
         </dependency>
 
         <dependency>

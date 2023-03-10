@@ -1,11 +1,14 @@
 package top.zsmile.mybatis.config;
 
+import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.zsmile.mybatis.interceptor.UpdateInterceptor;
 
 import javax.sql.DataSource;
 
@@ -24,7 +27,7 @@ public class MybatisConfig {
 //    }
 
 
-//    @Bean(name = "sqlSessionFactory")
+    //    @Bean(name = "sqlSessionFactory")
 //    public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
 //            throws Exception {
 //        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
@@ -51,4 +54,13 @@ public class MybatisConfig {
 //        sessionFactory.setConfiguration(configuration);
 //        return sessionFactory.getObject();
 //    }
+    
+// 注册插件方式
+    @Bean
+    public ConfigurationCustomizer configurationCustomizer() {
+        return configuration -> {
+            //插件拦截链采用了责任链模式，执行顺序和加入连接链的顺序有关
+            configuration.addInterceptor(new UpdateInterceptor());
+        };
+    }
 }
