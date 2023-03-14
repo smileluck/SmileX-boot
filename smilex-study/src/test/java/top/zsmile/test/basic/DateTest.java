@@ -128,8 +128,8 @@ public class DateTest {
     @Test
     public void durationTest() {
         log.info("==========时间间隔(Duration)==========");
-        LocalDateTime beforeLocalDateTime = LocalDateTime.of(2022, 1, 1, 1, 0);
-        LocalDateTime afterLocalDateTime = LocalDateTime.of(2022, 1, 2, 0, 59);
+        LocalDateTime beforeLocalDateTime = LocalDateTime.of(2022, 1, 3, 23, 0);
+        LocalDateTime afterLocalDateTime = LocalDateTime.of(2022, 1, 3, 0, 59);
         log.info("first : {}", beforeLocalDateTime);
         log.info("sec : {}", afterLocalDateTime);
         Duration duration = Duration.between(beforeLocalDateTime, afterLocalDateTime);
@@ -142,7 +142,8 @@ public class DateTest {
 
         LocalDate localDate = beforeLocalDateTime.toLocalDate();
         LocalDate localDate1 = afterLocalDateTime.toLocalDate();
-        log.info("after ==> {}",beforeLocalDateTime.isAfter(afterLocalDateTime));
+        Period period = Period.between(localDate, localDate1);
+        log.info("after ==> {}",period.getDays());
 
     }
 

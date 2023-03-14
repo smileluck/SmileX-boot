@@ -1,22 +1,22 @@
 package top.zsmile.mybatis.datascope.handle;
 
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.util.CollectionUtils;
 import top.zsmile.mybatis.datascope.DataScopeContentHolder;
 import top.zsmile.mybatis.datascope.DataScopeFactory;
 import top.zsmile.mybatis.datascope.DataScopeHandleFactory;
 import top.zsmile.mybatis.datascope.DataScopePerm;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
 import org.apache.ibatis.mapping.BoundSql;
@@ -25,12 +25,8 @@ import org.apache.ibatis.mapping.SqlCommandType;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * @Version: 1.0.0
@@ -50,7 +46,7 @@ public class CreateByHandler implements AbstractDataScopeHandler, InitializingBe
 
         if (dataScopePerm.getOpQuery() && sqlCommandType == SqlCommandType.SELECT) {
 //            String concatSql = inCondition(admin);
-            String s = addWhere(boundSql.getSql(), admin);
+            String s = addWhere(dataScopePerm, boundSql.getSql(), admin);
             log.info("select => {}", s);
 //            try {
 //                Field sql = boundSql.getClass().getDeclaredField("sql");
@@ -71,16 +67,16 @@ public class CreateByHandler implements AbstractDataScopeHandler, InitializingBe
         return boundSql.getSql();
     }
 
-    private String addWhere(String sql, Map admin) {
+    private String addWhere(DataScopePerm dataScopePerm, String sql, Map admin) {
         try {
             Select select = (Select) CCJSqlParserUtil.parse(sql);
             SelectBody selectBody = select.getSelectBody();
             if (selectBody instanceof PlainSelect) {
-                handlePlainSelect(admin, selectBody);
+                handlePlainSelect(dataScopePerm, admin, selectBody);
                 return select.toString();
             } else if (selectBody instanceof SetOperationList) {
                 SetOperationList setOperationList = (SetOperationList) selectBody;
-                addWhere(setOperationList.getSelects(), admin);
+                addWhere(dataScopePerm, setOperationList.getSelects(), admin);
                 return select.toString();
             }
         } catch (JSQLParserException e) {
@@ -89,10 +85,14 @@ public class CreateByHandler implements AbstractDataScopeHandler, InitializingBe
         return sql;
     }
 
-    private void addWhere(List<SelectBody> selects, Map admin) {
+    private void addWhere(DataScopePerm dataScopePerm, List<SelectBody> selects, Map admin) {
         selects.stream().forEach(selectBody -> {
             if (selectBody instanceof PlainSelect) {
-                handlePlainSelect(admin, selectBody);
+                try {
+                    handlePlainSelect(dataScopePerm, admin, selectBody);
+                } catch (JSQLParserException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -100,17 +100,20 @@ public class CreateByHandler implements AbstractDataScopeHandler, InitializingBe
     /**
      * 处理PlainSelect类型
      */
-    private void handlePlainSelect(Map admin, SelectBody selectBody) {
+    private void handlePlainSelect(DataScopePerm dataScopePerm, Map admin, SelectBody selectBody) throws JSQLParserException {
         PlainSelect plainSelect = (PlainSelect) selectBody;
         Table fromTable = (Table) plainSelect.getFromItem();
         String fromTableName = ((Table) plainSelect.getFromItem()).getName().trim();
         if (StringUtils.isNotBlank(fromTableName)) {
             String fromTableAlias = fromTable.getAlias() != null ? fromTable.getAlias().getName() : Strings.EMPTY;
-//            if (mainTableName.equals(fromTableName)) {
-//                    String createBySql = StringUtils.isNotBlank(fromTableAlias) ? fromTableAlias + ".create_by = " + admin.getUserName() : "create_by = " + admin.getUserName();
-//                    AndExpression andExpression = new AndExpression(plainSelect.getWhere(), CCJSqlParserUtil.parseCondExpression(createBySql));
-//                    plainSelect.setWhere(andExpression);
-//            }
+            if (dataScopePerm.getFilterTable().length > 0) {
+                List<String> tablesNames = Arrays.asList(dataScopePerm.getFilterTable());
+                if (tablesNames.contains(fromTableName)) {
+                    String createBySql = StringUtils.isNotBlank(fromTableAlias) ? fromTableAlias + ".create_by = " + admin.get("username") : "create_by = " + admin.get("username");
+                    AndExpression andExpression = new AndExpression(plainSelect.getWhere(), CCJSqlParserUtil.parseCondExpression(createBySql));
+                    plainSelect.setWhere(andExpression);
+                }
+            }
         }
     }
 

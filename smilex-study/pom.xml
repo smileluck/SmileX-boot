@@ -21,6 +21,18 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-mybatis-enhance</artifactId>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.poi</groupId>-->
+<!--            <artifactId>poi</artifactId>-->
+<!--            <version>4.1.0</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.zwobble.mammoth</groupId>
+            <artifactId>mammoth</artifactId>
+            <version>1.5.0</version>
+        </dependency>
     </dependencies>
 
 </project>

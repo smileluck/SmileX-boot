@@ -54,7 +54,7 @@ public class MybatisConfig {
 //        sessionFactory.setConfiguration(configuration);
 //        return sessionFactory.getObject();
 //    }
-    
+
 // 注册插件方式
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {

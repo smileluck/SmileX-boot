@@ -21,7 +21,7 @@ public @interface DataScope {
     /**
      * 数据权限过滤的字段
      */
-    String fieldName() default "create_by";
+    String fieldName() default "";
 
     /**
      * 是否需要过滤
@@ -35,7 +35,7 @@ public @interface DataScope {
      *
      * @return
      */
-    String[] filterTable() default {"kb_goods"};
+    String[] filterTable() default {};
 
     /**
      * 过滤更新操作
