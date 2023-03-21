@@ -49,7 +49,6 @@
         <commons.version>2.6</commons.version>
         <shiro.version>1.11.0</shiro.version>
         <freemarker.version>2.3.30</freemarker.version>
-        <jsch.version>0.1.55</jsch.version>
         <log4j2.version>2.17.1</log4j2.version>
         <jwt.version>3.19.2</jwt.version>
         <druid.version>1.2.8</druid.version>
@@ -174,13 +173,6 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.jcraft</groupId>
-                <artifactId>jsch</artifactId>
-                <version>${jsch.version}</version>
             </dependency>
 
             <!--shiro-->

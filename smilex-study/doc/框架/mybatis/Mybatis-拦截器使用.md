@@ -34,7 +34,7 @@
 3. 通过 `intercept` 方法对代理 。**注意：再上面四大对象创建的时候，对象都不是直接返回的，而且会生成他的代理，然后返回其代理对象。**
 
 ```mermaid
-graph LR;
+graph TD;
 User --> SqlSession
 SqlSession --> User
 
