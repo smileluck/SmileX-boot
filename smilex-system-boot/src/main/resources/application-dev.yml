@@ -2,6 +2,10 @@ server:
   port: 7081
   servlet:
     context-path: /smilex
+  undertow:
+    threads:
+      io: 2
+      worker: 64
 spring:
   servlet:
     multipart:
@@ -77,6 +81,9 @@ knife4j:
 
 # smilex-config
 smilex:
+  github:
+    webhook:
+      secret: ??
   server:
     workerId: 1
     dataCenterId: 1

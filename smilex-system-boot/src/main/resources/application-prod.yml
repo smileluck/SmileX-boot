@@ -79,6 +79,9 @@ knife4j:
 
 # smilex-config
 smilex:
+  github:
+    webhook:
+      secret: ??
   server:
     workerId: 1
     dataCenterId: 1
