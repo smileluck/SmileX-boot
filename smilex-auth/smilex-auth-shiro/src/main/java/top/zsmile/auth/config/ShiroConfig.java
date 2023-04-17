@@ -13,6 +13,8 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -42,7 +44,7 @@ public class ShiroConfig {
         return realm;
     }
 
-    @Bean(name = "shiroFilterFactoryBean")
+    @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager, ShiroFilterChainDefinition shiroFilterChainDefinition) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
@@ -57,12 +59,14 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
+
     /**
      * 配置拦截
      *
      * @return
      */
     @Bean
+    @ConditionalOnBean(name = "shiroFilterChainDefinition")
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
 
@@ -71,15 +75,6 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/webjars/**", "anon");
         chainDefinition.addPathDefinition("/v2/api-docs", "anon");
         chainDefinition.addPathDefinition("/swagger-resources", "anon");
-
-        /*SysLogin*/
-        chainDefinition.addPathDefinition("/sys/login/submit", "anon");
-        chainDefinition.addPathDefinition("/sys/login/captcha/*", "anon");
-
-        /*开放博客接口*/
-        chainDefinition.addPathDefinition("/open/blog/**", "anon");
-        chainDefinition.addPathDefinition("/open/git/**", "anon");
-
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
     }

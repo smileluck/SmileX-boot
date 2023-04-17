@@ -24,6 +24,7 @@
         <module>smilex-mybatis-enhance</module>
         <module>smilex-im</module>
         <module>smilex-study</module>
+        <module>smilex-app</module>
     </modules>
 
     <repositories>
