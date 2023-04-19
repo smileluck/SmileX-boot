@@ -40,6 +40,9 @@ public class ShiroSysConfig {
         chainDefinition.addPathDefinition("/open/blog/**", "anon");
         chainDefinition.addPathDefinition("/open/git/**", "anon");
 
+        /*开放APP接口*/
+        chainDefinition.addPathDefinition("/app/demo/**", "anon");
+
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
     }

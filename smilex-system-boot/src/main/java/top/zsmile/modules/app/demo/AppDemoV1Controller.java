@@ -2,7 +2,9 @@ package top.zsmile.modules.app.demo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.zsmile.core.api.R;
+import top.zsmile.modules.app.annotation.ApiVersion;
 
 /**
  * @Version: 1.0.0
@@ -12,7 +14,9 @@ import top.zsmile.core.api.R;
  * @Description: AppDemoV1Controller
  */
 @Slf4j
-@RequestMapping("/app/demo/v1")
+@ApiVersion
+@RestController
+@RequestMapping("/app/demo/{version}")
 public class AppDemoV1Controller {
 
     @RequestMapping("/test")
