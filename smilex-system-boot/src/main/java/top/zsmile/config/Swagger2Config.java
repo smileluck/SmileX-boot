@@ -89,7 +89,7 @@ public class Swagger2Config {
         Contact smileX = new Contact("SmileX", "https://github.com/smileluck", "");
         return new ApiInfoBuilder()
                 .title("SmileX项目接口文档")
-                .description("API接口文档")
+                .description("后管API接口文档")
                 .version("1.0.0")
                 .termsOfServiceUrl("https://github.com/smileluck")
                 .contact(smileX)

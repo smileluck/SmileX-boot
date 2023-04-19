@@ -85,9 +85,12 @@ smilex:
   server:
     workerId: 1
     dataCenterId: 1
-  fileSys:
-    # Local 本地, oss 阿里云OSS, minio
-    uploadType: oss
+  upload:
+    # local 本地, oss 阿里云OSS, minio
+    type: local
+    # 保存路径
+    path:
+      local:
     oss:
       accessKey: ??
       secretKey: ??
