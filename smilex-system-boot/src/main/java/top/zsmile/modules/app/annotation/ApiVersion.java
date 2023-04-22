@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * API 版本控制
+ * 允许 Class 和 Method 级别
  *
  * @Version: 1.0.0
  * @Author: Administrator
@@ -14,7 +15,7 @@ import java.lang.annotation.Target;
  * @ClassName: ApiVersion
  * @Description: ApiVersion
  */
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiVersion {
 

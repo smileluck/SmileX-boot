@@ -200,4 +200,3 @@ public abstract class AbstractRequestCondition<T extends AbstractRequestConditio
 | ProducesRequestCondition       | 可生成MIME匹配条件 |
 
 框架还提供了一个实现类`RequestConditionHolder`，这是一个匹配条件持有器，用于持有某个`RequestCondition`对象。如果你想持有一个`RequestCondition`对象,但其类型事先不可知，那么这种情况下该工具很有用。但要注意的是如果要合并或者比较两个`RequestConditionHolder`对象，也就是二者所持有的`RequestCondition`对象，那么二者所持有的`RequestCondition`对象必须是类型相同的，否则会抛出异常`ClassCastException`。
-
