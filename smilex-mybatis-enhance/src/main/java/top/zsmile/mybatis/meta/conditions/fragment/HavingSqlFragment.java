@@ -1,0 +1,30 @@
+package top.zsmile.mybatis.meta.conditions.fragment;
+
+import top.zsmile.mybatis.meta.StringPool;
+import top.zsmile.mybatis.meta.conditions.SqlKeyword;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * 聚合筛选条件
+ *
+ * @Version: 1.0.0
+ * @Author: Administrator
+ * @Date: 2023/04/24/9:42
+ * @ClassName: NormalSqlFragment
+ * @Description: NormalSqlFragment
+ */
+public class HavingSqlFragment extends AbstractSqlFragment {
+
+    @Override
+    public boolean checkList(List list) {
+        list.remove(0);
+        return true;
+    }
+
+    @Override
+    public String loopListSql() {
+        return stream().map(ISqlFragment::getSqlFragment).collect(Collectors.joining(StringPool.SPACE, StringPool.SPACE + SqlKeyword.HAVING, StringPool.SPACE));
+    }
+}
