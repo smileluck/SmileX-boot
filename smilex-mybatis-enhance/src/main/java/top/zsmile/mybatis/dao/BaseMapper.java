@@ -3,10 +3,9 @@ package top.zsmile.mybatis.dao;
 import org.apache.ibatis.annotations.*;
 import top.zsmile.core.exception.SXException;
 import top.zsmile.mybatis.meta.IPage;
-import top.zsmile.mybatis.provider.BaseDeleteProvider;
-import top.zsmile.mybatis.provider.BaseInsertProvider;
-import top.zsmile.mybatis.provider.BaseSelectProvider;
-import top.zsmile.mybatis.provider.BaseUpdateProvider;
+import top.zsmile.mybatis.meta.StringPool;
+import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
+import top.zsmile.mybatis.provider.*;
 import top.zsmile.mybatis.utils.Constants;
 
 import java.io.Serializable;
@@ -47,6 +46,15 @@ public interface BaseMapper<T> {
     @SelectProvider(type = BaseSelectProvider.class, method = "selectBatchIds")
     List<T> selectByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> ids, @Param(Constants.COLUMNS) String... columns);
 
+
+    /**
+     * 根据QueryWrapper查询条件查询
+     *
+     * @param wrapper 查询条件
+     * @return
+     */
+    @SelectProvider(type = BaseSelectWrapperProvider.class, method = "selectList")
+    List<T> selectList(@Param(StringPool.WRAPPER) QueryWrapper<T> wrapper);
 
     /**
      * 根据ID集合查询，可传入字段名查询需要得字段
@@ -158,6 +166,7 @@ public interface BaseMapper<T> {
 
     /**
      * 批量插入数据
+     *
      * @param list
      * @return
      */
@@ -214,20 +223,20 @@ public interface BaseMapper<T> {
      * @param cm 表字段 map 对象
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "deleteByMap")
-    int deleteByMap(@Param(Constants.COLUMNS_MAP)  Map<String, Object> cm);
+    int deleteByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
 
     /**
      * TODO 单表分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    IPage<T> selectPageByMap(IPage<T> page, @Param(Constants.COLUMNS_MAP)  Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    IPage<T> selectPageByMap(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
 
 
     /**
      * 分页查询
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectPage")
-    List<T> selectListPageByMap(IPage<T> page, @Param(Constants.COLUMNS_MAP)  Map<String, Object> cm, String... columns);
+    List<T> selectListPageByMap(IPage<T> page, @Param(Constants.COLUMNS_MAP) Map<String, Object> cm, String... columns);
 
 }

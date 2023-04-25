@@ -1,4 +1,4 @@
-package top.zsmile.mybatis.meta.conditions;
+package top.zsmile.mybatis.meta.conditions.query;
 
 import java.io.Serializable;
 

@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.mybatis.dao.BaseMapper;
 import top.zsmile.mybatis.meta.IPage;
+import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
 import top.zsmile.mybatis.utils.Constants;
 import top.zsmile.mybatis.utils.PageQuery;
 import top.zsmile.mybatis.utils.SqlHelper;
@@ -71,6 +72,17 @@ public interface BaseService<T> {
     default List<T> list(String... columns) {
         return getBaseMapper().selectListByMap(null, columns);
     }
+
+
+    /**
+     * 查询字段信息
+     *
+     * @param queryWrapper 查询条件
+     */
+    default List<T> list(QueryWrapper<T> queryWrapper) {
+        return getBaseMapper().selectList(queryWrapper);
+    }
+
 
     /**
      * 根据ID集合查询，可传入字段名查询需要得字段

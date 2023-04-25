@@ -1,6 +1,8 @@
-package top.zsmile.mybatis.meta;
+package top.zsmile.mybatis.meta.conditions;
 
-public enum SqlKeyword {
+import top.zsmile.mybatis.meta.conditions.fragment.ISqlFragment;
+
+public enum SqlKeyword implements ISqlFragment {
     WHERE("WHERE"),
     JOIN("JOIN"),
     LEFT_JOIN("LEFT JOIN"),
@@ -38,5 +40,10 @@ public enum SqlKeyword {
 
     private SqlKeyword(final String keyword) {
         this.keyword = keyword;
+    }
+
+    @Override
+    public String getSqlFragment() {
+        return this.keyword;
     }
 }
