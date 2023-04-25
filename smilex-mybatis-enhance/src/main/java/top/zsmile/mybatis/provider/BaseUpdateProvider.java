@@ -1,9 +1,14 @@
 package top.zsmile.mybatis.provider;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import top.zsmile.core.exception.SXException;
+import top.zsmile.mybatis.meta.StringPool;
 import top.zsmile.mybatis.meta.TableInfo;
+import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.mybatis.utils.ReflectUtils;
 import top.zsmile.mybatis.utils.TableQueryUtils;
 
@@ -19,7 +24,7 @@ public class BaseUpdateProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String updateById(Object obj, ProviderContext context) {
+    public String updateById(ProviderContext context, Object obj) {
 //        Object obj = params.get(Constants.ENTITY);
         TableInfo tableInfo = getTableInfo(context);
         Field[] fields = tableInfo.getFields();
@@ -29,7 +34,30 @@ public class BaseUpdateProvider extends BaseProvider {
                     .map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
             WHERE(tableInfo.primaryColumnWhere());
         }}.toString();
-        log.debug(sql);
+        return sql;
+    }
+
+
+    /**
+     * 根据Wrapper更新数据
+     *
+     * @param context
+     * @return
+     */
+    public String update(ProviderContext context, @Param(StringPool.WRAPPER) UpdateWrapper wrapper) {
+        String sqlSet = wrapper.getSqlSet();
+
+        if (StringUtils.isBlank(sqlSet)) {
+            throw new SXException("update需配置Set属性");
+        }
+        TableInfo tableInfo = getTableInfo(context);
+        Field[] fields = tableInfo.getFields();
+        String sql = new SQL() {{
+            UPDATE(tableInfo.getTableName());
+            SET(sqlSet);
+            String whereSqlFragment = wrapper.getWhereSqlFragment();
+            if (StringUtils.isNotBlank(whereSqlFragment)) WHERE(whereSqlFragment);
+        }}.toString();
         return sql;
     }
 }

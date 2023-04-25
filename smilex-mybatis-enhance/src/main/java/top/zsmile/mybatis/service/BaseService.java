@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import top.zsmile.mybatis.dao.BaseMapper;
 import top.zsmile.mybatis.meta.IPage;
 import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
+import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.mybatis.utils.Constants;
 import top.zsmile.mybatis.utils.PageQuery;
 import top.zsmile.mybatis.utils.SqlHelper;
@@ -147,6 +148,16 @@ public interface BaseService<T> {
      */
     default boolean updateById(T entity) {
         return SqlHelper.retBool(getBaseMapper().updateById(entity));
+    }
+
+    /**
+     * 根据wrapper 更新
+     *
+     * @param wrapper
+     * @return
+     */
+    default int update(UpdateWrapper<T> wrapper) {
+        return getBaseMapper().update(wrapper);
     }
 
     /**

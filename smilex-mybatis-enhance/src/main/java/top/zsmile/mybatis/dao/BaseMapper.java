@@ -4,7 +4,9 @@ import org.apache.ibatis.annotations.*;
 import top.zsmile.core.exception.SXException;
 import top.zsmile.mybatis.meta.IPage;
 import top.zsmile.mybatis.meta.StringPool;
+import top.zsmile.mybatis.meta.conditions.Wrapper;
 import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
+import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.mybatis.provider.*;
 import top.zsmile.mybatis.utils.Constants;
 
@@ -153,6 +155,16 @@ public interface BaseMapper<T> {
      */
     @UpdateProvider(type = BaseUpdateProvider.class, method = "updateById")
     int updateById(T t);
+
+
+    /**
+     * 根据Wrapper条件更新
+     *
+     * @param wrapper
+     * @return
+     */
+    @UpdateProvider(type = BaseUpdateProvider.class, method = "update")
+    int update(@Param(StringPool.WRAPPER) UpdateWrapper<T> wrapper);
 
 
     /**
