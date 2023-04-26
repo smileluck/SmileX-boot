@@ -211,6 +211,15 @@ public interface BaseMapper<T> {
     int deletePhysicsByMap(@Param(Constants.COLUMNS_MAP) Map<String, Object> cm);
 
     /**
+     * 根绝条件删除，配置了逻辑删除则走逻辑删除
+     *
+     * @param wrapper
+     * @return
+     */
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "delete")
+    Integer delete(@Param(StringPool.WRAPPER) UpdateWrapper<T> wrapper);
+
+    /**
      * 根据ID进行逻辑删除
      * 如果不存在逻辑删除字段，则物理删除
      *

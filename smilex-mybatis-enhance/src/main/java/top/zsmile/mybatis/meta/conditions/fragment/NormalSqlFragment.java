@@ -59,6 +59,9 @@ public class NormalSqlFragment extends AbstractSqlFragment {
         if (MatchFragment.AND_OR.test(getLastValue())) {
             removeAndRefreshLastValue();
         }
-        return stream().map(ISqlFragment::getSqlFragment).collect(Collectors.joining(StringPool.SPACE));
+        if (isEmpty()) {
+            return StringPool.EMPTY;
+        }
+        return stream().map(ISqlFragment::getSqlFragment).collect(Collectors.joining(StringPool.SPACE, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
     }
 }

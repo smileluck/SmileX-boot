@@ -1,11 +1,13 @@
 package top.zsmile.mybatis.provider;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import top.zsmile.mybatis.meta.StringPool;
 import top.zsmile.mybatis.meta.TableInfo;
+import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.mybatis.utils.Constants;
 import top.zsmile.mybatis.utils.TableQueryUtils;
 
@@ -13,6 +15,35 @@ import java.util.Map;
 
 public class BaseDeleteProvider extends BaseProvider {
 
+    /**
+     * 根据Wrapper删除， 优先逻辑删除，如果没有逻辑删除字段则物理删除
+     *
+     * @param context
+     * @param wrapper
+     * @return
+     */
+    public String delete(ProviderContext context, @Param(StringPool.WRAPPER) UpdateWrapper wrapper) {
+        TableInfo tableInfo = getTableInfo(context);
+
+        String whereSqlFragment = wrapper.getWhereSqlFragment();
+        String sql;
+        if (tableInfo.hasLogicDelColumn()) {
+            String sqlSet = wrapper.getSqlSet();
+            sql = new SQL() {{
+                UPDATE(tableInfo.getTableName());
+                SET(tableInfo.logicDelColumnSet());
+                if (StringUtils.isNotBlank(sqlSet)) SET(sqlSet);
+                if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
+                if (StringUtils.isNotBlank(whereSqlFragment)) WHERE(whereSqlFragment);
+            }}.toString();
+        } else {
+            sql = new SQL() {{
+                DELETE_FROM(tableInfo.getTableName());
+                if (StringUtils.isNotBlank(whereSqlFragment)) WHERE(whereSqlFragment);
+            }}.toString();
+        }
+        return sql;
+    }
 
     /**
      * 删除，优先逻辑删除，如果没有逻辑删除字段则物理删除

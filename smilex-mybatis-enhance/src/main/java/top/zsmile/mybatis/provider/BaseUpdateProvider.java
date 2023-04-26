@@ -32,7 +32,9 @@ public class BaseUpdateProvider extends BaseProvider {
             UPDATE(tableInfo.getTableName());
             SET(Stream.of(fields).filter(field -> ReflectUtils.getFieldValue(obj, field.getName()) != null && !tableInfo.getPrimaryColumn().equals(TableQueryUtils.humpToLineName(field)))
                     .map(TableQueryUtils::getAssignParameter).toArray(String[]::new));
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             WHERE(tableInfo.primaryColumnWhere());
+
         }}.toString();
         return sql;
     }
@@ -56,6 +58,7 @@ public class BaseUpdateProvider extends BaseProvider {
             UPDATE(tableInfo.getTableName());
             SET(sqlSet);
             String whereSqlFragment = wrapper.getWhereSqlFragment();
+            if (tableInfo.hasLogicDelColumn()) WHERE(tableInfo.logicDelColumnWhere());
             if (StringUtils.isNotBlank(whereSqlFragment)) WHERE(whereSqlFragment);
         }}.toString();
         return sql;

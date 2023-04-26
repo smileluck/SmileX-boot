@@ -183,6 +183,16 @@ public interface BaseService<T> {
 
 
     /**
+     * 根据wrapper删除
+     *
+     * @param wrapper 条件
+     * @return
+     */
+    default boolean remove(UpdateWrapper<T> wrapper) {
+        return SqlHelper.retBool(getBaseMapper().delete(wrapper));
+    }
+
+    /**
      * 根据ID 逻辑删除
      *
      * @param id 主键ID

@@ -22,6 +22,7 @@ public class UpdateWrapper<E> extends AbstractWrapper<E, String, UpdateWrapper<E
     List<String> setList;
 
     public UpdateWrapper() {
+        super.init();
         setList = new ArrayList<>();
     }
 

@@ -9,6 +9,7 @@ import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.entity.SysDictItemEntity;
 import top.zsmile.modules.sys.service.SysDictService;
 import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
+import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,5 +39,11 @@ public class WrapperTest {
         System.out.println(wrapper);
         System.out.println(sqlFragment);
         System.out.println(list);
+
+
+        UpdateWrapper<SysDictEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", 1);
+        updateWrapper.set("dict_code", 1111);
+        sysDictService.update(updateWrapper);
     }
 }
