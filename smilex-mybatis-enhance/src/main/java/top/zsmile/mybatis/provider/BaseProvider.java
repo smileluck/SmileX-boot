@@ -15,7 +15,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class BaseProvider {
 
-    private static final ReadWriteLock LOCK = new ReentrantReadWriteLock();
 
     /**
      * 获取表信息

@@ -8,6 +8,7 @@ import top.zsmile.SmileSystemApplication;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.entity.SysDictItemEntity;
 import top.zsmile.modules.sys.service.SysDictService;
+import top.zsmile.mybatis.meta.conditions.query.LambdaQueryWrapper;
 import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
 import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
 
@@ -45,5 +46,7 @@ public class WrapperTest {
         updateWrapper.eq("id", 1);
         updateWrapper.set("dict_code", 1111);
         sysDictService.update(updateWrapper);
+
+        new LambdaQueryWrapper<SysDictEntity>().select();
     }
 }

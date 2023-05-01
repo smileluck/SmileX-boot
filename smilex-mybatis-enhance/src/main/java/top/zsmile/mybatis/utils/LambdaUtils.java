@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LambdaUtils {
-    private static Map<String, String> columnSelectMap = new ConcurrentHashMap<>();
-
     /**
      * 根据反射获取字段名称
      *
@@ -18,7 +16,7 @@ public class LambdaUtils {
      * @param <T>
      * @return
      */
-    public <T,R> String getMethodName(SFunction<T,R> fn) {
+    public static <T, R> String getMethodName(SFunction<T, R> fn) {
         try {
             Method writeReplace = fn.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
@@ -30,7 +28,7 @@ public class LambdaUtils {
         }
     }
 
-    public <T,R> String getColumnName(SFunction<T,R> fn) {
+    public static <T, R> String getColumnName(SFunction<T, R> fn) {
         String methodName = getMethodName(fn);
         if (methodName == null) {
             throw new RuntimeException("lambda转换异常");
