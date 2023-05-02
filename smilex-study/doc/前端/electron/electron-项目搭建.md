@@ -58,3 +58,10 @@ npm install --save-dev @vitejs/plugin-react
 	@tailwind components;
 	@tailwind utilities;
 	```
+
+4. 集成 `react-router v6`
+
+```shell
+npm install react-router-dom localforage match-sorter sort-by
+```
+
