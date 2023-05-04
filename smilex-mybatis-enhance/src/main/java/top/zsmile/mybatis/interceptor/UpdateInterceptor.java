@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.zsmile.api.common.CommonAuthApi;
 import top.zsmile.mybatis.entity.BaseEntity;
+import top.zsmile.mybatis.utils.ReflectUtils;
 
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -39,36 +40,34 @@ public class UpdateInterceptor implements Interceptor {
     private void operateTime(Object params, SqlCommandType sqlCommandType) {
         Map<String, Object> userInfo = commonAuthApi.queryUserInfo();
         if (sqlCommandType == SqlCommandType.UPDATE || sqlCommandType == SqlCommandType.DELETE) {
+            LocalDateTime now = LocalDateTime.now();
+            String username = userInfo.get("username").toString();
             if (params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
-                LocalDateTime now = LocalDateTime.now();
-                String username = userInfo.get("username").toString();
                 baseEntity.setUpdateTime(now);
                 baseEntity.setUpdateBy(username);
             } else if (params instanceof Map) {
                 Map baseMap = (Map) params;
-                LocalDateTime now = LocalDateTime.now();
-                String username = userInfo.get("username").toString();
                 baseMap.put("updateTime", now);
                 baseMap.put("updateBy", username);
+            } else {
+                ReflectUtils.setFieldValue(params, "updateTime", now);
             }
         } else if (sqlCommandType == SqlCommandType.INSERT) {
+            LocalDateTime now = LocalDateTime.now();
+            String username = userInfo.get("username").toString();
             if (params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
-                LocalDateTime now = LocalDateTime.now();
-                String username = userInfo.get("username").toString();
                 baseEntity.setCreateTime(now);
                 baseEntity.setCreateBy(username);
                 baseEntity.setUpdateTime(now);
                 baseEntity.setUpdateBy(username);
             } else if (params instanceof Map) {
                 Map baseMap = (Map) params;
-                LocalDateTime now = LocalDateTime.now();
-                String username = userInfo.get("username").toString();
                 baseMap.put("createTime", now);
                 baseMap.put("createBy", username);
-                baseMap.put("updateTime", now);
-                baseMap.put("updateBy", username);
+            } else {
+                ReflectUtils.setFieldValue(params, "createTime", now);
             }
         }
     }

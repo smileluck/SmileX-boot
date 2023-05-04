@@ -10,6 +10,31 @@ import java.util.List;
 @Slf4j
 public class ReflectUtils {
     /**
+     * 如果存在字段，则设置值
+     *
+     * @param obj        对象
+     * @param fieldName  字段名
+     * @param fieldValue 字段值
+     * @return
+     */
+    public static boolean setFieldValue(Object obj, String fieldName, Object fieldValue) {
+        Class clazz = obj.getClass();
+        for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
+            try {
+                Field declaredField = clazz.getDeclaredField(fieldName);
+                if (declaredField != null) {
+                    declaredField.setAccessible(true);
+                    declaredField.set(obj, fieldValue);
+                    return true;
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                log.error(clazz.getName() + " no find name => " + fieldName);
+            }
+        }
+        return false;
+    }
+
+    /**
      * 根据字段名获取值
      *
      * @param obj
@@ -48,7 +73,6 @@ public class ReflectUtils {
             return null;
         }
     }
-
 
 
     /**
