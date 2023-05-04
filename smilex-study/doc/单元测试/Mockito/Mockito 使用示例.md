@@ -124,7 +124,55 @@ Mockito.when(mainService.list2(Mockito.any())).thenReturn(mockList);
 
 另外，在 `Mockito 2.0.6` 的中文文档中，使用的是 `Mockito.mock` 进行操作和校验，但是试验了后，无法满足需要，具体分析可能看实际场景吧。
 
-# MockMultipartFile
+## Mock Mapper
+>Mock 主测试service的mapper时，会显示 NullPointerException 或者 ClassCastException: com.amiba.heitan.mall.admin.mapper.KbActivityAnnounceMapper$MockitoMock$332138621 cannot be cast to com.amiba.heitan.mall.admin.mapper.KbActivityAnnounceDmMapper
+
+正确 Mock Mapper 的代码如下：
+
+```java
+
+@RunWith(MockitoJUnitRunner.class)
+public class KbActivityAnnounceDmServiceTest {
+
+    @InjectMocks
+    KbActivityAnnounceDmServiceImpl kbActivityAnnounceDmService;
+    
+    @Mock(name="baseMapper")
+    KbActivityAnnounceDmMapper kbActivityAnnounceDmMapper;
+    
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+
+        MapperBuilderAssistant mapperBuilderAssistant = new MapperBuilderAssistant(new MybatisConfiguration(), "");
+        TableInfoHelper.initTableInfo(mapperBuilderAssistant, KbActivityAnnounce.class);
+    }
+
+    @Test
+    public void selectDmListByActivityId() {
+        KbActivityAnnounceListCompereDTO dto = new KbActivityAnnounceListCompereDTO();
+        dto.setId(1L);
+        KbActivityAnnounce one = new KbActivityAnnounce();
+      
+        kbActivityAnnounceDmService.selectDmListByActivityId(dto);
+    }
+}
+
+public interface KbActivityAnnounceDmMapper extends BaseMapper<KbActivityAnnounceDm> {
+    List<KbActivityAnnounceCompereListVO> selectDmListByActivityId(@Param("dto") KbActivityAnnounceListCompereDTO dto);
+}
+```
+
+这样才能正确模拟实际测试类的 `BaseMapper` 。核心在于以下这句话
+
+```java
+@Mock(name="baseMapper")
+KbActivityAnnounceDmMapper kbActivityAnnounceDmMapper;
+```
+
+
+
+## MockMultipartFile
 
 - 读取真实文件进行文件模拟
 
