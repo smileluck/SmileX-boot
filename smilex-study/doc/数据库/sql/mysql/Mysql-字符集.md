@@ -374,3 +374,41 @@ ALTER TABLE test_char.temp MODIFY COLUMN name varchar(20) CHARACTER SET utf8mb4 
 2. 另一边，对于数据表的数据列， **列的字符集和排列规则的优先级更高** ，也就是说还需要从 `character_set_collection` 转换成对应列的字符集。
 3. 也就是说，对于 `character_set_connection ` 起了一个中转作用，解决了字面值无法排序处理的问题。
 
+## 存在的问题
+
+### 乱码
+
+1. 客户端使用的字符集和`character_set_results`不一致，会导致客户端无法解码。**也就是所谓的乱码现象（本质原因了）。**
+2. 编码不一致，且是有损编码，所以转换过程中存在丢失。
+
+处理方法：
+
+- 错误方法
+
+  1.  Alter TABLE .. character set=XXX
+
+     如果数据已经产生丢失，那么再进行转换并不能起到修复作用。
+
+  2.  ALTER TABLE … CONVERT TO CHARACTER SET … 
+
+     - 官方文档对该命令的解释：用于对一个表的数据进行编码转换，该命令只适用于当前并没有乱码，并且并不能将错进错出纠正为对进对出。 
+     - 举例说明：假设我们有一张通过错进错出（set names latin1）存入了UTF-8的数据、编码是latin1的表，并打算把表的字符集编码改成UTF-8（同时set names utf8）并且不影响原有数据的正常显示，执行alter table test_latin1 convert to character set utf8后发现依然可以错进错出（set names latin1），然而对进对出就会显示乱码（**这是由于错进错出本质上数据存储的内容就是错误的内容，我们通过正确的步骤编码、读取，得到的结果一定是错的**）。
+
+-  正确方法
+
+  1. 导入导出法
+     1. 将数据通过错进错出的方法导出到文件。 **一定要确认导出的文件用文本编辑器在UTF-8编码下查看没有乱码** 
+     2. 用正确的字符集创建新表
+     3. 将之前导出的文件重新导入到新表中。 
+
+  2.  Convert to Binary & Convert Back 
+
+     这种方法是将二进制数据作为中间数据的方法来实现修改编码的，因为MySQL在将有编码意义的数据流转换为无编码意义的二进制数据的时候并不做实际的数据转换，而从二进制数据准换为带编码的数据时又会用目标编码做一次编码转换校验，利用这两个特性就可以实现在MySQL内部模拟了一次“错出”将乱码修正了。 
+
+
+
+## 小结
+
+1. 如果想保证任何情况下都不出现乱码，那么我们应该保证**数据库编码和set names XXX是一致**的；
+2. 假如由于某种原因不能做到第一条，那么**一定要保证character_set_client、character_set_connection、character_set_results是一致的且可以和数据库编码无损转换**。
+
