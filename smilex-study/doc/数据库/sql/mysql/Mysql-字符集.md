@@ -209,28 +209,168 @@ ALTER table user DEFAULT CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 3. `MySQL` 进行内部操作时，将数据字符集转换为内部操作字符集（使用每个数据字段的`character set`设定值；若没设定则使用对应数据表的`default character set`设定值；若没设定则使用对应数据库的default character set设定值；若没设定则使用character_set_server设定值）。
 4.  将操作结果集从内部操作字符集转换为`character_set_result`。
 
+### **character_set_filesystem**
+
+- `character_set_filesystem` 文件系统配置的编码格式，把操作系统上的文件名转化为该字符集。
+-  即从 `character_set_client` 转化为 `character_set_filesystem`
+- 默认值 `binary` 即不做操作。
+
+我们来改变一下 `character_set_filesystem` ，看看输出结果。
+
+1. 设置成 `UTF8`/`ascii`
+
+```sql
+set character_set_filesystem = utf8
+```
+
+2. 执行输出文件
+
+```sql
+select * from test into outfile 'D://你好.txt';
+
+-- 这里 into outfile 可能会抛出异常，需要配置对应属性。secure-file-priv
+```
+
+3. 查看输出文件名
+
+###  **character_set_system** 
+
+ 默认就是utf8，它是元数据的编码，比如数据库的字段名、数据库名等。是个只读数据不能更改，而且也不要去更改它，因为类似于用户名密码可能会使用各种奇怪的字符，只有utf8能够容纳它们。 
+
+### 实验
+
+#### 关于collation_connection作用
+
 **其实这里为什么服务器不直接从`character_set_client`转化成对应`character_set_results`字符集？**
 
 这可以从官方文档中看到一段这样的说明解释了 `character_set_client` 、 `character_set_server` 和 `character_set_connection`。https://dev.mysql.com/doc/refman/5.7/en/charset-connection.html
 
 > - What character set are statements in when they leave the client?
 >
->   The server takes the [`character_set_client`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_client) system variable to be the character set in which statements are sent by the client.
+> The server takes the [`character_set_client`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_client) system variable to be the character set in which statements are sent by the client.
 >
 > - What character set should the server translate statements to after receiving them?
 >
->   To determine this, the server uses the [`character_set_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_connection) and [`collation_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_collation_connection) system variables:
+> To determine this, the server uses the [`character_set_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_connection) and [`collation_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_collation_connection) system variables:
 >
 >   - The server converts statements sent by the client from [`character_set_client`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_client) to [`character_set_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_connection). Exception: For string literals that have an introducer such as `_utf8mb4` or `_latin2`, the introducer determines the character set. See [Section 10.3.8, “Character Set Introducers”](https://dev.mysql.com/doc/refman/5.7/en/charset-introducer.html).
 >   - [`collation_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_collation_connection) is important for comparisons of literal strings. For comparisons of strings with column values, [`collation_connection`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_collation_connection) does not matter because columns have their own collation, which has a higher collation precedence (see [Section 10.8.4, “Collation Coercibility in Expressions”](https://dev.mysql.com/doc/refman/5.7/en/charset-collation-coercibility.html)).
 >
 > - What character set should the server translate query results to before shipping them back to the client?
 >
->   The [`character_set_results`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_results) system variable indicates the character set in which the server returns query results to the client. This includes result data such as column values, result metadata such as column names, and error messages.
+> The [`character_set_results`](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_results) system variable indicates the character set in which the server returns query results to the client. This includes result data such as column values, result metadata such as column names, and error messages.
 
 这里引用一下翻译。
 
 >  服务器将客户端发送的语句从character_set_client转换为character_set_connection。异常:对于具有引入器(如_utf8mb4或_latin2)的字符串字面值，引入器决定字符集。 
 >
->   Collation_connection对于字面值字符串的比较很重要。对于字符串与列值的比较，collation_connection无关紧要，因为列有自己的排序规则，排序规则优先级更高 
+>  Collation_connection对于字面值字符串的比较很重要。对于字符串与列值的比较，collation_connection无关紧要，因为列有自己的排序规则，排序规则优先级更高 
+
+
+让我们来试验一下 关于 `Collation_connection` 的部分。我们用字面值来测试一下。
+
+1. 先执行查询字符集 
+
+   ```sql
+   show variables like "%character%"
+   
+   show variables like "%connection%"  -- 查询排序字符
+   ```
+
+   ```sql
+   Variable_name           |Value                                                  
+   ------------------------+-------------------------------------------------------
+   character_set_client    |utf8mb4                                                
+   character_set_connection|utf8mb4                                                
+   ```
+
+2. 设置一下排序规则
+
+   ```sql
+   set collation_connection=utf8_general_ci; # _ci不区分大小写
+   ```
+
+3. 执行字面量查询
+
+   ```sql
+   select 'A' = 'a'
+   ```
+
+   ```sql
+   'A' = 'a'
+   ---------
+           1
+   ```
+
+4. 再设置一下排序结果
+
+   ```sql
+   set collation_connection=utf8_bin;
+   ```
+
+5. 执行字面量查询
+
+   ```sql
+   select 'A' = 'a'
+   ```
+
+   ```sql
+   'A' = 'a'
+   ---------
+           0
+   ```
+
+x可以看到两次输出结果分别是0和1，也就是说字面量直接根据配置的 `collation_conntion` 直接排序比较的。那表内部的是怎么样呢？
+
+1. 设置一下排序结果
+
+   ```sql
+   set collation_connection=utf8_bin;
+   ```
+
+2. 创建表
+
+   ```sql
+   CREATE TABLE `temp` (
+     `id` int(11) NOT NULL,
+     `name` varchar(20) CHARACTER SET utf8mb4 DEFAULT NULL,
+     PRIMARY KEY (`id`)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   ```
+
+3. 执行对 `name` 的比较规则设置 `utf8mb4_general_ci`
+
+	```sql
+ALTER TABLE test_char.temp MODIFY COLUMN name varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+	```
+
+4. 执行查询比较
+
+   ```sql
+   select (select name from temp where name = "A" ) = 'a'
+   ```
+
+   ```sql
+   Name                                           |Value|
+   -----------------------------------------------+-----+
+   (select name from temp where name = "A" ) = 'a'|1    |
+   ```
+
+5. 执行对 `name` 的比较规则设置  `utf8mb4_bin`
+
+   ```sql
+   ALTER TABLE test_char.temp MODIFY COLUMN name varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+   ```
+
+   ```sql
+   Name                                           |Value|
+   -----------------------------------------------+-----+
+   (select name from temp where name = "A" ) = 'a'|0    |
+   ```
+
+由这两个实验结果，我们可以看看字面量和列值比较结果是不一样的。
+
+1. 服务器在进行 `字节序列` 处理的时候，根据 `character_set_connection` 的字符集进行编码，使用比较规则 `Collation_connection`，进行比较。
+2. 另一边，对于数据表的数据列， **列的字符集和排列规则的优先级更高** ，也就是说还需要从 `character_set_collection` 转换成对应列的字符集。
+3. 也就是说，对于 `character_set_connection ` 起了一个中转作用，解决了字面值无法排序处理的问题。
 
