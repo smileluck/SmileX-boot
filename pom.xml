@@ -18,11 +18,10 @@
         <module>smilex-auth</module>
         <module>smilex-api</module>
         <module>smilex-core</module>
-        <module>smilex-system-boot</module>
-        <module>smilex-system-generator</module>
         <module>smilex-tool</module>
         <module>smilex-im</module>
         <module>smilex-study</module>
+        <module>smilex-system</module>
     </modules>
 
     <repositories>

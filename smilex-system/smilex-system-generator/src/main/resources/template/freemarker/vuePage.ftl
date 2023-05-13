@@ -144,7 +144,7 @@
 <script setup>
     import { Search, RefreshRight } from "@element-plus/icons-vue";
     import { reactive } from "vue";
-    import ${bigHumpClass}Model from "./modules/${bigHumpClass}Model.vue";
+    import ${bigHumpClass}Model from "./vuePage${bigHumpClass}Model.vue";
     import usePages from "@/composables/pages";
 
     const pageSearchFormModel = reactive({
