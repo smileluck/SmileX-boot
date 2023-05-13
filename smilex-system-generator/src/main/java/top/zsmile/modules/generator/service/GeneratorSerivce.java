@@ -1,7 +1,7 @@
 package top.zsmile.modules.generator.service;
 
 
-import top.zsmile.common.domain.ZipFileEntity;
+import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.modules.generator.domain.entity.GeneratorEntity;
 import top.zsmile.modules.generator.domain.model.ColumnModel;
 

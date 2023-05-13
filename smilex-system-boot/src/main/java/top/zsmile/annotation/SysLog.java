@@ -1,7 +1,7 @@
 package top.zsmile.annotation;
 
-import top.zsmile.common.constant.CommonConstant;
-import top.zsmile.common.enums.ModuleType;
+import top.zsmile.common.core.constant.CommonConstant;
+import top.zsmile.common.core.enums.ModuleType;
 
 import java.lang.annotation.*;
 

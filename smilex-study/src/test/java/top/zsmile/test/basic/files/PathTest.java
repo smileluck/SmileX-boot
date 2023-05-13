@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.ResourceUtils;
-import top.zsmile.common.utils.file.FileUtils;
-import top.zsmile.common.utils.file.SpringFileUtils;
+import top.zsmile.common.core.utils.file.FileUtils;
+import top.zsmile.common.core.utils.file.SpringFileUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

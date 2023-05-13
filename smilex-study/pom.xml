@@ -14,13 +14,14 @@
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common</artifactId>
+            <artifactId>smilex-common-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-mybatis-enhance</artifactId>
+            <artifactId>smilex-common-mybatis</artifactId>
         </dependency>
+
 
         <!-- doc extract -->
         <dependency>

@@ -6,14 +6,13 @@ import java.util.Map;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
-import top.zsmile.common.constant.CommonConstant;
+import top.zsmile.common.core.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.mybatis.meta.IPage;
+import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.modules.sys.service.SysUserService;
 import top.zsmile.modules.sys.entity.SysUserEntity;
 

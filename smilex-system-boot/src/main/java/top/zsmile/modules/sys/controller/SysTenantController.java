@@ -9,10 +9,10 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.core.api.R;
 import top.zsmile.annotation.SysLog;
-import top.zsmile.common.constant.CommonConstant;
+import top.zsmile.common.core.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.mybatis.meta.IPage;
+import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.modules.sys.service.SysTenantService;
 import top.zsmile.modules.sys.entity.SysTenantEntity;
 

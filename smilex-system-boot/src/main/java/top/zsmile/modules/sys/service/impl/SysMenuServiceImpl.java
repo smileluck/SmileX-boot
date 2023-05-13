@@ -2,9 +2,9 @@ package top.zsmile.modules.sys.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import top.zsmile.api.common.CommonAuthApi;
-import top.zsmile.common.constant.CommonConstant;
-import top.zsmile.mybatis.service.BaseService;
-import top.zsmile.mybatis.service.impl.BaseServiceImpl;
+import top.zsmile.common.core.constant.CommonConstant;
+import top.zsmile.common.mybatis.service.BaseService;
+import top.zsmile.common.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.sys.entity.SysMenuEntity;
 import top.zsmile.modules.sys.dao.SysMenuMapper;
 import top.zsmile.modules.sys.service.SysMenuService;

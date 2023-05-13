@@ -12,12 +12,11 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.zsmile.api.common.CommonApi;
 import top.zsmile.auth.token.OAuth2Token;
-import top.zsmile.common.utils.IPUtils;
-import top.zsmile.common.utils.JwtUtils;
+import top.zsmile.common.core.utils.IPUtils;
+import top.zsmile.common.core.utils.JwtUtils;
 import top.zsmile.core.utils.SpringContextUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class OAuth2Realm extends AuthorizingRealm {

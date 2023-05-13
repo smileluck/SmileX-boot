@@ -2,7 +2,7 @@ package top.zsmile.modules.sys.service;
 
 import top.zsmile.modules.sys.entity.SysUserEntity;
 import top.zsmile.modules.sys.model.SysLoginModel;
-import top.zsmile.mybatis.service.BaseService;
+import top.zsmile.common.mybatis.service.BaseService;
 
 public interface SysUserService extends BaseService<SysUserEntity> {
     /**

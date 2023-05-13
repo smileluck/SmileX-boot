@@ -3,9 +3,7 @@ package top.zsmile.modules.sys.controller.demo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,11 +11,9 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.multipart.MultipartFile;
 import top.zsmile.api.common.FileUploadApi;
 import top.zsmile.core.api.R;
-import top.zsmile.annotation.SysLog;
-import top.zsmile.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.mybatis.meta.IPage;
+import top.zsmile.common.mybatis.meta.IPage;
 
 
 /**

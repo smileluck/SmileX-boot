@@ -6,11 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import top.zsmile.SmileSystemApplication;
 import top.zsmile.modules.sys.entity.SysDictEntity;
-import top.zsmile.modules.sys.entity.SysDictItemEntity;
 import top.zsmile.modules.sys.service.SysDictService;
-import top.zsmile.mybatis.meta.conditions.query.LambdaQueryWrapper;
-import top.zsmile.mybatis.meta.conditions.query.QueryWrapper;
-import top.zsmile.mybatis.meta.conditions.udpate.UpdateWrapper;
+import top.zsmile.common.mybatis.meta.conditions.query.LambdaQueryWrapper;
+import top.zsmile.common.mybatis.meta.conditions.query.QueryWrapper;
+import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;
 
 import javax.annotation.Resource;
 import java.util.List;

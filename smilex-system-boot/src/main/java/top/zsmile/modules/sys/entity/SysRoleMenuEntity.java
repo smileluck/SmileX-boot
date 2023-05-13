@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import top.zsmile.mybatis.annotation.TableName;
+import top.zsmile.common.mybatis.annotation.TableName;
 
 /**
  * 系统角色菜单

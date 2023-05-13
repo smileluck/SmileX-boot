@@ -20,11 +20,18 @@
 
     <dependencies>
 
-        <!--SmileX-->
+        <!--SmileX Common-->
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common</artifactId>
+            <artifactId>smilex-common-core</artifactId>
         </dependency>
+
+        <!--SmileX Redis-->
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-redis</artifactId>
+        </dependency>
+
         <!--shiro-->
         <!--        <dependency>-->
         <!--            <groupId>org.apache.shiro</groupId>-->

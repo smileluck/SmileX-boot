@@ -1,23 +1,19 @@
 package top.zsmile.modules.sys.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.cache.utils.RedisUtils;
-import top.zsmile.common.constant.CommonConstant;
-import top.zsmile.common.utils.JwtUtils;
-import top.zsmile.common.utils.ValidatorUtils;
+import top.zsmile.common.redis.utils.RedisUtils;
+import top.zsmile.common.core.constant.CommonConstant;
+import top.zsmile.common.core.utils.ValidatorUtils;
 import top.zsmile.core.api.R;
-import top.zsmile.core.api.ResultCode;
 import top.zsmile.modules.sys.model.SysLoginModel;
 import top.zsmile.modules.sys.service.SysUserService;
 import top.zsmile.modules.sys.utils.CaptchaImgUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

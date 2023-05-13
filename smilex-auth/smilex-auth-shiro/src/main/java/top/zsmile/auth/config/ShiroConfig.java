@@ -13,14 +13,13 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import top.zsmile.auth.filter.OAuth2Filter;
 import top.zsmile.auth.realm.OAuth2Realm;
-import top.zsmile.common.constant.StringConstant;
+import top.zsmile.common.core.constant.StringConstant;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;

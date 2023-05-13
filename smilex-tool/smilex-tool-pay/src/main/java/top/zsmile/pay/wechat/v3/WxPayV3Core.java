@@ -2,11 +2,11 @@ package top.zsmile.pay.wechat.v3;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+//import org.apache.http.client.methods.CloseableHttpResponse;
+//import org.apache.http.client.methods.HttpPost;
+//import org.apache.http.entity.StringEntity;
+//import org.apache.http.impl.client.CloseableHttpClient;
+//import org.apache.http.util.EntityUtils;
 import top.zsmile.pay.enums.SignTypeEnum;
 import top.zsmile.pay.wechat.v2.config.WxPayConfig;
 import top.zsmile.pay.wechat.v2.WxPayUtil;
@@ -18,7 +18,7 @@ public class WxPayV3Core {
     private WxPayConfig config;
     private SignTypeEnum signType;
     private boolean useSandbox;//仿真测试系统
-    private CloseableHttpClient httpClient;
+//    private CloseableHttpClient httpClient;
 
     public WxPayV3Core(WxPayConfig config) {
         this(config, SignTypeEnum.MD5, false);
@@ -90,9 +90,9 @@ public class WxPayV3Core {
 //        String reqBody = JSON.toJSONString(reqData);
 
 
-        HttpPost httpPost = new HttpPost(strUrl);
-        httpPost.addHeader("Accept", "application/json");
-        httpPost.addHeader("Content-type", "application/json; charset=utf-8");
+//        HttpPost httpPost = new HttpPost(strUrl);
+//        httpPost.addHeader("Accept", "application/json");
+//        httpPost.addHeader("Content-type", "application/json; charset=utf-8");
 
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -108,12 +108,12 @@ public class WxPayV3Core {
                 .put("total", 1).put("currency", 1);
 
         objectMapper.writeValue(bos, rootNode);
-        httpPost.setEntity(new StringEntity(bos.toString("UTF-8"), "UTF-8"));
-
-        CloseableHttpResponse response = httpClient.execute(httpPost);
-
-        String bodyAsString = EntityUtils.toString(response.getEntity());
-        System.out.println(bodyAsString);
+//        httpPost.setEntity(new StringEntity(bos.toString("UTF-8"), "UTF-8"));
+//
+//        CloseableHttpResponse response = httpClient.execute(httpPost);
+//
+//        String bodyAsString = EntityUtils.toString(response.getEntity());
+//        System.out.println(bodyAsString);
 //        URL httpUrl = new URL(strUrl);
 //        HttpURLConnection httpURLConnection = (HttpURLConnection) httpUrl.openConnection();
 //        httpURLConnection.setDoOutput(true);

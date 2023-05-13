@@ -1,7 +1,7 @@
 package top.zsmile.modules.sys.service.impl;
 
-import top.zsmile.mybatis.service.BaseService;
-import top.zsmile.mybatis.service.impl.BaseServiceImpl;
+import top.zsmile.common.mybatis.service.BaseService;
+import top.zsmile.common.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.sys.entity.SysConfigEntity;
 import top.zsmile.modules.sys.dao.SysConfigMapper;
 import top.zsmile.modules.sys.service.SysConfigService;

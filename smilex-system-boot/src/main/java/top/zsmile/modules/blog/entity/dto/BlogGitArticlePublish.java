@@ -3,7 +3,7 @@ package top.zsmile.modules.blog.entity.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import top.zsmile.common.validator.group.Add;
+import top.zsmile.common.core.validator.group.Add;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

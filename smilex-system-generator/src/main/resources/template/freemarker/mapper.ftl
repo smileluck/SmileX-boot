@@ -1,7 +1,7 @@
 package ${packages}.${moduleName}.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.zsmile.mybatis.dao.BaseMapper;
+import top.zsmile.common.mybatis.dao.BaseMapper;
 import ${packages}.${moduleName}.entity.${bigHumpClass}Entity;
 
 @Mapper

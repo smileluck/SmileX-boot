@@ -1,27 +1,16 @@
 package top.zsmile;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ClassUtils;
-import top.zsmile.mybatis.annotation.TableName;
-import top.zsmile.common.utils.file.SpringFileUtils;
-import top.zsmile.mybatis.meta.IPage;
-import top.zsmile.mybatis.meta.Page;
+import top.zsmile.common.mybatis.annotation.TableName;
+import top.zsmile.common.core.utils.file.SpringFileUtils;
+import top.zsmile.common.mybatis.meta.IPage;
+import top.zsmile.common.mybatis.meta.Page;
 import top.zsmile.modules.sys.dao.SysDictMapper;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.service.SysDictService;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

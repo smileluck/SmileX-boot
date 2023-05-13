@@ -254,7 +254,7 @@ public @interface DataSource {
 @Component
 @Slf4j
 public class DataSourceAspect {
-    @Pointcut("@within(top.zsmile.core.datasource.annotation.DataSource) || @annotation(top.zsmile.core.datasource.annotation.DataSource)")
+    @Pointcut("@within(top.zsmile.common.datasource.annotation.DataSource) || @annotation(top.zsmile.common.datasource.annotation.DataSource)")
     public void dataSourceAspect() {
 
     }

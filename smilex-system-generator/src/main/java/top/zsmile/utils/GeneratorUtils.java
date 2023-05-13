@@ -2,17 +2,15 @@ package top.zsmile.utils;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import top.zsmile.common.domain.ZipFileEntity;
+import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.core.exception.SXException;
 import top.zsmile.modules.generator.config.FreemakerConfig;
-import top.zsmile.modules.generator.config.GeneratorConfig;
 import top.zsmile.modules.generator.domain.entity.GeneratorEntity;
 import top.zsmile.modules.generator.domain.model.TableModel;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipFile;
 
 public class GeneratorUtils {
 

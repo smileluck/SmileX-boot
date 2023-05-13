@@ -1,7 +1,7 @@
 package top.zsmile.modules.sys.service.impl;
 
 import top.zsmile.modules.sys.entity.dto.SysRoleMenuSaveDto;
-import top.zsmile.mybatis.service.impl.BaseServiceImpl;
+import top.zsmile.common.mybatis.service.impl.BaseServiceImpl;
 import top.zsmile.modules.sys.entity.SysRoleMenuEntity;
 import top.zsmile.modules.sys.dao.SysRoleMenuMapper;
 import top.zsmile.modules.sys.service.SysRoleMenuService;

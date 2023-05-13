@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Base64Utils;
 import org.zwobble.mammoth.DocumentConverter;
 import org.zwobble.mammoth.Result;
-import top.zsmile.common.utils.CmdUtils;
+import top.zsmile.common.core.utils.CmdUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

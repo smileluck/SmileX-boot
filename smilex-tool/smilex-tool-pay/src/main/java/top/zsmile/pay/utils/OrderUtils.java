@@ -1,7 +1,7 @@
 package top.zsmile.pay.utils;
 
 
-import top.zsmile.common.utils.SnowFlake;
+import top.zsmile.common.core.utils.SnowFlake;
 
 /**
  * 订单号工具

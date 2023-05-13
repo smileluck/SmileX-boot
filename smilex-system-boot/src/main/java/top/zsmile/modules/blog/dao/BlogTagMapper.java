@@ -2,7 +2,7 @@ package top.zsmile.modules.blog.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import top.zsmile.mybatis.dao.BaseMapper;
+import top.zsmile.common.mybatis.dao.BaseMapper;
 import top.zsmile.modules.blog.entity.BlogTagEntity;
 import top.zsmile.modules.open.entity.vo.BlogTagVo;
 

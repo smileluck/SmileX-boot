@@ -21,7 +21,6 @@
         <module>smilex-system-boot</module>
         <module>smilex-system-generator</module>
         <module>smilex-tool</module>
-        <module>smilex-mybatis-enhance</module>
         <module>smilex-im</module>
         <module>smilex-study</module>
     </modules>
@@ -106,14 +105,35 @@
                 <artifactId>smilex-api</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>top.zsmile</groupId>
-                <artifactId>smilex-mybatis-enhance</artifactId>
+                <artifactId>smilex-common</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
             <dependency>
                 <groupId>top.zsmile</groupId>
-                <artifactId>smilex-common</artifactId>
+                <artifactId>smilex-common-core</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common-redis</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common-datasource</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common-mybatis</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common-file</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
             <dependency>
@@ -128,7 +148,7 @@
             </dependency>
 
 
-            <!-- Sring Boot-->
+            <!-- Spring Boot-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>

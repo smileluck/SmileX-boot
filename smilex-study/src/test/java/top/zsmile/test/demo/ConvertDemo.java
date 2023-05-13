@@ -3,13 +3,12 @@ package top.zsmile.test.demo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import top.zsmile.common.utils.NameStyleUtils;
-import top.zsmile.common.utils.file.SpringFileUtils;
+import top.zsmile.common.core.utils.NameStyleUtils;
+import top.zsmile.common.core.utils.file.SpringFileUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;

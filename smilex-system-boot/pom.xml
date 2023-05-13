@@ -12,14 +12,25 @@
     <artifactId>smilex-system-boot</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-mybatis-enhance</artifactId>
+            <artifactId>smilex-common-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common</artifactId>
+            <artifactId>smilex-common-mybatis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-file</artifactId>
         </dependency>
 
         <dependency>
