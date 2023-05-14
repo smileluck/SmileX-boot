@@ -12,8 +12,9 @@
     <artifactId>smilex-tool</artifactId>
     <packaging>pom</packaging>
     <modules>
-<!--        <module>smilex-tool-dev</module>-->
+        <module>smilex-tool-dev</module>
         <module>smilex-tool-pay</module>
+        <module>smilex-tool-gen</module>
     </modules>
 
     <dependencies>

@@ -15,7 +15,7 @@ ENV APP_JVM="-server -Xms2g -Xmx2g -Xmn1g -Duser.timezone=GMT+08"
 ENV SPRING_YML="--spring.config.location=/application.yml"
 
 VOLUME /tmp
-ADD ruoyi-admin.jar  /admin.jar
+ADD smilex-admin.jar  /admin.jar
 ADD application.yml  /application.yml
 RUN bash -c 'touch /admin.jar'
 ENTRYPOINT java ${APP_JVM} -jar /admin.jar ${SPRING_YML}

@@ -3,37 +3,30 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>smilex-system</artifactId>
+        <artifactId>smilex-tool</artifactId>
         <groupId>top.zsmile</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>smilex-system-generator</artifactId>
+    <artifactId>smilex-tool-gen</artifactId>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>top.zsmile</groupId>-->
+<!--            <artifactId>smilex-common-mybatis</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-datasource</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-tool-gen</artifactId>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
         </dependency>
-
-        <!-- mybatis-plus -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.1</version>
-
-            <exclusions>
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>mybatis-plus-generator</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 
