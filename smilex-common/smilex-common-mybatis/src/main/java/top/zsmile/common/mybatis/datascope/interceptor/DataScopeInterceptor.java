@@ -1,6 +1,6 @@
 package top.zsmile.common.mybatis.datascope.interceptor;
 
-import top.zsmile.api.common.CommonAuthApi;
+import top.zsmile.api.system.common.CommonAuthApi;
 import top.zsmile.common.mybatis.datascope.DataScopeContentHolder;
 import top.zsmile.common.mybatis.datascope.DataScopeHandleFactory;
 import top.zsmile.common.mybatis.datascope.DataScopePerm;

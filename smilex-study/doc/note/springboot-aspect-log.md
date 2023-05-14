@@ -154,7 +154,7 @@ public @interface SysLog {
 这里有几个需要注意的地方
 
 1. 需要在类上添加@Component 和 @Aspect 注解，前者是为了将SysLogAspect 作为一个Bean，注入到Spring容器中；后者是为了开启切面功能
-2. @Pointcut 注入点，注入点说明该切面在什么情况下生效，这里使用 "@annotation(top.zsmile.annotation.SysLog)" 表示只要是有加@SysLog注解的地方就能注入切面功能。
+2. @Pointcut 注入点，注入点说明该切面在什么情况下生效，这里使用 "@annotation(top.zsmile.common.log.annotation.SysLog)" 表示只要是有加@SysLog注解的地方就能注入切面功能。
 3. @Around，括号内使用的就是对应的切点sysLogPointcut()，这时around方法就会执行。
 4. ProceedingJoinPoint joinPoint，指的是对应的执行点，当我们调用proceed()时，会调用对应的业务代码。
 
@@ -169,7 +169,7 @@ public class SysLogAspect {
     @Autowired
     private CommonAuthApi commonAuthApi;
 
-    @Pointcut("@annotation(top.zsmile.annotation.SysLog)")
+    @Pointcut("@annotation(top.zsmile.common.log.annotation.SysLog)")
     public void sysLogPointcut() {
 
     }

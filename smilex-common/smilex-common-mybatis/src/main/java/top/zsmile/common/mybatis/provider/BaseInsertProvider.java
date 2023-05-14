@@ -7,7 +7,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
-import top.zsmile.api.common.CommonAuthApi;
+import top.zsmile.api.system.common.CommonAuthApi;
 import top.zsmile.common.core.utils.NameStyleUtils;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.core.exception.SXException;

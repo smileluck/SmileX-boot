@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
-import top.zsmile.modules.generator.constant.DefaultConstants;
+import top.zsmile.system.modules.generator.constant.DefaultConstants;
 
 import javax.sql.DataSource;
 

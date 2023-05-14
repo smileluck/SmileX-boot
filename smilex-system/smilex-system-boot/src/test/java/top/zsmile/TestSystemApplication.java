@@ -6,9 +6,9 @@ import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.core.utils.file.SpringFileUtils;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.Page;
-import top.zsmile.modules.sys.dao.SysDictMapper;
-import top.zsmile.modules.sys.entity.SysDictEntity;
-import top.zsmile.modules.sys.service.SysDictService;
+import top.zsmile.system.modules.sys.dao.SysDictMapper;
+import top.zsmile.system.modules.sys.entity.SysDictEntity;
+import top.zsmile.system.modules.sys.service.SysDictService;
 
 import java.io.IOException;
 import java.util.List;

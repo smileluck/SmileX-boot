@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import top.zsmile.GeneratorApplication;
-import top.zsmile.modules.generator.dao.SysDictDao;
-import top.zsmile.modules.generator.domain.entity.SysDictEntity;
+import top.zsmile.system.modules.generator.dao.SysDictDao;
+import top.zsmile.system.modules.generator.domain.entity.SysDictEntity;
 
 import java.util.List;
 

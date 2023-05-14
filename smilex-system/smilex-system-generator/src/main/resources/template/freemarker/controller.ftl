@@ -8,7 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.core.api.R;
-import top.zsmile.annotation.SysLog;
+import top.zsmile.common.log.annotation.SysLog;
 import top.zsmile.common.core.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

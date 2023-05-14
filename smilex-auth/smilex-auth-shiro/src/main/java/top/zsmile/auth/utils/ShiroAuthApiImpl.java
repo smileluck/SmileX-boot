@@ -3,7 +3,7 @@ package top.zsmile.auth.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
-import top.zsmile.api.common.CommonAuthApi;
+import top.zsmile.api.system.common.CommonAuthApi;
 
 import java.util.Collections;
 import java.util.HashMap;

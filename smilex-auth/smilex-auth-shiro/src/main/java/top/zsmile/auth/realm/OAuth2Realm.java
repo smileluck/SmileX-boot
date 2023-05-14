@@ -10,7 +10,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import top.zsmile.api.common.CommonApi;
+import top.zsmile.api.system.common.CommonApi;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.core.utils.IPUtils;
 import top.zsmile.common.core.utils.JwtUtils;

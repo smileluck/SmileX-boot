@@ -1,14 +1,11 @@
 package top.zsmile.common.mybatis.interceptor;
 
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import top.zsmile.api.common.CommonAuthApi;
+import top.zsmile.api.system.common.CommonAuthApi;
 import top.zsmile.common.mybatis.entity.BaseEntity;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
 

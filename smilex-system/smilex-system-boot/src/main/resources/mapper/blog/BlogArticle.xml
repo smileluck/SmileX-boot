@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.zsmile.modules.blog.dao.BlogArticleMapper">
-    <select id="selectListBySearch" resultType="top.zsmile.modules.open.entity.vo.BlogArticleVo">
+<mapper namespace="top.zsmile.system.modules.blog.dao.BlogArticleMapper">
+    <select id="selectListBySearch" resultType="top.zsmile.system.modules.open.entity.vo.BlogArticleVo">
         select blog_article.id,
         blog_article.section_id,
         blog_section.section_name,
@@ -61,7 +61,7 @@
             </if>
         </where>
     </select>
-    <select id="selectDetailById" resultType="top.zsmile.modules.open.entity.vo.BlogArticleVo">
+    <select id="selectDetailById" resultType="top.zsmile.system.modules.open.entity.vo.BlogArticleVo">
         select blog_article.id,
         blog_article.section_id,
         blog_section.section_name,
@@ -87,7 +87,7 @@
             </if>
         </where>
     </select>
-    <select id="selectPrevArticle" resultType="top.zsmile.modules.open.entity.vo.BlogArticleLNBodyVo">
+    <select id="selectPrevArticle" resultType="top.zsmile.system.modules.open.entity.vo.BlogArticleLNBodyVo">
         select
         blog_article.id,
         blog_article.article_title
@@ -110,7 +110,7 @@
         </where>
         order by blog_article.create_time desc limit 1
     </select>
-    <select id="selectNextArticle" resultType="top.zsmile.modules.open.entity.vo.BlogArticleLNBodyVo">
+    <select id="selectNextArticle" resultType="top.zsmile.system.modules.open.entity.vo.BlogArticleLNBodyVo">
         select
         blog_article.id,
         blog_article.article_title
@@ -133,7 +133,7 @@
         </where>
         order by blog_article.create_time desc limit 1
     </select>
-    <select id="selectTopList" resultType="top.zsmile.modules.open.entity.vo.BlogArticleTopVo">
+    <select id="selectTopList" resultType="top.zsmile.system.modules.open.entity.vo.BlogArticleTopVo">
         select blog_article.id,
         blog_article.poster,
         blog_article.article_title,

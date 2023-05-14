@@ -21,6 +21,7 @@
         <module>smilex-common-datasource</module>
         <module>smilex-common-mybatis</module>
         <module>smilex-common-file</module>
+        <module>smilex-common-log</module>
     </modules>
 
     <properties>
@@ -41,7 +42,7 @@
 
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-api</artifactId>
+            <artifactId>smilex-api-system</artifactId>
             <scope>compile</scope>
         </dependency>
 
