@@ -1,4 +1,4 @@
-package top.zsmile.config;
+package top.zsmile.system.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
