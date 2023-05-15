@@ -39,8 +39,10 @@
 
 
     <properties>
-        <springboot.version>2.3.12.RELEASE</springboot.version>
         <smilex.version>1.0</smilex.version>
+        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
         <mysql-connector-java.version>8.0.21</mysql-connector-java.version>
         <fastjson.version>1.2.78</fastjson.version>
         <guava.version>29.0-jre</guava.version>
@@ -194,14 +196,14 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${springboot.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <!-- undertow容器支持 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-undertow</artifactId>
-                <version>${springboot.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <!-- guava工具类 -->
@@ -291,6 +293,22 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-spring-boot.version}</version>
+            </dependency>
+
+            <!-- SpringCloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

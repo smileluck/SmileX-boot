@@ -15,33 +15,4 @@
         <module>smilex-modules-sys</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-file</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-auth-shiro</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-log</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-swagger</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

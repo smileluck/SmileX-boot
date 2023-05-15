@@ -15,5 +15,19 @@
         <module>smilex-cloud-sys</module>
     </modules>
 
+    <properties>
+        <spring-cloud-alibaba-nacos-version>2021.0.1.0</spring-cloud-alibaba-nacos-version>
+    </properties>
+
+    <dependencyManagement>
+        <!-- alibaba nacos -->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+<!--                <version>${spring-cloud-alibaba-nacos-version}</version>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+    </dependencyManagement>
 
 </project>
