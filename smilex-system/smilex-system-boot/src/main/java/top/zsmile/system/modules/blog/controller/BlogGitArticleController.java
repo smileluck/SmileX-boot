@@ -20,7 +20,7 @@ import top.zsmile.common.log.annotation.SysLog;
 import top.zsmile.common.core.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.enums.VisitTypeEnum;
+import top.zsmile.system.enums.VisitTypeEnum;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.system.modules.blog.entity.BlogArticleEntity;
 import top.zsmile.system.modules.blog.entity.BlogTagEntity;

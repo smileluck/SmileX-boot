@@ -3,7 +3,6 @@ package top.zsmile.system.modules.blog.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +12,8 @@ import top.zsmile.core.api.R;
 import top.zsmile.system.modules.blog.entity.BlogSectionEntity;
 import top.zsmile.system.modules.blog.service.BlogSectionService;
 import top.zsmile.system.modules.blog.service.BlogTagService;
-import top.zsmile.system.modules.sys.entity.SysDictItemEntity;
-import top.zsmile.system.modules.sys.service.SysDictItemService;
+import top.zsmile.modules.sys.entity.SysDictItemEntity;
+import top.zsmile.modules.sys.service.SysDictItemService;
 
 import java.util.Collections;
 import java.util.HashMap;

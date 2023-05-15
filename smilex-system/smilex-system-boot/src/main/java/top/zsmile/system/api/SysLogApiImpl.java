@@ -15,8 +15,8 @@ import top.zsmile.common.log.enums.ModuleType;
 import top.zsmile.common.core.utils.IPUtils;
 import top.zsmile.common.log.annotation.SysLog;
 import top.zsmile.core.utils.SpringContextUtils;
-import top.zsmile.system.modules.sys.entity.SysLogEntity;
-import top.zsmile.system.modules.sys.service.SysLogService;
+import top.zsmile.modules.sys.entity.SysLogEntity;
+import top.zsmile.modules.sys.service.SysLogService;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;

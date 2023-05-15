@@ -20,7 +20,7 @@ import top.zsmile.system.modules.open.entity.vo.BlogArticleLNVo;
 import top.zsmile.system.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.system.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.system.modules.open.entity.vo.BlogTagVo;
-import top.zsmile.system.modules.sys.utils.AssertUtils;
+import top.zsmile.core.utils.AssertUtils;
 
 import javax.validation.Valid;
 import java.util.Collections;

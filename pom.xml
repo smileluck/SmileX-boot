@@ -23,6 +23,7 @@
         <module>smilex-study</module>
         <module>smilex-system</module>
         <module>smilex-cloud</module>
+        <module>smilex-modules</module>
     </modules>
 
     <repositories>
@@ -175,6 +176,16 @@
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-tool-gen</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-modules</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-modules-sys</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
 
