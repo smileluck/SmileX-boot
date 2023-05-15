@@ -1,4 +1,4 @@
-package top.zsmile.enums;
+package top.zsmile.system.enums;
 
 /**
  * 访问类型

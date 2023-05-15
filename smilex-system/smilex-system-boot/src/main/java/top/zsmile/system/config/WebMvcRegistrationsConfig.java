@@ -1,4 +1,4 @@
-package top.zsmile.config;
+package top.zsmile.system.config;
 
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Configuration;
