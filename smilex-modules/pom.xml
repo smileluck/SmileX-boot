@@ -38,6 +38,10 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-log</artifactId>
         </dependency>
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-swagger</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

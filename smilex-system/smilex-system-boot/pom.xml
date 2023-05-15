@@ -12,15 +12,9 @@
     <artifactId>smilex-system-boot</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-modules-sys</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-core</artifactId>
         </dependency>
 
         <dependency>
@@ -42,20 +36,6 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-log</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-auth-shiro</artifactId>
-        </dependency>
-
-
-        <!-- minio -->
-        <!--        <dependency>-->
-        <!--            <groupId>io.minio</groupId>-->
-        <!--            <artifactId>minio</artifactId>-->
-        <!--            <version>8.0.0</version>-->
-        <!--        </dependency>-->
-
 
     </dependencies>
 
