@@ -18,7 +18,7 @@
 
 >  更多详细的版本对应关系，可以访问网址： https://start.spring.io/actuator/info 
 
-![1684203384566](SpringCloud-boot升级.assets/1684203384566.png)
+![1684203384566](SpringCloud-基础.assets/1684203384566.png)
 
 `Dalston`, `Edgware`, `Finchley`, `Greenwich` 都已到达终点将不再支持。
 
@@ -45,4 +45,4 @@
 
 # 基础组件
 
- ![img](SpringCloud-boot升级.assets/471801123_1617818722438_70B715BD7A130A41AD9FDBAA0787D493.png) 
+ ![img](SpringCloud-基础.assets/471801123_1617818722438_70B715BD7A130A41AD9FDBAA0787D493.png) 
