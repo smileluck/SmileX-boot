@@ -13,7 +13,6 @@ import top.zsmile.common.datasource.properties.DataSourceProperties;
 import java.sql.SQLException;
 
 @Configuration
-@Order(-1)
 public class DynamicDataSourceConfig {
 
     public final static String MASTER = "master";

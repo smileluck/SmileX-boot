@@ -3,6 +3,7 @@ package top.zsmile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -17,6 +18,7 @@ import java.net.UnknownHostException;
  * @Description: SmilexCloudSysApplication
  */
 @Slf4j
+@EnableDiscoveryClient
 @SpringBootApplication
 public class SmilexCloudSysApplication {
     public static void main(String[] args) throws UnknownHostException {
@@ -27,7 +29,7 @@ public class SmilexCloudSysApplication {
         String path = env.getProperty("server.servlet.context-path");
         log.info("\n----------------------------------------------------------\n\t" +
                 "Application SmileX-Cloud-Sys is running! Access URLs:\n\t" +
-                "Local: \t\t\thttp://localhost:" + port + path + "/\n\t" +
+                "Local: \t\t    \thttp://localhost:" + port + path + "/\n\t" +
                 "External: \t\thttp://" + ip + ":" + port + path + "/\n\t" +
                 "Swagger文档: \thttp://" + ip + ":" + port + path + "/doc.html\n" +
                 "----------------------------------------------------------");

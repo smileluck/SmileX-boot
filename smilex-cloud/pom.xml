@@ -15,19 +15,33 @@
         <module>smilex-cloud-sys</module>
     </modules>
 
-    <properties>
-        <spring-cloud-alibaba-nacos-version>2021.0.1.0</spring-cloud-alibaba-nacos-version>
-    </properties>
-
     <dependencyManagement>
         <!-- alibaba nacos -->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>com.alibaba.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
-<!--                <version>${spring-cloud-alibaba-nacos-version}</version>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
+        <!--        <dependencies>-->
+        <!--            <dependency>-->
+        <!--                <groupId>com.alibaba.cloud</groupId>-->
+        <!--                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+        <!--                <version>${spring-cloud-alibaba-nacos-version}</version>-->
+        <!--            </dependency>-->
+        <!--        </dependencies>-->
+
+        <!-- SpringCloud -->
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
 </project>
