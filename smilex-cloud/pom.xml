@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>smilex-cloud-sys</module>
+        <module>smilex-cloud-gateway</module>
     </modules>
 
     <dependencyManagement>

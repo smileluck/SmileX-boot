@@ -2,6 +2,8 @@ package top.zsmile.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +25,6 @@ public class DynamicDataSourceConfig {
         return new DataSourceProperties();
     }
 
-    @Primary
     @Bean(name = "dynamicDataSource")
     public DynamicDataSource dynamicDataSource(DataSourceProperties dataSourceProperties) {
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
@@ -37,7 +38,6 @@ public class DynamicDataSourceConfig {
             throw new RuntimeException(String.format("数据库[%s]初始化异常", MASTER));
 //            SpringContextUtils.close();
         }
-
         return dynamicDataSource;
     }
 
