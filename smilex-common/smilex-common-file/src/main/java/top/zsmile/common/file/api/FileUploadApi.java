@@ -1,4 +1,4 @@
-package top.zsmile.api.system.common;
+package top.zsmile.common.file.api;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import top.zsmile.api.system.common.FileUploadApi;
 import top.zsmile.common.file.cloud.CloudStoreService;
 import top.zsmile.common.file.cloud.LocalCloudStoreService;
 import top.zsmile.common.file.cloud.OssCloudStoreService;
