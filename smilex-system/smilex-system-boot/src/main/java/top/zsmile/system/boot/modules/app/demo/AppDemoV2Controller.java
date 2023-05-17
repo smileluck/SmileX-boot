@@ -3,7 +3,7 @@ package top.zsmile.system.boot.modules.app.demo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.system.boot.modules.app.annotation.ApiVersion;
 
 /**

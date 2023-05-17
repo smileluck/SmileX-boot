@@ -20,6 +20,11 @@
             <artifactId>smilex-common-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-api-system</artifactId>
+        </dependency>
+
         <!-- SQL语法解析AST -->
         <dependency>
             <groupId>com.github.jsqlparser</groupId>

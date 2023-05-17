@@ -1,4 +1,4 @@
-package top.zsmile.api.system.common;
+package top.zsmile.common.log.api;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 

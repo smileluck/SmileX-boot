@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 import top.zsmile.common.datasource.DataSourceContentHolder;
 import top.zsmile.common.datasource.DynamicDataSource;
 import top.zsmile.common.datasource.annotation.DataSource;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 import java.lang.reflect.Method;
 

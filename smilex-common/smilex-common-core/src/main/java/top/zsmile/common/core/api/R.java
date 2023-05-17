@@ -1,4 +1,4 @@
-package top.zsmile.core.api;
+package top.zsmile.common.core.api;
 
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;

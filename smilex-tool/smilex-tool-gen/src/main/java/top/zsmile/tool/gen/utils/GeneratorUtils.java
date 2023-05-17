@@ -3,7 +3,7 @@ package top.zsmile.tool.gen.utils;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import top.zsmile.common.core.domain.ZipFileEntity;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.tool.gen.config.FreemakerConfig;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
 import top.zsmile.tool.gen.domain.model.TableModel;

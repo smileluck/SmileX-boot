@@ -3,7 +3,7 @@ package top.zsmile.tool.pay.wechat.v2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import top.zsmile.common.core.utils.Asserts;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.tool.pay.entity.dto.OrderDTO;
 import top.zsmile.tool.pay.entity.dto.OrderRefundDTO;
 import top.zsmile.tool.pay.entity.dto.OrderRefundQueryDTO;

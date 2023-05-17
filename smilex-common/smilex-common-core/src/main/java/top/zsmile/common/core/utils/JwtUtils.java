@@ -6,9 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.http.HttpStatus;
-import top.zsmile.core.api.R;
-import top.zsmile.core.api.ResultCode;
-import top.zsmile.core.utils.SpringContextUtils;
+import top.zsmile.common.core.api.R;
+import top.zsmile.common.core.api.ResultCode;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;

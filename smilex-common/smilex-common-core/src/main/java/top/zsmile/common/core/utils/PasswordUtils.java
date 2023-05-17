@@ -1,6 +1,6 @@
 package top.zsmile.common.core.utils;
 
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

@@ -1,4 +1,4 @@
-package top.zsmile.core.exception;
+package top.zsmile.common.core.exception;
 
 public final class SXException extends RuntimeException {
 

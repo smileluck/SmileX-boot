@@ -17,7 +17,6 @@
         <module>smilex-common</module>
         <module>smilex-auth</module>
         <module>smilex-api</module>
-        <module>smilex-core</module>
         <module>smilex-tool</module>
         <module>smilex-im</module>
         <module>smilex-study</module>
@@ -55,6 +54,7 @@
         <jwt.version>3.19.2</jwt.version>
         <druid.version>1.2.8</druid.version>
         <knife4j.version>2.0.9</knife4j.version>
+        <swagger.version>1.5.22</swagger.version>
         <aliyun-oss.version>3.10.2</aliyun-oss.version>
         <jsqlparser.version>4.5</jsqlparser.version>
         <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
@@ -92,11 +92,6 @@
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-system-boot</artifactId>
-                <version>${smilex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>top.zsmile</groupId>
-                <artifactId>smilex-core</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
             <dependency>
@@ -271,6 +266,11 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-core</artifactId>
+                <version>${swagger.version}</version>
             </dependency>
 
             <!-- 阿里云 -->

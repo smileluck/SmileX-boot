@@ -1,7 +1,7 @@
 package top.zsmile.system.boot.utils;
 
 import top.zsmile.api.system.common.CommonAuthApi;
-import top.zsmile.core.utils.SpringContextUtils;
+import top.zsmile.common.core.utils.SpringContextUtils;
 
 import java.util.HashMap;
 import java.util.Map;

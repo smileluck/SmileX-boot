@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.system.boot.modules.blog.entity.BlogSectionEntity;
 import top.zsmile.system.boot.modules.blog.service.BlogSectionService;
 import top.zsmile.system.boot.modules.blog.service.BlogTagService;
-import top.zsmile.modules.sys.entity.SysDictItemEntity;
-import top.zsmile.modules.sys.service.SysDictItemService;
 
 import java.util.Collections;
 import java.util.HashMap;

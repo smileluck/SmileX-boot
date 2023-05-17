@@ -1,7 +1,7 @@
 package top.zsmile.common.core.xss;
 
 import org.springframework.util.StringUtils;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 /**
  * SQL过滤

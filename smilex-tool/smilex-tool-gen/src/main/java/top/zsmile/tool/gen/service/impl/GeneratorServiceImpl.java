@@ -7,7 +7,7 @@ import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.utils.file.ZipUtils;
 import top.zsmile.common.datasource.annotation.DataSource;
-import top.zsmile.core.utils.SpringContextUtils;
+import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 import top.zsmile.tool.gen.convert.MysqlTypeConvert;
 import top.zsmile.tool.gen.dao.GeneratorDao;

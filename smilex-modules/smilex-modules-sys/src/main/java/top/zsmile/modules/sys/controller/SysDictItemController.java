@@ -8,7 +8,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.common.log.annotation.SysLog;
 import top.zsmile.common.core.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;

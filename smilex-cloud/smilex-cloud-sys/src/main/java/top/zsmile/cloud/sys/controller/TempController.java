@@ -1,12 +1,10 @@
 package top.zsmile.cloud.sys.controller;
 
-import com.alibaba.nacos.api.config.annotation.NacosValue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.zsmile.common.datasource.properties.DataSourceProperties;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.modules.sys.entity.SysUserEntity;
 import top.zsmile.modules.sys.service.SysUserService;
 

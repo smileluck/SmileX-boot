@@ -100,17 +100,12 @@ public class ValidatorConfig {
 package top.zsmile.core.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.NoHandlerFoundException;
-import top.zsmile.core.api.R;
-import top.zsmile.core.api.ResultCode;
+import top.zsmile.common.core.api.R;
+import top.zsmile.common.core.api.ResultCode;import top.zsmile.common.core.exception.SXException;
 
 import java.util.List;
 

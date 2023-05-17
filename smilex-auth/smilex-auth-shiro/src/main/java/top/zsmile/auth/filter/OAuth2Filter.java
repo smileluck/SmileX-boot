@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.core.constant.CommonConstant;
 import top.zsmile.common.core.utils.JwtUtils;
-import top.zsmile.core.api.ResultCode;
+import top.zsmile.common.core.api.ResultCode;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

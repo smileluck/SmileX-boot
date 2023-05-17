@@ -1,6 +1,6 @@
 package top.zsmile.common.file.filter;
 
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 public class FileTypeFilter {
 

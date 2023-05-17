@@ -1,18 +1,16 @@
-package top.zsmile.core.exception;
+package top.zsmile.common.core.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import top.zsmile.core.api.R;
-import top.zsmile.core.api.ResultCode;
+import top.zsmile.common.core.api.R;
+import top.zsmile.common.core.api.ResultCode;
+import top.zsmile.common.core.constant.StringConstant;
 
 import java.util.List;
 
@@ -35,11 +33,6 @@ public class SXExceptionHandler {
         return R.fail(ResultCode.NO_FIND, "路径不存在，请检查路径是否正确");
     }
 
-    @ExceptionHandler(DuplicateKeyException.class)
-    public R handleDuplicateKeyException(DuplicateKeyException e) {
-        log.error(e.getMessage(), e);
-        return R.fail("数据库中已存在该记录");
-    }
 
 //    @ExceptionHandler(AuthorizationException.class)
 //    public R handleAuthorizationException(AuthorizationException e) {
@@ -62,15 +55,6 @@ public class SXExceptionHandler {
         return R.fail("文件大小超出10MB限制, 请压缩或降低文件质量! ");
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public R handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        log.error(e.getMessage(), e);
-        return R.fail(e.getMessage());
-    }
-
-
-    private static final String SPLINT = ",";
-
     @ExceptionHandler(BindException.class)
     public R BindException(BindException e) {
         log.error(e.getMessage(), e);
@@ -86,7 +70,7 @@ public class SXExceptionHandler {
     private String fieldErrorToMessage(List<FieldError> fieldErrors) {
         StringBuffer sb = new StringBuffer("");
         for (FieldError fieldError : fieldErrors) {
-            sb.append(fieldError.getDefaultMessage()).append(SPLINT);
+            sb.append(fieldError.getDefaultMessage()).append(StringConstant.COMMA);
         }
         return sb.substring(0, sb.length() - 1);
     }

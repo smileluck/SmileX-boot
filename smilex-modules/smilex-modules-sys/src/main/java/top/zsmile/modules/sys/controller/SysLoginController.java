@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import top.zsmile.common.redis.utils.RedisUtils;
 import top.zsmile.common.core.constant.CommonConstant;
 import top.zsmile.common.core.utils.ValidatorUtils;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.modules.sys.model.SysLoginModel;
 import top.zsmile.modules.sys.service.SysUserService;
 import top.zsmile.modules.sys.utils.CaptchaImgUtils;

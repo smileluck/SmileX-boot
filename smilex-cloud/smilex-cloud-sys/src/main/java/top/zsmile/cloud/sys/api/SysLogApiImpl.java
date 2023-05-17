@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Component;
 import top.zsmile.api.system.common.CommonAuthApi;
-import top.zsmile.api.system.common.SysLogApi;
+import top.zsmile.common.log.api.SysLogApi;
 import top.zsmile.common.core.constant.CommonConstant;
 import top.zsmile.common.log.enums.ModuleType;
 import top.zsmile.common.core.utils.IPUtils;
 import top.zsmile.common.log.annotation.SysLog;
-import top.zsmile.core.utils.SpringContextUtils;
+import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.modules.sys.entity.SysLogEntity;
 import top.zsmile.modules.sys.service.SysLogService;
 

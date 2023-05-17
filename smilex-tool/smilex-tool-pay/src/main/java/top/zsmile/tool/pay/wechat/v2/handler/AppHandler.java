@@ -4,7 +4,7 @@ package top.zsmile.tool.pay.wechat.v2.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.tool.pay.entity.vo.AppPayVO;
 import top.zsmile.tool.pay.entity.vo.ReturnVO;
 import top.zsmile.tool.pay.enums.PayTradeTypeEnum;

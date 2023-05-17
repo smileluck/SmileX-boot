@@ -13,6 +13,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-api-system</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-web-starter</artifactId>
         </dependency>

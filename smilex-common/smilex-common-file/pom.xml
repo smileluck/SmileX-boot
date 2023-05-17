@@ -17,5 +17,10 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-core</artifactId>
+        </dependency>
     </dependencies>
 </project>

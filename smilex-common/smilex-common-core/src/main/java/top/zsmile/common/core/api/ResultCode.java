@@ -1,4 +1,4 @@
-package top.zsmile.core.api;
+package top.zsmile.common.core.api;
 
 public enum ResultCode implements IResultCode {
 

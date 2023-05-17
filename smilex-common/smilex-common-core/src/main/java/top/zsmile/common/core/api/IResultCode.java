@@ -1,4 +1,4 @@
-package top.zsmile.core.api;
+package top.zsmile.common.core.api;
 
 import java.io.Serializable;
 

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.zsmile.common.redis.utils.RedisUtils;
 import top.zsmile.common.core.utils.JwtUtils;
 import top.zsmile.common.core.utils.PasswordUtils;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.modules.sys.dao.SysUserMapper;
 import top.zsmile.modules.sys.entity.SysUserEntity;
 import top.zsmile.modules.sys.model.SysLoginModel;

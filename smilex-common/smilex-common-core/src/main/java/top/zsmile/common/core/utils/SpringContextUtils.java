@@ -1,4 +1,4 @@
-package top.zsmile.core.utils;
+package top.zsmile.common.core.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;

@@ -3,7 +3,7 @@ package top.zsmile.common.datasource;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 import javax.sql.DataSource;
 import java.util.Map;

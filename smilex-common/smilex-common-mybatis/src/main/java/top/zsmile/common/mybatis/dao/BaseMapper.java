@@ -2,7 +2,7 @@ package top.zsmile.common.mybatis.dao;
 
 import org.apache.ibatis.annotations.*;
 import top.zsmile.common.mybatis.provider.*;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.meta.conditions.query.QueryWrapper;

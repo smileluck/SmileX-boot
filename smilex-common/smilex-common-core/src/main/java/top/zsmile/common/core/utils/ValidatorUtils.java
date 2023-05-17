@@ -1,8 +1,7 @@
 package top.zsmile.common.core.utils;
 
 import org.springframework.util.StringUtils;
-import top.zsmile.core.exception.SXException;
-import top.zsmile.core.utils.SpringContextUtils;
+import top.zsmile.common.core.exception.SXException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

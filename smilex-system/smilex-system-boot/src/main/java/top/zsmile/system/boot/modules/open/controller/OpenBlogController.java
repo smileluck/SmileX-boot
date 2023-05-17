@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.Page;
 import top.zsmile.system.boot.modules.blog.service.BlogArticleService;
@@ -20,7 +20,7 @@ import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleLNVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogTagVo;
-import top.zsmile.core.utils.AssertUtils;
+import top.zsmile.common.core.utils.AssertUtils;
 
 import javax.validation.Valid;
 import java.util.Collections;

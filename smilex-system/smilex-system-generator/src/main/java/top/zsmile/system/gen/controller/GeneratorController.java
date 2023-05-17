@@ -9,7 +9,7 @@ import top.zsmile.common.core.validator.group.Add;
 import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
-import top.zsmile.core.api.R;
+import top.zsmile.common.core.api.R;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 import top.zsmile.tool.gen.domain.entity.DatabaseConnEntity;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;

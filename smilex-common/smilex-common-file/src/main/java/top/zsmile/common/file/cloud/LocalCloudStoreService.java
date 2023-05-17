@@ -3,7 +3,7 @@ package top.zsmile.common.file.cloud;
 import org.springframework.web.multipart.MultipartFile;
 import top.zsmile.common.file.config.PathConfig;
 import top.zsmile.common.file.filter.FileTypeFilter;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 import java.io.*;
 

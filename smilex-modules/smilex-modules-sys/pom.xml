@@ -15,6 +15,11 @@
 
         <dependency>
             <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-redis</artifactId>
         </dependency>
 

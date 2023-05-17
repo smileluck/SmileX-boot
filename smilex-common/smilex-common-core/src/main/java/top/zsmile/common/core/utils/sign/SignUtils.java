@@ -1,7 +1,7 @@
 package top.zsmile.common.core.utils.sign;
 
 import top.zsmile.common.core.utils.CmdUtils;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

@@ -16,27 +16,6 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-modules-sys</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-mybatis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-file</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-log</artifactId>
-        </dependency>
-
     </dependencies>
 
 

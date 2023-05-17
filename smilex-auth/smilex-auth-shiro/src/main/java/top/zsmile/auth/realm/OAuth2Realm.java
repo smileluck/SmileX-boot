@@ -14,7 +14,7 @@ import top.zsmile.api.system.common.CommonApi;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.core.utils.IPUtils;
 import top.zsmile.common.core.utils.JwtUtils;
-import top.zsmile.core.utils.SpringContextUtils;
+import top.zsmile.common.core.utils.SpringContextUtils;
 
 import java.util.*;
 

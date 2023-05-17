@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
-import top.zsmile.core.exception.SXException;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.meta.TableInfo;
 import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;

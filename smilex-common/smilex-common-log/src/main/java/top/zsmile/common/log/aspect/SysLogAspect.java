@@ -1,13 +1,12 @@
 package top.zsmile.common.log.aspect;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import top.zsmile.api.system.common.SysLogApi;
+import top.zsmile.common.log.api.SysLogApi;
 
 @Component
 @Aspect
