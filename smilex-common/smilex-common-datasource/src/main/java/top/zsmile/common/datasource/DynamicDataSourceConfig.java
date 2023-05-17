@@ -20,11 +20,12 @@ public class DynamicDataSourceConfig {
     public final static String MASTER = "master";
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.druid")
+    @ConditionalOnMissingBean
     public DataSourceProperties dataSourceProperties() {
         return new DataSourceProperties();
     }
 
+    @ConditionalOnMissingBean
     @Bean(name = "dynamicDataSource")
     public DynamicDataSource dynamicDataSource(DataSourceProperties dataSourceProperties) {
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
@@ -41,6 +42,7 @@ public class DynamicDataSourceConfig {
         return dynamicDataSource;
     }
 
+    @ConditionalOnMissingBean
     @Bean(name = "transactionManager")
     public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
         return new DataSourceTransactionManager(dynamicDataSource);

@@ -21,5 +21,6 @@ spring:
         file-extension: yml
         # 共享配置
         shared-configs:
-          - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
 

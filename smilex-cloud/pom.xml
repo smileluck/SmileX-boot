@@ -14,6 +14,7 @@
     <modules>
         <module>smilex-cloud-sys</module>
         <module>smilex-cloud-gateway</module>
+        <module>smilex-cloud-file</module>
     </modules>
 
     <dependencyManagement>

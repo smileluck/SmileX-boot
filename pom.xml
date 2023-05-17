@@ -42,7 +42,7 @@
         <smilex.version>1.0</smilex.version>
         <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2.2.9.RELEASE</spring-cloud-alibaba.version>
         <mysql-connector-java.version>8.0.21</mysql-connector-java.version>
         <fastjson.version>1.2.78</fastjson.version>
         <guava.version>29.0-jre</guava.version>

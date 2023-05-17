@@ -1,9 +1,10 @@
 server:
-  port: 8809
-
+  port: 8802
 spring:
   application:
-    name: smilex-cloud-gateway
+    name: smilex-cloud-file
+  profiles:
+    active: dev
   cloud:
     nacos:
       discovery:
@@ -21,16 +22,5 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: smilex-cloud-sys         #路由的ID，没有固定规则但要求唯一，建议配合服务名
-          uri: http://127.0.0.1:8801    #匹配后提供服务的路由地址
-          predicates:
-            - Path=/temp/**    #断言，路径相匹配的进行路由
-
-
 
 

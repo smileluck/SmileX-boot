@@ -1,16 +1,10 @@
-package top.zsmile.cloud.sys.controller;
+package top.zsmile.cloud.file.controller;
 
-import com.alibaba.nacos.api.config.annotation.NacosValue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import top.zsmile.common.datasource.properties.DataSourceProperties;
-import top.zsmile.core.api.R;
-import top.zsmile.modules.sys.entity.SysUserEntity;
-import top.zsmile.modules.sys.service.SysUserService;
-
-import javax.annotation.Resource;
 
 /**
  * @Version: 1.0.0
@@ -27,17 +21,15 @@ public class TempController {
 //    @Resource
 //    private DataSourceProperties DataSourceProperties;
 
-    @Resource
-    private SysUserService userService;
 
-        @Value("${spring.datasource.druid.url}")
+    @Value("${smilex.url:123}")
 //    @NacosValue(value = "${spring.datasource.druid.url}", autoRefreshed = true)
     private String url;
 
+    @ResponseBody
     @RequestMapping("/test")
-    public R test() {
+    public String test() {
         System.out.println(url);
-        SysUserEntity info = userService.getById(1L);
-        return R.success(info);
+        return url;
     }
 }

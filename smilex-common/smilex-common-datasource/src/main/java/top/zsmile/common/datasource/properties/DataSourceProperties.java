@@ -1,8 +1,10 @@
 package top.zsmile.common.datasource.properties;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
+@ConfigurationProperties(prefix = "spring.datasource.druid")
 public class DataSourceProperties {
 
     private String driverClassName;

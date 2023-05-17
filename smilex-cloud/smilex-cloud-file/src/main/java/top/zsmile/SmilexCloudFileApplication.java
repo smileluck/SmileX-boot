@@ -1,7 +1,6 @@
 package top.zsmile;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -21,14 +20,13 @@ import java.net.UnknownHostException;
 @Slf4j
 @EnableDiscoveryClient
 @SpringBootApplication
-public class SmilexCloudSysApplication {
+public class SmilexCloudFileApplication {
     public static void main(String[] args) throws UnknownHostException {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(SmilexCloudSysApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(SmilexCloudFileApplication.class, args);
         ConfigurableEnvironment env = applicationContext.getEnvironment();
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         String path = env.getProperty("server.servlet.context-path");
-        path = StringUtils.isNotBlank(path) ? path : "";
         log.info("\n----------------------------------------------------------\n\t" +
                 "Application SmileX-Cloud-Sys is running! Access URLs:\n\t" +
                 "Local: \t\t    \thttp://localhost:" + port + path + "/\n\t" +
