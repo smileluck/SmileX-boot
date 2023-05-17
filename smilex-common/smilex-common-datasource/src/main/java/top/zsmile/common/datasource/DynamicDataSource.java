@@ -2,10 +2,11 @@ package top.zsmile.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.core.exception.SXException;
+import top.zsmile.common.datasource.properties.DataSourceProperties;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -72,7 +73,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
                 DruidDataSource dataSource = (DruidDataSource) o;
                 if (dataSource != null) {
                     dataSource.close();
-                    dataSource = null;
                     dataSourceMap.remove(key);
                     setDataSourceMap(dataSourceMap);
                 }
@@ -90,24 +90,45 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      */
     public void replaceDataSource(Object key, DataSource dataSource) {
         Object o = dataSourceMap.get(key);
+        dataSourceMap.put(key, dataSource);
+        if (DynamicDataSourceConfig.MASTER.equals(key)) {
+            this.setDefaultTargetDataSource(dataSource);
+        }
         if (o != null) {
             if (o instanceof DataSource) {
                 DruidDataSource dataSource1 = (DruidDataSource) o;
                 if (dataSource1 != null) {
                     dataSource1.close();
-                    dataSource1 = null;
-                    dataSourceMap.remove(key);
-                    setDataSourceMap(dataSourceMap);
                 }
             }
         }
-        dataSourceMap.put(key, dataSource);
         setDataSourceMap(dataSourceMap);
+    }
+
+
+    /**
+     * Recording to the datasource of the map with the key
+     *
+     * @param key
+     * @param dataSourceProperties
+     */
+    public void replaceDataSource(Object key, DataSourceProperties dataSourceProperties) {
+        DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
+        try {
+            dataSource.init();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        replaceDataSource(key, dataSource);
     }
 
 
     @Override
     protected Object determineCurrentLookupKey() {
         return DataSourceContentHolder.get();
+    }
+
+    public Object getDataSource(String key) {
+        return dataSourceMap.get(key);
     }
 }
