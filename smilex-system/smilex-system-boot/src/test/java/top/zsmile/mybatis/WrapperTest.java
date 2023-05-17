@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import top.zsmile.SmileSystemApplication;
+import top.zsmile.SmilexSystemApplication;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.service.SysDictService;
 import top.zsmile.common.mybatis.meta.conditions.query.LambdaQueryWrapper;
@@ -22,7 +22,7 @@ import java.util.List;
  * @Description: WrapperTest
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SmileSystemApplication.class)
+@SpringBootTest(classes = SmilexSystemApplication.class)
 public class WrapperTest {
 
     @Resource

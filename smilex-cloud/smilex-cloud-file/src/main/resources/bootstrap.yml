@@ -1,5 +1,7 @@
 server:
   port: 8802
+  servlet:
+    context-path: /file
 spring:
   application:
     name: smilex-cloud-file
