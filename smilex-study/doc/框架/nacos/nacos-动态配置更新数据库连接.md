@@ -1,37 +1,15 @@
-package top.zsmile.cloud.nacos;
+[toc]
 
-import com.alibaba.cloud.nacos.NacosConfigManager;
-import com.alibaba.cloud.nacos.NacosConfigProperties;
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.listener.Listener;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Configuration;
-import org.yaml.snakeyaml.Yaml;
-import top.zsmile.common.datasource.DataSourceFactory;
-import top.zsmile.common.datasource.DynamicDataSource;
-import top.zsmile.common.datasource.DynamicDataSourceConfig;
-import top.zsmile.common.datasource.properties.DataSourceProperties;
+---
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-import java.util.concurrent.Executor;
+# 前言
 
-/**
- * nacos监听
- *
- * @Version: 1.0.0
- * @Author: Administrator
- * @Date: 2023/05/17/14:42
- * @ClassName: NacosListener
- * @Description: NacosListener
- */
+该文章基于我之前写的另一篇`关于Druid多数据源的配置`，若没有使用多数据，可以借鉴一下，主要是思路是创建新的连接池，然后替换掉原先的连接池，因为 `Druid` 初始化后不能更换连接再次初始化。
+
+# 实现代码
+
+```java
+
 @Slf4j
 @RefreshScope
 @Configuration
@@ -105,3 +83,5 @@ public class NacosListener implements InitializingBean {
         return null;
     }
 }
+```
+

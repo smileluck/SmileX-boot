@@ -29,5 +29,6 @@ spring:
 smilex:
   nacos:
     listener:
-      enabled: true
-      dataId: ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+      refresh-db:
+        enabled: true
+        dataId: ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
