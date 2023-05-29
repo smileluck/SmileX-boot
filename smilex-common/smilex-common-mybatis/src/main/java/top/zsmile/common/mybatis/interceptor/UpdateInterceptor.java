@@ -6,9 +6,11 @@ import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.zsmile.api.system.common.CommonAuthApi;
+import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.common.mybatis.entity.BaseEntity;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -16,12 +18,13 @@ import java.util.Map;
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
 })
 public class UpdateInterceptor implements Interceptor {
-    @Autowired
+
     private CommonAuthApi commonAuthApi;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         if (invocation.getTarget() instanceof Executor) {
+            commonAuthApi = SpringContextUtils.getBean(CommonAuthApi.class);
             MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
             Object params = invocation.getArgs()[1];
             SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
