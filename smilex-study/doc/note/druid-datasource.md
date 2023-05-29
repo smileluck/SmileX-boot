@@ -254,7 +254,7 @@ public @interface DataSource {
 @Component
 @Slf4j
 public class DataSourceAspect {
-    @Pointcut("@within(top.zsmile.common.datasource.annotation.DataSource) || @annotation(top.zsmile.common.datasource.annotation.DataSource)")
+    @Pointcut("@within(top.zsmile.common.datasource.annotation.DS) || @annotation(top.zsmile.common.datasource.annotation.DS)")
     public void dataSourceAspect() {
 
     }
@@ -263,10 +263,10 @@ public class DataSourceAspect {
     public void beforeSwitch(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        DataSource methodDataSource = method.getAnnotation(DataSource.class);
+        DataSource methodDS = method.getAnnotation(DataSource.class);
         String value = null;
-        if (methodDataSource != null) {
-            value = methodDataSource.value();
+        if (methodDS != null) {
+            value = methodDS.value();
         } else {
             Class<?> aClass = joinPoint.getTarget().getClass();
             DataSource annotation = aClass.getAnnotation(DataSource.class);

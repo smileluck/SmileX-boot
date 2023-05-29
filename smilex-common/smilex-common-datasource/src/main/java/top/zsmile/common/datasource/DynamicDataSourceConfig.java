@@ -2,52 +2,63 @@ package top.zsmile.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import top.zsmile.common.datasource.annotation.DS;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
+import top.zsmile.common.datasource.properties.DruidProperties;
+import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
+import top.zsmile.common.datasource.utils.DynamicDataSourceUtils;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
+@EnableConfigurationProperties(DynamicDataSourceProperties.class)
 public class DynamicDataSourceConfig {
 
-    public final static String MASTER = "master";
+    @Resource
+    private DynamicDataSourceProperties dynamicDataSourceProperties;
 
-    @Bean
-    @ConditionalOnMissingBean
-    public DataSourceProperties dataSourceProperties() {
-        return new DataSourceProperties();
-    }
+//    @Bean
+//    @ConditionalOnMissingBean
+//    public DataSourceProperties dataSourceProperties() {
+//        return new DataSourceProperties();
+//    }
 
     @ConditionalOnMissingBean
     @Bean(name = "dynamicDataSource")
-    public DynamicDataSource dynamicDataSource(DataSourceProperties dataSourceProperties) {
+    public DynamicDataSource dynamicDataSource() {
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
-
-        DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        dynamicDataSource.addDataSource(MASTER, dataSource);
-        dynamicDataSource.setDefaultTargetDataSource(dataSource);
-        try {
-            dataSource.init();
-        } catch (SQLException throwables) {
-            throw new RuntimeException(String.format("数据库[%s]初始化异常", MASTER));
-//            SpringContextUtils.close();
-        }
+        Map<Object, Object> dataSourceMap = getDynamicDataSource();
+        dynamicDataSource.setMap(dataSourceMap);
+        dynamicDataSource.setDefaultTargetDataSource(dataSourceMap.get(DynamicDataSourceProperties.PRIMARY));
         return dynamicDataSource;
     }
 
-    @ConditionalOnMissingBean
-    @Bean(name = "transactionManager")
-    public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
-        return new DataSourceTransactionManager(dynamicDataSource);
-    }
+//    @ConditionalOnMissingBean
+//    @Bean(name = "transactionManager")
+//    public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
+//        return new DataSourceTransactionManager(dynamicDataSource);
+//    }
 
+    private Map<Object, Object> getDynamicDataSource() {
+        DruidProperties druid = dynamicDataSourceProperties.getDruid();
+        Map<String, DataSourceProperties> dataSourcePropertiesMap = dynamicDataSourceProperties.getDatasource();
+        Map<Object, Object> dataSourceMap = new HashMap<>(dataSourcePropertiesMap.size());
+        dataSourcePropertiesMap.forEach((k, v) -> {
+            DataSourceProperties mergeProperties = DynamicDataSourceUtils.merge(v, druid);
+            DruidDataSource dataSource = DataSourceFactory.createDataSource(mergeProperties);
+            dataSourceMap.put(k, dataSource);
+        });
+        return dataSourceMap;
+    }
 
 //    @Bean(name = "sqlSessionFactory")
 //    public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)

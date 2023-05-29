@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
+import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -39,12 +40,12 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
 
-    public void addDataSource(Object key, DataSourceProperties dataSourceProperties) {
+    public void add(Object key, DataSourceProperties dataSourceProperties) {
         DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        addDataSource(key, dataSource);
+        add(key, dataSource);
     }
 
-    public void addDataSource(Object key, DataSource dataSource) {
+    public void add(Object key, DataSource dataSource) {
 
         Object o = dataSourceMap.get(key);
         if (o != null) {
@@ -55,10 +56,10 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
             throw new SXException("数据库连接池 KEY 重复");
         }
         dataSourceMap.put(key, dataSource);
-        setDataSourceMap(dataSourceMap);
+        setMap(dataSourceMap);
     }
 
-    public void setDataSourceMap(Map<Object, Object> objectObjectMap) {
+    public void setMap(Map<Object, Object> objectObjectMap) {
         lock.lock();
         this.dataSourceMap = objectObjectMap;
         super.setTargetDataSources(dataSourceMap);
@@ -66,7 +67,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         lock.unlock();
     }
 
-    public void delDataSource(Object key) {
+    public void del(Object key) {
         Object o = dataSourceMap.get(key);
         if (o != null) {
             if (o instanceof DataSource) {
@@ -74,7 +75,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
                 if (dataSource != null) {
                     dataSource.close();
                     dataSourceMap.remove(key);
-                    setDataSourceMap(dataSourceMap);
+                    setMap(dataSourceMap);
                 }
             } else {
                 throw new SXException("数据池类型无法识别");
@@ -88,10 +89,10 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      * @param key
      * @param dataSource
      */
-    public void replaceDataSource(Object key, DataSource dataSource) {
+    public void replace(Object key, DataSource dataSource) {
         Object o = dataSourceMap.get(key);
         dataSourceMap.put(key, dataSource);
-        if (DynamicDataSourceConfig.MASTER.equals(key)) {
+        if (DynamicDataSourceProperties.PRIMARY.equals(key)) {
             this.setDefaultTargetDataSource(dataSource);
         }
         if (o != null) {
@@ -102,7 +103,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
                 }
             }
         }
-        setDataSourceMap(dataSourceMap);
+        setMap(dataSourceMap);
     }
 
 
@@ -112,14 +113,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      * @param key
      * @param dataSourceProperties
      */
-    public void replaceDataSource(Object key, DataSourceProperties dataSourceProperties) {
+    public void replace(Object key, DataSourceProperties dataSourceProperties) {
         DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        try {
-            dataSource.init();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        replaceDataSource(key, dataSource);
+        replace(key, dataSource);
     }
 
 

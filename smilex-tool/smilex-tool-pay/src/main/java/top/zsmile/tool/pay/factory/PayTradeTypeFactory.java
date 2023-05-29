@@ -15,8 +15,8 @@ public class PayTradeTypeFactory {
     }
 
     public static void register(String type, BaseHandler baseHandler) {
-        Asserts.isNotNull(type, "type can't be null");
-        Asserts.isNotNull(baseHandler, "handler can't be null");
+        Asserts.isNull(type, "type can't be null");
+        Asserts.isNull(baseHandler, "handler can't be null");
         services.put(type, baseHandler);
     }
 }

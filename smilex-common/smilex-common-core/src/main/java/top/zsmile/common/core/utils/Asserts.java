@@ -10,7 +10,7 @@ public class Asserts {
      * @param object  对象
      * @param message 异常消息
      */
-    public static void isNull(Object object, String message) {
+    public static void isNotNull(Object object, String message) {
         if (object != null) {
             throw new IllegalArgumentException(message);
         }
@@ -22,7 +22,7 @@ public class Asserts {
      * @param object  对象
      * @param message 异常消息
      */
-    public static void isNotNull(Object object, String message) {
+    public static void isNull(Object object, String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
@@ -39,6 +39,7 @@ public class Asserts {
             throw new IllegalArgumentException(message);
         }
     }
+
     /**
      * 检查字符串不为空
      *

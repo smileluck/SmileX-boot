@@ -23,6 +23,6 @@ public class GeneratorRunner implements CommandLineRunner {
         log.info("======初始化数据源 " + DefaultConstants.GENERATOR_DATASOURCE_KEY + " ======");
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
         DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        dynamicDataSource.addDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
+        dynamicDataSource.add(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
     }
 }

@@ -53,11 +53,11 @@ public class MybatisConfig {
 //    }
 
 // 注册插件方式
-    @Bean
-    public ConfigurationCustomizer configurationCustomizer() {
-        return configuration -> {
-            //插件拦截链采用了责任链模式，执行顺序和加入连接链的顺序有关
-            configuration.addInterceptor(new UpdateInterceptor());
-        };
-    }
+//    @Bean
+//    public ConfigurationCustomizer configurationCustomizer() {
+//        return configuration -> {
+//            //插件拦截链采用了责任链模式，执行顺序和加入连接链的顺序有关
+//            configuration.addInterceptor(new UpdateInterceptor());
+//        };
+//    }
 }

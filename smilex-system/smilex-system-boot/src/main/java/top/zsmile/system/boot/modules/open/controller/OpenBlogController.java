@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import top.zsmile.common.core.api.R;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.Page;
-import top.zsmile.system.boot.modules.blog.service.BlogArticleService;
-import top.zsmile.system.boot.modules.blog.service.BlogSectionService;
-import top.zsmile.system.boot.modules.blog.service.BlogTagService;
-import top.zsmile.system.boot.modules.blog.service.BlogTimelineService;
+import top.zsmile.system.boot.modules.blog.service.*;
 import top.zsmile.system.boot.modules.open.entity.dto.BlogArticleCommonDto;
 import top.zsmile.system.boot.modules.open.entity.dto.BlogArticleDetailDto;
 import top.zsmile.system.boot.modules.open.entity.dto.BlogArticleDto;
@@ -22,6 +19,7 @@ import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogTagVo;
 import top.zsmile.common.core.utils.AssertUtils;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,6 +42,16 @@ public class OpenBlogController {
 
     @Autowired
     private BlogTimelineService blogTimelineService;
+
+    @Resource
+    private TempService1 tempService1;
+
+
+    @RequestMapping("/test")
+    public R test() {
+        tempService1.addDict();
+        return R.success();
+    }
 
     /**
      * 栏目列表

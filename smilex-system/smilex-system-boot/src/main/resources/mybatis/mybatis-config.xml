@@ -16,4 +16,7 @@
         <!-- 使用驼峰命名法转换字段 -->
         <setting name="mapUnderscoreToCamelCase" value="true"   />
     </settings>
+    <plugins>
+        <plugin interceptor="top.zsmile.common.mybatis.interceptor.UpdateInterceptor"></plugin>
+    </plugins>
 </configuration>

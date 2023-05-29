@@ -6,7 +6,7 @@ import top.zsmile.common.core.constant.StringConstant;
 import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.utils.file.ZipUtils;
-import top.zsmile.common.datasource.annotation.DataSource;
+import top.zsmile.common.datasource.annotation.DS;
 import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 import top.zsmile.tool.gen.convert.MysqlTypeConvert;
@@ -25,7 +25,7 @@ import java.util.*;
 import static top.zsmile.tool.gen.constant.DefaultConstants.DEFAULT_DELETE_LOGIC_KEY;
 
 @Service("generatorService")
-@DataSource("master")
+@DS("master")
 public class GeneratorServiceImpl implements GeneratorSerivce {
 
     @Autowired
@@ -37,7 +37,7 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
     private SnowFlake snowFlake = new SnowFlake(1, 1);
 
     @Override
-    @DataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY)
+    @DS(DefaultConstants.GENERATOR_DATASOURCE_KEY)
     public List<Map<String, Object>> queryTableList(String tableName) {
         return generatorDao.selectTableList(tableName);
     }

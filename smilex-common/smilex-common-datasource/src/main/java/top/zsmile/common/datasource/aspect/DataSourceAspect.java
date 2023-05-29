@@ -7,11 +7,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import top.zsmile.common.datasource.DataSourceContentHolder;
 import top.zsmile.common.datasource.DynamicDataSource;
-import top.zsmile.common.datasource.annotation.DataSource;
+import top.zsmile.common.datasource.annotation.DS;
 import top.zsmile.common.core.exception.SXException;
 
 import java.lang.reflect.Method;
@@ -21,7 +23,7 @@ import java.lang.reflect.Method;
 @Slf4j
 public class DataSourceAspect {
 
-    @Pointcut("@within(top.zsmile.common.datasource.annotation.DataSource) || @annotation(top.zsmile.common.datasource.annotation.DataSource)")
+    @Pointcut("@within(top.zsmile.common.datasource.annotation.DS) || @annotation(top.zsmile.common.datasource.annotation.DS)")
     public void dataSourceAspect() {
 
     }
@@ -30,13 +32,13 @@ public class DataSourceAspect {
     public void beforeSwitch(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        DataSource methodDataSource = method.getAnnotation(DataSource.class);
+        DS methodDS = method.getAnnotation(DS.class);
         String value = null;
-        if (methodDataSource != null) {
-            value = methodDataSource.value();
+        if (methodDS != null) {
+            value = methodDS.value();
         } else {
             Class<?> aClass = joinPoint.getTarget().getClass();
-            DataSource annotation = aClass.getAnnotation(DataSource.class);
+            DS annotation = aClass.getAnnotation(DS.class);
             if (annotation != null) {
                 value = annotation.value();
 

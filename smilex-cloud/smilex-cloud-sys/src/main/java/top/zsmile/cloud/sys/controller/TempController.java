@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.zsmile.cloud.sys.service.TempService1;
 import top.zsmile.common.core.api.R;
 import top.zsmile.modules.sys.entity.SysUserEntity;
 import top.zsmile.modules.sys.service.SysUserService;
@@ -26,16 +27,12 @@ public class TempController {
 //    private DataSourceProperties DataSourceProperties;
 
     @Resource
-    private SysUserService userService;
+    private TempService1 tempService1;
 
-        @Value("${spring.datasource.druid.url}")
-//    @NacosValue(value = "${spring.datasource.druid.url}", autoRefreshed = true)
-    private String url;
 
     @RequestMapping("/test")
     public R test() {
-        System.out.println(url);
-        SysUserEntity info = userService.getById(1L);
-        return R.success(info);
+        tempService1.addDict();
+        return R.success();
     }
 }

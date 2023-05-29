@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Service("shiroAuthApi")
+@Service
 public class ShiroAuthApiImpl implements CommonAuthApi, InitializingBean {
 
     private static Map userInfo = null;

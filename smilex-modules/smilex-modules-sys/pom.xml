@@ -15,6 +15,11 @@
 
         <dependency>
             <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-mybatis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-datasource</artifactId>
         </dependency>
 
@@ -28,10 +33,6 @@
             <artifactId>smilex-common-file</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-mybatis</artifactId>
-        </dependency>
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-auth-shiro</artifactId>

@@ -62,7 +62,7 @@ public class GeneratorController {
         DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
 
 //        DynamicDataSource.getInstance().delDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY);
-        DynamicDataSource.getInstance().replaceDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
+        DynamicDataSource.getInstance().replace(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
         return R.success("连接成功");
     }
 

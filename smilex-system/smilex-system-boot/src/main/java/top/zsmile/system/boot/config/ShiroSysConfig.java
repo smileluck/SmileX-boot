@@ -43,6 +43,9 @@ public class ShiroSysConfig {
         /*开放APP接口*/
         chainDefinition.addPathDefinition("/app/demo/**", "anon");
 
+        /*开放APP接口*/
+        chainDefinition.addPathDefinition("/druid/**", "anon");
+
         chainDefinition.addPathDefinition("/**", "oauth2");
         return chainDefinition;
     }
