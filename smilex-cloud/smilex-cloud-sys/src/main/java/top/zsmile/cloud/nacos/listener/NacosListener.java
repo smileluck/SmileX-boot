@@ -18,6 +18,7 @@ import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.DynamicDataSource;
 import top.zsmile.common.datasource.DynamicDataSourceConfig;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
+import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -80,11 +81,11 @@ public class NacosListener implements InitializingBean {
      * @param infoJson
      */
     private void refreshDataSource(JSONObject infoJson) {
-        JSONObject druid = getProperties(infoJson, "spring.datasource.druid");
+        JSONObject druid = getProperties(infoJson, "spring.datasource.dynamic.datasource.master");
         log.info(druid.toJSONString());
         if (druid != null) {
             DataSourceProperties dataSourceProperties = druid.toJavaObject(DataSourceProperties.class);
-            dynamicDataSource.replaceDataSource(DynamicDataSourceConfig.MASTER, dataSourceProperties);
+            dynamicDataSource.replace(DynamicDataSourceProperties.PRIMARY, dataSourceProperties);
         }
     }
 
