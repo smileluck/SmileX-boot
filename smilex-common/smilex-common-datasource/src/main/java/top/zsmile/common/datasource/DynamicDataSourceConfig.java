@@ -41,11 +41,11 @@ public class DynamicDataSourceConfig {
         return dynamicDataSource;
     }
 
-//    @ConditionalOnMissingBean
-//    @Bean(name = "transactionManager")
-//    public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
-//        return new DataSourceTransactionManager(dynamicDataSource);
-//    }
+    @ConditionalOnMissingBean
+    @Bean(name = "transactionManager")
+    public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
+        return new DataSourceTransactionManager(dynamicDataSource);
+    }
 
     private Map<Object, Object> getDynamicDataSource() {
         DruidProperties druid = dynamicDataSourceProperties.getDruid();
