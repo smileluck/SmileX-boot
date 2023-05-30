@@ -1,30 +1,23 @@
-package top.zsmile.common.mybatis.datascope.interceptor;
+package top.zsmile.common.datascope.interceptor;
 
-import top.zsmile.api.system.common.CommonAuthApi;
-import top.zsmile.common.mybatis.datascope.DataScopeContentHolder;
-import top.zsmile.common.mybatis.datascope.DataScopeHandleFactory;
-import top.zsmile.common.mybatis.datascope.DataScopePerm;
-import top.zsmile.common.mybatis.datascope.handle.AbstractDataScopeHandler;
+import top.zsmile.common.datascope.DataScopeContentHolder;
+import top.zsmile.common.datascope.DataScopeHandleFactory;
+import top.zsmile.common.datascope.DataScopePerm;
+import top.zsmile.common.datascope.handle.AbstractDataScopeHandle;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ParameterMapping;
-import org.apache.ibatis.mapping.SqlSource;
+import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
-import javax.annotation.Resource;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
 /**
- * 数据域拦截器
- *
  * @Version: 1.0.0
  * @Author: Administrator
  * @Date: 2023/03/07/10:15
@@ -37,10 +30,8 @@ import java.util.Properties;
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
 //        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
 })
+@Slf4j
 public class DataScopeInterceptor implements Interceptor {
-
-    @Resource
-    private CommonAuthApi commonAuthApi;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -48,15 +39,16 @@ public class DataScopeInterceptor implements Interceptor {
             Object[] args = invocation.getArgs();
             MappedStatement ms = (MappedStatement) args[0];
             BoundSql boundSql = ms.getBoundSql(args[1]);
-
             DataScopePerm dataScopePerm = DataScopeContentHolder.get();
-            if (Objects.nonNull(dataScopePerm) && dataScopePerm.getNeedFilter() && !dataScopePerm.getHandleKey().equals(AbstractDataScopeHandler.NIL)) {
-                Map<String, Object> admin = commonAuthApi.queryUserInfo();
-                if (admin != null) {
-                    AbstractDataScopeHandler abstractDataScopeHandler = DataScopeHandleFactory.get(dataScopePerm.getHandleKey());
-                    String handleSql = abstractDataScopeHandler.handle(ms, boundSql, dataScopePerm, admin);
-                    newMs(invocation, handleSql);
-                }
+            if (Objects.nonNull(dataScopePerm) && dataScopePerm.getNeedFilter() && !dataScopePerm.getHandleKey().equals(AbstractDataScopeHandle.NIL)) {
+
+                AbstractDataScopeHandle abstractDataScopeHandle = DataScopeHandleFactory.get(dataScopePerm.getHandleKey());
+                String handleSql = abstractDataScopeHandle.handle(ms, boundSql, dataScopePerm);
+                log.info("MappedStatement => {},BoundSQL => {},SQL => {}", ms, boundSql, boundSql.getSql());
+//                    StatementHandler statementHandler = PluginUtils.realTarget(invocation.getTarget());
+//                    MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
+//                    metaObject.setValue("delegate.boundSql.sql", handleSql);
+                newMs(invocation, handleSql);
             }
         }
         return invocation.proceed();
@@ -66,7 +58,7 @@ public class DataScopeInterceptor implements Interceptor {
     public Object plugin(Object target) {
         if (target instanceof Executor) {
             DataScopePerm dataScopePerm = DataScopeContentHolder.get();
-            if (Objects.nonNull(dataScopePerm) && dataScopePerm.getNeedFilter() && !dataScopePerm.getHandleKey().equals(AbstractDataScopeHandler.NIL)) {
+            if (Objects.nonNull(dataScopePerm) && dataScopePerm.getNeedFilter() && !dataScopePerm.getHandleKey().equals(AbstractDataScopeHandle.NIL)) {
                 return Plugin.wrap(target, this);
             }
         }

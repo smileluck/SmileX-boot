@@ -9,22 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>smilex-common-mybatis</artifactId>
+    <artifactId>smilex-common-datascope</artifactId>
 
 
     <dependencies>
-
-        <!-- 通用模块 -->
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-core</artifactId>
         </dependency>
 
+        <!-- SQL语法解析AST -->
         <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-api-system</artifactId>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

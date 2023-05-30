@@ -30,4 +30,5 @@ public class DynamicDataSourceProperties {
      * Druid配置
      */
     private DruidProperties druid = new DruidProperties();
+
 }

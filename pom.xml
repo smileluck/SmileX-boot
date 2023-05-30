@@ -128,6 +128,11 @@
             </dependency>
             <dependency>
                 <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common-datascope</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
                 <artifactId>smilex-common-mybatis</artifactId>
                 <version>${smilex.version}</version>
             </dependency>

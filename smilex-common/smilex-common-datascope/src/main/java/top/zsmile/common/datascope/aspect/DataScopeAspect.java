@@ -1,9 +1,8 @@
-package top.zsmile.common.mybatis.datascope.aspect;
+package top.zsmile.common.datascope.aspect;
 
-import top.zsmile.common.mybatis.datascope.DataScopeContentHolder;
-import top.zsmile.common.mybatis.datascope.DataScopeFactory;
-import top.zsmile.common.mybatis.datascope.DataScopePerm;
-import top.zsmile.common.mybatis.datascope.annotation.DataScope;
+import top.zsmile.common.datascope.DataScopeContentHolder;
+import top.zsmile.common.datascope.DataScopeFactory;
+import top.zsmile.common.datascope.DataScopePerm;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -12,6 +11,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import top.zsmile.common.datascope.annotation.DataScope;
 
 import java.lang.reflect.Method;
 
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
 @Component
 public class DataScopeAspect {
 
-    @Pointcut("@within(top.zsmile.common.mybatis.datascope.annotation.DataScope) || @annotation(top.zsmile.common.mybatis.datascope.annotation.DataScope)")
+    @Pointcut("@within(top.zsmile.common.datascope.annotation.DataScope) || @annotation(top.zsmile.common.datascope.annotation.DataScope)")
     public void DataScopeAspect() {
 
     }

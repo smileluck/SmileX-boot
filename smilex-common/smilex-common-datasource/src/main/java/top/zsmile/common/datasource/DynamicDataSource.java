@@ -7,7 +7,6 @@ import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -62,9 +61,20 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     public void setMap(Map<Object, Object> objectObjectMap) {
         lock.lock();
         this.dataSourceMap = objectObjectMap;
+        setPrimary();
         super.setTargetDataSources(dataSourceMap);
         super.afterPropertiesSet();
         lock.unlock();
+    }
+
+    /**
+     * 设置主数据源
+     */
+    private void setPrimary() {
+        Object o = this.dataSourceMap.get(DynamicDataSourceProperties.PRIMARY);
+        if (o != null) {
+            this.setDefaultTargetDataSource(o);
+        }
     }
 
     public void del(Object key) {

@@ -1,6 +1,6 @@
-package top.zsmile.common.mybatis.datascope;
+package top.zsmile.common.datascope;
 
-import top.zsmile.common.mybatis.datascope.handle.AbstractDataScopeHandler;
+import top.zsmile.common.datascope.handle.AbstractDataScopeHandle;
 import org.springframework.util.Assert;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,13 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description: DataScopeFactory
  */
 public class DataScopeHandleFactory {
-    private final static ConcurrentHashMap<String, AbstractDataScopeHandler> handleMap = new ConcurrentHashMap<>();
+    private final static ConcurrentHashMap<String, AbstractDataScopeHandle> handleMap = new ConcurrentHashMap<>();
 
-    public static AbstractDataScopeHandler get(String key) {
+    public static AbstractDataScopeHandle get(String key) {
         return handleMap.get(key);
     }
 
-    public static void set(String key, AbstractDataScopeHandler handler) {
+    public static void set(String key, AbstractDataScopeHandle handler) {
         Assert.notNull(key, "数据域的Key不能为空");
         Assert.notNull(handler, "数据域的处理不能为空");
         handleMap.put(key, handler);

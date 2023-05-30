@@ -23,6 +23,7 @@
         <module>smilex-common-file</module>
         <module>smilex-common-log</module>
         <module>smilex-common-swagger</module>
+        <module>smilex-common-datascope</module>
     </modules>
 
     <properties>

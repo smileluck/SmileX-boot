@@ -1,6 +1,7 @@
-package top.zsmile.common.mybatis.datascope.annotation;
+package top.zsmile.common.datascope.annotation;
 
-import top.zsmile.common.mybatis.datascope.handle.AbstractDataScopeHandler;
+
+import top.zsmile.common.datascope.handle.AbstractDataScopeHandle;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -56,5 +57,5 @@ public @interface DataScope {
      *
      * @return
      */
-    String handleKey() default AbstractDataScopeHandler.NIL;
+    String handleKey() default AbstractDataScopeHandle.NIL;
 }

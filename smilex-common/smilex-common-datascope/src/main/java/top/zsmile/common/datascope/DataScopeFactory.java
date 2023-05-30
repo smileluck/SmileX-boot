@@ -1,7 +1,7 @@
-package top.zsmile.common.mybatis.datascope;
+package top.zsmile.common.datascope;
 
-import top.zsmile.common.mybatis.datascope.annotation.DataScope;
-import top.zsmile.common.mybatis.datascope.handle.AbstractDataScopeHandler;
+import top.zsmile.common.datascope.annotation.DataScope;
+import top.zsmile.common.datascope.handle.AbstractDataScopeHandle;
 
 /**
  * @Version: 1.0.0
@@ -20,7 +20,7 @@ public class DataScopeFactory {
     }
 
     public static DataScopePerm create(String fieldName, String[] filterTable, boolean needFilter, boolean opUpdate, boolean opQuery) {
-        return create(fieldName, filterTable, needFilter, opUpdate, opQuery, AbstractDataScopeHandler.NIL);
+        return create(fieldName, filterTable, needFilter, opUpdate, opQuery, AbstractDataScopeHandle.NIL);
     }
 
     public static DataScopePerm create(String fieldName, String[] filterTable, boolean needFilter, boolean opUpdate, boolean opQuery, String handlerKey) {

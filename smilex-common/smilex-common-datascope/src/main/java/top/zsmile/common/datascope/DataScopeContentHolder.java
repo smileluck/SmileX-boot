@@ -1,10 +1,13 @@
-package top.zsmile.common.mybatis.datascope;
+package top.zsmile.common.datascope;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @Slf4j
 public class DataScopeContentHolder {

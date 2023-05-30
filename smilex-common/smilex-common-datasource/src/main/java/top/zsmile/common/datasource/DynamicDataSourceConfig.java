@@ -38,7 +38,6 @@ public class DynamicDataSourceConfig {
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
         Map<Object, Object> dataSourceMap = getDynamicDataSource();
         dynamicDataSource.setMap(dataSourceMap);
-        dynamicDataSource.setDefaultTargetDataSource(dataSourceMap.get(DynamicDataSourceProperties.PRIMARY));
         return dynamicDataSource;
     }
 
