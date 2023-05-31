@@ -27,7 +27,7 @@ public class TempService1Impl implements TempService1 {
         sysDict.setRemark("临时测试");
         sysDictService.save(sysDict);
         tempService2.addDict();
-//        throw new SXException("测试");
+        throw new SXException("测试");
 
     }
 

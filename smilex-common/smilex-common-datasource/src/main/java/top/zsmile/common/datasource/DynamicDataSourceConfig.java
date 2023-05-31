@@ -54,7 +54,8 @@ public class DynamicDataSourceConfig {
             @Override
             public void customize(SqlSessionFactoryBean factoryBean) {
                 // customize ...
-                factoryBean.setTransactionFactory(new MultiDataSourceTransactionFactory());
+//                factoryBean.setTransactionFactory(new MultiDataSourceTransactionFactory());
+                factoryBean.setTransactionFactory(new AtomikosTransactionFactory());
             }
         };
     }
@@ -82,6 +83,7 @@ public class DynamicDataSourceConfig {
         jtaTransactionManager.setAllowCustomIsolationLevels(true);
         return jtaTransactionManager;
     }
+
 //    @ConditionalOnMissingBean
 //    @Bean(name = "transactionManager")
 //    public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
@@ -106,7 +108,7 @@ public class DynamicDataSourceConfig {
             xaDataSource.setMaxLifetime((int) dataSource.getMinEvictableIdleTimeMillis());
             xaDataSource.setConcurrentConnectionValidation(true);
             xaDataSource.setTestQuery(dataSource.getValidationQuery());
-            dataSourceMap.put(k, xaDataSource);
+            dataSourceMap.put(k, dataSource);
         });
         return dataSourceMap;
     }

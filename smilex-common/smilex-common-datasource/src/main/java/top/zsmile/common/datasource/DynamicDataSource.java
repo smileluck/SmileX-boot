@@ -8,6 +8,8 @@ import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -39,6 +41,10 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return b;
     }
 
+    @Override
+    public Connection getConnection() throws SQLException {
+        return super.getConnection();
+    }
 
     public void add(Object key, DataSourceProperties dataSourceProperties) {
         DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
