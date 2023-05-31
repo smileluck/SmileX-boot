@@ -1,6 +1,7 @@
 package top.zsmile.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
@@ -134,7 +135,20 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return DataSourceContentHolder.get();
     }
 
-    public Object getDataSource(String key) {
+    public Object get(String key) {
         return dataSourceMap.get(key);
+    }
+
+    public String getCurrentKey() {
+        String s = DataSourceContentHolder.get();
+        if (StringUtils.isNotBlank(s)) {
+            return s;
+        }
+        return DynamicDataSourceProperties.PRIMARY;
+    }
+
+    public Object getCurrent() {
+        String s = getCurrentKey();
+        return dataSourceMap.get(DynamicDataSourceProperties.PRIMARY);
     }
 }

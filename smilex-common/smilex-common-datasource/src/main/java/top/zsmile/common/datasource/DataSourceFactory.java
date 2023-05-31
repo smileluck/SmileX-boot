@@ -1,6 +1,7 @@
 package top.zsmile.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.xa.DruidXADataSource;
 import lombok.extern.slf4j.Slf4j;
 import top.zsmile.common.core.utils.Asserts;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
@@ -12,15 +13,15 @@ import java.sql.SQLException;
 @Slf4j
 public class DataSourceFactory {
     public static DruidDataSource createDataSource(DataSourceProperties properties) {
-        return createDataSource(null, properties, new DruidDataSource());
+        return createDataSource(null, properties, new DruidXADataSource());
     }
 
     public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties) {
-        return createDataSource(druidProperties, properties, new DruidDataSource());
+        return createDataSource(druidProperties, properties, new DruidXADataSource());
     }
 
     public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties, DataSource dataSource) {
-        DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+        DruidXADataSource druidDataSource = (DruidXADataSource) dataSource;
         if (druidProperties != null) {
             copyProperties(druidDataSource, druidProperties);
         }

@@ -2,6 +2,7 @@ package top.zsmile.system.boot.modules.blog.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.service.SysDictService;
 import top.zsmile.system.boot.modules.blog.service.TempService1;
@@ -18,7 +19,7 @@ public class TempService1Impl implements TempService1 {
     private TempService2 tempService2;
 
     @Override
-//    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void addDict() {
         SysDictEntity sysDict = new SysDictEntity();
         sysDict.setDictCode("tempCode");
@@ -26,6 +27,7 @@ public class TempService1Impl implements TempService1 {
         sysDict.setRemark("临时测试");
         sysDictService.save(sysDict);
         tempService2.addDict();
+//        throw new SXException("测试");
 
     }
 

@@ -1,12 +1,14 @@
 package top.zsmile.common.datasource;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.NamedThreadLocal;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 @Slf4j
-public class DataSourceContentHolder {
-    private static final ThreadLocal<Deque<String>> contentHolder = new ThreadLocal() {
+public final class DataSourceContentHolder {
+    private static final ThreadLocal<Deque<String>> contentHolder = new NamedThreadLocal("dynamic-datasource") {
         @Override
         protected Object initialValue() {
 //            return new LinkedList<>();
@@ -14,17 +16,34 @@ public class DataSourceContentHolder {
         }
     };
 
+    private DataSourceContentHolder() {
+    }
+
+    /**
+     * 给当前线程添加数据源
+     *
+     * @param dataSource
+     */
     public static void add(String dataSource) {
         log.debug("添加数据源 => {}", dataSource);
         contentHolder.get().add(dataSource);
     }
 
+    /**
+     * 获取当前线程数据源
+     *
+     * @return
+     */
     public static String get() {
         String ds = contentHolder.get().peek();
         log.debug("获取当前数据源 => {}", ds);
         return ds;
     }
 
+    /**
+     * 清空当前数据源
+     * 如果当前数据源不为空，则会只移除队列的元素
+     */
     public static void poll() {
         Deque<String> queue = contentHolder.get();
         String ds = queue.poll();
