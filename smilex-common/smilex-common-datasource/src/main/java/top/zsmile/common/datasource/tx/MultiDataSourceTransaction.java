@@ -5,7 +5,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import org.apache.ibatis.transaction.Transaction;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
-import top.zsmile.common.datasource.DynamicDataSource;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -36,7 +36,7 @@ public class MultiDataSourceTransaction implements Transaction {
         notNull(dataSource, "No DataSource specified");
         this.dataSource = dataSource;
         otherConnectionMap = new ConcurrentHashMap<>();
-        mainDatabaseIdentification = DynamicDataSource.getInstance().getCurrentKey();
+        mainDatabaseIdentification = DynamicDataSource.getInstance().getKey();
     }
 
 
@@ -45,7 +45,7 @@ public class MultiDataSourceTransaction implements Transaction {
      */
     @Override
     public Connection getConnection() throws SQLException {
-        String databaseIdentification = DynamicDataSource.getInstance().getCurrentKey();
+        String databaseIdentification = DynamicDataSource.getInstance().getKey();
         if (databaseIdentification.equals(mainDatabaseIdentification)) {
             if (mainConnection != null) return mainConnection;
             else {

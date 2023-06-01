@@ -1,28 +1,26 @@
 package top.zsmile.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.pool.xa.DruidXADataSource;
-import com.atomikos.icatch.jta.UserTransactionImp;
-import com.atomikos.icatch.jta.UserTransactionManager;
-import com.atomikos.jdbc.AtomikosDataSourceBean;
 import lombok.SneakyThrows;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.SqlSessionFactoryBeanCustomizer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.jta.JtaTransactionManager;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DruidProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
-import top.zsmile.common.datasource.tx.AtomikosTransactionFactory;
-import top.zsmile.common.datasource.tx.MultiDataSourceTransactionFactory;
+import top.zsmile.common.datasource.tx.DynamicTransactionFactory;
 import top.zsmile.common.datasource.utils.DynamicDataSourceUtils;
 
 import javax.annotation.Resource;
-import javax.transaction.TransactionManager;
-import javax.transaction.UserTransaction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,12 +30,6 @@ public class DynamicDataSourceConfig {
 
     @Resource
     private DynamicDataSourceProperties dynamicDataSourceProperties;
-
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public DataSourceProperties dataSourceProperties() {
-//        return new DataSourceProperties();
-//    }
 
     @ConditionalOnMissingBean
     @Bean(name = "dynamicDataSource")
@@ -49,46 +41,51 @@ public class DynamicDataSourceConfig {
     }
 
     @Bean
-    public SqlSessionFactoryBeanCustomizer sqlSessionFactoryBeanCustomizer() {
+    public SqlSessionFactoryBeanCustomizer sqlSessionFactoryBeanCustomizer(@Qualifier("dynamicDataSource") DynamicDataSource dataSource) {
         return new SqlSessionFactoryBeanCustomizer() {
             @Override
             public void customize(SqlSessionFactoryBean factoryBean) {
                 // customize ...
 //                factoryBean.setTransactionFactory(new MultiDataSourceTransactionFactory());
-                factoryBean.setTransactionFactory(new AtomikosTransactionFactory());
+//                factoryBean.setTransactionFactory(new AtomikosTransactionFactory());
+//                factoryBean.setTransactionFactory(new DynamicDataSourceTransactionFactory());
+                factoryBean.setTransactionFactory(new DynamicTransactionFactory());
+                factoryBean.setDataSource(dataSource);
             }
         };
     }
 
-    @SneakyThrows(Exception.class)
-    public UserTransaction userTransaction() {
-        final UserTransactionImp userTransactionImp = new UserTransactionImp();
-        userTransactionImp.setTransactionTimeout(20000);
-        return userTransactionImp;
-    }
-
-    //    @Bean(name = "atomikosTransactionManager")
-    @SneakyThrows(Exception.class)
-    public TransactionManager atomikosTransactionManager() {
-        final UserTransactionManager userTransactionManager = new UserTransactionManager();
-        userTransactionManager.setForceShutdown(true);
-        return userTransactionManager;
-    }
-
-    @Bean(name = "transactionManager")
-    @SneakyThrows(Throwable.class)
-//    @Qualifier("atomikosTransactionManager") TransactionManager atomikosTransactionManager, @Qualifier("userTransaction") UserTransaction userTransaction/
-    public JtaTransactionManager transactionManager() {
-        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager(userTransaction(), atomikosTransactionManager());
-        jtaTransactionManager.setAllowCustomIsolationLevels(true);
-        return jtaTransactionManager;
-    }
-
-//    @ConditionalOnMissingBean
-//    @Bean(name = "transactionManager")
-//    public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
-//        return new DataSourceTransactionManager(dynamicDataSource);
+//    @Bean(name = "userTransaction")
+//    @SneakyThrows(Exception.class)
+//    public UserTransaction userTransaction() {
+//        final UserTransactionImp userTransactionImp = new UserTransactionImp();
+//        userTransactionImp.setTransactionTimeout(20000);
+//        return userTransactionImp;
 //    }
+//
+//    @Bean(name = "atomikosTransactionManager")
+//    @SneakyThrows(Exception.class)
+//    public TransactionManager atomikosTransactionManager() {
+//        final UserTransactionManager userTransactionManager = new UserTransactionManager();
+//        userTransactionManager.setForceShutdown(true);
+//        return userTransactionManager;
+//    }
+//
+//    @Bean(name = "transactionManager")
+//    @SneakyThrows(Throwable.class)
+//    @DependsOn({"userTransaction", "atomikosTransactionManager"})
+////    @Qualifier("atomikosTransactionManager") TransactionManager atomikosTransactionManager, @Qualifier("userTransaction") UserTransaction userTransaction/
+//    public JtaTransactionManager transactionManager() {
+//        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager(userTransaction(), atomikosTransactionManager());
+//        jtaTransactionManager.setAllowCustomIsolationLevels(true);
+//        return jtaTransactionManager;
+//    }
+
+    @ConditionalOnMissingBean
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
+        return new DataSourceTransactionManager(dynamicDataSource);
+    }
 
     private Map<Object, Object> getDynamicDataSource() {
         DruidProperties druid = dynamicDataSourceProperties.getDruid();
@@ -97,17 +94,17 @@ public class DynamicDataSourceConfig {
         dataSourcePropertiesMap.forEach((k, v) -> {
             DataSourceProperties mergeProperties = DynamicDataSourceUtils.merge(v, druid);
             DruidDataSource dataSource = DataSourceFactory.createDataSource(mergeProperties);
-            final AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
-            xaDataSource.setXaDataSource((DruidXADataSource) dataSource);
-            xaDataSource.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-            xaDataSource.setUniqueResourceName(k);
-            xaDataSource.setPoolSize(dataSource.getMaxPoolPreparedStatementPerConnectionSize());
-            xaDataSource.setMinPoolSize(dataSource.getMinIdle());
-            xaDataSource.setMaxPoolSize(dataSource.getMaxActive());
-            xaDataSource.setMaxIdleTime(dataSource.getMinIdle());
-            xaDataSource.setMaxLifetime((int) dataSource.getMinEvictableIdleTimeMillis());
-            xaDataSource.setConcurrentConnectionValidation(true);
-            xaDataSource.setTestQuery(dataSource.getValidationQuery());
+//            final AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
+//            xaDataSource.setXaDataSource((DruidXADataSource) dataSource);
+//            xaDataSource.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
+//            xaDataSource.setUniqueResourceName(k);
+//            xaDataSource.setPoolSize(dataSource.getMaxPoolPreparedStatementPerConnectionSize());
+//            xaDataSource.setMinPoolSize(dataSource.getMinIdle());
+//            xaDataSource.setMaxPoolSize(dataSource.getMaxActive());
+//            xaDataSource.setMaxIdleTime(dataSource.getMinIdle());
+//            xaDataSource.setMaxLifetime((int) dataSource.getMinEvictableIdleTimeMillis());
+//            xaDataSource.setConcurrentConnectionValidation(true);
+//            xaDataSource.setTestQuery(dataSource.getValidationQuery());
             dataSourceMap.put(k, dataSource);
         });
         return dataSourceMap;

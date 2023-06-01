@@ -1,7 +1,9 @@
 package top.zsmile.common.datasource;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.NamedThreadLocal;
+import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -36,6 +38,7 @@ public final class DataSourceContentHolder {
      */
     public static String get() {
         String ds = contentHolder.get().peek();
+        ds = StringUtils.isNotBlank(ds) ? ds : DynamicDataSourceProperties.PRIMARY;
         log.debug("获取当前数据源 => {}", ds);
         return ds;
     }

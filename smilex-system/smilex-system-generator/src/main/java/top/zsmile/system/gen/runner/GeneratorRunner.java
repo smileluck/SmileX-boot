@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import top.zsmile.common.datasource.DataSourceFactory;
-import top.zsmile.common.datasource.DynamicDataSource;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 

@@ -7,12 +7,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import top.zsmile.common.datasource.DataSourceContentHolder;
-import top.zsmile.common.datasource.DynamicDataSource;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.annotation.DS;
 import top.zsmile.common.core.exception.SXException;
 
@@ -21,6 +20,7 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 @Slf4j
+@Order(-1)
 public class DataSourceAspect {
 
     @Pointcut("@within(top.zsmile.common.datasource.annotation.DS) || @annotation(top.zsmile.common.datasource.annotation.DS)")

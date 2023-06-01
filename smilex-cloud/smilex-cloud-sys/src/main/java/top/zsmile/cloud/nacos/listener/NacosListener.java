@@ -2,7 +2,6 @@ package top.zsmile.cloud.nacos.listener;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.cloud.nacos.NacosConfigProperties;
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
@@ -10,18 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.yaml.snakeyaml.Yaml;
-import top.zsmile.common.datasource.DataSourceFactory;
-import top.zsmile.common.datasource.DynamicDataSource;
-import top.zsmile.common.datasource.DynamicDataSourceConfig;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 import java.util.concurrent.Executor;
 
 /**

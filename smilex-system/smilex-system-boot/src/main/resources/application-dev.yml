@@ -12,8 +12,11 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   jta:
-    log-dir: classpath:tx-logs
-    transaction-manager-id: txManager
+    atomikos:
+      properties:
+        log-base-dir: classpath:txlog
+        log-base-name: tmlog
+        enable-logging: true
   datasource:
     type: com.alibaba.druid.pool.xa.DruidXADataSource
     druid:

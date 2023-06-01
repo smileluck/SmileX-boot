@@ -1,9 +1,10 @@
-package top.zsmile.common.datasource;
+package top.zsmile.common.datasource.ds;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import top.zsmile.common.core.exception.SXException;
+import top.zsmile.common.datasource.DataSourceContentHolder;
+import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 
@@ -17,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 实现多数数据源控制
  */
-public class DynamicDataSource extends AbstractRoutingDataSource {
+public class DynamicDataSource extends AbstractRoutingDataSource implements IDynamicDataSource {
 
     private static volatile DynamicDataSource INSTANCE;
 
@@ -41,10 +42,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return b;
     }
 
-    @Override
-    public Connection getConnection() throws SQLException {
-        return super.getConnection();
-    }
 
     public void add(Object key, DataSourceProperties dataSourceProperties) {
         DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
@@ -52,9 +49,8 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
     public void add(Object key, DataSource dataSource) {
-
-        Object o = dataSourceMap.get(key);
-        if (o != null) {
+        boolean hasKey = dataSourceMap.containsKey(key);
+        if (hasKey) {
 //            if (o instanceof DataSource) {
 //                DruidDataSource druidDataSource = (DruidDataSource) o;
 //                druidDataSource.close();
@@ -101,10 +97,8 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
     /**
-     * Recording to the datasource of the map with the key
-     *
-     * @param key
-     * @param dataSource
+     * @param key        被替换的数据源KEY
+     * @param dataSource 数据源
      */
     public void replace(Object key, DataSource dataSource) {
         Object o = dataSourceMap.get(key);
@@ -123,12 +117,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         setMap(dataSourceMap);
     }
 
-
     /**
-     * Recording to the datasource of the map with the key
-     *
-     * @param key
-     * @param dataSourceProperties
+     * @param key                  被替换的数据源KEY
+     * @param dataSourceProperties 数据源配置
      */
     public void replace(Object key, DataSourceProperties dataSourceProperties) {
         DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
@@ -141,20 +132,26 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return DataSourceContentHolder.get();
     }
 
+    @Override
+    public Object get() {
+        return get(getKey());
+    }
+
+    @Override
     public Object get(String key) {
         return dataSourceMap.get(key);
     }
 
-    public String getCurrentKey() {
-        String s = DataSourceContentHolder.get();
-        if (StringUtils.isNotBlank(s)) {
-            return s;
-        }
-        return DynamicDataSourceProperties.PRIMARY;
+    @Override
+    public String getKey() {
+        return DataSourceContentHolder.get();
     }
 
-    public Object getCurrent() {
-        String s = getCurrentKey();
-        return dataSourceMap.get(DynamicDataSourceProperties.PRIMARY);
+
+    @Override
+    public Connection getConnection() throws SQLException {
+        DataSource dataSource =
+                super.getResolvedDataSources().get(getKey());
+        return dataSource.getConnection();
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import top.zsmile.common.core.utils.file.HttpFileUtils;
 import top.zsmile.common.core.validator.group.Add;
 import top.zsmile.common.datasource.DataSourceFactory;
-import top.zsmile.common.datasource.DynamicDataSource;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.core.api.R;
 import top.zsmile.tool.gen.constant.DefaultConstants;
