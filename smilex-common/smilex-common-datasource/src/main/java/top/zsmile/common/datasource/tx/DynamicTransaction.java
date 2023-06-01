@@ -52,16 +52,25 @@ public class DynamicTransaction implements Transaction {
      */
     public DynamicTransaction(DataSource dataSource) {
         Assert.notNull(dataSource, "No DataSource specified");
+        // 当前数据源Key
         this.identification = DataSourceContentHolder.get();
         this.dataSource = dataSource;
         connections = new ConcurrentHashMap<>();
+        log.debug("init dynamic transaction, identify key => {},address => {}", this.identification, this);
     }
 
+    /**
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Connection getConnection() throws SQLException {
         /* 获取当前生效的数据源标识 */
         String current = DataSourceContentHolder.get();
+        log.debug("current key => {}, identify key=> {}", current, this.identification);
+        // 如果当前数据源是主数据源
         if (current.equals(this.identification)) {
+            // 如果为空则创建连接
             if (this.connection == null) {
                 openConnection();
             }
@@ -69,6 +78,7 @@ public class DynamicTransaction implements Transaction {
         } else {
             /* 不是默认数据源，获取连接并设置属性 */
             if (!connections.containsKey(current)) {
+                // 如果连接不包含该数据源KEY获取的连接
                 try {
                     Connection conn = this.dataSource.getConnection();
                     /* 自动提交属性和主数据源保持连接 */
@@ -82,42 +92,62 @@ public class DynamicTransaction implements Transaction {
         }
     }
 
+    /**
+     * 打开连接
+     *
+     * @throws SQLException
+     */
     private void openConnection() throws SQLException {
+        // 获取连接
         this.connection = DataSourceUtils.getConnection(this.dataSource);
+        // 是否自动提交
         this.autoCommit = this.getConnection().getAutoCommit();
+        // 确定当前连接是否是事务性的。
+        // 即通过 Spring 的事务管理器绑定到当前线程的
         this.isConnectionTransactional =
                 DataSourceUtils.isConnectionTransactional(this.connection, this.dataSource);
+
+        // 数据源是否是DynamicDataSource
         if (this.dataSource instanceof DynamicDataSource) {
+            // 获取主数据源的连接
             this.connection = DataSourceUtils.getConnection((DataSource) ((DynamicDataSource) dataSource).get(this.identification));
+            // 设置自动提交
             this.connection.setAutoCommit(this.autoCommit);
         }
-        if (log.isDebugEnabled()) {
-            log.debug("jdbc connection [{}] will {} be managed by spring",
-                    this.connection, (this.isConnectionTransactional ? " " : "not"));
-        }
+        log.debug("jdbc connection [{}] will {} be managed by spring", this.connection, (this.isConnectionTransactional ? "" : "not"));
     }
 
+    /**
+     * 提交事务
+     *
+     * @throws SQLException
+     */
     @Override
     public void commit() throws SQLException {
+        // 如果主事务不为空 && 如果是 Spring 管理的事务性连接 && 不是自动提交
         if (this.connection != null && this.isConnectionTransactional &&
                 !this.autoCommit) {
-            if (log.isDebugEnabled()) {
-                log.debug("committing jdbc connection [{}]", this.connection);
-            }
+            // 提交主连接的事务
+            log.debug("committing jdbc connection [{}]", this.connection);
             this.connection.commit();
+
+            // 遍历提交子连接的事务
             for (Connection conn : connections.values()) {
                 conn.commit();
             }
         }
     }
 
+    /**
+     * 回滚事务
+     *
+     * @throws SQLException
+     */
     @Override
     public void rollback() throws SQLException {
         if (this.connection != null && this.isConnectionTransactional &&
                 !this.autoCommit) {
-            if (log.isDebugEnabled()) {
-                log.debug("rolling back jdbc connection [{}]", this.connection);
-            }
+            log.debug("rolling back jdbc connection [{}]", this.connection);
             this.connection.rollback();
             for (Connection conn : connections.values()) {
                 conn.rollback();
@@ -125,6 +155,11 @@ public class DynamicTransaction implements Transaction {
         }
     }
 
+    /**
+     * 关闭并释放连接
+     *
+     * @throws SQLException
+     */
     @Override
     public void close() throws SQLException {
         DataSourceUtils.releaseConnection(this.connection, this.dataSource);
@@ -133,6 +168,12 @@ public class DynamicTransaction implements Transaction {
         }
     }
 
+    /**
+     * 获取事务超时时间
+     *
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Integer getTimeout() throws SQLException {
         ConnectionHolder holder = (ConnectionHolder)

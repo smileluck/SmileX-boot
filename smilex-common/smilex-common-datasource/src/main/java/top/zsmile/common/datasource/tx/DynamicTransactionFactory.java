@@ -9,10 +9,6 @@ import javax.sql.DataSource;
 public class DynamicTransactionFactory extends SpringManagedTransactionFactory {
     @Override
     public Transaction newTransaction(DataSource dataSource, TransactionIsolationLevel level, boolean autoCommit) {
-//        DataSource currentDs = dataSource;
-//        if (dataSource instanceof DynamicDataSource) {
-//            currentDs = (DataSource) DynamicDataSource.getInstance().getCurrent();
-//        }
         return new DynamicTransaction(dataSource);
     }
 }
