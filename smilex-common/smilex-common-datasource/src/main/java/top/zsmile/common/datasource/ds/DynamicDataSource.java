@@ -148,10 +148,15 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements IDyn
     }
 
 
-    @Override
-    public Connection getConnection() throws SQLException {
-        DataSource dataSource =
-                super.getResolvedDataSources().get(getKey());
-        return dataSource.getConnection();
-    }
+    /**
+     * 处理多数据源的事务的关键
+     * @return
+     * @throws SQLException
+     */
+//    @Override
+//    public Connection getConnection() throws SQLException {
+//        DataSource dataSource =
+//                super.getResolvedDataSources().get(getKey());
+//        return dataSource.getConnection();
+//    }
 }

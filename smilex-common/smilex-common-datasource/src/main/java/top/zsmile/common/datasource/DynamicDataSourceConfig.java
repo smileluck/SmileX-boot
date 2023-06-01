@@ -31,6 +31,11 @@ public class DynamicDataSourceConfig {
     @Resource
     private DynamicDataSourceProperties dynamicDataSourceProperties;
 
+    /**
+     * 动态数据源
+     *
+     * @return
+     */
     @ConditionalOnMissingBean
     @Bean(name = "dynamicDataSource")
     public DynamicDataSource dynamicDataSource() {
@@ -40,6 +45,12 @@ public class DynamicDataSourceConfig {
         return dynamicDataSource;
     }
 
+    /**
+     * mybatis-spring start config sql-session-factory
+     *
+     * @param dataSource
+     * @return
+     */
     @Bean
     public SqlSessionFactoryBeanCustomizer sqlSessionFactoryBeanCustomizer(@Qualifier("dynamicDataSource") DynamicDataSource dataSource) {
         return new SqlSessionFactoryBeanCustomizer() {
@@ -81,12 +92,23 @@ public class DynamicDataSourceConfig {
 //        return jtaTransactionManager;
 //    }
 
+    /**
+     * 事务管理器
+     *
+     * @param dynamicDataSource 动态数据源
+     * @return
+     */
     @ConditionalOnMissingBean
     @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(@Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
         return new DataSourceTransactionManager(dynamicDataSource);
     }
 
+    /**
+     * 遍历数据源配置并加载
+     *
+     * @return
+     */
     private Map<Object, Object> getDynamicDataSource() {
         DruidProperties druid = dynamicDataSourceProperties.getDruid();
         Map<String, DataSourceProperties> dataSourcePropertiesMap = dynamicDataSourceProperties.getDatasource();

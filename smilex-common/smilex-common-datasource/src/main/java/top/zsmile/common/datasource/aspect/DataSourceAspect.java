@@ -49,6 +49,12 @@ public class DataSourceAspect {
         }
     }
 
+    /**
+     * 检查数据源是否存在
+     *
+     * @param value
+     * @return
+     */
     private boolean checkValue(final String value) {
         if (!StringUtils.isEmpty(value)) {
             boolean containKey = DynamicDataSource.getInstance().containKey(value);

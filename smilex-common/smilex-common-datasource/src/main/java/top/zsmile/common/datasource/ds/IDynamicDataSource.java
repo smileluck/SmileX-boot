@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 动态数据源配置
  */
-interface IDynamicDataSource {
+public interface IDynamicDataSource {
 
     /**
      * 是否包含数据源
