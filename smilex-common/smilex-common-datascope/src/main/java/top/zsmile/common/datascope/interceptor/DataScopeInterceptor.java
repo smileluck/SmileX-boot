@@ -33,6 +33,13 @@ import java.util.Properties;
 @Slf4j
 public class DataScopeInterceptor implements Interceptor {
 
+    /**
+     * 拦截方法
+     *
+     * @param invocation
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         if (invocation.getTarget() instanceof Executor) {
@@ -41,7 +48,7 @@ public class DataScopeInterceptor implements Interceptor {
             BoundSql boundSql = ms.getBoundSql(args[1]);
             DataScopePerm dataScopePerm = DataScopeContentHolder.get();
             if (Objects.nonNull(dataScopePerm) && dataScopePerm.getNeedFilter() && !dataScopePerm.getHandleKey().equals(AbstractDataScopeHandle.NIL)) {
-
+                // 获取对应数据域的执行方法
                 AbstractDataScopeHandle abstractDataScopeHandle = DataScopeHandleFactory.get(dataScopePerm.getHandleKey());
                 String handleSql = abstractDataScopeHandle.handle(ms, boundSql, dataScopePerm);
                 log.info("MappedStatement => {},BoundSQL => {},SQL => {}", ms, boundSql, boundSql.getSql());
@@ -69,7 +76,14 @@ public class DataScopeInterceptor implements Interceptor {
     public void setProperties(Properties properties) {
     }
 
+    /**
+     * 构建新的 MapperStatement
+     *
+     * @param invocation 代理对象
+     * @param newSql     新的SQL
+     */
     private void newMs(Invocation invocation, String newSql) {
+        // 获取指向参数对象
         final Object[] args = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement) args[0];
         BoundSql boundSql = mappedStatement.getBoundSql(args[1]);
@@ -80,18 +94,29 @@ public class DataScopeInterceptor implements Interceptor {
                 newBoundSql.setAdditionalParameter(prop, boundSql.getAdditionalParameter(prop));
             }
         }
+        // 通过反射更改属性值
         MappedStatement neMappedStatement = copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(newBoundSql));
         MetaObject metaObject = SystemMetaObject.forObject(neMappedStatement);
         metaObject.setValue("sqlSource.boundSql.sql", newSql);
+        // 更改指向新的 MapperStatement
         args[0] = neMappedStatement;
     }
 
+    /**
+     * 拷贝创建一个新的MapperStatement
+     *
+     * @param ms
+     * @param newSqlSource
+     * @return
+     */
     private MappedStatement copyFromMappedStatement(MappedStatement ms, SqlSource newSqlSource) {
+        // 创建新的MapperStatement的构建器
         MappedStatement.Builder builder = new MappedStatement.Builder(ms.getConfiguration(), ms.getId(), newSqlSource, ms.getSqlCommandType());
         builder.resource(ms.getResource());
         builder.fetchSize(ms.getFetchSize());
         builder.statementType(ms.getStatementType());
         builder.keyGenerator(ms.getKeyGenerator());
+        // 拷贝属性
         if (ms.getKeyProperties() != null && ms.getKeyProperties().length > 0) {
             StringBuilder stringBuilder = new StringBuilder();
             for (String keyProperty : ms.getKeyProperties()) {
@@ -110,6 +135,9 @@ public class DataScopeInterceptor implements Interceptor {
         return builder.build();
     }
 
+    /**
+     * 实现自定义SqlSource
+     */
     public static class BoundSqlSqlSource implements SqlSource {
         private BoundSql boundSql;
 

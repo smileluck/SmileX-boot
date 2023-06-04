@@ -10,6 +10,8 @@ import top.zsmile.common.datascope.DataScopeHandleFactory;
 import top.zsmile.common.datascope.DataScopePerm;
 
 /**
+ * 根据创建用户拦截
+ *
  * @Version: 1.0.0
  * @Author: Administrator
  * @Date: 2023/03/06/10:47
@@ -119,7 +121,6 @@ public class CreateByHandle extends AbstractDataScopeHandle implements Initializ
 //        }
 //        return sql;
 //    }
-
     @Override
     public void afterPropertiesSet() throws Exception {
         DataScopeHandleFactory.set(AbstractDataScopeHandle.CREATE_BY, this);

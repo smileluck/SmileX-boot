@@ -15,7 +15,7 @@ public interface DataScopeHandle {
      * @param ms            映射执行类
      * @param boundSql      SQL信息
      * @param dataScopePerm 数据配置
-     * @return
+     * @return 返回处理后了的Sql语句
      */
     String handle(MappedStatement ms, BoundSql boundSql, DataScopePerm dataScopePerm);
 }
