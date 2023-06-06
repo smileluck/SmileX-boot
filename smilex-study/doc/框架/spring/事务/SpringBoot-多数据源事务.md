@@ -734,14 +734,6 @@ public class DynamicTransaction implements Transaction {
         // 即通过 Spring 的事务管理器绑定到当前线程的
         this.isConnectionTransactional =
                 DataSourceUtils.isConnectionTransactional(this.connection, this.dataSource);
-
-        // 数据源是否是DynamicDataSource
-        if (this.dataSource instanceof DynamicDataSource) {
-            // 获取主数据源的连接
-            this.connection = DataSourceUtils.getConnection((DataSource) ((DynamicDataSource) dataSource).get(this.identification));
-            // 设置自动提交
-            this.connection.setAutoCommit(this.autoCommit);
-        }
         log.debug("jdbc connection [{}] will {} be managed by spring", this.connection, (this.isConnectionTransactional ? "" : "not"));
     }
 
