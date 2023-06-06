@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import top.zsmile.common.core.utils.Asserts;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DruidProperties;
+import top.zsmile.common.datasource.utils.DynamicDataSourceUtils;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -21,9 +22,10 @@ public class DataSourceFactory {
     }
 
     public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties, DataSource dataSource) {
-        DruidXADataSource druidDataSource = (DruidXADataSource) dataSource;
+        DruidDataSource druidDataSource = (DruidDataSource) dataSource;
         if (druidProperties != null) {
-            copyProperties(druidDataSource, druidProperties);
+            DynamicDataSourceUtils.merge(properties, druidProperties);
+//            copyProperties(druidDataSource, druidProperties);
         }
         copyProperties(druidDataSource, properties);
         try {
@@ -66,6 +68,27 @@ public class DataSourceFactory {
         druidDataSource.setUrl(dsProperties.getUrl());
         druidDataSource.setUsername(dsProperties.getUsername());
         druidDataSource.setPassword(dsProperties.getPassword());
+        druidDataSource.setInitialSize(dsProperties.getInitialSize());
+        druidDataSource.setMaxActive(dsProperties.getMaxActive());
+        druidDataSource.setMinIdle(dsProperties.getMinIdle());
+        druidDataSource.setMaxWait(dsProperties.getMaxWait());
+        druidDataSource.setTimeBetweenEvictionRunsMillis(dsProperties.getTimeBetweenEvictionRunsMillis());
+        druidDataSource.setMinEvictableIdleTimeMillis(dsProperties.getMinEvictableIdleTimeMillis());
+        druidDataSource.setMaxEvictableIdleTimeMillis(dsProperties.getMaxEvictableIdleTimeMillis());
+        druidDataSource.setValidationQuery(dsProperties.getValidationQuery());
+        druidDataSource.setValidationQueryTimeout(dsProperties.getValidationQueryTimeout());
+        druidDataSource.setTestOnBorrow(dsProperties.getTestOnBorrow());
+        druidDataSource.setTestOnReturn(dsProperties.getTestOnReturn());
+        druidDataSource.setTestWhileIdle(dsProperties.getTestWhileIdle());
+        druidDataSource.setPoolPreparedStatements(dsProperties.getPoolPreparedStatements());
+        druidDataSource.setMaxOpenPreparedStatements(dsProperties.getMaxOpenPreparedStatements());
+        druidDataSource.setSharePreparedStatements(dsProperties.getSharePreparedStatements());
+        try {
+            druidDataSource.setFilters(dsProperties.getFilters());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        druidDataSource.setConnectionProperties(dsProperties.getConnectionProperties());
     }
 
 }

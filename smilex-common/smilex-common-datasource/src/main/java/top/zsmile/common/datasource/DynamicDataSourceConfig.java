@@ -114,8 +114,7 @@ public class DynamicDataSourceConfig {
         Map<String, DataSourceProperties> dataSourcePropertiesMap = dynamicDataSourceProperties.getDatasource();
         Map<Object, Object> dataSourceMap = new HashMap<>(dataSourcePropertiesMap.size());
         dataSourcePropertiesMap.forEach((k, v) -> {
-            DataSourceProperties mergeProperties = DynamicDataSourceUtils.merge(v, druid);
-            DruidDataSource dataSource = DataSourceFactory.createDataSource(mergeProperties);
+            DruidDataSource dataSource = DataSourceFactory.createDataSource(druid, v);
 //            final AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
 //            xaDataSource.setXaDataSource((DruidXADataSource) dataSource);
 //            xaDataSource.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");

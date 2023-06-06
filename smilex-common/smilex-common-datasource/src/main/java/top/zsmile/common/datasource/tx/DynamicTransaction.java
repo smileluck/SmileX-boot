@@ -97,7 +97,27 @@ public class DynamicTransaction implements Transaction {
      *
      * @throws SQLException
      */
+//    private void openConnection() throws SQLException {
+//        // 获取连接
+//        this.connection = DataSourceUtils.getConnection(this.dataSource);
+//        // 是否自动提交
+//        this.autoCommit = this.getConnection().getAutoCommit();
+//        // 确定当前连接是否是事务性的。
+//        // 即通过 Spring 的事务管理器绑定到当前线程的
+//        this.isConnectionTransactional =
+//                DataSourceUtils.isConnectionTransactional(this.connection, this.dataSource);
+//
+//        // 数据源是否是DynamicDataSource
+//        if (this.dataSource instanceof DynamicDataSource) {
+//            // 获取主数据源的连接
+//            this.connection = DataSourceUtils.getConnection((DataSource) ((DynamicDataSource) dataSource).get(this.identification));
+//            // 设置自动提交
+//            this.connection.setAutoCommit(this.autoCommit);
+//        }
+//    }
+
     private void openConnection() throws SQLException {
+
         // 获取连接
         this.connection = DataSourceUtils.getConnection(this.dataSource);
         // 是否自动提交
@@ -106,15 +126,28 @@ public class DynamicTransaction implements Transaction {
         // 即通过 Spring 的事务管理器绑定到当前线程的
         this.isConnectionTransactional =
                 DataSourceUtils.isConnectionTransactional(this.connection, this.dataSource);
-
-        // 数据源是否是DynamicDataSource
-        if (this.dataSource instanceof DynamicDataSource) {
-            // 获取主数据源的连接
-            this.connection = DataSourceUtils.getConnection((DataSource) ((DynamicDataSource) dataSource).get(this.identification));
-            // 设置自动提交
-            this.connection.setAutoCommit(this.autoCommit);
-        }
         log.debug("jdbc connection [{}] will {} be managed by spring", this.connection, (this.isConnectionTransactional ? "" : "not"));
+//
+//
+//        DataSource dataSource = this.dataSource;
+//
+//        // 数据源是否是DynamicDataSource
+//        if (this.dataSource instanceof DynamicDataSource) {
+//            dataSource = (DataSource) ((DynamicDataSource) dataSource).get(this.identification);
+//            // 获取主数据源的连接
+//            this.connection = DataSourceUtils.getConnection(dataSource);
+//        } else {
+//            // 获取连接
+//            this.connection = DataSourceUtils.getConnection(dataSource);
+//        }
+//        // 是否自动提交
+//        this.autoCommit = this.getConnection().getAutoCommit();
+////            // 设置自动提交
+//        this.connection.setAutoCommit(this.autoCommit);
+//        // 确定当前连接是否是事务性的。
+//        // 即通过 Spring 的事务管理器绑定到当前线程的
+//        this.isConnectionTransactional =
+//                DataSourceUtils.isConnectionTransactional(this.connection, dataSource);
     }
 
     /**
@@ -162,6 +195,7 @@ public class DynamicTransaction implements Transaction {
      */
     @Override
     public void close() throws SQLException {
+        log.debug("close jdbc connection");
         DataSourceUtils.releaseConnection(this.connection, this.dataSource);
         for (Connection conn : connections.values()) {
             DataSourceUtils.releaseConnection(conn, this.dataSource);
