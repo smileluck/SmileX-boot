@@ -76,7 +76,7 @@ public class OpenGitController {
         Map<String, Object> map = new HashMap<>();
         for (int j = 0; j < jsonArray.size(); j++) {
             String idx = jsonArray.getString(j);
-            if (idx.startsWith("smilex-study/doc")) {
+            if (idx.startsWith("smilex-study/doc") && idx.endsWith(".md")) {
                 String url = contentsUrl.replace("{+path}", idx);
                 map.put("contentUrl", url);
                 log.info("sync contentUrl ==> {}", url);
@@ -102,7 +102,7 @@ public class OpenGitController {
                 String url = contentsUrl.replace("{+path}", idx);
                 map.put("contentUrl", url);
                 log.info("sync contentUrl ==> {}", url);
-                BlogGitArticleEntity obj = blogGitArticleService.getObjByMap(map, "contentUrl", "updateFlag");
+                BlogGitArticleEntity obj = blogGitArticleService.getObjByMap(map, "id", "contentUrl", "updateFlag");
                 if (obj != null) {
                     blogGitArticleService.removeById(obj);
                 }

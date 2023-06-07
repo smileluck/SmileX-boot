@@ -136,6 +136,7 @@ public class BlogGitArticleController {
             blogGitArticleEntity.setId(info.getId());
             blogGitArticleEntity.setBlogArticleId(articleEntity.getId());
             blogGitArticleEntity.setPublishTime(LocalDateTime.now());
+            blogGitArticleEntity.setPublishFlag(1);
             blogGitArticleService.updateById(blogGitArticleEntity);
         }
         return R.success("添加成功");

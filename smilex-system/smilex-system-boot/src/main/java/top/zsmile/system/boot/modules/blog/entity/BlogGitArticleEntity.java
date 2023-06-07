@@ -47,6 +47,11 @@ public class BlogGitArticleEntity extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "是否更新，1是，0否", hidden = false)
     private Integer updateFlag;
     /**
+     * 是否发布，0未发布，1已发布
+     */
+    @ApiModelProperty(value = "是否发布，0未发布，1已发布", hidden = false)
+    private Integer publishFlag;
+    /**
      * 同步时间
      */
     @ApiModelProperty(value = "同步时间", hidden = false)
@@ -167,5 +172,13 @@ public class BlogGitArticleEntity extends BaseEntity implements Serializable {
      */
     public void setPublishTime(LocalDateTime publishTime) {
         this.publishTime = publishTime;
+    }
+
+    public Integer getPublishFlag() {
+        return publishFlag;
+    }
+
+    public void setPublishFlag(Integer publishFlag) {
+        this.publishFlag = publishFlag;
     }
 }

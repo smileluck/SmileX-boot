@@ -33,21 +33,38 @@ public class ScheduleConfig {
             log.info("检查有{}篇文章需要更新", blogGitArticleEntities.size());
             LocalDateTime now = LocalDateTime.now();
             blogGitArticleEntities.stream().forEach(item -> {
-                String res = OkHttpUtil.get(item.getContentUrl(), "");
-                log.info("{} RES ==> {}", item.getContentUrl(), res);
-                if (res != null) {
-                    JSONObject resObj = JSONObject.parseObject(res);
-                    String content = resObj.getString("content");
-                    if (StringUtils.isNotBlank(content)) {
-                        String replace = content.replace("\n", "");
-                        String decode = Base64.decodeToString(replace);
-                        String name = resObj.getString("name");
-                        item.setFileTitle(name.substring(0, name.lastIndexOf(".")));
-                        item.setUpdateFlag(0);
-                        item.setContentText(decode);
-                        item.setAsyncTime(now);
-                        blogGitArticleService.updateById(item);
+                if (item.getContentUrl().endsWith(".md")) {
+                    String res = OkHttpUtil.get(item.getContentUrl(), "");
+                    log.info("{} RES ==> {}", item.getContentUrl(), res);
+                    if (res != null) {
+                        if (StringUtils.isBlank(res)) {
+                            item.setUpdateFlag(0);
+                            item.setAsyncTime(now);
+                            blogGitArticleService.updateById(item);
+                        } else {
+                            JSONObject resObj = JSONObject.parseObject(res);
+                            String content = resObj.getString("content");
+                            if (StringUtils.isNotBlank(content)) {
+                                String replace = content.replace("\n", "");
+                                String decode = Base64.decodeToString(replace);
+                                String name = resObj.getString("name");
+                                item.setFileTitle(name.substring(0, name.lastIndexOf(".")));
+                                item.setUpdateFlag(0);
+                                item.setContentText(decode);
+                                item.setAsyncTime(now);
+                                blogGitArticleService.updateById(item);
+                            } else {
+                                item.setUpdateFlag(0);
+                                item.setContentText(content);
+                                item.setAsyncTime(now);
+                                blogGitArticleService.updateById(item);
+                            }
+                        }
                     }
+                } else {
+                    item.setUpdateFlag(0);
+                    item.setAsyncTime(now);
+                    blogGitArticleService.updateById(item);
                 }
             });
         }
