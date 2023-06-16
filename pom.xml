@@ -59,6 +59,7 @@
         <qiniu-oss.verions>7.13.1</qiniu-oss.verions>
         <jsqlparser.version>4.5</jsqlparser.version>
         <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
+        <netty.version>4.1.90.Final</netty.version>
     </properties>
 
 
@@ -307,6 +308,13 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-spring-boot.version}</version>
+            </dependency>
+
+            <!-- netty -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
             </dependency>
 
         </dependencies>
