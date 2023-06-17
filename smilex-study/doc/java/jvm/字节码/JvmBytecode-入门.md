@@ -532,7 +532,55 @@ class C implements X
 > 简单来说就是以前设计某些功能的时候把做法写死在了字节码里，后来想改也改不了了。  
 > 所以这次给lambda语法设计翻译到字节码的策略是就用invokedynamic来作个弊，把实际的翻译策略隐 藏在JDK的库的实现里（metafactory）可以随时改，而在外部的标准上大家只看到一个固定的 invokedynamic。
 
+# 总结
+
+我们可以通过字节码对整个代码的运行情况进行分析，有些时候不同的写法实现的相同功能（for和foreach），可以通过对字节码的分析判断其性能上的差距。因为编译后会将 `java` 所提供的语法糖去掉。
+
+常用的指令有如下几个：
+
+1. `javac` 编译 `.java` 文件。如果需要更多调试信息，可以加上 `-g` 。
+
+   ```shell
+   javac xxx.java
+   
+   javac -g xxx.java
+   ```
+
+2. `javap`。反编译 `.class` 文件，解析出字节码清单。可以通过 `-verbose` 查询更多信息（常量池信息，方法签名等）
+
+   ```shell
+   javap -c xxx.class 
+   # or
+   javap -c xxx
+   
+   javap -c -verbose xxx.class
+   ```
+
+3. 通过分析方法信息，我们可以注意到
+
+   1. 执行该方法时需要的栈(stack)深度是多少，需要在局部变量表中保留多少个槽位， 还有方法的参数个数: **stack=2, locals=2, args_size=1**。
+   2. `args_size`。无参静态方法和无参对象方法的区别在于，无参对象方法，会将 `this引用` 的指向通过`args_size` 的第一个槽位传入 方法中使用，所以无参对象方法的 `args_size=1`.
+
+4. 关于对象初始化时，会调用构造方法，其实还会执行另一个类似的方法 **<init>** ，甚至在执行构造函数之前就执行了。 还有一个可能执行的方法是该类的**静态初始化方法 <clinit> **， 但 **<clinit>** 并不能被直接调用，而 是由**这些指令触发的： new , getstatic , putstatic or invokestatic** 。
+
+5. 各种用于方法调用的指令
+
+   - invokestatic ，顾名思义，这个指令用于调用某个类的静态方法，这也是方法调用指令中最快的一 个。
+   - invokespecial , 我们已经学过了, invokespecial 指令用来调用构造函数，但也可以用于调用 同一个类中的 private 方法, 以及可见的超类方法。
+   - invokevirtual ，如果是具体类型的目标对象， invokevirtual 用于调用公共，受保护和打包 私有方法。
+   - invokeinterface，当要调用的方法属于某个接口时，将使用 invokeinterface 指令。
+   - invokedynamic，jdk7中新增的。**这条新增加的指令是实现“动态类型语言”**（Dynamically Typed Language）支持而进行的改进之一，同时也是 JDK 8以后支持的**lambda表达式的实现基础**。可以查看一下关于lambda表达式编译出来的源码可以看出差距。
+
+6. 关于线程栈，每次方法调用都会生成一个栈帧，里面都会包括：
+
+   - 操作栈。
+   - 局部变量表。
+   - class引用。用户获取class的常量池。
+   
+   局部变量表和操作栈是可以互相交互的，操作栈是用来执行指令的，而局部变量表是用来记录状态的。他们通过 `store` 存储到局部变量表中，通过`load`加载到操作栈里。需要注意的是：`store`会删除栈顶的数据，而`load`不会删除局部变量表中的数据
+
 # 附录
+
 ## 关于整形入栈指令（iconst,bipush,sipush,ldc)
 - iconst。用于取值1~5
 - bipush。用于取值-128~127
