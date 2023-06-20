@@ -85,7 +85,7 @@ class Thread implements Runnable {
 ## 隔离问题
 大家觉得一个运行程序中有没有可能同时存在两个包名和类名完全一致的类？
 
-JVM 及 Dalvik 对类唯一的识别是 ClassLoader id + PackageName + ClassName，所以一个运行程序中是有可能存在两个包名和类名完全一致的类的。并且如果这两个”类”不是由一个 ClassLoader 加载，是无法将一个类的示例强转为另外一个类的，这就是 ClassLoader 隔离。 
+JVM 及 Dalvik 对类唯一的识别是 **ClassLoader id + PackageName + ClassName**，所以一个运行程序中是有可能存在两个包名和类名完全一致的类的。并且如果这两个”类”不是由一个 ClassLoader 加载，是无法将一个类的示例强转为另外一个类的，这就是 ClassLoader 隔离。 
 ```java
 java.lang.ClassCastException: android.support.v4.view.ViewPager can not be cast to android.support.v4.view.ViewPager
 ```
