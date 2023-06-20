@@ -172,12 +172,10 @@ CustomClassLoader2-->AppClassLoader
 
 ## 添加引用类的几种方式
 
-1. 放到 Jdk 目录下的 lib/ext 或者 -Djava.ext.dirs
-2. java -cp/classpath 或者 class文件放到当前路径
+1. 放到 Jdk 目录下的 lib/ext（这是扩展类加载器的加载路径） 或者 -Djava.ext.dirs 指定一个扩展类的目录
+2. java -cp/classpath 或者 class文件放到当前路径（应用类加载器）
 3. 自定义Classloader加载
-4. 拿到当前执行类的classLoader，反射掉哦那个addUrl 方法添加jar或者路径
-   - JDK9以后无效，因为应用类加载器、扩展类加载器和Url加载器平级了。没有继承关系了。
-   - Jdk9以后，直接用classLoader.forName("jvm.Hello.classloader")即可。
+4. 拿到当前执行类的classLoader，反射掉哦那个addUrl 方法添加jar或者路径（JDK9无效）
 
 ```java
 public class JvmAppClassLoaderAddUrl {
@@ -198,13 +196,18 @@ public class JvmAppClassLoaderAddUrl {
 }
 ```
 
+jdk9以后应用类加载器、扩展类加载器和URL加载器，这三个是平级的了。不能存在一个继承关系。所以无法将应用类加载器和扩展类加载器转换成URLClassLoader。
 
+但是呢提供了另一种方式，将上面繁杂的代码变得更简单了。
 
-
+```java
+class.forName("top.zsmile.jvm.classloader.Hello")",new UrlClassLoader());
+```
 
 
 
 # 打印三类加载器的信息
+
 ```java
 public class JvmClassLoaderPrintPath {
     public static void main(String[] args) {
