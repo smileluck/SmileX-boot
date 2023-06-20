@@ -204,7 +204,7 @@ jdk9以后应用类加载器、扩展类加载器和URL加载器，这三个是�
 class.forName("top.zsmile.jvm.classloader.Hello")",new UrlClassLoader());
 ```
 
-
+**在JDK9中，整个JDK都基于模块化进行构建，以前的rt.jar, tool.jar被拆分成数十个模块，编译的时候只编译实际用到的模块，同时各个类加载器各司其职，只加载自己负责的模块。** 
 
 # 打印三类加载器的信息
 

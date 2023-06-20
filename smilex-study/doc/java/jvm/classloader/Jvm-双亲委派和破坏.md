@@ -6,7 +6,15 @@
 # 双亲委托
 ![image](Jvm-双亲委派和破坏.assets/clipboard.png)
 
+其实上图也就几个步骤
+
+1. 先检查类是否已经被加载过
+2. 若没有加载则调用父加载器的loadClass()方法进行加载
+3. 若父加载器为空则默认使用启动类加载器作为父加载器
+4. 如果父类加载失败，抛出ClassNotFoundException异常后，再调用自己的findClass()方法进行加载。 
+
 查看loadClass的方法，我们可以看到：
+
 - 当我们遵循双亲委派机制时，自定义的classloader需要实现findClass方法。
 - 当我们打破双亲委派机制，则需要实现loadClass方法
 
@@ -16,6 +24,17 @@
 - 基于JVM标识每个类的唯一性需要与类加载器一同判断，那么我们通过自定义类的方式，可以隔离class使用，提高我们开发灵活性。
 
 ## 如何理解双亲委派模型的被破化？
+
+> **想要破坏这种机制，那么就自定义一个类加载器，重写其中的loadClass方法，使其不进行双亲委派即可。** 
+
+在这之前看一下`classloader` 提供的3个常用方法的区别：
+
+- loadClass() 就是主要进行类加载的方法，默认的双亲委派机制就实现在这个方法中
+- findClass() 根据名称或位置加载.class字节码
+- defineClass() 把字节码转化为Class。
+
+
+
 ### loadClass
 双亲委托模型是在JDK1.2之后出现的。在此之前类加载器和抽象类java.lang.ClassLoader就已经存在了。所以为了向前兼容，JDK1.2之后的java.lang.ClassLoader添加了一个新的protected方法findClass(),(在上面的源代码中也可以看见)。
 **而在双亲委托模型未设计出前，用户去继承java.lang.ClassLoader的唯一目的就是为了重写loadClass()方法**，因为JVM在进行类加载的时候，会调用加载器私有方法loadClassInternal(),而这个方法的唯一逻辑就是去调用自己的loadClass()方法。
