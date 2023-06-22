@@ -22,6 +22,8 @@ public class DfaAlgorithm {
 
     private static Map<Character, TrieNode> map = null;
 
+    private static Integer count = 0;
+
     private DfaAlgorithm() {
 
     }
@@ -98,12 +100,14 @@ public class DfaAlgorithm {
                         if (trieNode == null) {
                             trieNode = new TrieNode(aChar);
                             map.put(aChar, trieNode);
+                            count++;
                         }
                     } else {
                         TrieNode trieNodeNext = trieNode.get(aChar);
                         if (trieNodeNext == null) {
                             trieNodeNext = new TrieNode(aChar, (i == chars.length - 1 ? 1 : 0));
                             trieNode.put(aChar, trieNodeNext);
+                            count++;
                         }
                         trieNode = trieNodeNext;
                     }
@@ -118,6 +122,10 @@ public class DfaAlgorithm {
         } catch (IOException e) {
             e.printStackTrace();
             throw new SXException("文件加载出错");
+        } finally {
+            if (lock.writeLock().isHeldByCurrentThread() && lock.isWriteLocked()) {
+                lock.writeLock().unlock();
+            }
         }
     }
 
