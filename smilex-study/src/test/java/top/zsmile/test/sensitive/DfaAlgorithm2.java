@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * DFA敏感词算法实现
+ * DFA敏感词算法实现，增加failure 避免2次循环
  */
 @Slf4j
-public class DfaAlgorithm {
-    private static DfaAlgorithm instance;
+public class DfaAlgorithm2 {
+    private static DfaAlgorithm2 instance;
 
     private static ReentrantReadWriteLock lock;
 
@@ -24,7 +24,7 @@ public class DfaAlgorithm {
 
     private static Integer count = 0;
 
-    private DfaAlgorithm() {
+    private DfaAlgorithm2() {
 
     }
 
@@ -33,11 +33,11 @@ public class DfaAlgorithm {
      *
      * @return
      */
-    public static DfaAlgorithm getInstance() {
+    public static DfaAlgorithm2 getInstance() {
         if (instance == null) {
-            synchronized (DfaAlgorithm.class) {
+            synchronized (DfaAlgorithm2.class) {
                 if (instance == null) {
-                    instance = new DfaAlgorithm();
+                    instance = new DfaAlgorithm2();
                     lock = new ReentrantReadWriteLock();
                 }
             }
@@ -52,7 +52,7 @@ public class DfaAlgorithm {
      * @param filePath 文件路径
      * @return
      */
-    public DfaAlgorithm readFile(String filePath) {
+    public DfaAlgorithm2 readFile(String filePath) {
         return readFile(new File(filePath));
     }
 
@@ -62,8 +62,8 @@ public class DfaAlgorithm {
      * @param file 文件路径
      * @return
      */
-    public DfaAlgorithm readFile(File file) {
-        DfaAlgorithm instance = getInstance();
+    public DfaAlgorithm2 readFile(File file) {
+        DfaAlgorithm2 instance = getInstance();
         if (!file.exists()) {
             throw new SXException("文件不存在");
         }
@@ -198,38 +198,37 @@ public class DfaAlgorithm {
         List<DfaSearchResult> results = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         TrieNode trieNode = null;
-        for (int i = 0; i < chars.length; i++) {
-            for (int j = i; j < chars.length; j++) {
-                char aChar = chars[j];
-                if (trieNode == null) {
-                    trieNode = map.get(aChar);
-                    if (trieNode != null) {
-                        sb.append(aChar);
-                        if (trieNode.getIsWord() == 1) {
-                            results.add(new DfaSearchResult(i, sb.toString()));
-                            sb.setLength(0);
-                            trieNode = null;
-                            break;
-                        }
-                    } else {
-                        break;
-                    }
-                } else {
-                    TrieNode trieNodeNext = trieNode.get(aChar);
-                    if (trieNodeNext == null) {
+        for (int i = 0, start = 0; i < chars.length; i++) {
+            char aChar = chars[i];
+            if (trieNode == null) {
+                start = i;
+                trieNode = map.get(aChar);
+                if (trieNode != null) {
+                    sb.append(aChar);
+                    if (trieNode.getIsWord() == 1) {
+                        results.add(new DfaSearchResult(start, sb.toString()));
                         sb.setLength(0);
                         trieNode = null;
-                        break;
-                    } else {
+                    }
+                }
+            } else {
+                TrieNode trieNodeNext = trieNode.get(aChar);
+                if (trieNodeNext == null) {
+                    sb.setLength(0);
+                    trieNode = null;
+                    trieNodeNext = map.get(aChar);
+                    if (trieNodeNext != null) {
                         sb.append(aChar);
+                        start = i;
                         trieNode = trieNodeNext;
-                        if (trieNodeNext.getIsWord() == 1) {
-                            results.add(new DfaSearchResult(i, sb.toString()));
-                            sb.setLength(0);
-                            trieNode = null;
-                            i = j;
-                            break;
-                        }
+                    }
+                } else {
+                    sb.append(aChar);
+                    trieNode = trieNodeNext;
+                    if (trieNodeNext.getIsWord() == 1) {
+                        results.add(new DfaSearchResult(start, sb.toString()));
+                        sb.setLength(0);
+                        trieNode = null;
                     }
                 }
             }

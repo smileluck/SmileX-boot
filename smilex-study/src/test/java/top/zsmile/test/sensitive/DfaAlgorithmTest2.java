@@ -4,7 +4,6 @@ package top.zsmile.test.sensitive;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import top.zsmile.common.core.utils.file.SpringFileUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,11 +11,11 @@ import java.util.List;
 /**
  * 敏感词dfa测试单元
  */
-public class DfaAlgorithmTest {
+public class DfaAlgorithmTest2 {
 
     @Before
     public void before() throws IOException {
-        DfaAlgorithm instance = DfaAlgorithm.getInstance();
+        DfaAlgorithm2 instance = DfaAlgorithm2.getInstance();
         ClassPathResource classPathResource = new ClassPathResource("sensitive/ad.txt");
         instance.readFile(classPathResource.getFile());
         classPathResource = new ClassPathResource("sensitive/illegal.txt");
@@ -27,10 +26,9 @@ public class DfaAlgorithmTest {
         instance.readFile(classPathResource.getFile());
     }
 
-
     @Test
     public void test() throws IOException {
-        DfaAlgorithm instance = DfaAlgorithm.getInstance();
+        DfaAlgorithm2 instance = DfaAlgorithm2.getInstance();
 
         String text = "而这些并不是完全重要，更加重要的问题是， 一般来说， 现在，解决毛泽东的重要思想的问题，是非常非常重要的。 所以， 达尔文说过一句富有哲理的话，敢于浪费哪怕一个钟头时间的人，说明他还不懂得珍惜生命的全部价值。这句话语虽然很短，但令我浮想联翩。 毛泽东的重要思想，发生了会如何，不发生又会如何。 这样看来， 既然如此， 富勒曾经说过，苦难磨炼一些人，也毁灭另一些人。带着这句话，我们还要更加慎重的审视这个问题： 既然如何， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 歌德在不经意间这样说过，读一本好书，就如同和一个高尚的人在交谈。这句话语虽然很短，但令我浮想联翩。 我认为， 毛泽东的重要思想，发生了会如何，不发生又会如何。 问题的关键究竟为何。\n" +
                 "问题的关键究竟为何？ 既然如何， 了解清楚毛泽东的重要思想到底是一种怎么样的存在，是解决一切问题的关键。 在这种困难的抉择下，本人思来想去，寝食难安。 经过上述讨论， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 孔子曾经提到过，知之者不如好之者，好之者不如乐之者。这启发了我， 毛泽东的重要思想，到底应该如何实现。 本人也是经过了深思熟虑，在每个日日夜夜思考这个问题。 对我个人而言，毛泽东的重要思想不仅仅是一个重大的事件，还可能会改变我的人生。 莎士比亚说过一句富有哲理的话，人的一生是短的，但如果卑劣地过这一生，就太长了。我希望诸位也能好好地体会这句话。 从这个角度来看， 伏尔泰在不经意间这样说过，不经巨大的困难，不会有伟大的事业。带着这句话，我们还要更加慎重的审视这个问题： 我认为， 毛泽东的重要思想，到底应该如何实现。 毛泽东的重要思想，发生了会如何，不发生又会如何。 伏尔泰曾经提到过，不经巨大的困难，不会有伟大的事业。这不禁令我深思。 生活中，若毛泽东的重要思想出现了，我们就不得不考虑它出现了的事实。\n" +
@@ -61,17 +59,18 @@ public class DfaAlgorithmTest {
 
         long startTime = System.currentTimeMillis();
         List<DfaSearchResult> results = instance.findAll(text);
-        results.forEach(item -> System.out.println(item.getText()));
-//
+        results.forEach(item -> System.out.println("start : " + item.getStartIndex() + ",text : " + item.getText()));
+
 //        String newStr = instance.replace(text, '*');
         long endTime = System.currentTimeMillis();
         long spendTime = endTime - startTime;
         System.out.println("spend time : " + spendTime);
+
     }
 
     @Test
     public void test2() throws IOException {
-        DfaAlgorithm instance = DfaAlgorithm.getInstance();
+        DfaAlgorithm2 instance = DfaAlgorithm2.getInstance();
 
         long allSpeedTime = 0;
 
