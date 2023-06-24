@@ -235,11 +235,11 @@
             </dependency>
 
             <!-- freemarker -->
-            <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.freemarker</groupId>-->
+<!--                <artifactId>freemarker</artifactId>-->
+<!--                <version>${freemarker.version}</version>-->
+<!--            </dependency>-->
 
             <!--shiro-->
             <dependency>

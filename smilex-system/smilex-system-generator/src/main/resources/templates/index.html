@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>SmileX-Generator 代码生成器</title>
+    <#assign rootPath=springMacroRequestContext.contextPath />
+    <link rel="stylesheet" href="${rootPath}/static/css/reset.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.1.4/dist/index.css">
+    <link rel="stylesheet" href="${rootPath}/static/css/index.css"/>
+</head>
+<body>
+<div id="app">
+    <section class="layout">
+        <aside :class='layout-aside'>
+            <div class="base-aside">
+                <div class="base-aside-logo">SmileX-Admin</div>
+                <div class="base-aside-menu">
+                    <el-menu
+                            :default-active="activeNum"
+                            class="menu"
+                            unique-opened
+                    >
+                        <!--                        <el-menu-item index="/home">-->
+                        <!--                            <span>首页</span>-->
+                        <!--                        </el-menu-item>-->
+                        <el-menu-item index="/codeGen">
+                            <span>代码生成器</span>
+                        </el-menu-item>
+                    </el-menu>
+                </div>
+            </div>
+        </aside>
+        <section class="layout layout_vertical">
+            <header class="layout-header">
+
+            </header>
+            <main class="layout-main">
+                <!-- <scroll-bar-nav></scroll-bar-nav> -->
+                <el-card class="box-card">
+                    <div class="table-card">
+                        <div class="table-search">
+                            <el-form :inline="true" :model="searchFormModel" ref="searchForm">
+                                <el-row :gutter="10">
+                                    <el-col :span="4">
+                                        <el-form-item label="表名：">
+                                            <el-input
+                                                    v-model.trim="searchFormModel.tableName"
+                                                    placeholder="请输入表名"
+                                            />
+                                        </el-form-item
+                                        >
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <el-button type="primary" @click="list()">
+                                            <el-icon class="el-icon">
+                                                <search/>
+                                            </el-icon>
+                                            <span>搜索</span></el-button
+                                        >
+                                        <el-button type="primary" @click="resetSearch()">
+                                            <el-icon class="el-icon">
+                                                <refresh-right/>
+                                            </el-icon>
+                                            <span>重置</span></el-button
+                                        >
+                                    </el-col>
+                                </el-row>
+                            </el-form>
+                        </div>
+                        <div class="table-operate">
+                            <el-row>
+                                <el-col :span="2">
+                                    <el-button type="primary" @click="configHandle()"
+                                    >配置数据源
+                                    </el-button
+                                    >
+                                </el-col>
+                                <el-col :span="2">
+                                    <el-button type="primary" @click="genHandle()">生成数据表</el-button>
+                                </el-col>
+                            </el-row>
+                        </div>
+                        <div class="table-selection" v-show="selectColumn.length > 0">
+                          <span class="selection-span"
+                          >已选择 <a>{{ selectColumn.length }}</a> 项
+                          </span>
+                            <span class="selection-operate">
+                            <a @click="handleSelectionClear()">清空</a>
+                          </span>
+                        </div>
+                        <el-table
+                                ref="table"
+                                v-loading="loading"
+                                element-loading-text="Loading..."
+                                :data="tableData"
+                                style="width: 100%"
+                                @selection-change="handleSelectionChange"
+                        >
+                            <el-table-column type="selection" width="50"/>
+                            <el-table-column prop="tableName" label="表名" width="200"/>
+                            <el-table-column prop="engine" label="引擎" width="200"/>
+                            <el-table-column prop="tableComment" label="表注释"/>
+                            <el-table-column prop="createTime" label="创建时间" width="200"/>
+                        </el-table>
+
+                        <!-- <column-model></column-model> -->
+                        <!--                        <db-config-model ref="configModel" @refresh="list"></db-config-model>-->
+
+                        <!--                        <code-gen-model ref="genModel" @refresh="list"></code-gen-model>-->
+                    </div>
+                </el-card>
+            </main>
+        </section>
+    </section>
+</div>
+<!-- built files will be auto injected -->
+</body>
+<!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+<!-- Import Vue 3 -->
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<!-- Import component library -->
+<script src="https://unpkg.com/element-plus@2.1.4/dist/index.full.js"></script>
+<script>
+    const App = {
+        data() {
+          return {
+            activeNum: "/codeGen",
+
+            // tableData
+            loading:false,
+            tableData:[{
+                tableName:"222",
+                engine:"222",
+                tableComment:"222",
+                createTime:"222"
+            }],
+            configModel:null,
+            genModel:null,
+            searchForm:null,
+            selectColumn:[],
+            searchFormModel:{
+              tableName: "",
+              tableCommene: "",
+            }
+          };
+        },
+        methods:{
+            handleSelectionChange(val){
+              console.log(val);
+              this.selectColumn = val;
+            },
+            handleSelectionClear(){
+              this.$refs.table.clearSelection();
+            },
+            resetSearch(){
+              this.$refs.searchForm.resetFields();
+<!--              list();-->
+            },
+            genHandle(){
+              if (this.selectColumn.length == 0) {
+                this.$notify({
+                  title: "系统提示",
+                  message: "请选择表进行生成",
+                  type: "error",
+                });
+                return;
+              }
+        <!--      unref(genModel).initModel(selectColumn);-->
+            }
+        }
+      };
+      const app = Vue.createApp(App);
+      app.use(ElementPlus);
+      app.mount("#app");
+
+    const list = () => {
+      loading.value = true;
+      getAction("/generator/list", toRaw(searchFormModel))
+        .then((res) => {
+          if (res.success) {
+            tableData.value = res.data;
+          } else {
+            tableData.value = [];
+          }
+        })
+        .finally(() => {
+          loading.value = false;
+        });
+    };
+    const configHandle = () => {
+      unref(configModel).initModel();
+    };
+
+
+<!--    list();-->
+
+
+
+</script>
+
+</html>

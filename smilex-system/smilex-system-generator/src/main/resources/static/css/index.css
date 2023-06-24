@@ -1,0 +1,128 @@
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* text-align: center; */
+    color: #2c3e50;
+    width: 100%;
+    height: 100vh;
+}
+
+.layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    box-sizing: border-box;
+    flex: auto;
+    overflow-x: hidden;
+}
+
+.layout-aside {
+    width: 200px;
+    height: 100%;
+    flex: 0 0 200px;
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;
+    transition: all 0.3s;
+}
+
+.layout-header {
+    flex: 0 0 60px;
+    height: 60px;
+    width: 100%;
+    background-color: #1890ff;
+}
+
+.layout-main {
+    background: #f6f6f6;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout_vertical {
+    flex-direction: column;
+    flex: auto;
+}
+
+.box-card {
+    margin: 10px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+
+.base-aside {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.base-aside-logo {
+    flex: 0 0 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+    background-color: #1890ff;
+}
+
+.base-aside-menu {
+    height: 100%;
+    background-color: #fff;
+}
+
+.base-aside-menu .menu {
+    height: 100%;
+}
+
+
+
+.table-card {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    position: relative;
+}
+.table-card-pagination {
+    margin-top: 20px;
+}
+
+.table-search {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    overflow: hidden;
+}
+.table-operate {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    overflow: hidden;
+}
+.table-selection {
+    border: 1px solid #409eff;
+    background: #b7e8ff;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.table-selection > .selection-span {
+    text-align: left;
+}
+.table-selection > .selection-span > a {
+    color: #409eff;
+}
+.table-selection > .selection-operate {
+    margin-left: 10px;
+    color: #409eff;
+    cursor: pointer;
+}
