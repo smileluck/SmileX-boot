@@ -37,7 +37,6 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
     private SnowFlake snowFlake = new SnowFlake(1, 1);
 
     @Override
-    @DS(DefaultConstants.GENERATOR_DATASOURCE_KEY)
     public List<Map<String, Object>> queryTableList(String tableName) {
         return generatorDao.selectTableList(tableName);
     }

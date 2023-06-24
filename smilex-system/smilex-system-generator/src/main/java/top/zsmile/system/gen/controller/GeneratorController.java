@@ -10,6 +10,8 @@ import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.core.api.R;
+import top.zsmile.common.datasource.properties.DruidProperties;
+import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 import top.zsmile.tool.gen.domain.entity.DatabaseConnEntity;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
@@ -62,7 +64,7 @@ public class GeneratorController {
         DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
 
 //        DynamicDataSource.getInstance().delDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY);
-        DynamicDataSource.getInstance().replace(DefaultConstants.GENERATOR_DATASOURCE_KEY, dataSource);
+        DynamicDataSource.getInstance().replace(DynamicDataSourceProperties.PRIMARY, dataSource);
         return R.success("连接成功");
     }
 
