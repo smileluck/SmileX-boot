@@ -4,7 +4,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.common.core.exception.SXException;
-import top.zsmile.tool.gen.config.FreemakerConfig;
+import top.zsmile.tool.gen.config.FreemarkerConfig;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
 import top.zsmile.tool.gen.domain.model.TableModel;
 
@@ -27,7 +27,7 @@ public class GeneratorUtils {
         File saveFile = null;
         try {
             Template template = null;
-            template = FreemakerConfig.INSTANCE.getTemplate(templateName);
+            template = FreemarkerConfig.INSTANCE.getTemplate(templateName);
             saveFile = new File(savePath + fileName);
 
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveFile), "UTF-8"));

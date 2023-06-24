@@ -2,20 +2,20 @@ package top.zsmile.tool.gen.config;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
+import org.springframework.core.io.ClassPathResource;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
-public class FreemakerConfig {
+public class FreemarkerConfig {
     public static final Configuration INSTANCE;
 
     static {
         INSTANCE = new Configuration(new Version("2.3.30"));
         try {
-            String path = FreemakerConfig.class.getResource("/").getPath();
-            INSTANCE.setDirectoryForTemplateLoading(new File(path + "/template/freemarker/"));
+            INSTANCE.setDirectoryForTemplateLoading((new ClassPathResource("template/freemarker")).getFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
