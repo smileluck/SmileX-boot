@@ -1,16 +1,22 @@
 package top.zsmile.tool.gen.service.impl;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zsmile.common.core.constant.StringConstant;
 import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.utils.file.ZipUtils;
+import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.annotation.DS;
 import top.zsmile.common.core.utils.SpringContextUtils;
+import top.zsmile.common.datasource.ds.DynamicDataSource;
+import top.zsmile.common.datasource.properties.DataSourceProperties;
+import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
 import top.zsmile.tool.gen.constant.DefaultConstants;
 import top.zsmile.tool.gen.convert.MysqlTypeConvert;
 import top.zsmile.tool.gen.dao.GeneratorDao;
+import top.zsmile.tool.gen.domain.entity.DatabaseConnEntity;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
 import top.zsmile.tool.gen.domain.model.ColumnModel;
 import top.zsmile.tool.gen.domain.model.MenuModel;
@@ -19,6 +25,7 @@ import top.zsmile.tool.gen.service.GeneratorSerivce;
 import top.zsmile.tool.gen.utils.GeneratorUtils;
 import top.zsmile.tool.gen.utils.NameStyleUtils;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.util.*;
 
@@ -33,6 +40,10 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
 
     @Autowired
     private MysqlTypeConvert mysqlTypeConvert;
+
+    @Resource
+    private DynamicDataSourceProperties dynamicDataSourceProperties;
+
 
     private SnowFlake snowFlake = new SnowFlake(1, 1);
 
@@ -64,6 +75,16 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
     public void genLocalCode(GeneratorEntity generatorEntity) {
         List<TableModel> tableModels = genCodeModel(generatorEntity);
         GeneratorUtils.genLocalCode(generatorEntity, tableModels);
+    }
+
+    @Override
+    public void switchDs(DatabaseConnEntity databaseConnEntity) {
+        DataSourceProperties dataSourceProperties = new DataSourceProperties();
+        dataSourceProperties.setUsername(databaseConnEntity.getUsername());
+        dataSourceProperties.setPassword(databaseConnEntity.getPassword());
+        dataSourceProperties.setUrl(databaseConnEntity.getUrl());
+        DruidDataSource dataSource = DataSourceFactory.createDataSource(dynamicDataSourceProperties.getDruid(), dataSourceProperties);
+        DynamicDataSource.getInstance().replace(DynamicDataSourceProperties.PRIMARY, dataSource);
     }
 
     /**
@@ -110,7 +131,7 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
                 }
 
                 // 包含字典项目时，记录表模型中
-                if(next.getHumpColumnName().equals("enableFlag")){
+                if (next.getHumpColumnName().equals("enableFlag")) {
                     tableModel.setHasDict(Boolean.TRUE);
                 }
             }

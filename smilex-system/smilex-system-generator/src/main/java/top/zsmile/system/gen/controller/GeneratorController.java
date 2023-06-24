@@ -18,6 +18,7 @@ import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
 import top.zsmile.tool.gen.domain.model.ColumnModel;
 import top.zsmile.tool.gen.service.GeneratorSerivce;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
@@ -31,6 +32,7 @@ public class GeneratorController {
 
     @Autowired
     private GeneratorSerivce generatorService;
+
 
     @GetMapping("/list")
     public R list(String tableName) {
@@ -56,15 +58,7 @@ public class GeneratorController {
 
     @PostMapping("/connect")
     public R connect(@Validated @RequestBody DatabaseConnEntity databaseConnEntity) {
-        DataSourceProperties dataSourceProperties = new DataSourceProperties();
-        dataSourceProperties.setUsername(databaseConnEntity.getUsername());
-        dataSourceProperties.setPassword(databaseConnEntity.getPassword());
-        dataSourceProperties.setDriverClassName(DefaultConstants.MYSQL_DRIVER_CLASS);
-        dataSourceProperties.setUrl(databaseConnEntity.getUrl());
-        DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-
-//        DynamicDataSource.getInstance().delDataSource(DefaultConstants.GENERATOR_DATASOURCE_KEY);
-        DynamicDataSource.getInstance().replace(DynamicDataSourceProperties.PRIMARY, dataSource);
+        generatorService.switchDs(databaseConnEntity);
         return R.success("连接成功");
     }
 
