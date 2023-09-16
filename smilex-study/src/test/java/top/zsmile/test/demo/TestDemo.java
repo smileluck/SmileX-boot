@@ -44,4 +44,20 @@ public class TestDemo {
         list2.forEach(System.out::println);
 
     }
+
+    @Test
+    public void test2() {
+        String s = Integer.toHexString(-85);
+        String substring = s.substring(s.length()-4);
+        System.out.println(substring);
+    }
+
+
+    @Test
+    public void test3() {
+
+        String s = Integer.toHexString(-85);
+        String substring = s.substring(s.length()-4);
+        System.out.println(substring);
+    }
 }
