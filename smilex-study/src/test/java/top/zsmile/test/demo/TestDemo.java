@@ -52,12 +52,4 @@ public class TestDemo {
         System.out.println(substring);
     }
 
-
-    @Test
-    public void test3() {
-
-        String s = Integer.toHexString(-85);
-        String substring = s.substring(s.length()-4);
-        System.out.println(substring);
-    }
 }
