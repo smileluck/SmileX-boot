@@ -19,7 +19,6 @@
         <module>smilex-api</module>
         <module>smilex-tool</module>
         <module>smilex-im</module>
-        <module>smilex-study</module>
         <module>smilex-system</module>
         <module>smilex-cloud</module>
         <module>smilex-modules</module>
