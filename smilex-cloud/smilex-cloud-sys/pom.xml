@@ -12,14 +12,11 @@
     <artifactId>smilex-cloud-sys</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
 
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-cloud-nacos</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>

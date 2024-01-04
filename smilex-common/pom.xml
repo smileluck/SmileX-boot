@@ -24,6 +24,7 @@
         <module>smilex-common-log</module>
         <module>smilex-common-swagger</module>
         <module>smilex-common-datascope</module>
+        <module>smilex-common-cloud-nacos</module>
     </modules>
 
     <properties>
