@@ -1,4 +1,4 @@
-package top.zsmile.cloud.nacos.listener;
+package top.zsmile.common.cloud.nacos.listener;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.cloud.nacos.NacosConfigProperties;
