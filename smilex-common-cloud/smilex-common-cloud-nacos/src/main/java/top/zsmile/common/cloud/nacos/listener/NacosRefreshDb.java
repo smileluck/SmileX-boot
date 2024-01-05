@@ -1,4 +1,4 @@
-package top.zsmile.cloud.nacos.listener;
+package top.zsmile.common.cloud.nacos.listener;
 
 
 import org.apache.commons.lang.StringUtils;

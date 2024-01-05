@@ -24,22 +24,21 @@
         <module>smilex-common-log</module>
         <module>smilex-common-swagger</module>
         <module>smilex-common-datascope</module>
-        <module>smilex-common-cloud-nacos</module>
     </modules>
 
     <properties>
-<!--        <smilex-common.version>1.0</smilex-common.version>-->
+        <!--        <smilex-common.version>1.0</smilex-common.version>-->
     </properties>
 
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>top.zsmile</groupId>-->
-<!--                <artifactId>smilex-common-core</artifactId>-->
-<!--                <version>${smilex-common.version}</version>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
+    <!--    <dependencyManagement>-->
+    <!--        <dependencies>-->
+    <!--            <dependency>-->
+    <!--                <groupId>top.zsmile</groupId>-->
+    <!--                <artifactId>smilex-common-core</artifactId>-->
+    <!--                <version>${smilex-common.version}</version>-->
+    <!--            </dependency>-->
+    <!--        </dependencies>-->
+    <!--    </dependencyManagement>-->
 
     <dependencies>
 

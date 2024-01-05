@@ -15,6 +15,7 @@
     <version>1.0</version>
     <modules>
         <module>smilex-common</module>
+        <module>smilex-common-cloud</module>
         <module>smilex-auth</module>
         <module>smilex-api</module>
         <module>smilex-tool</module>
