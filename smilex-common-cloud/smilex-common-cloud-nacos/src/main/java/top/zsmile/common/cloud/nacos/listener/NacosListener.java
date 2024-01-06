@@ -4,14 +4,17 @@ import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.annotation.NacosConfigListener;
 import com.alibaba.nacos.api.config.listener.Listener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.yaml.snakeyaml.Yaml;
+import top.zsmile.common.cloud.nacos.constants.NacosConstant;
 import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
@@ -31,6 +34,7 @@ import java.util.concurrent.Executor;
 @Slf4j
 @RefreshScope
 @Configuration
+@ConditionalOnProperty(prefix = NacosConstant.REFRESH_DB_PREFIX, name = NacosConstant.REFRESH_DB_ENABLED, havingValue = "true")
 public class NacosListener implements InitializingBean {
 
     @Resource
