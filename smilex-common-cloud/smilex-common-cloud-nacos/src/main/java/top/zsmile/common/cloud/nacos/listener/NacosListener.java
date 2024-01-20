@@ -43,7 +43,7 @@ public class NacosListener implements InitializingBean {
     @Resource
     private DataSourceProperties dataSourceProperties;
 
-    @Autowired
+    @Resource
     private NacosConfigManager nacosConfigManager;
 
     @Resource
