@@ -15,6 +15,7 @@
         <module>smilex-tool-dev</module>
         <module>smilex-tool-pay</module>
         <module>smilex-tool-gen</module>
+        <module>smilex-tool-wechat-gzh</module>
     </modules>
 
     <dependencies>
