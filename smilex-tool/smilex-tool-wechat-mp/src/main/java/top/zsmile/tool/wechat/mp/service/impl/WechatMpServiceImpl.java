@@ -1,17 +1,16 @@
 package top.zsmile.tool.wechat.mp.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.wx.mp.bean.*;
-import com.ruoyi.wx.mp.bean.message.WechatMpInMessage;
-import com.ruoyi.wx.mp.constant.WechatConstant;
-import com.ruoyi.wx.mp.handler.MessageRouter;
-import com.ruoyi.wx.mp.properties.WechatMpProperties;
-import com.ruoyi.wx.mp.service.AbstractWechatStorageService;
-import com.ruoyi.wx.mp.service.IWechatCryptoService;
-import com.ruoyi.wx.mp.service.IWechatMpService;
-import com.ruoyi.wx.mp.utils.WechatHttps;
 import org.apache.commons.codec.digest.DigestUtils;
+import top.zsmile.tool.wechat.mp.bean.*;
+import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
+import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.handler.MessageRouter;
+import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
+import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
+import top.zsmile.tool.wechat.mp.service.IWechatCryptoService;
+import top.zsmile.tool.wechat.mp.service.IWechatMpService;
+import top.zsmile.tool.wechat.mp.utils.WechatHttps;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 @Service
@@ -187,7 +187,7 @@ public class WechatMpServiceImpl implements IWechatMpService {
     @Override
     public void refreshAccessToken(String appId) {
         logger.info("refresh accessToken");
-        long l = DateUtils.getNowDate().getTime() / 1000;
+        long l = new Date().getTime() / 1000;
         if (appId == null) {
             Map<String, WechatMpProperties> wechatMpMap = wechatStorageService.getWechatMpMap();
             Map<String, WechatATokenRes> accessTokenMap = wechatStorageService.getAccessTokenMap();

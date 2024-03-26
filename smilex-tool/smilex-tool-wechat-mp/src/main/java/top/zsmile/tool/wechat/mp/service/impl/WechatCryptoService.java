@@ -1,11 +1,11 @@
 package top.zsmile.tool.wechat.mp.service.impl;
 
-import com.ruoyi.wx.mp.bean.WechatNotifyParams;
-import com.ruoyi.wx.mp.bean.message.WechatMpInMessage;
-import com.ruoyi.wx.mp.properties.WechatMpProperties;
-import com.ruoyi.wx.mp.service.IWechatCryptoService;
-import com.ruoyi.wx.mp.service.IWechatStorageService;
-import com.ruoyi.wx.mp.utils.WXBizMsgCrypt;
+import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
+import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
+import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
+import top.zsmile.tool.wechat.mp.service.IWechatCryptoService;
+import top.zsmile.tool.wechat.mp.service.IWechatStorageService;
+import top.zsmile.tool.wechat.mp.utils.WXBizMsgCrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

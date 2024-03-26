@@ -1,16 +1,21 @@
 package top.zsmile.tool.wechat.mp.handler.in;
 
 
-import com.ruoyi.wx.mp.bean.message.WechatMpInMessage;
-import com.ruoyi.wx.mp.constant.WechatConstant;
-import com.ruoyi.wx.mp.handler.AbstractInHandler;
-import com.ruoyi.wx.mp.handler.IMessageInHandler;
-import com.ruoyi.wx.mp.handler.MessageRouter;
-import com.ruoyi.wx.mp.service.IWechatStorageService;
+import org.springframework.stereotype.Component;
+import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
+import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
+import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.handler.AbstractInHandler;
+import top.zsmile.tool.wechat.mp.handler.IMessageInHandler;
+import top.zsmile.tool.wechat.mp.handler.MessageRouter;
+import top.zsmile.tool.wechat.mp.service.IWechatStorageService;
 
 import javax.annotation.Resource;
 
-//@Component
+/**
+ * 扫码
+ */
+@Component
 public class MessageInScanHandler extends AbstractInHandler implements IMessageInHandler {
 
     @Resource
@@ -18,6 +23,22 @@ public class MessageInScanHandler extends AbstractInHandler implements IMessageI
 
     @Override
     public String exec(String openid, WechatMpInMessage wechatMpInMessage) {
+        try {
+            WechatMpQrcodeRes qrStatus = wechatStorageService.getQrStatus(wechatMpInMessage.getTicket());
+            Integer status = qrStatus.getStatus();
+            if (WechatConstant.QrCodeStatus.LOOP.equals(status)) {
+                qrStatus.setOpenid(openid);
+//                if (user == null) {
+//                    wechatStorageService.setQrStatus(qrStatus, WechatConstant.QrCodeStatus.NOT_REG);
+//                    }
+//                } else {
+//                    wechatStorageService.setQrStatus(qrStatus, WechatConstant.QrCodeStatus.REG);
+//                }
+            }
+            return null;
+        } catch (Exception ex) {
+            logger.error("MessageInScanHandler ex => {}", ex.getMessage());
+        }
         return null;
     }
 

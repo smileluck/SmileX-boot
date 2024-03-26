@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mp.utils.xml;
 
-import com.ruoyi.wx.mp.bean.message.*;
+import top.zsmile.tool.wechat.mp.bean.message.*;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.InputStream;

@@ -25,13 +25,13 @@ public class WechatMpQrcodeRes {
 
     /**
      * 类型
-     * {@link com.ruoyi.wx.mp.constant.WechatConstant.QrCodeType}
+     * {@link top.zsmile.tool.wechat.mp.constant.WechatConstant.QrCodeType}
      */
     private String type;
 
     /**
      * 状态
-     * {@link com.ruoyi.wx.mp.constant.WechatConstant.QrCodeStatus}
+     * {@link top.zsmile.tool.wechat.mp.constant.WechatConstant.QrCodeStatus}
      */
     private Integer status;
 

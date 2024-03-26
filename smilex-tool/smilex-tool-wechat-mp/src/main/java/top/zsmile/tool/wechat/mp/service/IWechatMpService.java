@@ -1,7 +1,7 @@
 package top.zsmile.tool.wechat.mp.service;
 
-import com.ruoyi.wx.mp.bean.*;
-import com.ruoyi.wx.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.bean.*;
+import top.zsmile.tool.wechat.mp.constant.WechatConstant;
 
 public interface IWechatMpService {
 

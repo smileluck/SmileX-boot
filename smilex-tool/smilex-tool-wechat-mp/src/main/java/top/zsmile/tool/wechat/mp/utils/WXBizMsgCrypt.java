@@ -17,7 +17,7 @@
  */
 package top.zsmile.tool.wechat.mp.utils;
 
-import com.ruoyi.wx.mp.exceptions.AesException;
+import top.zsmile.tool.wechat.mp.exceptions.AesException;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;

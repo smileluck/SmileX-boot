@@ -1,10 +1,10 @@
 package top.zsmile.tool.wechat.mp.service;
 
-import com.ruoyi.wx.mp.bean.WechatATokenRes;
-import com.ruoyi.wx.mp.bean.WechatJsapiTicketRes;
-import com.ruoyi.wx.mp.bean.WechatMpQrcodeRes;
-import com.ruoyi.wx.mp.bean.WechatNotifyParams;
-import com.ruoyi.wx.mp.properties.WechatMpProperties;
+import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
+import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
+import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
+import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
+import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 
 import java.util.Map;
 

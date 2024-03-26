@@ -1,11 +1,11 @@
 package top.zsmile.tool.wechat.mp.service.impl;
 
-import com.ruoyi.wx.mp.bean.WechatATokenRes;
-import com.ruoyi.wx.mp.bean.WechatJsapiTicketRes;
-import com.ruoyi.wx.mp.bean.WechatMpQrcodeRes;
-import com.ruoyi.wx.mp.bean.WechatNotifyParams;
-import com.ruoyi.wx.mp.properties.WechatMpProperties;
-import com.ruoyi.wx.mp.service.AbstractWechatStorageService;
+import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
+import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
+import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
+import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
+import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
+import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 

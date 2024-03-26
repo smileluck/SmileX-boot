@@ -1,10 +1,10 @@
 package top.zsmile.tool.wechat.mp.config;
 
 
-import com.ruoyi.wx.mp.properties.WechatMpProperties;
-import com.ruoyi.wx.mp.properties.WechatProperties;
-import com.ruoyi.wx.mp.service.AbstractWechatStorageService;
-import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.util.CollectionUtils;
+import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
+import top.zsmile.tool.wechat.mp.properties.WechatProperties;
+import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

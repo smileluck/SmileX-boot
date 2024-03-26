@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mp.handler;
 
-import com.ruoyi.wx.mp.bean.message.WechatMpInMessage;
+import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
 
 public interface IMessageInHandler {
 

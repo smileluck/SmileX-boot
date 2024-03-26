@@ -1,9 +1,9 @@
 package top.zsmile.tool.wechat.mp.service;
 
-import com.ruoyi.wx.mp.bean.WechatNotifyParams;
-import com.ruoyi.wx.mp.bean.message.WechatMpInMessage;
-import com.ruoyi.wx.mp.exceptions.AesException;
-import com.ruoyi.wx.mp.utils.WXBizMsgCrypt;
+import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
+import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
+import top.zsmile.tool.wechat.mp.exceptions.AesException;
+import top.zsmile.tool.wechat.mp.utils.WXBizMsgCrypt;
 
 /**
  * 加密和解密

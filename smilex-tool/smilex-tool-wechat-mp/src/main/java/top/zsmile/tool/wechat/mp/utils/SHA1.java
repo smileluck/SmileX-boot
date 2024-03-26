@@ -8,7 +8,7 @@
 
 package top.zsmile.tool.wechat.mp.utils;
 
-import com.ruoyi.wx.mp.exceptions.AesException;
+import top.zsmile.tool.wechat.mp.exceptions.AesException;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
