@@ -12,12 +12,12 @@ public class XStreamTransformer {
     static {
         registerClass(WechatMpInMessage.class);
         registerClass(WechatMpOutTextMessage.class);
-        registerClass(WechatMpImageMessage.class);
-        registerClass(WechatMpEventMessage.class);
-        registerClass(WechatMpLinkMessage.class);
-        registerClass(WechatMpLocationMessage.class);
-        registerClass(WechatMpVideoMessage.class);
-        registerClass(WechatMpVoiceMessage.class);
+        registerClass(WechatMpOutImageMessage.class);
+        registerClass(WechatMpOutEventMessage.class);
+        registerClass(WechatMpOutLinkMessage.class);
+        registerClass(WechatMpOutLocationMessage.class);
+        registerClass(WechatMpOutVideoMessage.class);
+        registerClass(WechatMpOutVoiceMessage.class);
     }
 
     /**

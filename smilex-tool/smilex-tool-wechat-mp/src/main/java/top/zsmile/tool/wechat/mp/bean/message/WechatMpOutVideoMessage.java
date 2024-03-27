@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
  */
 @XStreamAlias("xml")
 @JacksonXmlRootElement(localName = "xml")
-public class WechatMpVideoMessage extends WechatMpInMessage {
+public class WechatMpOutVideoMessage extends WechatMpInMessage {
 
     @XStreamAlias("MediaId")
     @XStreamConverter(value = XStreamCDataConverter.class)

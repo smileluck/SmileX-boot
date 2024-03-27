@@ -7,6 +7,7 @@ import top.zsmile.tool.wechat.mp.converter.XStreamCDataConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
@@ -29,4 +30,20 @@ public class WechatMpOutMessage implements Serializable {
     @JacksonXmlCData
     protected String fromUser;
 
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
+    }
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
+    }
 }

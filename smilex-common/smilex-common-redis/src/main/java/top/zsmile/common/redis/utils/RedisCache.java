@@ -244,4 +244,28 @@ public class RedisCache {
     public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
+
+
+    /**
+     * 缓存基本的对象，Integer、String、实体类等
+     *
+     * @param key   缓存的键值
+     * @param value 缓存的值
+     * @return 返回值
+     */
+    public <T> Boolean setNXCacheObject(final String key, final T value) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value);
+    }
+
+    /**
+     * 缓存基本的对象，Integer、String、实体类等
+     *
+     * @param key   缓存的键值
+     * @param value 缓存的值
+     * @return 返回值
+     */
+    public <T> Boolean setNXCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit);
+    }
+
 }
