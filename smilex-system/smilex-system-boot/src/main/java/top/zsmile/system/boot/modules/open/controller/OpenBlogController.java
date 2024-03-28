@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.common.core.api.R;
+import top.zsmile.common.core.utils.Asserts;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.Page;
 import top.zsmile.system.boot.modules.blog.service.*;
@@ -17,7 +18,6 @@ import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleLNVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleTopVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogArticleVo;
 import top.zsmile.system.boot.modules.open.entity.vo.BlogTagVo;
-import top.zsmile.common.core.utils.AssertUtils;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -115,7 +115,7 @@ public class OpenBlogController {
                                           @Validated @RequestBody BlogArticleDetailDto blogArticleDto) {
         blogArticleDto.setTenantId(tenantId);
         BlogArticleVo detail = blogArticleService.getDetailById(blogArticleDto);
-        AssertUtils.notNull(detail, "文章不存在");
+        Asserts.isNull(detail, "文章不存在");
         blogArticleService.checkPassToken(tenantId, blogArticleDto.getPassToken(), detail);
         return R.success(detail);
     }

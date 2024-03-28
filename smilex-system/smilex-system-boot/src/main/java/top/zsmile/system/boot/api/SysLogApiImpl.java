@@ -1,7 +1,7 @@
 package top.zsmile.system.boot.api;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.PropertyFilter;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.filter.PropertyFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;

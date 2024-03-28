@@ -1,11 +1,8 @@
 package top.zsmile.tool.pay.entity.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,38 +12,65 @@ import java.util.Set;
  * 退款订单
  */
 @Data
-@ApiModel(value = "退款订单返回对象")
 public class OrderRefundVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "微信支付订单号")
+    /**
+     * 微信支付订单号
+     */
     private String transactionId;
-    @ApiModelProperty(value = "商户订单号")
+    /**
+     * 商户订单号
+     */
     private String outTradeNo;
-    @ApiModelProperty(value = "微信退款单号")
+    /**
+     * 微信退款单号
+     */
     private String refundId;
-    @ApiModelProperty(value = "退款金额")
+    /**
+     * 退款金额
+     */
     private Integer refundFee;
-    @ApiModelProperty(value = "应结订单金额")
+    /**
+     * 应结订单金额
+     */
     private Integer settlementRefundFee;
-    @ApiModelProperty(value = "标价金额")
+    /**
+     * 标价金额
+     */
     private Integer totalFee;
-    @ApiModelProperty(value = "应结订单金额")
+    /**
+     * 应结订单金额
+     */
     private Integer settlementTotalFee;
-    @ApiModelProperty(value = "货币类型")
+    /**
+     * 货币类型
+     */
     private String feeType;
-    @ApiModelProperty(value = "现金支付货币类型")
+    /**
+     * 现金支付货币类型
+     */
     private Integer cashFee;
-    @ApiModelProperty(value = "现金支付货币类型")
+    /**
+     * 现金支付货币类型
+     */
     private String cashFeeType;
-    @ApiModelProperty(value = "现金退款金额")
+    /**
+     * 现金退款金额
+     */
     private Integer cashRefundFee;
-    @ApiModelProperty(value = "代金券退款总金额")
+    /**
+     * 代金券退款总金额
+     */
     private Integer couponRefundFee;
-    @ApiModelProperty(value = "退款代金券使用数量")
+    /**
+     * 退款代金券使用数量
+     */
     private Integer couponRefundCount;
 
-    @ApiModelProperty(value = "退款代金券列表")
+    /**
+     * 退款代金券列表
+     */
     private List<CouponItemVO> couponList;
 
     public static OrderRefundVO of(Map<String, String> map) {

@@ -29,7 +29,7 @@ public class LockUtils {
     public static boolean tryLock(String key, long timeout, TimeUnit unit) {
         LockInfo lock = LOCKS.computeIfAbsent(key, k -> new LockInfo(timeout, unit));
         try {
-            return lock.tryLock(timeout, unit);
+            return lock.tryLock(1, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return false;
         }
