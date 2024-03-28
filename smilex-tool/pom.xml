@@ -15,13 +15,27 @@
         <module>smilex-tool-dev</module>
         <module>smilex-tool-pay</module>
         <module>smilex-tool-gen</module>
-        <module>smilex-tool-wechat-gzh</module>
+        <module>smilex-tool-wechat-mp</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-core</artifactId>
+        </dependency>
+
+        <!-- Caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
+        </dependency>
+
+        <!-- RocksDB -->
+        <dependency>
+            <groupId>org.rocksdb</groupId>
+            <artifactId>rocksdbjni</artifactId>
+            <version>${rocksdb.version}</version>
         </dependency>
     </dependencies>
 
