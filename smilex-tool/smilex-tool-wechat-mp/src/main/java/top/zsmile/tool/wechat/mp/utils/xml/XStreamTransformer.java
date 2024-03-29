@@ -1,8 +1,9 @@
 package top.zsmile.tool.wechat.mp.utils.xml;
 
-import org.apache.commons.text.StringEscapeUtils;
 import top.zsmile.tool.wechat.mp.bean.message.*;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.XppDomDriver;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.InputStream;
 import java.util.*;
@@ -41,18 +42,13 @@ public class XStreamTransformer {
      * @return XML字符串
      */
     public static <T> String toXML(Class<T> clazz, T object) {
-        return StringEscapeUtils.unescapeXml(CLASS_X_STREAM_MAP.get(clazz).toXML(object));
+        String xml = CLASS_X_STREAM_MAP.get(clazz).toXML(object);
+        return StringUtils.replaceEach(xml, new String[]{"&lt;", "&quot;", "&apos;", "&gt;"}, new String[]{"<", "\"", "'", ">"});
     }
 
-    /**
-     * pojo -> xml
-     *
-     * @param clazz  Class类型
-     * @param object 对象
-     * @return XML字符串
-     */
-    public static <T extends WechatMpOutMessage> String toXML(Class<? extends WechatMpOutMessage> clazz, T object) {
-        return StringEscapeUtils.unescapeXml(CLASS_X_STREAM_MAP.get(clazz).toXML(object));
+    public static <T extends WechatMpOutMessage> String toXML(Class<? extends WechatMpOutMessage> clazz, T obj) {
+        String xml = CLASS_X_STREAM_MAP.get(clazz).toXML(obj);
+        return StringUtils.replaceEach(xml, new String[]{"&lt;", "&quot;", "&apos;", "&gt;"}, new String[]{"<", "\"", "'", ">"});
     }
 
     /**
@@ -71,7 +67,9 @@ public class XStreamTransformer {
      * @param clz 要注册的类
      */
     private static void registerClass(Class<?> clz) {
-        XStream xStream = new XStream();
+        XppDomDriver driver = new XppDomDriver();
+
+        XStream xStream = new XStream(driver);
         xStream.allowTypes(new Class[]{WechatMpInMessage.class});
         xStream.ignoreUnknownElements(); // 允许字段不存在
         xStream.processAnnotations(clz);
@@ -104,4 +102,5 @@ public class XStreamTransformer {
 
         return result.toArray(new Class<?>[0]);
     }
+
 }
