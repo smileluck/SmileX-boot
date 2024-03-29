@@ -75,6 +75,11 @@ public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorag
     }
 
     @Override
+    public void clearWechatMp() {
+        cache.clear(WechatRedisConstant.MP_MAP);
+    }
+
+    @Override
     public void putWechatMp(WechatMpProperties wechatProperties) {
         cache.set(WechatRedisConstant.MP_MAP + wechatProperties.getAppId(), wechatProperties);
     }

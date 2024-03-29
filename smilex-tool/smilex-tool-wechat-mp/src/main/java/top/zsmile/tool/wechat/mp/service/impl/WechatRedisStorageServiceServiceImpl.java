@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mp.service.impl;
 
-import top.zsmile.common.redis.utils.RedisCache;
+import com.ruoyi.common.core.redis.RedisCache;
 import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
@@ -59,6 +59,11 @@ public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageS
     public boolean checkWechatMp(String appId) {
         Object value = getWechatMp(appId);
         return value != null;
+    }
+
+    @Override
+    public void clearWechatMp() {
+        redisCache.deleteObject(WechatRedisConstant.MP_MAP);
     }
 
     @Override

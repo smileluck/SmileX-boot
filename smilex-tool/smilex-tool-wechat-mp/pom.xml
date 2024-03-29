@@ -38,6 +38,10 @@
             <artifactId>xstream</artifactId>
             <version>${xstream-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

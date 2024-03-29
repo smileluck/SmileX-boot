@@ -1,46 +1,35 @@
 package top.zsmile.tool.wechat.mp.bean.message;
 
 
-import top.zsmile.tool.wechat.mp.converter.XStreamCDataConverter;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.converter.XStreamMediaIdConverter;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
  * 微信图文信息
  */
 @XStreamAlias("xml")
 @JacksonXmlRootElement(localName = "xml")
-public class WechatMpOutImageMessage extends WechatMpInMessage {
+public class WechatMpOutImageMessage extends WechatMpOutMessage {
 
-    @XStreamAlias("PicUrl")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    @JacksonXmlProperty(localName = "PicUrl")
+    public WechatMpOutImageMessage() {
+        super(WechatConstant.XmlMsgType.IMAGE);
+    }
+    @XStreamAlias("Image")
+    @XStreamConverter(value = XStreamMediaIdConverter.class)
+    @JacksonXmlProperty(localName = "Image")
     @JacksonXmlCData
-    private String picUrl;
+    private String image;
 
-    @XStreamAlias("MediaId")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    @JacksonXmlProperty(localName = "MediaId")
-    @JacksonXmlCData
-    private String mediaId;
-
-
-    public String getPicUrl() {
-        return picUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-    }
-
-    public String getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

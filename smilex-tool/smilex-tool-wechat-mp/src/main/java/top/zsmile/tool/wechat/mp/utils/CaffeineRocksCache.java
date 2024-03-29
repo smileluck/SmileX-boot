@@ -56,6 +56,11 @@ public class CaffeineRocksCache implements InitializingBean {
         return cache.getIfPresent(key);
     }
 
+    public void clear(String prefix) {
+        @NonNull ConcurrentMap<@NonNull String, @NonNull Object> map = cache.asMap();
+        map.keySet().removeIf(key -> key.startsWith(prefix));
+    }
+
     public Stream<Map.Entry<@NonNull String, @NonNull Object>> getByPrefix(String prefix) {
         return cache.asMap().entrySet().stream()
                 .filter(entry -> entry.getKey().startsWith(prefix));

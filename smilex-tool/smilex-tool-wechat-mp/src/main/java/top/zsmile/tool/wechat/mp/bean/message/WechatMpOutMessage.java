@@ -7,7 +7,6 @@ import top.zsmile.tool.wechat.mp.converter.XStreamCDataConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
@@ -17,6 +16,10 @@ import java.io.Serializable;
 @JacksonXmlRootElement(localName = "xml")
 public class WechatMpOutMessage implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public WechatMpOutMessage(String type) {
+        this.msgType = type;
+    }
 
     @XStreamAlias("ToUserName")
     @XStreamConverter(value = XStreamCDataConverter.class)
@@ -30,6 +33,15 @@ public class WechatMpOutMessage implements Serializable {
     @JacksonXmlCData
     protected String fromUser;
 
+    @XStreamAlias("MsgType")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    @JacksonXmlProperty(localName = "MsgType")
+    @JacksonXmlCData
+    private String msgType;
+
+    @XStreamAlias("CreateTime")
+    @JacksonXmlProperty(localName = "CreateTime")
+    private Long createTime;
 
     public String getToUser() {
         return toUser;
@@ -45,5 +57,21 @@ public class WechatMpOutMessage implements Serializable {
 
     public void setFromUser(String fromUser) {
         this.fromUser = fromUser;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 }

@@ -63,6 +63,12 @@ public interface IWechatStorageService {
      */
     boolean checkWechatMp(String appId);
 
+
+    /**
+     * 清空微信公众号信息
+     */
+    void clearWechatMp();
+
     /**
      * 添加微信公众号信息
      *

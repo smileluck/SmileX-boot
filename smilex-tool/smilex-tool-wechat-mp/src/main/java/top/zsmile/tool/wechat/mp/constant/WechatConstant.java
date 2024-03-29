@@ -17,6 +17,8 @@ public final class WechatConstant {
         public static final String LOCATION = "location";
         public static final String LINK = "link";
         public static final String EVENT = "event";
+        public static final String MUSIC = "music";
+        public static final String NEWS = "news";
 
         private XmlMsgType() {
             throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");

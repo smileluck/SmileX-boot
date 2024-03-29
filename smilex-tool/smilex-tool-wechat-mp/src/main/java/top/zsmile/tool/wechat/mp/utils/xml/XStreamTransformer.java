@@ -1,5 +1,6 @@
 package top.zsmile.tool.wechat.mp.utils.xml;
 
+import org.apache.commons.text.StringEscapeUtils;
 import top.zsmile.tool.wechat.mp.bean.message.*;
 import com.thoughtworks.xstream.XStream;
 
@@ -13,9 +14,8 @@ public class XStreamTransformer {
         registerClass(WechatMpInMessage.class);
         registerClass(WechatMpOutTextMessage.class);
         registerClass(WechatMpOutImageMessage.class);
-        registerClass(WechatMpOutEventMessage.class);
-        registerClass(WechatMpOutLinkMessage.class);
-        registerClass(WechatMpOutLocationMessage.class);
+        registerClass(WechatMpOutMusicMessage.class);
+        registerClass(WechatMpOutNewsMessage.class);
         registerClass(WechatMpOutVideoMessage.class);
         registerClass(WechatMpOutVoiceMessage.class);
     }
@@ -41,7 +41,18 @@ public class XStreamTransformer {
      * @return XML字符串
      */
     public static <T> String toXML(Class<T> clazz, T object) {
-        return CLASS_X_STREAM_MAP.get(clazz).toXML(object);
+        return StringEscapeUtils.unescapeXml(CLASS_X_STREAM_MAP.get(clazz).toXML(object));
+    }
+
+    /**
+     * pojo -> xml
+     *
+     * @param clazz  Class类型
+     * @param object 对象
+     * @return XML字符串
+     */
+    public static <T extends WechatMpOutMessage> String toXML(Class<? extends WechatMpOutMessage> clazz, T object) {
+        return StringEscapeUtils.unescapeXml(CLASS_X_STREAM_MAP.get(clazz).toXML(object));
     }
 
     /**
