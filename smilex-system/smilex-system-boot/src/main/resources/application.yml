@@ -23,3 +23,14 @@ mybatis:
   mapperLocations: classpath*:mapper/**/*.xml
   # 加载全局的配置文件
   configLocation: classpath:mybatis/mybatis-config.xml
+
+# 微信公众号
+wechat:
+  mp:
+    useRedis: false
+    default:
+    configs:
+      - appId:
+        appSecret:
+        token:
+        aesKey:
