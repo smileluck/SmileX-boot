@@ -7,7 +7,7 @@ import org.apache.shiro.codec.Base64;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import top.zsmile.common.core.utils.OkHttpUtil;
+import top.zsmile.common.core.utils.http.OkHttpUtil;
 import top.zsmile.system.boot.modules.blog.entity.BlogGitArticleEntity;
 import top.zsmile.system.boot.modules.blog.service.BlogGitArticleService;
 

@@ -2,7 +2,7 @@ package top.zsmile.tool.wechat.mp.utils;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import top.zsmile.common.core.utils.OkHttpUtil;
+import top.zsmile.common.core.utils.http.OkHttpUtil;
 import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;

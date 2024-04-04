@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mp.service.impl;
 
-import com.ruoyi.common.core.redis.RedisCache;
+import top.zsmile.common.redis.utils.RedisCache;
 import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
