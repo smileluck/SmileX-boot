@@ -2,6 +2,8 @@ package top.zsmile.pay.mapper;
 
 import top.zsmile.common.mybatis.dao.BaseMapper;
 import top.zsmile.pay.domain.TapUserTransaction;
+import top.zsmile.pay.dto.TapUserTransactionQueryDTO;
+import top.zsmile.pay.vo.TapUserTransactionVO;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public interface TapUserTransactionMapper extends BaseMapper<TapUserTransaction>
      * @param tapUserTransaction 用户交易
      * @return 用户交易集合
      */
-    public List<TapUserTransaction> selectTapUserTransactionList(TapUserTransaction tapUserTransaction);
+    public List<TapUserTransactionVO> selectTapUserTransactionList(TapUserTransactionQueryDTO tapUserTransaction);
 
     /**
      * 新增用户交易

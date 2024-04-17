@@ -8,14 +8,14 @@ import top.zsmile.pay.constant.TradeRateConstant;
 import top.zsmile.pay.domain.SysTransaction;
 import top.zsmile.pay.domain.TapUserTransaction;
 import top.zsmile.pay.dto.TapUserCenterRechargeDTO;
+import top.zsmile.pay.dto.TapUserTransactionQueryDTO;
 import top.zsmile.pay.mapper.TapUserTransactionMapper;
 import top.zsmile.pay.service.ITapUserTransactionService;
 import top.zsmile.pay.service.ITransactionService;
 import top.zsmile.pay.service.IWechatPayService;
 import top.zsmile.pay.service.IWechatStorageService;
 import top.zsmile.pay.vo.NaivePrepayVO;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
+import top.zsmile.pay.vo.TapUserTransactionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +61,7 @@ public class TapUserTransactionServiceImpl extends BaseServiceImpl<TapUserTransa
      * @return 用户交易
      */
     @Override
-    public List<TapUserTransaction> selectTapUserTransactionList(TapUserTransaction tapUserTransaction) {
+    public List<TapUserTransactionVO> selectTapUserTransactionList(TapUserTransactionQueryDTO tapUserTransaction) {
         return tapUserTransactionMapper.selectTapUserTransactionList(tapUserTransaction);
     }
 
@@ -118,8 +118,10 @@ public class TapUserTransactionServiceImpl extends BaseServiceImpl<TapUserTransa
         tapUserTransaction.setTransactionId(transaction.getId());
         tapUserTransaction.setCreateTime(transaction.getCreateTime());
         tapUserTransactionMapper.insertTapUserTransaction(tapUserTransaction);
-        PrepayResponse prepayResponse = wechatPayService.naivePay(transaction);
-        return NaivePrepayVO.of(transaction.getId(), prepayResponse.getCodeUrl(), transaction.getExpireTime());
+
+        NaivePrepayVO naivePrepayVO = transactionService.scanPrepay(TradeIdEnums.MAIN.getId(), transaction);
+        transactionService.save(transaction);
+        return naivePrepayVO;
     }
 
     @Override

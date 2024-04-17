@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zsmile.pay.mapper.TapUserTransactionMapper">
+    
+    <resultMap type="TapUserTransaction" id="TapUserTransactionResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+
+    <resultMap type="TapUserTransactionVO" id="TapUserTransactionVOResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="orderNo" column="order_no"/>
+        <result property="outOrderNo" column="out_order_no"/>
+        <result property="sceneInfo" column="scene_info"/>
+        <result property="payType" column="pay_type"/>
+        <result property="handleType" column="handle_type"/>
+        <result property="tradeType" column="trade_type"/>
+        <result property="tradeState" column="trade_state"/>
+        <result property="bankType" column="bank_type"/>
+        <result property="quantity" column="quantity"/>
+        <result property="price" column="price"/>
+        <result property="amount" column="amount"/>
+        <result property="recePrice" column="rece_price"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="refundPrice" column="refund_price"/>
+        <result property="rate" column="rate"/>
+        <result property="createTime" column="create_time"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="successTime" column="success_time"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <sql id="selectTapUserTransactionVo">
+        select id, user_id, transaction_id, order_type, create_time, update_time, del_flag from tap_user_transaction
+    </sql>
+
+    <select id="selectTapUserTransactionList" parameterType="TapUserTransactionQueryDTO" resultMap="TapUserTransactionVOResult">
+        select
+            tap_user_transaction.id,
+            tap_user_transaction.user_id,
+            tap_user_transaction.transaction_id,
+            tap_user_transaction.order_type,
+            sys_transaction.order_no,
+            sys_transaction.out_order_no,
+            sys_transaction.scene_info,
+            sys_transaction.pay_type,
+            sys_transaction.handle_type,
+            sys_transaction.trade_state,
+            sys_transaction.quantity,
+            sys_transaction.price,
+            sys_transaction.amount,
+            sys_transaction.rece_price,
+            sys_transaction.real_price,
+            sys_transaction.refund_price,
+            sys_transaction.rate,
+            sys_transaction.create_time,
+            sys_transaction.pay_time,
+            sys_transaction.success_time,
+            tap_user.phone
+        from tap_user_transaction
+        inner join sys_transaction on tap_user_transaction.transaction_id = sys_transaction.id
+        inner join tap_user on tap_user_transaction.user_id = tap_user.id
+        <where>  
+            <if test="userId != null "> and tap_user_transaction.user_id = #{userId}</if>
+            <if test="orderNo != null "> and sys_transaction.order_no like CONCAT(#{orderNo},"%")</if>
+            <if test="outOrderNo != null "> and sys_transaction.out_order_no like CONCAT(#{outOrderNo},"%")</if>
+            <if test="orderType != null  and orderType != ''"> and tap_user_transaction.order_type = #{orderType}</if>
+            <if test="tradeState != null and tradeState != ''"> and sys_transaction.trade_state = #{tradeState}</if>
+        </where>
+    </select>
+    
+    <select id="selectTapUserTransactionById" parameterType="Long" resultMap="TapUserTransactionResult">
+        <include refid="selectTapUserTransactionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTapUserTransaction" parameterType="TapUserTransaction">
+        insert into tap_user_transaction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="transactionId != null">transaction_id,</if>
+            <if test="orderType != null">order_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="transactionId != null">#{transactionId},</if>
+            <if test="orderType != null">#{orderType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTapUserTransaction" parameterType="TapUserTransaction">
+        update tap_user_transaction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="transactionId != null">transaction_id = #{transactionId},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTapUserTransactionById" parameterType="Long">
+        delete from tap_user_transaction where id = #{id}
+    </delete>
+
+    <delete id="deleteTapUserTransactionByIds" parameterType="String">
+        delete from tap_user_transaction where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

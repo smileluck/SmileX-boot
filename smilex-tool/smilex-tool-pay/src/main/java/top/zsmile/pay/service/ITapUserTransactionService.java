@@ -3,7 +3,9 @@ package top.zsmile.pay.service;
 import top.zsmile.common.mybatis.service.BaseService;
 import top.zsmile.pay.domain.TapUserTransaction;
 import top.zsmile.pay.dto.TapUserCenterRechargeDTO;
+import top.zsmile.pay.dto.TapUserTransactionQueryDTO;
 import top.zsmile.pay.vo.NaivePrepayVO;
+import top.zsmile.pay.vo.TapUserTransactionVO;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public interface ITapUserTransactionService extends BaseService<TapUserTransacti
      * @param tapUserTransaction 用户交易
      * @return 用户交易集合
      */
-    public List<TapUserTransaction> selectTapUserTransactionList(TapUserTransaction tapUserTransaction);
+    public List<TapUserTransactionVO> selectTapUserTransactionList(TapUserTransactionQueryDTO tapUserTransaction);
 
     /**
      * 新增用户交易

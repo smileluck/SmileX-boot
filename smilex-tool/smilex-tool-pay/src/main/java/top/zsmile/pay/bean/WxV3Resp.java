@@ -4,6 +4,9 @@ package top.zsmile.pay.bean;
  * 微信V3应答
  */
 public class WxV3Resp {
+
+    public static final String RES_SUCCESS = "success";
+
     /**
      * 错误码，SUCCESS为清算机构接收成功，其他错误码为失败。
      */

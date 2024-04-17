@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zsmile.pay.mapper.SysTransactionMapper">
+
+    <resultMap type="SysTransaction" id="SysTransactionResult">
+        <result property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="outOrderNo" column="out_order_no"/>
+        <result property="openid" column="openid"/>
+        <result property="appid" column="appid"/>
+        <result property="mchid" column="mchid"/>
+        <result property="payCurrency" column="pay_currency"/>
+        <result property="sceneInfo" column="scene_info"/>
+        <result property="payType" column="pay_type"/>
+        <result property="handleType" column="handle_type"/>
+        <result property="tradeType" column="trade_type"/>
+        <result property="tradeState" column="trade_state"/>
+        <result property="tradeStateDesc" column="trade_state_desc"/>
+        <result property="bankType" column="bank_type"/>
+        <result property="quantity" column="quantity"/>
+        <result property="price" column="price"/>
+        <result property="amount" column="amount"/>
+        <result property="recePrice" column="rece_price"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="refundPrice" column="refund_price"/>
+        <result property="rate" column="rate"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="expireTime" column="expire_time"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="successTime" column="success_time"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="selectSysTransactionVo">
+        select id, order_no, out_order_no, openid, appid, mchid, pay_currency, scene_info,handle_type, pay_type,
+        trade_type,
+        trade_state, trade_state_desc, bank_type, quantity, price, amount, rece_price, real_price, refund_price, rate,
+        create_time, update_time, expire_time, pay_time, success_time, del_flag from sys_transaction
+    </sql>
+
+    <select id="selectSysTransactionList" parameterType="SysTransaction" resultMap="SysTransactionResult">
+        <include refid="selectSysTransactionVo"/>
+        <where>
+            <if test="orderNo != null  and orderNo != ''">and order_no = #{orderNo}</if>
+            <if test="outOrderNo != null  and outOrderNo != ''">and out_order_no = #{outOrderNo}</if>
+            <if test="openid != null  and openid != ''">and openid = #{openid}</if>
+            <if test="appid != null  and appid != ''">and appid = #{appid}</if>
+            <if test="mchid != null  and mchid != ''">and mchid = #{mchid}</if>
+            <if test="payCurrency != null  and payCurrency != ''">and pay_currency = #{payCurrency}</if>
+            <if test="sceneInfo != null  and sceneInfo != ''">and scene_info = #{sceneInfo}</if>
+            <if test="payType != null  and payType != ''">and pay_type = #{payType}</if>
+            <if test="handleType != null  and handleType != ''">and handle_type = #{handleType}</if>
+            <if test="tradeType != null  and tradeType != ''">and trade_type = #{tradeType}</if>
+            <if test="tradeState != null  and tradeState != ''">and trade_state = #{tradeState}</if>
+            <if test="tradeStateDesc != null  and tradeStateDesc != ''">and trade_state_desc = #{tradeStateDesc}</if>
+            <if test="bankType != null  and bankType != ''">and bank_type = #{bankType}</if>
+            <if test="quantity != null ">and quantity = #{quantity}</if>
+            <if test="price != null ">and price = #{price}</if>
+            <if test="amount != null ">and amount = #{amount}</if>
+            <if test="recePrice != null ">and rece_price = #{recePrice}</if>
+            <if test="realPrice != null ">and real_price = #{realPrice}</if>
+            <if test="refundPrice != null ">and refund_price = #{refundPrice}</if>
+            <if test="rate != null ">and rate = #{rate}</if>
+            <if test="expireTime != null ">and expire_time = #{expireTime}</if>
+            <if test="payTime != null ">and pay_time = #{payTime}</if>
+            <if test="successTime != null ">and success_time = #{successTime}</if>
+        </where>
+    </select>
+
+    <select id="selectSysTransactionById" parameterType="Long" resultMap="SysTransactionResult">
+        <include refid="selectSysTransactionVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectSysTransactionByOrderNo" resultType="top.zsmile.pay.domain.SysTransaction">
+        <include refid="selectSysTransactionVo"/>
+        where order_no = #{orderNo}
+    </select>
+
+    <insert id="insertSysTransaction" parameterType="SysTransaction">
+        insert into sys_transaction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="outOrderNo != null">out_order_no,</if>
+            <if test="openid != null">openid,</if>
+            <if test="appid != null">appid,</if>
+            <if test="mchid != null">mchid,</if>
+            <if test="payCurrency != null">pay_currency,</if>
+            <if test="sceneInfo != null">scene_info,</if>
+            <if test="payType != null">pay_type,</if>
+            <if test="handleType != null">handle_type,</if>
+            <if test="tradeType != null">trade_type,</if>
+            <if test="tradeState != null">trade_state,</if>
+            <if test="tradeStateDesc != null">trade_state_desc,</if>
+            <if test="bankType != null">bank_type,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="price != null">price,</if>
+            <if test="amount != null">amount,</if>
+            <if test="recePrice != null">rece_price,</if>
+            <if test="realPrice != null">real_price,</if>
+            <if test="refundPrice != null">refund_price,</if>
+            <if test="rate != null">rate,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="successTime != null">success_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="outOrderNo != null">#{outOrderNo},</if>
+            <if test="openid != null">#{openid},</if>
+            <if test="appid != null">#{appid},</if>
+            <if test="mchid != null">#{mchid},</if>
+            <if test="payCurrency != null">#{payCurrency},</if>
+            <if test="sceneInfo != null">#{sceneInfo},</if>
+            <if test="payType != null">#{payType},</if>
+            <if test="handleType != null">#{handleType},</if>
+            <if test="tradeType != null">#{tradeType},</if>
+            <if test="tradeState != null">#{tradeState},</if>
+            <if test="tradeStateDesc != null">#{tradeStateDesc},</if>
+            <if test="bankType != null">#{bankType},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="price != null">#{price},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="recePrice != null">#{recePrice},</if>
+            <if test="realPrice != null">#{realPrice},</if>
+            <if test="refundPrice != null">#{refundPrice},</if>
+            <if test="rate != null">#{rate},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="successTime != null">#{successTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysTransaction" parameterType="SysTransaction">
+        update sys_transaction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="outOrderNo != null">out_order_no = #{outOrderNo},</if>
+            <if test="openid != null">openid = #{openid},</if>
+            <if test="appid != null">appid = #{appid},</if>
+            <if test="mchid != null">mchid = #{mchid},</if>
+            <if test="payCurrency != null">pay_currency = #{payCurrency},</if>
+            <if test="sceneInfo != null">scene_info = #{sceneInfo},</if>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="handleType != null">handle_type = #{handleType},</if>
+            <if test="tradeType != null">trade_type = #{tradeType},</if>
+            <if test="tradeState != null">trade_state = #{tradeState},</if>
+            <if test="tradeStateDesc != null">trade_state_desc = #{tradeStateDesc},</if>
+            <if test="bankType != null">bank_type = #{bankType},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="recePrice != null">rece_price = #{recePrice},</if>
+            <if test="realPrice != null">real_price = #{realPrice},</if>
+            <if test="refundPrice != null">refund_price = #{refundPrice},</if>
+            <if test="rate != null">rate = #{rate},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="successTime != null">success_time = #{successTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTransactionById" parameterType="Long">
+        delete from sys_transaction where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTransactionByIds" parameterType="String">
+        delete from sys_transaction where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

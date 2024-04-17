@@ -8,10 +8,10 @@ public class TradeCacheConstant {
     /**
      * 订单重复
      */
-    public static final String REPEAT = "wx:trade:rp:";
+    public static final String REPEAT = "pay:trade:rp:";
 
     /**
      * 订单状态
      */
-    public static final String TRADE_STATUS = "wx:trade:status:";
+    public static final String TRADE_STATUS = "pay:trade:status:";
 }

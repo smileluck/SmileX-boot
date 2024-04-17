@@ -3,7 +3,6 @@ package top.zsmile.pay.service;
 import top.zsmile.pay.bean.WxV3Resp;
 import top.zsmile.pay.domain.SysTransaction;
 import com.wechat.pay.java.service.payments.model.Transaction;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +16,11 @@ public interface IWechatPayService {
     /**
      * Naive 支付
      *
-     * @param transaction   订单
+     * @param id
+     * @param transaction 订单
      * @return 响应结果
      */
-    PrepayResponse naivePay(SysTransaction transaction);
+    PrepayResponse naivePay(String id, SysTransaction transaction);
 
     /**
      * 验证和放重提交

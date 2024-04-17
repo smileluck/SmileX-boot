@@ -134,6 +134,10 @@ public class SysTransaction extends BaseEntity {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime expireTime;
+    /**
+     * 过期时间分钟
+     */
+    private transient Integer expireIn;
 
     /**
      * 支付时间
@@ -156,11 +160,6 @@ public class SysTransaction extends BaseEntity {
      * 配置
      */
     private transient Config config;
-
-    /**
-     * 删除标志（0代表存在 2代表删除）
-     */
-    private String delFlag;
 
     public void setId(Long id) {
         this.id = id;
@@ -400,5 +399,13 @@ public class SysTransaction extends BaseEntity {
 
     public void setHandleType(String handleType) {
         this.handleType = handleType;
+    }
+
+    public Integer getExpireIn() {
+        return expireIn;
+    }
+
+    public void setExpireIn(Integer expireIn) {
+        this.expireIn = expireIn;
     }
 }

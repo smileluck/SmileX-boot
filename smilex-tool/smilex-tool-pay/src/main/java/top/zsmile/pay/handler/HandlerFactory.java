@@ -2,6 +2,7 @@ package top.zsmile.pay.handler;
 
 import com.wechat.pay.java.service.payments.model.Transaction;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -22,7 +23,11 @@ public class HandlerFactory {
     }
 
     public static void exec(Transaction transaction) {
-        tradeDefaultHandler.exec(transaction);
+        tradeDefaultHandler.wxExec(transaction);
+    }
+
+    public static void exec(Map<String, String> transaction) {
+        tradeDefaultHandler.aliExec(transaction);
     }
 
     public static AbstractHandler get(String key) {

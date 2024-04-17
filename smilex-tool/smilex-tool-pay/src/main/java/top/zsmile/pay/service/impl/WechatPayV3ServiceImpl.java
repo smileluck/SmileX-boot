@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,20 +42,24 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
     private IWechatStorageService wechatStorageService;
 
     @Override
-    public PrepayResponse naivePay(SysTransaction transaction) {
+    public PrepayResponse naivePay(String id, SysTransaction transaction) {
+        WxV3Storage storage = wechatStorageService.getConfig(id);
+        transaction.setAppid(storage.getAppid());
+        transaction.setMchid(storage.getMchid());
+
         PrepayRequest prepayRequest = new PrepayRequest();
         prepayRequest.setAppid(transaction.getAppid());
         prepayRequest.setMchid(transaction.getMchid());
         prepayRequest.setOutTradeNo(transaction.getOrderNo());
         prepayRequest.setDescription(transaction.getSceneInfo());
-        prepayRequest.setNotifyUrl(transaction.getNotifyUrl());
+        prepayRequest.setNotifyUrl(storage.getNotifyUrl());
         Amount amount = new Amount();
         amount.setTotal(transaction.getAmount().intValue());
         prepayRequest.setAmount(amount);
         if (transaction.getExpireTime() != null) {
             prepayRequest.setTimeExpire(LocalDateUtils.format(transaction.getExpireTime(), LocalDateUtils.FORMAT_RFC3339));
         }
-        NativePayService service = new NativePayService.Builder().config(transaction.getConfig()).build();
+        NativePayService service = new NativePayService.Builder().config(storage.getConfig()).build();
         PrepayResponse prepay = service.prepay(prepayRequest);
         wechatStorageService.saveTransactionStatus(transaction.getId().toString(), transaction.getTradeState());
         return prepay;
@@ -126,6 +129,21 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
 
         HandlerFactory.exec(transaction);
         return WxV3Resp.success();
+    }
+
+
+    // 使用DateTimeFormatter将ZonedDateTime对象格式化为RFC 3339格式的时间戳
+    private String expireTimeStr(Date date) {
+
+        // 将Date对象转换为Instant对象
+        Instant instant = date.toInstant();
+
+        // 使用系统默认时区将Instant对象转换为ZonedDateTime对象
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+
+        // 使用RFC 3339格式将ZonedDateTime对象格式化为字符串
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.ssXXX");
+        return zonedDateTime.format(formatter);
     }
 
 }

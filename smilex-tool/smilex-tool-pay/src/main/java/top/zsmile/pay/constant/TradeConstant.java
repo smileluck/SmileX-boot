@@ -1,6 +1,8 @@
 package top.zsmile.pay.constant;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 public final class TradeConstant {
 
     /**
@@ -19,6 +21,7 @@ public final class TradeConstant {
         public static final String MWEB = "MWEB";
         //刷脸支付
         public static final String FACEPAY = "FACEPAY";
+
 
     }
 
@@ -42,6 +45,26 @@ public final class TradeConstant {
         public static final String USERPAYING = "USERPAYING";
         //支付失败（仅付款码支付会返回）
         public static final String PAYERROR = "PAYERROR";
+        // 订单完成
+        public static final String FINISH = "FINISH";
+
+        /**
+         * 转换统一的支付状态
+         *
+         * @param status
+         * @return
+         */
+        public static String convert(String type, String status) {
+            String newStatus = status;
+            switch (type) {
+                case PayType.ALIPAY:
+                    newStatus = StringUtils.replaceEach(status,
+                            new String[]{"WAIT_BUYER_PAY", "TRADE_CLOSED", "TRADE_SUCCESS", "FINISH"},
+                            new String[]{NOTPAY, CLOSED, SUCCESS, FINISH});
+                    break;
+            }
+            return newStatus;
+        }
 
     }
 
@@ -51,10 +74,13 @@ public final class TradeConstant {
      */
     public static final class PayType {
         public static final String ALIPAY = "alipay";
+
+        // TODO 临时使用
+        public static final String ALIPAY2 = "alipay2";
         public static final String WXPAY = "wxpay";
 
         public static boolean support(String type) {
-            return ALIPAY.equals(type) || WXPAY.equals(type);
+            return ALIPAY.equals(type) || WXPAY.equals(type) || ALIPAY2.equals(type);
         }
     }
 }

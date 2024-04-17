@@ -1,11 +1,7 @@
 package top.zsmile.pay.handler;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.cglib.core.Local;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.core.utils.LocalDateUtils;
-import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.pay.constant.TradeConstant;
 import top.zsmile.pay.domain.SysTransaction;
 import top.zsmile.pay.service.ISysTransactionService;
@@ -20,9 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 主要处理
@@ -38,8 +37,13 @@ public class TradeDefaultHandler implements InitializingBean {
     @Resource
     private IWechatStorageService wechatStorageService;
 
+    /**
+     * 微信执行
+     *
+     * @param transaction 微信通知结果
+     */
     @Transactional
-    public void exec(Transaction transaction) {
+    public void wxExec(Transaction transaction) {
 
         SysTransaction sysTransaction = sysTransactionService.selectSysTransactionByOrderNo(transaction.getOutTradeNo());
         if (sysTransaction == null) {
@@ -56,25 +60,67 @@ public class TradeDefaultHandler implements InitializingBean {
             sysTransaction.setPayTime(payTime);
             sysTransaction.setOpenid(payer.getOpenid());
             sysTransaction.setSuccessTime(LocalDateTime.now());
-            //TODO 转 lambda 完善
-            sysTransactionService.update(new UpdateWrapper<>()
-//                            .set(SysTransaction::getOutOrderNo, sysTransaction.getOutOrderNo())
-//                            .set(SysTransaction::getTradeState, sysTransaction.getTradeState())
-//                            .set(SysTransaction::getBankType, sysTransaction.getBankType())
-//                            .set(SysTransaction::getPayTime, payTime)
-//                            .set(SysTransaction::getOpenid, sysTransaction.getOpenid())
-//                            .set(SysTransaction::getSuccessTime, sysTransaction.getSuccessTime())
-//                            .eq(SysTransaction::getId, sysTransaction.getId())
-                    );
+//            sysTransactionService.lambdaUpdate()
+//                    .set(SysTransaction::getOutOrderNo, sysTransaction.getOutOrderNo())
+//                    .set(SysTransaction::getTradeState, sysTransaction.getTradeState())
+//                    .set(SysTransaction::getBankType, sysTransaction.getBankType())
+//                    .set(SysTransaction::getPayTime, payTime)
+//                    .set(SysTransaction::getOpenid, sysTransaction.getOpenid())
+//                    .set(SysTransaction::getSuccessTime, sysTransaction.getSuccessTime())
+//                    .eq(SysTransaction::getId, sysTransaction.getId()).update();
 
             wechatStorageService.saveTransactionStatus(sysTransaction.getId().toString(), sysTransaction.getTradeState());
 
             if (StringUtils.isNotBlank(sysTransaction.getHandleType())) {
                 AbstractHandler abstractHandler = HandlerFactory.get(sysTransaction.getHandleType());
                 if (abstractHandler != null) {
-                    abstractHandler.exec(transaction, sysTransaction);
+                    abstractHandler.execWx(transaction, sysTransaction);
                 }
             }
+        }
+    }
+
+
+    /**
+     * 支付宝执行
+     *
+     * @param params 支付宝通知结果
+     */
+    @Transactional
+    public void aliExec(Map<String, String> params) {
+
+        SysTransaction sysTransaction = sysTransactionService.selectSysTransactionByOrderNo(params.get("out_trade_no"));
+        if (sysTransaction == null) {
+            throw new SXException("订单不存在");
+        }
+        if (sysTransaction.getTradeState().equals(TradeConstant.TradeState.NOTPAY)) {
+            sysTransaction.setOutOrderNo(params.get("trade_no"));
+            sysTransaction.setTradeState(TradeConstant.TradeState.convert(TradeConstant.PayType.ALIPAY, params.get("trade_status")));
+//            sysTransaction.setBankType(transaction.getBankType());
+
+            LocalDateTime payTime = null;
+            payTime = LocalDateUtils.parse(params.get("gmt_payment"), LocalDateUtils.FORMAT_DEFAULT);
+            sysTransaction.setRealPrice(new BigDecimal(params.get("receipt_amount")));
+            sysTransaction.setPayTime(payTime);
+            sysTransaction.setOpenid(params.get("buyer_id"));
+
+            wechatStorageService.saveTransactionStatus(sysTransaction.getId().toString(), sysTransaction.getTradeState());
+            if (StringUtils.isNotBlank(sysTransaction.getHandleType())) {
+                AbstractHandler abstractHandler = HandlerFactory.get(sysTransaction.getHandleType());
+                if (abstractHandler != null) {
+                    abstractHandler.execAli(params, sysTransaction);
+                }
+            }
+            sysTransaction.setSuccessTime(LocalDateTime.now());
+//            sysTransactionService.lambdaUpdate()
+//                    .set(SysTransaction::getOutOrderNo, sysTransaction.getOutOrderNo())
+//                    .set(SysTransaction::getTradeState, sysTransaction.getTradeState())
+//                    .set(SysTransaction::getBankType, sysTransaction.getBankType())
+//                    .set(SysTransaction::getRealPrice, sysTransaction.getRealPrice())
+//                    .set(SysTransaction::getPayTime, payTime)
+//                    .set(SysTransaction::getOpenid, sysTransaction.getOpenid())
+//                    .set(SysTransaction::getSuccessTime, sysTransaction.getSuccessTime())
+//                    .eq(SysTransaction::getId, sysTransaction.getId()).update();
         }
     }
 
