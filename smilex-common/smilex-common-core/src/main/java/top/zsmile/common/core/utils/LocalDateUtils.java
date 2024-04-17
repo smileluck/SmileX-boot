@@ -8,6 +8,7 @@ public final class LocalDateUtils {
     // 使用RFC 3339格式将ZonedDateTime对象格式化为字符串
     public static final String FORMAT_RFC3339 = "yyyy-MM-dd'T'HH:mm:ss.ssXXX";
 
+    public static final String FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 格式化成字符串
