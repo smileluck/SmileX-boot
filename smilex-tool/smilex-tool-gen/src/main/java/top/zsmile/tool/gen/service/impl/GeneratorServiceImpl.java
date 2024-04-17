@@ -9,7 +9,7 @@ import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.utils.file.ZipUtils;
 import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.annotation.DS;
-import top.zsmile.common.core.utils.SpringContextUtils;
+import top.zsmile.common.web.utils.SpringContextUtils;
 import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;

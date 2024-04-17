@@ -1,4 +1,4 @@
-package top.zsmile.common.core.utils.file;
+package top.zsmile.common.web.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -8,6 +8,7 @@ import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.AntPathMatcher;
+import top.zsmile.common.core.utils.file.FileUtils;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

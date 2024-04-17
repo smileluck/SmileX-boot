@@ -1,4 +1,4 @@
-package top.zsmile.common.core.exception;
+package top.zsmile.common.web.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -11,6 +11,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import top.zsmile.common.core.api.R;
 import top.zsmile.common.core.api.ResultCode;
 import top.zsmile.common.core.constant.StringConstant;
+import top.zsmile.common.core.exception.SXException;
 
 import java.util.List;
 

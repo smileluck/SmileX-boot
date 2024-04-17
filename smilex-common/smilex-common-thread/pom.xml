@@ -18,7 +18,10 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

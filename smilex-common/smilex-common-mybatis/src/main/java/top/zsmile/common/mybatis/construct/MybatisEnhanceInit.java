@@ -3,10 +3,10 @@ package top.zsmile.common.mybatis.construct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.cache.TableInfoCache;
-import top.zsmile.common.core.utils.file.SpringFileUtils;
+
 import top.zsmile.common.mybatis.dao.BaseMapper;
+import top.zsmile.common.web.utils.SpringFileUtils;
 
 import java.util.Map;
 

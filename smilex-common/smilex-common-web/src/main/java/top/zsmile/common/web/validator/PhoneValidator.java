@@ -1,8 +1,8 @@
-package top.zsmile.common.core.validator;
+package top.zsmile.common.web.validator;
 
 import org.springframework.util.StringUtils;
-import top.zsmile.common.core.utils.ValidatorUtils;
-import top.zsmile.common.core.annotation.Phone;
+import top.zsmile.common.web.annotation.Phone;
+import top.zsmile.common.web.utils.ValidatorUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

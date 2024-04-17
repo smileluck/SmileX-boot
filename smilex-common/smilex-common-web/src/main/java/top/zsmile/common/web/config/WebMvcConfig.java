@@ -1,4 +1,4 @@
-package top.zsmile.common.core.config;
+package top.zsmile.common.web.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

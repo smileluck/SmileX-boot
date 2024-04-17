@@ -10,10 +10,10 @@ import top.zsmile.api.system.common.CommonAuthApi;
 import top.zsmile.common.core.utils.NameStyleUtils;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.exception.SXException;
-import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.common.mybatis.meta.TableInfo;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
 import top.zsmile.common.mybatis.utils.TableQueryUtils;
+import top.zsmile.common.web.utils.SpringContextUtils;
 
 import java.lang.reflect.Field;
 import java.util.Date;

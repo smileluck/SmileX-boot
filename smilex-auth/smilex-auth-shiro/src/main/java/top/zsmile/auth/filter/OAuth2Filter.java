@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import top.zsmile.auth.token.OAuth2Token;
 import top.zsmile.common.core.constant.CommonConstant;
-import top.zsmile.common.core.utils.JwtUtils;
 import top.zsmile.common.core.api.ResultCode;
+import top.zsmile.common.web.utils.JwtUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

@@ -1,4 +1,4 @@
-package top.zsmile.common.core.validator.group;
+package top.zsmile.common.web.validator.group;
 
 import javax.validation.groups.Default;
 

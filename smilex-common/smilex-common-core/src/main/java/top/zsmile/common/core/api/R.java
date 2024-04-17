@@ -3,10 +3,11 @@ package top.zsmile.common.core.api;
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.ObjectUtils;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 //@ApiModel("统一返回结果")
 public class R<T> implements Serializable {
@@ -102,7 +103,10 @@ public class R<T> implements Serializable {
     }
 
     public static boolean isSuccess(@Nullable R r) {
-        return ObjectUtils.nullSafeEquals(ResultCode.SUCCESS, r.getCode());
+        if (r != null) {
+            return false;
+        }
+        return Objects.equals(ResultCode.SUCCESS.getCode(), r.getCode());
     }
 
     public static boolean isNotSuccess(@Nullable R r) {

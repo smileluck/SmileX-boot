@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-core</artifactId>
+            <artifactId>smilex-common-web</artifactId>
         </dependency>
 
         <dependency>

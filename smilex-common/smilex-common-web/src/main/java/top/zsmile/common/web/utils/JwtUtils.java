@@ -1,4 +1,4 @@
-package top.zsmile.common.core.utils;
+package top.zsmile.common.web.utils;
 
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.JWT;

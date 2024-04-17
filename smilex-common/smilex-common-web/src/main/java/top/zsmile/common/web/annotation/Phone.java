@@ -1,7 +1,7 @@
-package top.zsmile.common.core.annotation;
+package top.zsmile.common.web.annotation;
 
 
-import top.zsmile.common.core.validator.PhoneValidator;
+import top.zsmile.common.web.validator.PhoneValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

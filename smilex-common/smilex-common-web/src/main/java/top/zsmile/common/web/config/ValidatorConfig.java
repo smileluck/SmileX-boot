@@ -1,4 +1,4 @@
-package top.zsmile.common.core.config;
+package top.zsmile.common.web.config;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

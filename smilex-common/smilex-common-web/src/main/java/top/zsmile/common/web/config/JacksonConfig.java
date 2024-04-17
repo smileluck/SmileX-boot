@@ -1,4 +1,4 @@
-package top.zsmile.common.core.config;
+package top.zsmile.common.web.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package top.zsmile.common.core.config;
+package top.zsmile.common.web.config;
 
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Value;
