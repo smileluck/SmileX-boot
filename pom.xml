@@ -88,6 +88,7 @@
         <netty.version>4.1.107.Final</netty.version>
         <caffeine.version>2.9.3</caffeine.version>
         <rocksdb.version>5.5.1</rocksdb.version>
+        <kryo.version>5.6.0</kryo.version>
     </properties>
 
 
@@ -359,6 +360,12 @@
                 <version>${netty.version}</version>
             </dependency>
 
+            <!-- kryo -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

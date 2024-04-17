@@ -18,7 +18,6 @@
             <artifactId>smilex-common-core</artifactId>
         </dependency>
 
-
         <!-- knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
