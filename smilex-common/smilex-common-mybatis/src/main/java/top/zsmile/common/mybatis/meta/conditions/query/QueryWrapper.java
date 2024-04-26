@@ -1,6 +1,7 @@
 package top.zsmile.common.mybatis.meta.conditions.query;
 
 import top.zsmile.common.mybatis.meta.StringPool;
+import top.zsmile.common.mybatis.meta.conditions.AbstractQueryWrapper;
 import top.zsmile.common.mybatis.meta.conditions.AbstractWrapper;
 import top.zsmile.common.mybatis.meta.conditions.SharedString;
 
@@ -13,10 +14,8 @@ import top.zsmile.common.mybatis.meta.conditions.SharedString;
  * @ClassName: QueryWrapper
  * @Description: QueryWrapper
  */
-public class QueryWrapper<E> extends AbstractWrapper<E, String, QueryWrapper<E>>
+public class QueryWrapper<E> extends AbstractQueryWrapper<E, String, QueryWrapper<E>>
         implements Query<QueryWrapper<E>, E, String> {
-
-    private SharedString sqlSelect = SharedString.of();
 
     public QueryWrapper() {
         super.init();
@@ -37,9 +36,4 @@ public class QueryWrapper<E> extends AbstractWrapper<E, String, QueryWrapper<E>>
         sqlSelect.setValue(String.join(StringPool.COMMA, columns));
         return _this;
     }
-
-    public String getSqlSelect() {
-        return sqlSelect.getValue();
-    }
-
 }

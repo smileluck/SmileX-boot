@@ -4,7 +4,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.zsmile.common.mybatis.dao.BaseMapper;
 import top.zsmile.common.mybatis.meta.IPage;
+import top.zsmile.common.mybatis.meta.conditions.query.LambdaQueryWrapper;
 import top.zsmile.common.mybatis.meta.conditions.query.QueryWrapper;
+import top.zsmile.common.mybatis.meta.conditions.udpate.LambdaUpdateWrapper;
 import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.common.mybatis.utils.Constants;
 import top.zsmile.common.mybatis.utils.PageQuery;
@@ -84,6 +86,15 @@ public interface BaseService<T> {
         return getBaseMapper().selectList(queryWrapper);
     }
 
+//    /**
+//     * 查询字段信息
+//     *
+//     * @param queryWrapper 查询条件
+//     */
+//    default List<T> list(LambdaQueryWrapper<T> queryWrapper) {
+//        return getBaseMapper().selectList(queryWrapper);
+//    }
+
 
     /**
      * 根据ID集合查询，可传入字段名查询需要得字段
@@ -159,6 +170,16 @@ public interface BaseService<T> {
     default int update(UpdateWrapper<T> wrapper) {
         return getBaseMapper().update(wrapper);
     }
+
+//    /**
+//     * 根据wrapper 更新
+//     *
+//     * @param wrapper
+//     * @return
+//     */
+//    default int update(LambdaUpdateWrapper<T> wrapper) {
+//        return getBaseMapper().update(wrapper);
+//    }
 
     /**
      * 插入数据，自动生成id

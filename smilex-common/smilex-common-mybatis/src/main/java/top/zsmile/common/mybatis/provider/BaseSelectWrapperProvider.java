@@ -8,6 +8,7 @@ import top.zsmile.common.mybatis.holder.TenantHolder;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.meta.TableInfo;
+import top.zsmile.common.mybatis.meta.conditions.AbstractQueryWrapper;
 import top.zsmile.common.mybatis.meta.conditions.query.QueryWrapper;
 import top.zsmile.common.mybatis.utils.Constants;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
@@ -22,7 +23,7 @@ public class BaseSelectWrapperProvider extends BaseProvider {
      * @param queryWrapper 查询条件
      * @return
      */
-    public String selectList(ProviderContext context, @Param(StringPool.WRAPPER) final QueryWrapper queryWrapper) {
+    public String selectList(ProviderContext context, @Param(StringPool.WRAPPER) final AbstractQueryWrapper queryWrapper) {
         TableInfo tableInfo = getTableInfo(context);
         String s = new SQL() {{
             SELECT(selectColumn(tableInfo, queryWrapper));
@@ -44,7 +45,7 @@ public class BaseSelectWrapperProvider extends BaseProvider {
     }
 
 
-    private String[] selectColumn(final TableInfo tableInfo, final QueryWrapper queryWrapper) {
+    private String[] selectColumn(final TableInfo tableInfo, final AbstractQueryWrapper queryWrapper) {
         if (StringUtils.isNotBlank(queryWrapper.getSqlSelect())) {
             return queryWrapper.getSqlSelect().split(StringPool.COMMA);
         }

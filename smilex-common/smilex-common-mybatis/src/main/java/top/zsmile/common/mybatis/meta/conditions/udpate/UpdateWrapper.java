@@ -1,6 +1,7 @@
 package top.zsmile.common.mybatis.meta.conditions.udpate;
 
 import top.zsmile.common.mybatis.meta.StringPool;
+import top.zsmile.common.mybatis.meta.conditions.AbstractUpdateWrapper;
 import top.zsmile.common.mybatis.meta.conditions.AbstractWrapper;
 
 import java.util.ArrayList;
@@ -14,14 +15,11 @@ import java.util.stream.Collectors;
  * @ClassName: UpdateWrapper
  * @Description: UpdateWrapper
  */
-public class UpdateWrapper<E> extends AbstractWrapper<E, String, UpdateWrapper<E>>
+public class UpdateWrapper<E> extends AbstractUpdateWrapper<E, String, UpdateWrapper<E>>
         implements Update<UpdateWrapper<E>, E, String> {
-
-    List<String> setList;
 
     public UpdateWrapper() {
         super.init();
-        setList = new ArrayList<>();
     }
 
     @Override
@@ -32,11 +30,4 @@ public class UpdateWrapper<E> extends AbstractWrapper<E, String, UpdateWrapper<E
         return _this;
     }
 
-    @Override
-    public String getSqlSet() {
-        if (setList.isEmpty()) {
-            return StringPool.EMPTY;
-        }
-        return setList.stream().collect(Collectors.joining(StringPool.COMMA, StringPool.SPACE, StringPool.SPACE));
-    }
 }

@@ -46,6 +46,6 @@ public class WrapperTest {
         updateWrapper.set("dict_code", 1111);
         sysDictService.update(updateWrapper);
 
-        new LambdaQueryWrapper<SysDictEntity>().select(SysDictEntity::getDictCode);
+        new LambdaQueryWrapper<SysDictEntity>(sysDictService).select(SysDictEntity::getId);
     }
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.jdbc.SQL;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.meta.TableInfo;
+import top.zsmile.common.mybatis.meta.conditions.AbstractUpdateWrapper;
 import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
 import top.zsmile.common.mybatis.utils.TableQueryUtils;
@@ -46,14 +47,14 @@ public class BaseUpdateProvider extends BaseProvider {
      * @param context
      * @return
      */
-    public String update(ProviderContext context, @Param(StringPool.WRAPPER) UpdateWrapper wrapper) {
+    public String update(ProviderContext context, @Param(StringPool.WRAPPER) AbstractUpdateWrapper wrapper) {
         String sqlSet = wrapper.getSqlSet();
 
         if (StringUtils.isBlank(sqlSet)) {
             throw new SXException("update需配置Set属性");
         }
         TableInfo tableInfo = getTableInfo(context);
-        Field[] fields = tableInfo.getFields();
+//        Field[] fields = tableInfo.getFields();
         String sql = new SQL() {{
             UPDATE(tableInfo.getTableName());
             SET(sqlSet);
