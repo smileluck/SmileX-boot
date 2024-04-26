@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-log</artifactId>
+            <artifactId>smilex-common-core</artifactId>
         </dependency>
 
         <!-- netty -->
