@@ -44,8 +44,13 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements IDyn
 
 
     public void add(Object key, DataSourceProperties dataSourceProperties) {
-        DataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        add(key, dataSource);
+        DataSource dataSource = null;
+        try {
+            dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
+            add(key, dataSource);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void add(Object key, DataSource dataSource) {
@@ -122,8 +127,13 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements IDyn
      * @param dataSourceProperties 数据源配置
      */
     public void replace(Object key, DataSourceProperties dataSourceProperties) {
-        DruidDataSource dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
-        replace(key, dataSource);
+        DruidDataSource dataSource = null;
+        try {
+            dataSource = DataSourceFactory.createDataSource(dataSourceProperties);
+            replace(key, dataSource);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

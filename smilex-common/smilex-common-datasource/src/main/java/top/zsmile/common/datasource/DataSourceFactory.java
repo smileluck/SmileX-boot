@@ -13,15 +13,15 @@ import java.sql.SQLException;
 
 @Slf4j
 public class DataSourceFactory {
-    public static DruidDataSource createDataSource(DataSourceProperties properties) {
+    public static DruidDataSource createDataSource(DataSourceProperties properties) throws SQLException {
         return createDataSource(null, properties, new DruidXADataSource());
     }
 
-    public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties) {
+    public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties) throws SQLException {
         return createDataSource(druidProperties, properties, new DruidXADataSource());
     }
 
-    public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties, DataSource dataSource) {
+    public static DruidDataSource createDataSource(DruidProperties druidProperties, DataSourceProperties properties, DataSource dataSource) throws SQLException {
         DruidDataSource druidDataSource = (DruidDataSource) dataSource;
         if (druidProperties != null) {
             DynamicDataSourceUtils.merge(properties, druidProperties);
@@ -32,6 +32,7 @@ public class DataSourceFactory {
             druidDataSource.init();
         } catch (SQLException e) {
             log.error("数据库初始话失败，error=>{}", e);
+            throw e;
         }
         return druidDataSource;
     }
