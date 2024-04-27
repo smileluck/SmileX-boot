@@ -1,7 +1,7 @@
 package top.zsmile.tool.gen.domain.entity;
 
 import lombok.Data;
-import top.zsmile.common.core.validator.group.Add;
+import top.zsmile.common.web.validator.group.Add;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;

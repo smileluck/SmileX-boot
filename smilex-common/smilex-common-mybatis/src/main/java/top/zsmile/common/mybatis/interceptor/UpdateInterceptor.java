@@ -4,13 +4,11 @@ import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import top.zsmile.api.system.common.CommonAuthApi;
-import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.common.mybatis.entity.BaseEntity;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
+import top.zsmile.common.web.utils.SpringContextUtils;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Map;
 

@@ -1,6 +1,10 @@
 package top.zsmile.common.mybatis.dao;
 
 import org.apache.ibatis.annotations.*;
+import top.zsmile.common.mybatis.meta.conditions.AbstractUpdateWrapper;
+import top.zsmile.common.mybatis.meta.conditions.query.LambdaQueryWrapper;
+import top.zsmile.common.mybatis.meta.conditions.udpate.LambdaUpdate;
+import top.zsmile.common.mybatis.meta.conditions.udpate.LambdaUpdateWrapper;
 import top.zsmile.common.mybatis.provider.*;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.meta.IPage;
@@ -56,6 +60,16 @@ public interface BaseMapper<T> {
      */
     @SelectProvider(type = BaseSelectWrapperProvider.class, method = "selectList")
     List<T> selectList(@Param(StringPool.WRAPPER) QueryWrapper<T> wrapper);
+
+//    /**
+//     * 根据QueryWrapper查询条件查询
+//     *
+//     * @param wrapper 查询条件
+//     * @return
+//     */
+//    @SelectProvider(type = BaseSelectWrapperProvider.class, method = "selectList")
+//    List<T> selectList(@Param(StringPool.WRAPPER) LambdaQueryWrapper<T> wrapper);
+
 
     /**
      * 根据ID集合查询，可传入字段名查询需要得字段
@@ -164,6 +178,16 @@ public interface BaseMapper<T> {
      */
     @UpdateProvider(type = BaseUpdateProvider.class, method = "update")
     int update(@Param(StringPool.WRAPPER) UpdateWrapper<T> wrapper);
+
+
+//    /**
+//     * 根据Wrapper条件更新
+//     *
+//     * @param wrapper
+//     * @return
+//     */
+//    @UpdateProvider(type = BaseUpdateProvider.class, method = "update")
+//    int update(@Param(StringPool.WRAPPER) LambdaUpdateWrapper<T> wrapper);
 
 
     /**

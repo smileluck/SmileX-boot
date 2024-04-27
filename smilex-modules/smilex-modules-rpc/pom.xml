@@ -12,19 +12,22 @@
     <artifactId>smilex-modules-rpc</artifactId>
 
     <dependencies>
-
-
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-log</artifactId>
+            <artifactId>smilex-common-core</artifactId>
         </dependency>
 
+        <!-- netty -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>
 
-
+        <!-- kryo -->
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+        </dependency>
     </dependencies>
 
 

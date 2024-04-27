@@ -2,7 +2,7 @@ package top.zsmile.common.cloud.nacos.listener;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.cloud.nacos.NacosConfigProperties;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.annotation.NacosConfigListener;
 import com.alibaba.nacos.api.config.listener.Listener;

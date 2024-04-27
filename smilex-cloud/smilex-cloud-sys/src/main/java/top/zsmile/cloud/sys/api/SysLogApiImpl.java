@@ -1,7 +1,7 @@
 package top.zsmile.cloud.sys.api;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.PropertyFilter;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.filter.PropertyFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -14,7 +14,7 @@ import top.zsmile.common.core.constant.CommonConstant;
 import top.zsmile.common.log.enums.ModuleType;
 import top.zsmile.common.core.utils.IPUtils;
 import top.zsmile.common.log.annotation.SysLog;
-import top.zsmile.common.core.utils.SpringContextUtils;
+import top.zsmile.common.web.utils.SpringContextUtils;
 import top.zsmile.modules.sys.entity.SysLogEntity;
 import top.zsmile.modules.sys.service.SysLogService;
 

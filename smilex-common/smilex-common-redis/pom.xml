@@ -17,6 +17,11 @@
             <artifactId>smilex-common-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <!--spring boot 2.0以后默认使用lettuce-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

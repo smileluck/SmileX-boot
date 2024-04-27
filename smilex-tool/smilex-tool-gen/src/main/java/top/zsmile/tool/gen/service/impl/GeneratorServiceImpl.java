@@ -1,15 +1,17 @@
 package top.zsmile.tool.gen.service.impl;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zsmile.common.core.constant.StringConstant;
 import top.zsmile.common.core.domain.ZipFileEntity;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.utils.file.ZipUtils;
 import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.annotation.DS;
-import top.zsmile.common.core.utils.SpringContextUtils;
+import top.zsmile.common.web.utils.SpringContextUtils;
 import top.zsmile.common.datasource.ds.DynamicDataSource;
 import top.zsmile.common.datasource.properties.DataSourceProperties;
 import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
@@ -27,10 +29,12 @@ import top.zsmile.tool.gen.utils.NameStyleUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.*;
 
 import static top.zsmile.tool.gen.constant.DefaultConstants.DEFAULT_DELETE_LOGIC_KEY;
 
+@Slf4j
 @Service("generatorService")
 @DS("master")
 public class GeneratorServiceImpl implements GeneratorSerivce {
@@ -83,8 +87,14 @@ public class GeneratorServiceImpl implements GeneratorSerivce {
         dataSourceProperties.setUsername(databaseConnEntity.getUsername());
         dataSourceProperties.setPassword(databaseConnEntity.getPassword());
         dataSourceProperties.setUrl(databaseConnEntity.getUrl());
-        DruidDataSource dataSource = DataSourceFactory.createDataSource(dynamicDataSourceProperties.getDruid(), dataSourceProperties);
-        DynamicDataSource.getInstance().replace(DynamicDataSourceProperties.PRIMARY, dataSource);
+        DruidDataSource dataSource = null;
+        try {
+            dataSource = DataSourceFactory.createDataSource(dynamicDataSourceProperties.getDruid(), dataSourceProperties);
+            DynamicDataSource.getInstance().replace(DynamicDataSourceProperties.PRIMARY, dataSource);
+        } catch (SQLException e) {
+            log.error("数据库切换失败");
+            throw new SXException("数据库切换失败");
+        }
     }
 
     /**

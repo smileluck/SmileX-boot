@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.base.Joiner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -81,9 +80,9 @@ public class BlogArticleController {
     @PostMapping("/save")
     public R save(@RequestBody BlogArticleEntity blogArticleEntity) {
         String[] tagIds = blogArticleEntity.getTagIds().split(",");
-        List<BlogTagEntity> tagName = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
-        List<String> collect = tagName.stream().map(item -> item.getTagName()).collect(Collectors.toList());
-        blogArticleEntity.setTagNames(Joiner.on(",").join(collect));
+        List<BlogTagEntity> tagEntities = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
+        String tagNames = tagEntities.stream().map(BlogTagEntity::getTagName).collect(Collectors.joining(","));
+        blogArticleEntity.setTagNames(tagNames);
         blogArticleService.saveArticle(blogArticleEntity);
         return R.success("添加成功");
     }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.zsmile.common.redis.utils.RedisUtils;
-import top.zsmile.common.core.utils.JwtUtils;
+import top.zsmile.common.web.utils.JwtUtils;
 import top.zsmile.common.core.utils.PasswordUtils;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.modules.sys.dao.SysUserMapper;

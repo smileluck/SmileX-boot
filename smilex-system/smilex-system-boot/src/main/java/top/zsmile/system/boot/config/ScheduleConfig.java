@@ -1,13 +1,13 @@
 package top.zsmile.system.boot.config;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.codec.Base64;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import top.zsmile.common.core.utils.OkHttpUtil;
+import top.zsmile.common.core.utils.http.OkHttpUtil;
 import top.zsmile.system.boot.modules.blog.entity.BlogGitArticleEntity;
 import top.zsmile.system.boot.modules.blog.service.BlogGitArticleService;
 

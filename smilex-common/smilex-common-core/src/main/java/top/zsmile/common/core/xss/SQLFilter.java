@@ -1,6 +1,6 @@
 package top.zsmile.common.core.xss;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import top.zsmile.common.core.exception.SXException;
 
 /**

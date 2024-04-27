@@ -7,14 +7,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.base.Joiner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
-import top.zsmile.common.core.utils.ValidatorUtils;
-import top.zsmile.common.core.validator.group.Add;
+import top.zsmile.common.web.utils.ValidatorUtils;
+import top.zsmile.common.web.validator.group.Add;
 import top.zsmile.common.core.api.R;
 import top.zsmile.common.log.annotation.SysLog;
 import top.zsmile.common.core.constant.CommonConstant;
@@ -127,9 +126,9 @@ public class BlogGitArticleController {
             BeanUtils.copyProperties(blogGitArticlePublish, articleEntity);
             articleEntity.setId(null);
             String[] tagIds = articleEntity.getTagIds().split(",");
-            List<BlogTagEntity> tagName = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
-            List<String> collect = tagName.stream().map(item -> item.getTagName()).collect(Collectors.toList());
-            articleEntity.setTagNames(Joiner.on(",").join(collect));
+            List<BlogTagEntity> tagEntities = blogTagService.listByIds(Arrays.asList(tagIds), "tagName");
+            String tagNames = tagEntities.stream().map(BlogTagEntity::getTagName).collect(Collectors.joining(","));
+            articleEntity.setTagNames(tagNames);
             blogArticleService.saveArticle(articleEntity);
 
             BlogGitArticleEntity blogGitArticleEntity = new BlogGitArticleEntity();

@@ -21,6 +21,7 @@ import top.zsmile.common.datasource.tx.DynamicTransactionFactory;
 import top.zsmile.common.datasource.utils.DynamicDataSourceUtils;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,7 +115,12 @@ public class DynamicDataSourceConfig {
         Map<String, DataSourceProperties> dataSourcePropertiesMap = dynamicDataSourceProperties.getDatasource();
         Map<Object, Object> dataSourceMap = new HashMap<>(dataSourcePropertiesMap.size());
         dataSourcePropertiesMap.forEach((k, v) -> {
-            DruidDataSource dataSource = DataSourceFactory.createDataSource(druid, v);
+            DruidDataSource dataSource = null;
+            try {
+                dataSource = DataSourceFactory.createDataSource(druid, v);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 //            final AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
 //            xaDataSource.setXaDataSource((DruidXADataSource) dataSource);
 //            xaDataSource.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");

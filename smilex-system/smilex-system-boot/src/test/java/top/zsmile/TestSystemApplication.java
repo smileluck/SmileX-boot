@@ -3,7 +3,7 @@ package top.zsmile;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.zsmile.common.mybatis.annotation.TableName;
-import top.zsmile.common.core.utils.file.SpringFileUtils;
+import top.zsmile.common.web.utils.SpringFileUtils;
 import top.zsmile.modules.sys.dao.SysDictMapper;
 import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.service.SysDictService;

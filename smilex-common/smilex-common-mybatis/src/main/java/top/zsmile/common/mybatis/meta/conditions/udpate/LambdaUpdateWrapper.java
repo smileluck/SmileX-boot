@@ -2,7 +2,9 @@ package top.zsmile.common.mybatis.meta.conditions.udpate;
 
 import top.zsmile.common.mybatis.meta.SFunction;
 import top.zsmile.common.mybatis.meta.StringPool;
+import top.zsmile.common.mybatis.meta.conditions.AbstractUpdateWrapper;
 import top.zsmile.common.mybatis.meta.conditions.AbstractWrapper;
+import top.zsmile.common.mybatis.service.BaseService;
 import top.zsmile.common.mybatis.utils.LambdaUtils;
 
 import java.util.ArrayList;
@@ -17,14 +19,14 @@ import java.util.stream.Collectors;
  * @ClassName: UpdateWrapper
  * @Description: UpdateWrapper
  */
-public class LambdaUpdateWrapper<E> extends AbstractWrapper<E, SFunction<E, ?>, LambdaUpdateWrapper<E>>
-        implements Update<LambdaUpdateWrapper<E>, E, SFunction<E, ?>> {
+public class LambdaUpdateWrapper<E> extends AbstractUpdateWrapper<E, SFunction<E, ?>, LambdaUpdateWrapper<E>>
+        implements LambdaUpdate<LambdaUpdateWrapper<E>, E, SFunction<E, ?>> {
 
-    List<String> setList;
+    private BaseService service;
 
-    public LambdaUpdateWrapper() {
+    public LambdaUpdateWrapper(BaseService<E> service) {
         super.init();
-        setList = new ArrayList<>();
+        this.service = service;
     }
 
     @Override
@@ -45,11 +47,8 @@ public class LambdaUpdateWrapper<E> extends AbstractWrapper<E, SFunction<E, ?>, 
         return Arrays.asList(column).stream().map(LambdaUtils::getColumnName).collect(Collectors.joining(StringPool.COMMA));
     }
 
-    @Override
-    public String getSqlSet() {
-        if (setList.isEmpty()) {
-            return StringPool.EMPTY;
-        }
-        return setList.stream().collect(Collectors.joining(StringPool.COMMA, StringPool.SPACE, StringPool.SPACE));
-    }
+//    @Override
+//    public int update() {
+//        return service.update(this);
+//    }
 }

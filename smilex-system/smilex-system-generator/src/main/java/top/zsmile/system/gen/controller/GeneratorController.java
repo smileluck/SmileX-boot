@@ -1,24 +1,16 @@
 package top.zsmile.system.gen.controller;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.zsmile.common.core.utils.file.HttpFileUtils;
-import top.zsmile.common.core.validator.group.Add;
-import top.zsmile.common.datasource.DataSourceFactory;
-import top.zsmile.common.datasource.ds.DynamicDataSource;
-import top.zsmile.common.datasource.properties.DataSourceProperties;
+import top.zsmile.common.web.validator.group.Add;
 import top.zsmile.common.core.api.R;
-import top.zsmile.common.datasource.properties.DruidProperties;
-import top.zsmile.common.datasource.properties.DynamicDataSourceProperties;
-import top.zsmile.tool.gen.constant.DefaultConstants;
 import top.zsmile.tool.gen.domain.entity.DatabaseConnEntity;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
 import top.zsmile.tool.gen.domain.model.ColumnModel;
 import top.zsmile.tool.gen.service.GeneratorSerivce;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.File;

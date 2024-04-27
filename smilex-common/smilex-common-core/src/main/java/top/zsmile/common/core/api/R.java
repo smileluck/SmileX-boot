@@ -2,22 +2,24 @@ package top.zsmile.common.core.api;
 
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;
-import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 //@ApiModel("统一返回结果")
 public class R<T> implements Serializable {
     public static final long serialVersionUID = 1L;
 
-//    @ApiModelProperty("状态码")
+    //    @ApiModelProperty("状态码")
     private int code;
-//    @ApiModelProperty("响应信息")
+    //    @ApiModelProperty("响应信息")
     private String msg;
-//    @ApiModelProperty("结果")
+    //    @ApiModelProperty("结果")
     private T data;
-//    @ApiModelProperty("是否成功")
+    //    @ApiModelProperty("是否成功")
     private boolean success;
 
     private R(int code, String msg, T data) {
@@ -101,7 +103,10 @@ public class R<T> implements Serializable {
     }
 
     public static boolean isSuccess(@Nullable R r) {
-        return ObjectUtils.nullSafeEquals(ResultCode.SUCCESS, r.getCode());
+        if (r != null) {
+            return false;
+        }
+        return Objects.equals(ResultCode.SUCCESS.getCode(), r.getCode());
     }
 
     public static boolean isNotSuccess(@Nullable R r) {

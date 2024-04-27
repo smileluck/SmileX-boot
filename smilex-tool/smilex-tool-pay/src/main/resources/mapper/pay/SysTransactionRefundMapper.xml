@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zsmile.pay.mapper.SysTransactionRefundMapper">
+    
+    <resultMap type="SysTransactionRefund" id="SysTransactionRefundResult">
+        <result property="id"    column="id"    />
+        <result property="refundNo"    column="refund_no"    />
+        <result property="outRefundNo"    column="out_refund_no"    />
+        <result property="refundStatus"    column="refund_status"    />
+        <result property="userReceivedAccount"    column="user_received_account"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="price"    column="price"    />
+        <result property="channel"    column="channel"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="successTime"    column="success_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSysTransactionRefundVo">
+        select id, refund_no, out_refund_no, refund_status, user_received_account, quantity, price, channel, create_time, update_time, success_time, del_flag from sys_transaction_refund
+    </sql>
+
+    <select id="selectSysTransactionRefundList" parameterType="SysTransactionRefund" resultMap="SysTransactionRefundResult">
+        <include refid="selectSysTransactionRefundVo"/>
+        <where>  
+            <if test="refundNo != null  and refundNo != ''"> and refund_no = #{refundNo}</if>
+            <if test="outRefundNo != null  and outRefundNo != ''"> and out_refund_no = #{outRefundNo}</if>
+            <if test="refundStatus != null  and refundStatus != ''"> and refund_status = #{refundStatus}</if>
+            <if test="userReceivedAccount != null  and userReceivedAccount != ''"> and user_received_account = #{userReceivedAccount}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="channel != null  and channel != ''"> and channel = #{channel}</if>
+            <if test="successTime != null "> and success_time = #{successTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTransactionRefundById" parameterType="Long" resultMap="SysTransactionRefundResult">
+        <include refid="selectSysTransactionRefundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysTransactionRefund" parameterType="SysTransactionRefund">
+        insert into sys_transaction_refund
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="refundNo != null">refund_no,</if>
+            <if test="outRefundNo != null">out_refund_no,</if>
+            <if test="refundStatus != null">refund_status,</if>
+            <if test="userReceivedAccount != null">user_received_account,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="price != null">price,</if>
+            <if test="channel != null">channel,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="successTime != null">success_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="refundNo != null">#{refundNo},</if>
+            <if test="outRefundNo != null">#{outRefundNo},</if>
+            <if test="refundStatus != null">#{refundStatus},</if>
+            <if test="userReceivedAccount != null">#{userReceivedAccount},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="price != null">#{price},</if>
+            <if test="channel != null">#{channel},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="successTime != null">#{successTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTransactionRefund" parameterType="SysTransactionRefund">
+        update sys_transaction_refund
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="refundNo != null">refund_no = #{refundNo},</if>
+            <if test="outRefundNo != null">out_refund_no = #{outRefundNo},</if>
+            <if test="refundStatus != null">refund_status = #{refundStatus},</if>
+            <if test="userReceivedAccount != null">user_received_account = #{userReceivedAccount},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="channel != null">channel = #{channel},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="successTime != null">success_time = #{successTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTransactionRefundById" parameterType="Long">
+        delete from sys_transaction_refund where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTransactionRefundByIds" parameterType="String">
+        delete from sys_transaction_refund where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

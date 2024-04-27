@@ -1,6 +1,5 @@
 package top.zsmile.common.mybatis.provider;
 
-import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -11,14 +10,15 @@ import top.zsmile.api.system.common.CommonAuthApi;
 import top.zsmile.common.core.utils.NameStyleUtils;
 import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.core.exception.SXException;
-import top.zsmile.common.core.utils.SpringContextUtils;
 import top.zsmile.common.mybatis.meta.TableInfo;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
 import top.zsmile.common.mybatis.utils.TableQueryUtils;
+import top.zsmile.common.web.utils.SpringContextUtils;
 
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -88,11 +88,11 @@ public class BaseInsertProvider extends BaseProvider {
             setDefaultIdValue(list.get(i), tableInfo);
             setTenantIdValue(list.get(i), tableInfo);
         }
-        String[] strings = Stream.of(fields).map(item ->
-                TableQueryUtils.getInjectParameter(item, "item.")).toArray(String[]::new);
+        String fieldsStr = Stream.of(fields).map(item ->
+                TableQueryUtils.getInjectParameter(item, "item.")).collect(Collectors.joining(","));
 
         sql += " VALUES <foreach item='item' collection='coll' open='(' separator='),(' close=')'>" +
-                Joiner.on(",").join(strings) +
+                fieldsStr +
                 "</foreach>";
 
         log.debug(sql);

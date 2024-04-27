@@ -24,6 +24,8 @@
         <module>smilex-common-log</module>
         <module>smilex-common-swagger</module>
         <module>smilex-common-datascope</module>
+        <module>smilex-common-thread</module>
+        <module>smilex-common-web</module>
     </modules>
 
     <properties>
@@ -42,6 +44,12 @@
 
     <dependencies>
 
+        <!-- JWT -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+
         <!-- 日志组件 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -52,23 +60,12 @@
             <artifactId>log4j-to-slf4j</artifactId>
         </dependency>
 
-        <!-- JWT -->
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-        </dependency>
-
         <!-- common -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <!-- okhttp3 -->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
