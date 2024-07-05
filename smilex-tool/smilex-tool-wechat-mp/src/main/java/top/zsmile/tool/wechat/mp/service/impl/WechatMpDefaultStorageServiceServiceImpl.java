@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mp.service.impl;
 
-import top.zsmile.common.core.utils.LockUtils;
+import top.zsmile.common.thread.utils.LockUtils;
 import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
