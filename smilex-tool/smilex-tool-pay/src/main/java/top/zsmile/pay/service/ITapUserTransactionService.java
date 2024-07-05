@@ -4,9 +4,11 @@ import top.zsmile.common.mybatis.service.BaseService;
 import top.zsmile.pay.domain.TapUserTransaction;
 import top.zsmile.pay.dto.TapUserCenterRechargeDTO;
 import top.zsmile.pay.dto.TapUserTransactionQueryDTO;
+import top.zsmile.pay.vo.MiniPrepayVO;
 import top.zsmile.pay.vo.NaivePrepayVO;
 import top.zsmile.pay.vo.TapUserTransactionVO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -71,6 +73,13 @@ public interface ITapUserTransactionService extends BaseService<TapUserTransacti
      * @return 二维码路径
      */
     NaivePrepayVO rechargeUserCreditNaivePay(Long userId, TapUserCenterRechargeDTO dto);
+
+    /**
+     * 用户积分充值,小程序支付
+     *
+     * @return 二维码路径
+     */
+    MiniPrepayVO rechargeUserCreditMiniPay(Long userId, String openid, BigDecimal money);
 
 
     /**

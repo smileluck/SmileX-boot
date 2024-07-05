@@ -14,6 +14,7 @@ import top.zsmile.pay.service.ITapUserTransactionService;
 import top.zsmile.pay.service.ITransactionService;
 import top.zsmile.pay.service.IWechatPayService;
 import top.zsmile.pay.service.IWechatStorageService;
+import top.zsmile.pay.vo.MiniPrepayVO;
 import top.zsmile.pay.vo.NaivePrepayVO;
 import top.zsmile.pay.vo.TapUserTransactionVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -122,6 +124,22 @@ public class TapUserTransactionServiceImpl extends BaseServiceImpl<TapUserTransa
         NaivePrepayVO naivePrepayVO = transactionService.scanPrepay(TradeIdEnums.MAIN.getId(), transaction);
         transactionService.save(transaction);
         return naivePrepayVO;
+    }
+
+    @Override
+    @Transactional
+    public MiniPrepayVO rechargeUserCreditMiniPay(Long userId, String openid, BigDecimal money) {
+        SysTransaction transaction = transactionService.create(TradeIdEnums.MAIN.getId(), TradeHandlerConstant.RECHARGE, TradeConstant.PayType.WXPAY, 5, "用户积分充值", TradeConstant.TradeType.NATIVE, 1, money, TradeRateConstant.RATE_994);
+        transaction.setOpenid(openid);
+        TapUserTransaction tapUserTransaction = new TapUserTransaction();
+        tapUserTransaction.setUserId(userId);
+        tapUserTransaction.setTransactionId(transaction.getId());
+        tapUserTransaction.setCreateTime(transaction.getCreateTime());
+        tapUserTransactionMapper.insertTapUserTransaction(tapUserTransaction);
+
+        MiniPrepayVO miniPrepayVO = transactionService.miniPrepay(TradeIdEnums.MAIN.getId(), transaction);
+        transactionService.save(transaction);
+        return miniPrepayVO;
     }
 
     @Override

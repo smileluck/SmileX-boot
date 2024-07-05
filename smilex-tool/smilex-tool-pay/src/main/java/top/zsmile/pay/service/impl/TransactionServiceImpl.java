@@ -1,11 +1,13 @@
 package top.zsmile.pay.service.impl;
 
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.pay.constant.TradeConstant;
 import top.zsmile.pay.constant.TradeRateConstant;
 import top.zsmile.pay.domain.SysTransaction;
 import top.zsmile.pay.handler.HandlerFactory;
 import top.zsmile.pay.service.*;
 import top.zsmile.pay.utils.OrderUtils;
+import top.zsmile.pay.vo.MiniPrepayVO;
 import top.zsmile.pay.vo.NaivePrepayVO;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
 import org.apache.commons.lang3.time.DateUtils;
@@ -109,5 +111,17 @@ public class TransactionServiceImpl implements ITransactionService {
             naivePrepayVO = NaivePrepayVO.of(transaction.getId(), pageUrl, transaction.getExpireTime());
         }
         return naivePrepayVO;
+    }
+
+    @Override
+    @Transactional
+    public MiniPrepayVO miniPrepay(String id, SysTransaction transaction) {
+        MiniPrepayVO miniPrepayVO = null;
+        if (TradeConstant.PayType.WXPAY.equals(transaction.getPayType())) {
+            miniPrepayVO = wechatPayService.miniPayPack(id, transaction);
+        } else {
+            throw new SXException("暂不支持");
+        }
+        return miniPrepayVO;
     }
 }

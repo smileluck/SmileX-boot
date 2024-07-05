@@ -1,5 +1,7 @@
 package top.zsmile.pay.service.impl;
 
+import com.wechat.pay.java.service.payments.jsapi.JsapiService;
+import com.wechat.pay.java.service.payments.jsapi.model.Payer;
 import top.zsmile.common.core.utils.LocalDateUtils;
 import top.zsmile.common.core.utils.http.HttpHelper;
 import top.zsmile.pay.bean.WxV3Resp;
@@ -21,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import top.zsmile.pay.utils.WechatPayUtils;
+import top.zsmile.pay.vo.MiniPrepayVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +67,58 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
         PrepayResponse prepay = service.prepay(prepayRequest);
         wechatStorageService.saveTransactionStatus(transaction.getId().toString(), transaction.getTradeState());
         return prepay;
+    }
+
+    @Override
+    public com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse miniPay(String id, SysTransaction transaction) {
+        WxV3Storage storage = wechatStorageService.getConfig(id);
+        transaction.setAppid(storage.getAppid());
+        transaction.setMchid(storage.getMchid());
+
+        com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest prepayRequest = new com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest();
+        prepayRequest.setAppid(transaction.getAppid());
+        prepayRequest.setMchid(transaction.getMchid());
+        prepayRequest.setOutTradeNo(transaction.getOrderNo());
+        prepayRequest.setDescription(transaction.getSceneInfo());
+        prepayRequest.setNotifyUrl(storage.getNotifyUrl());
+        com.wechat.pay.java.service.payments.jsapi.model.Amount amount = new com.wechat.pay.java.service.payments.jsapi.model.Amount();
+        amount.setTotal(transaction.getAmount().intValue());
+        prepayRequest.setAmount(amount);
+        if (transaction.getExpireTime() != null) {
+            prepayRequest.setTimeExpire(LocalDateUtils.format(transaction.getExpireTime(), LocalDateUtils.FORMAT_RFC3339));
+        }
+        JsapiService service = new JsapiService.Builder().config(storage.getConfig()).build();
+        com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse prepay = service.prepay(prepayRequest);
+        wechatStorageService.saveTransactionStatus(transaction.getId().toString(), transaction.getTradeState());
+        return prepay;
+    }
+
+    @Override
+    public MiniPrepayVO miniPayPack(String id, SysTransaction transaction) {
+        WxV3Storage storage = wechatStorageService.getConfig(id);
+        transaction.setAppid(storage.getAppid());
+        transaction.setMchid(storage.getMchid());
+
+        com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest prepayRequest = new com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest();
+        prepayRequest.setAppid(transaction.getAppid());
+        prepayRequest.setMchid(transaction.getMchid());
+        prepayRequest.setOutTradeNo(transaction.getOrderNo());
+        Payer payer = new Payer();
+        payer.setOpenid(transaction.getOpenid());
+        prepayRequest.setPayer(payer);
+        prepayRequest.setDescription(transaction.getSceneInfo());
+        prepayRequest.setNotifyUrl(storage.getNotifyUrl());
+        com.wechat.pay.java.service.payments.jsapi.model.Amount amount = new com.wechat.pay.java.service.payments.jsapi.model.Amount();
+        amount.setTotal(transaction.getAmount().intValue());
+        prepayRequest.setAmount(amount);
+        if (transaction.getExpireTime() != null) {
+            prepayRequest.setTimeExpire(LocalDateUtils.format(transaction.getExpireTime(), LocalDateUtils.FORMAT_RFC3339));
+        }
+        JsapiService service = new JsapiService.Builder().config(storage.getConfig()).build();
+        com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse prepay = service.prepay(prepayRequest);
+        wechatStorageService.saveTransactionStatus(transaction.getId().toString(), transaction.getTradeState());
+
+        return WechatPayUtils.packageJsApiResult(storage, transaction.getId(), prepay.getPrepayId(), transaction.getExpireTime());
     }
 
     @Override

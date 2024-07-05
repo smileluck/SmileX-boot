@@ -24,10 +24,16 @@ public class WxV3Storage {
      */
     private RSAAutoCertificateConfig config;
 
-    public WxV3Storage(String appid, String mchid, String notifyUrl, RSAAutoCertificateConfig config) {
+    /**
+     * API 证书中的 key.pem
+     */
+    private String keyPemPath;
+
+    public WxV3Storage(String appid, String mchid, String notifyUrl, String keyPemPath, RSAAutoCertificateConfig config) {
         this.appid = appid;
         this.mchid = mchid;
         this.notifyUrl = notifyUrl;
+        this.keyPemPath = keyPemPath;
         this.config = config;
     }
 
@@ -61,5 +67,13 @@ public class WxV3Storage {
 
     public void setConfig(RSAAutoCertificateConfig config) {
         this.config = config;
+    }
+
+    public String getKeyPemPath() {
+        return keyPemPath;
+    }
+
+    public void setKeyPemPath(String keyPemPath) {
+        this.keyPemPath = keyPemPath;
     }
 }

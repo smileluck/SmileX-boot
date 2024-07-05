@@ -50,7 +50,7 @@ public class WechatStorageV3ServiceImpl implements IWechatStorageService {
                         .merchantSerialNumber(wechatPayV3Properties.getApiSerialNum())
                         .apiV3Key(wechatPayV3Properties.getApiKey())
                         .build();
-        WxV3Storage wxV3Storage = new WxV3Storage(wechatPayV3Properties.getAppid(), wechatPayV3Properties.getMchid(), wechatPayV3Properties.getNotifyUrl(), config);
+        WxV3Storage wxV3Storage = new WxV3Storage(wechatPayV3Properties.getAppid(), wechatPayV3Properties.getMchid(), wechatPayV3Properties.getNotifyUrl(), wechatPayV3Properties.getPrivateKeyPath(), config);
         CONFIG_MAP.put(wechatPayV3Properties.getId(), wxV3Storage);
     }
 
