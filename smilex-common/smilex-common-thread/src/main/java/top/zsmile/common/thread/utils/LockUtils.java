@@ -1,4 +1,4 @@
-package top.zsmile.common.core.utils;
+package top.zsmile.common.thread.utils;
 
 import java.util.Iterator;
 import java.util.Map;

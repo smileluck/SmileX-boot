@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import top.zsmile.common.core.utils.SnowFlake;
 import top.zsmile.common.mybatis.dao.BaseMapper;
 import top.zsmile.common.mybatis.service.BaseService;
 import top.zsmile.common.mybatis.utils.SqlHelper;

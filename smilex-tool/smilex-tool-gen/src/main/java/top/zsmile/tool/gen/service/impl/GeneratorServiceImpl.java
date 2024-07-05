@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import top.zsmile.common.core.constant.StringConstant;
 import top.zsmile.common.core.domain.ZipFileEntity;
 import top.zsmile.common.core.exception.SXException;
-import top.zsmile.common.core.utils.SnowFlake;
+import top.zsmile.common.core.utils.uuid.SnowFlake;
 import top.zsmile.common.core.utils.file.ZipUtils;
 import top.zsmile.common.datasource.DataSourceFactory;
 import top.zsmile.common.datasource.annotation.DS;

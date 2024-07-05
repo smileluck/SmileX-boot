@@ -8,7 +8,7 @@ import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 import top.zsmile.api.system.common.CommonAuthApi;
 import top.zsmile.common.core.utils.NameStyleUtils;
-import top.zsmile.common.core.utils.SnowFlake;
+import top.zsmile.common.core.utils.uuid.SnowFlake;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.meta.TableInfo;
 import top.zsmile.common.mybatis.utils.ReflectUtils;

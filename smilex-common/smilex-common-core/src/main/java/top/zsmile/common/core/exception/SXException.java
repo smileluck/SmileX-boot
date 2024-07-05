@@ -1,6 +1,11 @@
 package top.zsmile.common.core.exception;
 
+/**
+ * 服务类异常
+ */
 public final class SXException extends RuntimeException {
+
+
 
     public SXException(String message) {
         super(message);

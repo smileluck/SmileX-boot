@@ -1,7 +1,7 @@
 package top.zsmile.pay.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import top.zsmile.common.core.utils.SnowFlake;
+import top.zsmile.common.core.utils.uuid.SnowFlake;
 
 public final class OrderUtils {
 
