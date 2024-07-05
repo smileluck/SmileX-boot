@@ -1,7 +1,7 @@
 package top.zsmile.tool.wechat.mp.service;
 
 import top.zsmile.tool.wechat.mp.bean.*;
-import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
 
 public interface IWechatMpService {
 
@@ -73,7 +73,7 @@ public interface IWechatMpService {
      * @param type    二维码类型
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String sceneId, WechatConstant.QrCodeType type);
+    WechatMpQrcodeRes createQrcode(String sceneId, WechatMpConstant.QrCodeType type);
 
     /**
      * 二维码，默认临时
@@ -83,7 +83,7 @@ public interface IWechatMpService {
      * @param userId  用户ID
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String sceneId, WechatConstant.QrCodeType type, Long userId);
+    WechatMpQrcodeRes createQrcode(String sceneId, WechatMpConstant.QrCodeType type, Long userId);
 
     /**
      * 二维码，默认临时
@@ -94,7 +94,7 @@ public interface IWechatMpService {
      * @param userId  用户ID
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatConstant.QrCodeType type, Long userId);
+    WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatMpConstant.QrCodeType type, Long userId);
 
     /**
      * 二维码，默认临时
@@ -106,7 +106,7 @@ public interface IWechatMpService {
      * @param expireIn 过期时间单位s
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn);
+    WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn);
 
 
     /**
@@ -120,7 +120,7 @@ public interface IWechatMpService {
      * @param perpetual 是否永久
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual);
+    WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual);
 
     /**
      * 二维码，默认临时
@@ -129,7 +129,7 @@ public interface IWechatMpService {
      * @param type    二维码类型
      * @return
      */
-    WechatMpQrcodeRes createQrcode(Integer sceneId, WechatConstant.QrCodeType type);
+    WechatMpQrcodeRes createQrcode(Integer sceneId, WechatMpConstant.QrCodeType type);
 
     /**
      * 二维码，默认临时
@@ -139,7 +139,7 @@ public interface IWechatMpService {
      * @param userId  用户ID
      * @return
      */
-    WechatMpQrcodeRes createQrcode(Integer sceneId, WechatConstant.QrCodeType type, Long userId);
+    WechatMpQrcodeRes createQrcode(Integer sceneId, WechatMpConstant.QrCodeType type, Long userId);
 
     /**
      * 二维码，默认临时
@@ -150,7 +150,7 @@ public interface IWechatMpService {
      * @param userId  用户ID
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatConstant.QrCodeType type, Long userId);
+    WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatMpConstant.QrCodeType type, Long userId);
 
     /**
      * 二维码，默认临时
@@ -162,7 +162,7 @@ public interface IWechatMpService {
      * @param expireIn 过期时间单位s
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn);
+    WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn);
 
     /**
      * 二维码，默认临时
@@ -175,7 +175,7 @@ public interface IWechatMpService {
      * @param perpetual 是否永久
      * @return
      */
-    WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual);
+    WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual);
 
     /**
      * 查询二维码状态

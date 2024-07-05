@@ -4,11 +4,11 @@ package top.zsmile.tool.wechat.mp.handler.in;
 import org.springframework.stereotype.Component;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
 import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
-import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
 import top.zsmile.tool.wechat.mp.handler.AbstractInHandler;
 import top.zsmile.tool.wechat.mp.handler.IMessageInHandler;
 import top.zsmile.tool.wechat.mp.handler.MessageRouter;
-import top.zsmile.tool.wechat.mp.service.IWechatStorageService;
+import top.zsmile.tool.wechat.mp.service.IWechatMpStorageService;
 
 import javax.annotation.Resource;
 
@@ -19,14 +19,14 @@ import javax.annotation.Resource;
 public class MessageInScanHandler extends AbstractInHandler implements IMessageInHandler {
 
     @Resource
-    private IWechatStorageService wechatStorageService;
+    private IWechatMpStorageService wechatStorageService;
 
     @Override
     public String exec(String openid, WechatMpInMessage wechatMpInMessage) {
         try {
             WechatMpQrcodeRes qrStatus = wechatStorageService.getQrStatus(wechatMpInMessage.getTicket());
             Integer status = qrStatus.getStatus();
-            if (WechatConstant.QrCodeStatus.LOOP.equals(status)) {
+            if (WechatMpConstant.QrCodeStatus.LOOP.equals(status)) {
                 qrStatus.setOpenid(openid);
 //                if (user == null) {
 //                    wechatStorageService.setQrStatus(qrStatus, WechatConstant.QrCodeStatus.NOT_REG);
@@ -44,7 +44,7 @@ public class MessageInScanHandler extends AbstractInHandler implements IMessageI
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        MessageRouter.rule().setEvent(WechatConstant.XmlMsgType.EVENT).setEvent(WechatConstant.XmlEventType.SCAN).setHandler(this);
-        MessageRouter.rule().setEvent(WechatConstant.XmlMsgType.EVENT).setEvent(WechatConstant.XmlEventType.SUBSCRIBE).setHandler(this);
+        MessageRouter.rule().setEvent(WechatMpConstant.XmlMsgType.EVENT).setEvent(WechatMpConstant.XmlEventType.SCAN).setHandler(this);
+        MessageRouter.rule().setEvent(WechatMpConstant.XmlMsgType.EVENT).setEvent(WechatMpConstant.XmlEventType.SUBSCRIBE).setHandler(this);
     }
 }

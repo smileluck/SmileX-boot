@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mp.constant;
 
-public class WechatHttpConstant {
+public class WechatMpHttpConstant {
 
     //TODO 换成动态的
     public static final String domain = "https://api.weixin.qq.com";

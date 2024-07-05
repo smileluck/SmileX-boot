@@ -5,7 +5,7 @@ import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
 import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
-import top.zsmile.tool.wechat.mp.constant.WechatRedisConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpRedisConstant;
 import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
 import top.zsmile.tool.wechat.mp.utils.CaffeineRocksCache;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @ConditionalOnProperty(name = "wechat.mp.useRedis", havingValue = "false")
-public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorageService {
+public class WechatMpDefaultStorageServiceServiceImpl extends AbstractWechatStorageService {
 
     private static final ConcurrentHashMap<String, ReentrantLock> LOCKS = new ConcurrentHashMap<>();
 
@@ -51,12 +51,12 @@ public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorag
 
     @Override
     public WechatMpProperties getWechatMp(String appId) {
-        return (WechatMpProperties) cache.get(WechatRedisConstant.MP_MAP + appId);
+        return (WechatMpProperties) cache.get(WechatMpRedisConstant.MP_MAP + appId);
     }
 
     @Override
     public Map<String, WechatMpProperties> getWechatMpMap() {
-        return cache.getByPrefix(WechatRedisConstant.MP_MAP).collect(Collectors.toMap(Map.Entry::getKey, t -> (WechatMpProperties) t.getValue()));
+        return cache.getByPrefix(WechatMpRedisConstant.MP_MAP).collect(Collectors.toMap(Map.Entry::getKey, t -> (WechatMpProperties) t.getValue()));
     }
 
     @Override
@@ -76,38 +76,38 @@ public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorag
 
     @Override
     public void clearWechatMp() {
-        cache.clear(WechatRedisConstant.MP_MAP);
+        cache.clear(WechatMpRedisConstant.MP_MAP);
     }
 
     @Override
     public void putWechatMp(WechatMpProperties wechatProperties) {
-        cache.set(WechatRedisConstant.MP_MAP + wechatProperties.getAppId(), wechatProperties);
+        cache.set(WechatMpRedisConstant.MP_MAP + wechatProperties.getAppId(), wechatProperties);
     }
 
     @Override
     public void putAccessToken(String appId, WechatATokenRes wechatATokenRes) {
-        cache.set(WechatRedisConstant.MP_AT_MAP + appId, wechatATokenRes);
+        cache.set(WechatMpRedisConstant.MP_AT_MAP + appId, wechatATokenRes);
     }
 
     @Override
     public WechatATokenRes getAccessToken(String appId) {
-        return (WechatATokenRes) cache.get(WechatRedisConstant.MP_AT_MAP + appId);
+        return (WechatATokenRes) cache.get(WechatMpRedisConstant.MP_AT_MAP + appId);
     }
 
 
     @Override
     public Map<String, WechatATokenRes> getAccessTokenMap() {
-        return cache.getByPrefix(WechatRedisConstant.MP_AT_MAP).collect(Collectors.toMap(Map.Entry::getKey, t -> (WechatATokenRes) t.getValue()));
+        return cache.getByPrefix(WechatMpRedisConstant.MP_AT_MAP).collect(Collectors.toMap(Map.Entry::getKey, t -> (WechatATokenRes) t.getValue()));
     }
 
     @Override
     public WechatJsapiTicketRes getJsapiTicket(String appId) {
-        return (WechatJsapiTicketRes) cache.get(WechatRedisConstant.MP_JSAPI_MAP + appId);
+        return (WechatJsapiTicketRes) cache.get(WechatMpRedisConstant.MP_JSAPI_MAP + appId);
     }
 
     @Override
     public void putJsapiTicket(String appId, WechatJsapiTicketRes jsapiTicketProperties) {
-        cache.set(WechatRedisConstant.MP_JSAPI_MAP + appId, jsapiTicketProperties);
+        cache.set(WechatMpRedisConstant.MP_JSAPI_MAP + appId, jsapiTicketProperties);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorag
 
     @Override
     public boolean setNXRepeat(WechatNotifyParams params) {
-        return LockUtils.tryLock(WechatRedisConstant.MP_REPEAT + params.getSignature(), 3, TimeUnit.SECONDS);
+        return LockUtils.tryLock(WechatMpRedisConstant.MP_REPEAT + params.getSignature(), 3, TimeUnit.SECONDS);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorag
             throw new IllegalArgumentException("二维码不能为空");
         }
         qrcode.setStatus(status);
-        cache.set(WechatRedisConstant.MP_QRCODE + qrcode.getTicket(), qrcode);
+        cache.set(WechatMpRedisConstant.MP_QRCODE + qrcode.getTicket(), qrcode);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class WechatDefaultStorageServiceServiceImpl extends AbstractWechatStorag
         if (StringUtils.isBlank(searchId)) {
             throw new IllegalArgumentException("二维码查询参数为空");
         }
-        Object cacheObject = cache.get(WechatRedisConstant.MP_QRCODE + searchId);
+        Object cacheObject = cache.get(WechatMpRedisConstant.MP_QRCODE + searchId);
         if (cacheObject == null) {
             throw new IllegalArgumentException(String.format("未找到对应searchId=[%s]的配置，请核实！", searchId));
         }

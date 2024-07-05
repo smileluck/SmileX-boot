@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import top.zsmile.tool.wechat.mp.bean.*;
 import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
-import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
 import top.zsmile.tool.wechat.mp.handler.MessageRouter;
 import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
@@ -94,27 +94,27 @@ public class WechatMpServiceImpl implements IWechatMpService {
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String sceneId, WechatConstant.QrCodeType type) {
+    public WechatMpQrcodeRes createQrcode(String sceneId, WechatMpConstant.QrCodeType type) {
         return createQrcode(wechatStorageService.getDefaultAppId(), sceneId, type, null);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String sceneId, WechatConstant.QrCodeType type, Long userId) {
+    public WechatMpQrcodeRes createQrcode(String sceneId, WechatMpConstant.QrCodeType type, Long userId) {
         return createQrcode(wechatStorageService.getDefaultAppId(), sceneId, type, userId);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatConstant.QrCodeType type, Long userId) {
+    public WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatMpConstant.QrCodeType type, Long userId) {
         return createQrcode(appId, sceneId, type, userId, 180);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn) {
+    public WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn) {
         return createQrcode(appId, sceneId, type, userId, expireIn, false);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual) {
+    public WechatMpQrcodeRes createQrcode(String appId, String sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual) {
         JSONObject json = new JSONObject();
         if (perpetual) {
             json.put("action_name", "QR_LIMIT_STR_SCENE");
@@ -129,32 +129,32 @@ public class WechatMpServiceImpl implements IWechatMpService {
             qrcode.setType(type.getType());
             qrcode.setUserId(userId);
         }
-        wechatStorageService.setQrStatus(qrcode, WechatConstant.QrCodeStatus.LOOP);
+        wechatStorageService.setQrStatus(qrcode, WechatMpConstant.QrCodeStatus.LOOP);
         return qrcode;
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(Integer sceneId, WechatConstant.QrCodeType type) {
+    public WechatMpQrcodeRes createQrcode(Integer sceneId, WechatMpConstant.QrCodeType type) {
         return createQrcode(wechatStorageService.getDefaultAppId(), sceneId, type, null);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(Integer sceneId, WechatConstant.QrCodeType type, Long userId) {
+    public WechatMpQrcodeRes createQrcode(Integer sceneId, WechatMpConstant.QrCodeType type, Long userId) {
         return createQrcode(wechatStorageService.getDefaultAppId(), sceneId, type, userId);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatConstant.QrCodeType type, Long userId) {
+    public WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatMpConstant.QrCodeType type, Long userId) {
         return createQrcode(appId, sceneId, type, userId, 180);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn) {
+    public WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn) {
         return createQrcode(appId, sceneId, type, userId, expireIn, false);
     }
 
     @Override
-    public WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual) {
+    public WechatMpQrcodeRes createQrcode(String appId, Integer sceneId, WechatMpConstant.QrCodeType type, Long userId, Integer expireIn, boolean perpetual) {
         JSONObject json = new JSONObject();
         if (perpetual) {
             json.put("action_name", "QR_LIMIT_SCENE");
@@ -169,7 +169,7 @@ public class WechatMpServiceImpl implements IWechatMpService {
             qrcode.setType(type.getType());
             qrcode.setUserId(userId);
         }
-        wechatStorageService.setQrStatus(qrcode, WechatConstant.QrCodeStatus.LOOP);
+        wechatStorageService.setQrStatus(qrcode, WechatMpConstant.QrCodeStatus.LOOP);
         return qrcode;
     }
 

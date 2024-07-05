@@ -1,5 +1,7 @@
 package top.zsmile.tool.wechat.mp.bean;
 
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
+
 public class WechatMpQrcodeRes {
 
 
@@ -25,13 +27,13 @@ public class WechatMpQrcodeRes {
 
     /**
      * 类型
-     * {@link top.zsmile.tool.wechat.mp.constant.WechatConstant.QrCodeType}
+     * {@link WechatMpConstant.QrCodeType}
      */
     private String type;
 
     /**
      * 状态
-     * {@link top.zsmile.tool.wechat.mp.constant.WechatConstant.QrCodeStatus}
+     * {@link WechatMpConstant.QrCodeStatus}
      */
     private Integer status;
 

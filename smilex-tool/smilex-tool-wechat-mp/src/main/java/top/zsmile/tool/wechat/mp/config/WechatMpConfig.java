@@ -1,7 +1,9 @@
 package top.zsmile.tool.wechat.mp.config;
 
 
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.CollectionUtils;
+import top.zsmile.tool.wechat.mp.handler.MessageRouter;
 import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 import top.zsmile.tool.wechat.mp.properties.WechatProperties;
 import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
@@ -19,7 +21,7 @@ import java.util.List;
  */
 @Configuration
 @EnableConfigurationProperties(WechatProperties.class)
-public class WechatMpConfig {
+public class WechatMpConfig implements DisposableBean {
 
     @Resource
     private WechatProperties wechatProperties;
@@ -62,4 +64,8 @@ public class WechatMpConfig {
         return wechatStorageService;
     }
 
+    @Override
+    public void destroy() throws Exception {
+        MessageRouter.shutDownExecutorService();
+    }
 }

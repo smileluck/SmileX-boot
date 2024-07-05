@@ -3,14 +3,12 @@ package top.zsmile.tool.wechat.mp.bean.message;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import top.zsmile.tool.wechat.mp.constant.WechatConstant;
 import top.zsmile.tool.wechat.mp.converter.XStreamCDataConverter;
 import top.zsmile.tool.wechat.mp.utils.xml.XStreamTransformer;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 

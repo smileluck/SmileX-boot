@@ -4,7 +4,7 @@ import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
 import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
 import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 import top.zsmile.tool.wechat.mp.service.IWechatCryptoService;
-import top.zsmile.tool.wechat.mp.service.IWechatStorageService;
+import top.zsmile.tool.wechat.mp.service.IWechatMpStorageService;
 import top.zsmile.tool.wechat.mp.utils.WXBizMsgCrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class WechatCryptoService implements IWechatCryptoService {
     private static final ConcurrentHashMap<String, WXBizMsgCrypt> CRYPTO_MAP = new ConcurrentHashMap<>();
 
     @Resource
-    private IWechatStorageService wechatStorageService;
+    private IWechatMpStorageService wechatStorageService;
 
     @Override
     public WechatMpInMessage decrypt(String appId, WechatNotifyParams params, String postData) {

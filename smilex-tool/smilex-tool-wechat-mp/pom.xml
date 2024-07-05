@@ -38,6 +38,10 @@
             <artifactId>xstream</artifactId>
             <version>${xstream-version}</version>
         </dependency>
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-thread</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

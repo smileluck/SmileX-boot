@@ -3,7 +3,7 @@ package top.zsmile.tool.wechat.mp.bean.message;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
 import top.zsmile.tool.wechat.mp.converter.XStreamCDataConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
@@ -22,7 +22,7 @@ public class WechatMpOutMusicMessage extends WechatMpOutMessage {
     protected final Music music = new Music();
 
     public WechatMpOutMusicMessage() {
-        super(WechatConstant.XmlMsgType.MUSIC);
+        super(WechatMpConstant.XmlMsgType.MUSIC);
     }
 
     @XStreamAlias("Music")

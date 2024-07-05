@@ -6,7 +6,7 @@ import top.zsmile.common.core.utils.http.OkHttpUtil;
 import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
-import top.zsmile.tool.wechat.mp.constant.WechatHttpConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpHttpConstant;
 import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public class WechatHttps {
     }
 
     public static WechatMpQrcodeRes createQrcode(String accessToken, String json) {
-        String res = OkHttpUtil.postJson(WechatHttpConstant.QRCODE_CREATE + "?access_token=" + accessToken, json);
+        String res = OkHttpUtil.postJson(WechatMpHttpConstant.QRCODE_CREATE + "?access_token=" + accessToken, json);
         if (StringUtils.isNotBlank(res)) {
             JSONObject resJson = JSON.parseObject(res);
             if (resJson.containsKey("ticket")) {
@@ -35,7 +35,7 @@ public class WechatHttps {
     }
 
     public static WechatJsapiTicketRes getJsapiTicket(String accessToken) {
-        String res = OkHttpUtil.get(WechatHttpConstant.GET_TICKET, "access_token=" + accessToken + "&type=jsapi");
+        String res = OkHttpUtil.get(WechatMpHttpConstant.GET_TICKET, "access_token=" + accessToken + "&type=jsapi");
         if (StringUtils.isNotBlank(res)) {
             JSONObject resJson = JSON.parseObject(res);
             if (resJson.getIntValue("errcode") == 0) {
@@ -47,7 +47,7 @@ public class WechatHttps {
     }
 
     public static WechatATokenRes getAccessToken(WechatMpProperties wechatMp) {
-        String res = OkHttpUtil.get(WechatHttpConstant.TOKEN, "grant_type=client_credential&appid=" + wechatMp.getAppId() + "&secret=" + wechatMp.getAppSecret());
+        String res = OkHttpUtil.get(WechatMpHttpConstant.TOKEN, "grant_type=client_credential&appid=" + wechatMp.getAppId() + "&secret=" + wechatMp.getAppSecret());
         if (StringUtils.isNotBlank(res)) {
             JSONObject resJson = JSON.parseObject(res);
             if (resJson.containsKey("access_token")) {

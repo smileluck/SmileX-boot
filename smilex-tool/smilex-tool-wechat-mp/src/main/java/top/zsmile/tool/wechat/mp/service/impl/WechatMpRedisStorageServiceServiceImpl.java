@@ -5,10 +5,10 @@ import top.zsmile.tool.wechat.mp.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mp.bean.WechatJsapiTicketRes;
 import top.zsmile.tool.wechat.mp.bean.WechatMpQrcodeRes;
 import top.zsmile.tool.wechat.mp.bean.WechatNotifyParams;
-import top.zsmile.tool.wechat.mp.constant.WechatRedisConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpRedisConstant;
 import top.zsmile.tool.wechat.mp.properties.WechatMpProperties;
 import top.zsmile.tool.wechat.mp.service.AbstractWechatStorageService;
-import top.zsmile.tool.wechat.mp.service.IWechatStorageService;
+import top.zsmile.tool.wechat.mp.service.IWechatMpStorageService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -24,35 +24,35 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @ConditionalOnProperty(name = "wechat.mp.useRedis", havingValue = "true")
-public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageService implements IWechatStorageService {
+public class WechatMpRedisStorageServiceServiceImpl extends AbstractWechatStorageService implements IWechatMpStorageService {
 
     @Resource
     private RedisCache redisCache;
 
     @Override
     public String getDefaultAppId() {
-        return redisCache.getCacheObject(WechatRedisConstant.MP_DEFAULT_KEY);
+        return redisCache.getCacheObject(WechatMpRedisConstant.MP_DEFAULT_KEY);
     }
 
     @Override
     public void setDefaultAppId(String appId) {
-        redisCache.setCacheObject(WechatRedisConstant.MP_DEFAULT_KEY, appId);
+        redisCache.setCacheObject(WechatMpRedisConstant.MP_DEFAULT_KEY, appId);
     }
 
     @Override
     public WechatMpProperties getDefaultWechatMp() {
-        String appId = redisCache.getCacheObject(WechatRedisConstant.MP_DEFAULT_KEY).toString();
+        String appId = redisCache.getCacheObject(WechatMpRedisConstant.MP_DEFAULT_KEY).toString();
         return getWechatMp(appId);
     }
 
     @Override
     public WechatMpProperties getWechatMp(String appId) {
-        return redisCache.getCacheMapValue(WechatRedisConstant.MP_MAP, appId);
+        return redisCache.getCacheMapValue(WechatMpRedisConstant.MP_MAP, appId);
     }
 
     @Override
     public Map<String, WechatMpProperties> getWechatMpMap() {
-        return redisCache.getCacheMap(WechatRedisConstant.MP_MAP);
+        return redisCache.getCacheMap(WechatMpRedisConstant.MP_MAP);
     }
 
     @Override
@@ -63,12 +63,12 @@ public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageS
 
     @Override
     public void clearWechatMp() {
-        redisCache.deleteObject(WechatRedisConstant.MP_MAP);
+        redisCache.deleteObject(WechatMpRedisConstant.MP_MAP);
     }
 
     @Override
     public void putWechatMp(WechatMpProperties wechatProperties) {
-        redisCache.setCacheMapValue(WechatRedisConstant.MP_MAP, wechatProperties.getAppId(), wechatProperties);
+        redisCache.setCacheMapValue(WechatMpRedisConstant.MP_MAP, wechatProperties.getAppId(), wechatProperties);
     }
 
     @Override
@@ -83,27 +83,27 @@ public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageS
 
     @Override
     public void putAccessToken(String appId, WechatATokenRes wechatATokenRes) {
-        redisCache.setCacheMapValue(WechatRedisConstant.MP_AT_MAP, appId, wechatATokenRes);
+        redisCache.setCacheMapValue(WechatMpRedisConstant.MP_AT_MAP, appId, wechatATokenRes);
     }
 
     @Override
     public void putJsapiTicket(String appId, WechatJsapiTicketRes jsapiTicketProperties) {
-        redisCache.setCacheMapValue(WechatRedisConstant.MP_JSAPI_MAP, appId, jsapiTicketProperties);
+        redisCache.setCacheMapValue(WechatMpRedisConstant.MP_JSAPI_MAP, appId, jsapiTicketProperties);
     }
 
     @Override
     public WechatATokenRes getAccessToken(String appId) {
-        return redisCache.getCacheMapValue(WechatRedisConstant.MP_AT_MAP, appId);
+        return redisCache.getCacheMapValue(WechatMpRedisConstant.MP_AT_MAP, appId);
     }
 
     @Override
     public Map<String, WechatATokenRes> getAccessTokenMap() {
-        return redisCache.getCacheMap(WechatRedisConstant.MP_AT_MAP);
+        return redisCache.getCacheMap(WechatMpRedisConstant.MP_AT_MAP);
     }
 
     @Override
     public WechatJsapiTicketRes getJsapiTicket(String appId) {
-        return redisCache.getCacheMapValue(WechatRedisConstant.MP_JSAPI_MAP, appId);
+        return redisCache.getCacheMapValue(WechatMpRedisConstant.MP_JSAPI_MAP, appId);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageS
 
     @Override
     public boolean setNXRepeat(WechatNotifyParams params) {
-        return redisCache.setNXCacheObject(WechatRedisConstant.MP_REPEAT + params.getSignature(), params.getSignature(), 3, TimeUnit.SECONDS);
+        return redisCache.setNXCacheObject(WechatMpRedisConstant.MP_REPEAT + params.getSignature(), params.getSignature(), 3, TimeUnit.SECONDS);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageS
             throw new IllegalArgumentException("二维码不能为空");
         }
         qrcode.setStatus(status);
-        redisCache.setCacheObject(WechatRedisConstant.MP_QRCODE + qrcode.getTicket(), qrcode, expireIn, TimeUnit.SECONDS);
+        redisCache.setCacheObject(WechatMpRedisConstant.MP_QRCODE + qrcode.getTicket(), qrcode, expireIn, TimeUnit.SECONDS);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class WechatRedisStorageServiceServiceImpl extends AbstractWechatStorageS
         if (StringUtils.isBlank(searchId)) {
             throw new IllegalArgumentException("二维码查询参数为空");
         }
-        Object cacheObject = redisCache.getCacheObject(WechatRedisConstant.MP_QRCODE + searchId);
+        Object cacheObject = redisCache.getCacheObject(WechatMpRedisConstant.MP_QRCODE + searchId);
         if (cacheObject == null) {
             throw new IllegalArgumentException(String.format("未找到对应searchId=[%s]的配置，请核实！", searchId));
         }

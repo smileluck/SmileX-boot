@@ -3,7 +3,7 @@ package top.zsmile.tool.wechat.mp.constant;
 /**
  * 微信公众号静态常量
  */
-public final class WechatConstant {
+public final class WechatMpConstant {
 
     /**
      * XML 消息类型

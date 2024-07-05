@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 微信存储服务
  */
-public interface IWechatStorageService {
+public interface IWechatMpStorageService {
 
     /**
      * 获取默认公众号ID

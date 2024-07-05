@@ -3,7 +3,7 @@ package top.zsmile.tool.wechat.mp.bean.message;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import top.zsmile.tool.wechat.mp.constant.WechatConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
 import top.zsmile.tool.wechat.mp.converter.XStreamCDataConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
@@ -19,7 +19,7 @@ import java.util.List;
 @JacksonXmlRootElement(localName = "xml")
 public class WechatMpOutNewsMessage extends WechatMpOutMessage {
     public WechatMpOutNewsMessage() {
-        super(WechatConstant.XmlMsgType.NEWS);
+        super(WechatMpConstant.XmlMsgType.NEWS);
     }
 
     /**

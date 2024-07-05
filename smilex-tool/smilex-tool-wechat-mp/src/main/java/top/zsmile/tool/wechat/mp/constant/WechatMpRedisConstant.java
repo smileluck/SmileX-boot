@@ -3,7 +3,7 @@ package top.zsmile.tool.wechat.mp.constant;
 /**
  * Redis key 常量
  */
-public class WechatRedisConstant {
+public class WechatMpRedisConstant {
 
     /**
      * 默认 MP 配置KEY
