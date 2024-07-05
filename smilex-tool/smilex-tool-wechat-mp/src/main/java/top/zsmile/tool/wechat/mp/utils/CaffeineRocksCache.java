@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-import top.zsmile.tool.wechat.mp.constant.WechatRedisConstant;
+import top.zsmile.tool.wechat.mp.constant.WechatMpRedisConstant;
 
 import javax.annotation.PreDestroy;
 import java.io.File;
@@ -97,9 +97,9 @@ public class CaffeineRocksCache implements InitializingBean {
                 .expireAfter(new Expiry<String, Object>() {
                     @Override
                     public long expireAfterCreate(String key, Object value, long currentTime) {
-                        if (key.startsWith(WechatRedisConstant.MP_REPEAT)) {
+                        if (key.startsWith(WechatMpRedisConstant.MP_REPEAT)) {
                             return TimeUnit.SECONDS.toNanos(3);
-                        } else if (key.startsWith(WechatRedisConstant.MP_QRCODE)) {
+                        } else if (key.startsWith(WechatMpRedisConstant.MP_QRCODE)) {
                             return TimeUnit.SECONDS.toNanos(180);
                         }
                         return Long.MAX_VALUE;
