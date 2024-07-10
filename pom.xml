@@ -223,6 +223,11 @@
             </dependency>
             <dependency>
                 <groupId>top.zsmile</groupId>
+                <artifactId>smilex-tool-wechat-mp</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
                 <artifactId>smilex-modules</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
