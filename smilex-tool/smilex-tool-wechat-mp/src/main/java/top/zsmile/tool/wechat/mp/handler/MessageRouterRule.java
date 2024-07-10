@@ -1,6 +1,7 @@
 package top.zsmile.tool.wechat.mp.handler;
 
 import top.zsmile.tool.wechat.mp.bean.message.WechatMpInMessage;
+import top.zsmile.tool.wechat.mp.constant.WechatMpConstant;
 
 /**
  * 消息路由规则
@@ -16,6 +17,8 @@ public class MessageRouterRule implements IMessageRule<WechatMpInMessage> {
     private String event;
 
     private String eventKey;
+
+    private String contentEqual;
 
     private IMessageInHandler handler;
 
@@ -72,6 +75,8 @@ public class MessageRouterRule implements IMessageRule<WechatMpInMessage> {
                 &&
                 (this.msgType == null || this.msgType.equalsIgnoreCase(wxMessage.getMsgType()))
                 &&
+                (this.contentEqual == null || this.contentEqual.equalsIgnoreCase(wxMessage.getContent()))
+                &&
                 (this.event == null || this.event.equalsIgnoreCase(wxMessage.getEvent()))
                 &&
                 (this.eventKey == null || this.eventKey.equalsIgnoreCase(wxMessage.getEventKey()));
@@ -83,6 +88,15 @@ public class MessageRouterRule implements IMessageRule<WechatMpInMessage> {
 
     public MessageRouterRule setHandler(IMessageInHandler handler) {
         this.handler = handler;
+        return this;
+    }
+
+    public String getContentEqual() {
+        return contentEqual;
+    }
+
+    public MessageRouterRule setContentEqual(String contentEqual) {
+        this.contentEqual = contentEqual;
         return this;
     }
 }

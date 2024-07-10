@@ -25,7 +25,7 @@ public class MessageRouter {
     private static ExecutorService executorService;
 
 
-    private MessageRouter() {
+    static {
         BaseThreadFactory.Builder builder = new BaseThreadFactory.Builder();
         builder.prefix("Global-ThreadPool-");
         builder.uncaughtExceptionHandler((t, err) -> {
@@ -35,6 +35,9 @@ public class MessageRouter {
                 50,
                 0,
                 TimeUnit.MICROSECONDS, new LinkedBlockingQueue<>(), builder.build());
+    }
+
+    private MessageRouter() {
     }
 
     public static void shutDownExecutorService() {
@@ -56,8 +59,13 @@ public class MessageRouter {
     public static String exec(String openid, WechatMpInMessage message) {
         List<MessageRouterRule> matches = matches(message);
         for (MessageRouterRule match : matches) {
-            return match.getHandler().exec(openid, message);
+            Future<String> submit = executorService.submit(() -> match.getHandler().exec(openid, message));
+            try {
+                return submit.get(5, TimeUnit.SECONDS);
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return null;
+        return "";
     }
 }
