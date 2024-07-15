@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-cloud-nacos</artifactId>
+            <artifactId>smilex-cloud-alibaba-nacos</artifactId>
             <version>1.0</version>
         </dependency>
 

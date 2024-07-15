@@ -15,14 +15,15 @@
     <version>1.0</version>
     <modules>
         <module>smilex-common</module>
-        <module>smilex-common-cloud</module>
         <module>smilex-auth</module>
         <module>smilex-api</module>
         <module>smilex-tool</module>
-        <module>smilex-im</module>
         <module>smilex-system</module>
-        <module>smilex-cloud</module>
         <module>smilex-modules</module>
+        <module>smilex-cloud</module>
+        <module>smilex-cloud-common</module>
+        <module>smilex-cloud-alibaba</module>
+        <module>smilex-starter</module>
     </modules>
 
     <repositories>
@@ -65,7 +66,7 @@
     <properties>
         <smilex.version>1.0</smilex.version>
         <spring-boot.version>2.7.18</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.9.RELEASE</spring-cloud-alibaba.version>
         <mysql-connector-java.version>8.3.0</mysql-connector-java.version>
         <fastjson.version>2.0.43</fastjson.version>
@@ -234,6 +235,23 @@
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-modules-sys</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+
+            <!-- Smilex Cloud -->
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-cloud</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-cloud-common</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-cloud-alibaba</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
 
