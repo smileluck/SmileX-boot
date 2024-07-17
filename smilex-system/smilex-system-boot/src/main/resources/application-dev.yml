@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /smilex
+    context-path: /sys
   undertow:
     threads:
       io: 2
@@ -62,12 +62,12 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://127.0.0.1:3306/smilex-boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
           username: root
-          password: root
-        slave:
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://127.0.0.1:3306/smilex-boot2?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-          username: root
-          password: root
+          password: 123456
+#        slave:
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://127.0.0.1:3306/smilex-boot2?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#          username: root
+#          password: root
 
   # redis
   redis:

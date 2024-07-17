@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /smilex
+    context-path: /sys
   undertow:
     threads:
       io: 2
