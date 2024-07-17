@@ -12,6 +12,10 @@
     <artifactId>smilex-tool-dev</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-web</artifactId>
+        </dependency>
         <!-- 用于远程代理使用 -->
         <dependency>
             <groupId>com.jcraft</groupId>

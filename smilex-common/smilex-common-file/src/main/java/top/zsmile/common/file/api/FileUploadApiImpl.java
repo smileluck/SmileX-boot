@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @Service("fileUploadApi")
 public class FileUploadApiImpl implements FileUploadApi {
 
-    @Value("${smilex.upload.type}")
+    @Value("${smilex.upload.type:local}")
     private String type;
 
     @Autowired

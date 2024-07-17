@@ -28,9 +28,10 @@ public class SmilexCloudSysApplication {
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         String path = env.getProperty("server.servlet.context-path");
+        String applicationName = env.getProperty("spring.application.name");
         path = StringUtils.isNotBlank(path) ? path : "";
         log.info("\n----------------------------------------------------------\n\t" +
-                "Application SmileX-Cloud-Sys is running! Access URLs:\n\t" +
+                "Application " + applicationName + " is running! Access URLs:\n\t" +
                 "Local: \t\t    \thttp://localhost:" + port + path + "/\n\t" +
                 "External: \t\thttp://" + ip + ":" + port + path + "/\n\t" +
                 "Swagger文档: \thttp://" + ip + ":" + port + path + "/doc.html\n" +

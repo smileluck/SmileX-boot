@@ -24,7 +24,6 @@
         <module>smilex-cloud-common</module>
         <module>smilex-cloud-alibaba</module>
         <module>smilex-starter</module>
-        <module>smilex-common/smilex-common-property</module>
     </modules>
 
     <repositories>
@@ -82,7 +81,7 @@
         <jwt.version>4.4.0</jwt.version>
         <druid.version>1.2.21</druid.version>
         <knife4j.version>2.0.9</knife4j.version>
-        <swagger.version>1.6.13</swagger.version>
+        <swagger.version>1.6.14</swagger.version>
         <aliyun-oss.version>3.17.4</aliyun-oss.version>
         <qiniu-oss.verions>[7.13.0, 7.13.99]</qiniu-oss.verions>
         <jsqlparser.version>4.9</jsqlparser.version>
@@ -195,11 +194,6 @@
             </dependency>
             <dependency>
                 <groupId>top.zsmile</groupId>
-                <artifactId>smilex-common-property</artifactId>
-                <version>${smilex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>top.zsmile</groupId>
                 <artifactId>smilex-auth</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
@@ -258,6 +252,11 @@
             <dependency>
                 <groupId>top.zsmile</groupId>
                 <artifactId>smilex-cloud-alibaba</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
+                <artifactId>smilex-cloud-alibaba-nacos</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
 
