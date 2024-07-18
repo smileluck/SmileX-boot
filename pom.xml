@@ -24,6 +24,7 @@
         <module>smilex-cloud-common</module>
         <module>smilex-cloud-alibaba</module>
         <module>smilex-starter</module>
+        <module>smilex-common/smilex-common-openapi</module>
     </modules>
 
     <repositories>
@@ -357,9 +358,9 @@
                 <version>${knife4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-core</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <version>4.4.0</version>
             </dependency>
 
             <!-- 阿里云 -->

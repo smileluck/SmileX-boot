@@ -50,6 +50,7 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-swagger</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

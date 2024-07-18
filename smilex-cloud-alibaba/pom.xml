@@ -25,10 +25,10 @@
 
     <dependencies>
         <!-- common -->
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-cloud-common</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>top.zsmile</groupId>-->
+<!--            <artifactId>smilex-cloud-common</artifactId>-->
+<!--        </dependency>-->
 
         <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
