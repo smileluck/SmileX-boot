@@ -19,14 +19,14 @@ public class MybatisEnhanceInit implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("===========start mybatis-enhance init===============");
+        log.debug("===========start mybatis-enhance init===============");
         Map<String, Class> classByAnnotation = SpringFileUtils.getClassBySuperClass(packageStr, BaseMapper.class);
 
         int size = classByAnnotation.size();
-        log.info("mybatis-enhance size ==> " + size);
+        log.debug("mybatis-enhance size ==> " + size);
 
         TableInfoCache.initTableInfo(classByAnnotation);
 
-        log.info("===========over mybatis-enhance init===============");
+        log.debug("===========over mybatis-enhance init===============");
     }
 }

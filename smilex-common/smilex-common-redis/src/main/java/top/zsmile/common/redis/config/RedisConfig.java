@@ -47,7 +47,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
-        log.info("======= redis config init =========");
+        log.debug("======= redis config init =========");
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = jacksonSerializer();
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(lettuceConnectionFactory);

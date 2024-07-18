@@ -45,7 +45,7 @@ public class TableInfoCache {
         Set<String> keySet = map.keySet();
         for (String s : keySet) {
             Class aClass = map.get(s);
-            log.info("mybatis-enhance init table class ==> " + aClass);
+            log.debug("mybatis-enhance init table class ==> " + aClass);
             getTableInfo(aClass);
         }
 
