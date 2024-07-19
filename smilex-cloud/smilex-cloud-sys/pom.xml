@@ -33,21 +33,12 @@
             <artifactId>smilex-modules-sys</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>top.zsmile</groupId>
-                    <artifactId>smilex-common-swagger</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>io.springfox</groupId>
                     <artifactId>springfox-spring-webmvc</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-openapi</artifactId>
-            <version>1.0</version>
-        </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>

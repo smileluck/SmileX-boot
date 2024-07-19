@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-swagger</artifactId>
+            <artifactId>smilex-common-openapi</artifactId>
         </dependency>
 
     </dependencies>
