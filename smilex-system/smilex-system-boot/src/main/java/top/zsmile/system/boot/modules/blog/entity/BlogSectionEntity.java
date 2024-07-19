@@ -4,61 +4,61 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 租户博客栏目
  */
 @TableName("blog_section")
-@ApiModel(value = "租户博客栏目", description = "租户博客栏目")
+@Schema(description = "租户博客栏目")
 public class BlogSectionEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
      * 父ID,最上级为0
      */
-    @ApiModelProperty(value = "父ID,最上级为0", hidden = false)
+    @Schema(description = "父ID,最上级为0", hidden = false)
     private Long parentId;
     /**
      * 租户ID
      */
-    @ApiModelProperty(value = "租户ID", hidden = false)
+    @Schema(description = "租户ID", hidden = false)
     private Long tenantId;
     /**
      * 层级
      */
-    @ApiModelProperty(value = "层级", hidden = false)
+    @Schema(description = "层级", hidden = false)
     private Integer level;
     /**
      * 栏目名称
      */
-    @ApiModelProperty(value = "栏目名称", hidden = false)
+    @Schema(description = "栏目名称", hidden = false)
     private String sectionName;
     /**
      * 访问类型，1无限制，2统一密码访问
      */
-    @ApiModelProperty(value = "访问类型，1无限制，2统一密码访问", hidden = false)
+    @Schema(description = "访问类型，1无限制，2统一密码访问", hidden = false)
     private Integer visitType;
     /**
      * 栏目类型，1板块，2分组，3路由
      */
-    @ApiModelProperty(value = "栏目类型，1板块，2分组，3路由", hidden = false)
+    @Schema(description = "栏目类型，1板块，2分组，3路由", hidden = false)
     private Integer type;
     /**
      * 路由URL
      */
-    @ApiModelProperty(value = "路由URL", hidden = false)
+    @Schema(description = "路由URL", hidden = false)
     private String routeUrl;
     /**
      * 排序
      */
-    @ApiModelProperty(value = "排序", hidden = false)
+    @Schema(description = "排序", hidden = false)
     private Integer orderNum;
 
     /**

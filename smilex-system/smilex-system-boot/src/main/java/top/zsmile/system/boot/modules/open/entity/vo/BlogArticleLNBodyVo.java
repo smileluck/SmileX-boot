@@ -1,16 +1,16 @@
 package top.zsmile.system.boot.modules.open.entity.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "文章-上下页")
+@Schema(description = "文章-上下页")
 public class BlogArticleLNBodyVo {
 
-    @ApiModelProperty(value = "ID")
+    @Schema(description = "ID")
     private Long id;
 
-    @ApiModelProperty(value = "文章标题", hidden = false)
+    @Schema(description = "文章标题", hidden = false)
     private String articleTitle;
 }

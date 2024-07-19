@@ -4,36 +4,36 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 租户博客标签
  */
 @TableName("blog_tag")
-@ApiModel(value="租户博客标签", description = "租户博客标签")
+@Schema(description = "租户博客标签")
 public class BlogTagEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 租户ID
     */
-    @ApiModelProperty(value = "租户ID", hidden=false)
+    @Schema(description = "租户ID", hidden=false)
     private Long tenantId;
     /**
     * 标签名
     */
-    @ApiModelProperty(value = "标签名", hidden=false)
+    @Schema(description = "标签名", hidden=false)
     private String tagName;
     /**
     * 是否启用，0禁用1启用
     */
-    @ApiModelProperty(value = "是否启用，0禁用1启用", hidden=false)
+    @Schema(description = "是否启用，0禁用1启用", hidden=false)
     private Integer enableFlag;
 
     /**

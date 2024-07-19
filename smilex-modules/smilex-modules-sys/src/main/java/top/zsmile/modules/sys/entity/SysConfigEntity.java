@@ -4,46 +4,46 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 系统配置
  */
 @TableName("sys_config")
-@ApiModel(value="系统配置", description = "系统配置")
+@Schema(description = "系统配置")
 public class SysConfigEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 配置名称
     */
-    @ApiModelProperty(value = "配置名称", hidden=false)
+    @Schema(description = "配置名称", hidden=false)
     private String configName;
     /**
     * 配置key
     */
-    @ApiModelProperty(value = "配置key", hidden=false)
+    @Schema(description = "配置key", hidden=false)
     private String configKey;
     /**
     * 配置类型，1text,2json
     */
-    @ApiModelProperty(value = "配置类型，1text,2json", hidden=false)
+    @Schema(description = "配置类型，1text,2json", hidden=false)
     private Integer configType;
     /**
     * 配置信息
     */
-    @ApiModelProperty(value = "配置信息", hidden=false)
+    @Schema(description = "配置信息", hidden=false)
     private String configValue;
     /**
     * 是否启用，0启用1禁用
     */
-    @ApiModelProperty(value = "是否启用，0启用1禁用", hidden=false)
+    @Schema(description = "是否启用，0启用1禁用", hidden=false)
     private Integer enableFlag;
 
     /**

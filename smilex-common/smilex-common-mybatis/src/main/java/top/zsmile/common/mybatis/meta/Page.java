@@ -14,25 +14,25 @@ public class Page<T> implements IPage<T> {
     /**
      * 查询数据列表
      */
-//    @ApiModelProperty(value = "数据列表", hidden = true)
+//    @Schema(description = "数据列表", hidden = true)
     protected List<T> records = Collections.EMPTY_LIST;
 
     /**
      * 总数
      */
-//    @ApiModelProperty(value = "总数", example = "0", hidden = true)
+//    @Schema(description = "总数", example = "0", hidden = true)
     protected long total = 0;
 
     /**
      * 每页显示条数，默认10
      */
-//    @ApiModelProperty(value = "每页显示条数", example = "10")
+//    @Schema(description = "每页显示条数", example = "10")
     protected int size = 10;
 
     /**
      * 当前页，从1算起
      */
-//    @ApiModelProperty(value = "当前页", example = "1")
+//    @Schema(description = "当前页", example = "1")
     protected int current = 1;
 
     /**

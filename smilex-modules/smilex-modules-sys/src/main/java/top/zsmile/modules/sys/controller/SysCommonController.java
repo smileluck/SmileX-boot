@@ -1,8 +1,9 @@
 package top.zsmile.modules.sys.controller;
 
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import top.zsmile.modules.sys.service.SysDictItemService;
 
 import java.util.List;
 
-@Api(tags = "系统通用接口")
+@Tag(name  = "系统通用接口")
 @RestController
 @RequestMapping("/sys/common")
 public class SysCommonController {
@@ -21,7 +22,7 @@ public class SysCommonController {
     @Autowired
     private SysDictItemService sysDictItemService;
 
-    @ApiOperation("查询字典列表")
+    @Operation(summary="查询字典列表")
     @GetMapping("/dict")
     public R<List<SysDictItemEntity>> dict() {
         List<SysDictItemEntity> sysDictItemEntities = sysDictItemService.listByObj(null, "dictCode", "dictValue", "dictLabel");
@@ -29,7 +30,7 @@ public class SysCommonController {
     }
 
 //    TODO 考虑数据权限和SASS问题，暂时先不开发。
-//    @ApiOperation("字典组件封装")
+//    @Operation(summary="字典组件封装")
 //    @GetMapping("/dict/select")
 //    public R<List> dictSelect(@Valid SysTableSelectModel sysTableSelectModel) {
 //        switch(sysTableSelectModel.getDictTable()){

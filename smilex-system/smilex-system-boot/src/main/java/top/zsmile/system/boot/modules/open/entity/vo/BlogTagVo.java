@@ -1,20 +1,20 @@
 package top.zsmile.system.boot.modules.open.entity.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "博客 - 标签", description = "博客 - 标签")
+@Schema(description = "博客 - 标签")
 public class BlogTagVo {
     /**
      * ID
      */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
      * 标签名
      */
-    @ApiModelProperty(value = "标签名")
+    @Schema(description = "标签名")
     private String tagName;
 }

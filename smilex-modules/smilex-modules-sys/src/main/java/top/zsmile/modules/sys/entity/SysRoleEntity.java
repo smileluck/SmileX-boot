@@ -4,31 +4,31 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 角色管理
  */
 @TableName("sys_role")
-@ApiModel(value="角色管理", description = "角色管理")
+@Schema(description = "角色管理")
 public class SysRoleEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 租户ID
     */
-    @ApiModelProperty(value = "租户ID", hidden=false)
+    @Schema(description = "租户ID", hidden=false)
     private Long tenantId;
     /**
     * 角色名称
     */
-    @ApiModelProperty(value = "角色名称", hidden=false)
+    @Schema(description = "角色名称", hidden=false)
     private String roleName;
 
     /**

@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.annotation.Validated;
 import top.zsmile.common.core.api.R;
@@ -26,7 +27,7 @@ import top.zsmile.system.boot.modules.blog.service.BlogTagService;
 /**
  * 租户博客文章
  */
-@Api(tags = "租户博客文章")
+@Tag(name  = "租户博客文章")
 @RestController
 @RequestMapping("/blog/article")
 public class BlogArticleController {
@@ -37,7 +38,7 @@ public class BlogArticleController {
     @Autowired
     private BlogTagService blogTagService;
 
-    @ApiOperation("查询列表（分页）")
+    @Operation(summary="查询列表（分页）")
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
     @RequiresPermissions("blog:article:list")
     @GetMapping("/list")
@@ -46,7 +47,7 @@ public class BlogArticleController {
         return R.success("查询成功", page);
     }
 
-    @ApiOperation("根据Id查询信息")
+    @Operation(summary="根据Id查询信息")
     @RequiresPermissions("blog:article:info")
     @GetMapping("/info/{id}")
     public R<BlogArticleEntity> info(@PathVariable("id") Long id) {
@@ -55,7 +56,7 @@ public class BlogArticleController {
     }
 
 
-    @ApiOperation("根据Id更新信息")
+    @Operation(summary="根据Id更新信息")
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("blog:article:update")
     @PostMapping("/update")
@@ -64,7 +65,7 @@ public class BlogArticleController {
         return R.success("修改成功");
     }
 
-    @ApiOperation("根据id列表批量删除")
+    @Operation(summary="根据id列表批量删除")
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("blog:article:remove")
     @PostMapping("/remove")
@@ -73,7 +74,7 @@ public class BlogArticleController {
         return R.success("删除成功");
     }
 
-    @ApiOperation("保存")
+    @Operation(summary="保存")
     @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("blog:article:save")
@@ -88,7 +89,7 @@ public class BlogArticleController {
     }
 
 
-    @ApiOperation("根据Id置顶或取消置顶文章")
+    @Operation(summary="根据Id置顶或取消置顶文章")
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "置顶")
     @RequiresPermissions("blog:article:update")
     @PostMapping("/top")
@@ -100,7 +101,7 @@ public class BlogArticleController {
         return R.success(blogArticleTopDto.getTopFlag() == 0 ? "取消成功" : "置顶成功");
     }
 
-    @ApiOperation("根据Id发布或撤回文章")
+    @Operation(summary="根据Id发布或撤回文章")
     @SysLog(title = "租户博客文章", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "发布")
     @RequiresPermissions("blog:article:update")
     @PostMapping("/publish")

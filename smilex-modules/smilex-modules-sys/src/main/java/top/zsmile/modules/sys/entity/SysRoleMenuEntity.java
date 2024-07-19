@@ -2,38 +2,38 @@ package top.zsmile.modules.sys.entity;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import top.zsmile.common.mybatis.annotation.TableName;
 
 /**
  * 系统角色菜单
  */
 @TableName("sys_role_menu")
-@ApiModel(value="系统角色菜单", description = "系统角色菜单")
+@Schema(description = "系统角色菜单")
 public class SysRoleMenuEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 角色id
     */
-    @ApiModelProperty(value = "角色id", hidden=false)
+    @Schema(description = "角色id", hidden=false)
     private Long roleId;
     /**
     * 菜单id
     */
-    @ApiModelProperty(value = "菜单id", hidden=false)
+    @Schema(description = "菜单id", hidden=false)
     private Long menuId;
 
     /**
      * 选中状态.1选中，2半选中
      */
-    @ApiModelProperty(value = "选中状态1选中，2半选中", hidden=false)
+    @Schema(description = "选中状态1选中，2半选中", hidden=false)
     private Integer checkType;
 
     /**

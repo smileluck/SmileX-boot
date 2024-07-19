@@ -4,41 +4,41 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 多租户管理
  */
 @TableName("sys_tenant")
-@ApiModel(value="多租户管理", description = "多租户管理")
+@Schema(description = "多租户管理")
 public class SysTenantEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 租户名称
     */
-    @ApiModelProperty(value = "租户名称", hidden=false)
+    @Schema(description = "租户名称", hidden=false)
     private String tenantName;
     /**
     * 密码
     */
-    @ApiModelProperty(value = "密码", hidden=true)
+    @Schema(description = "密码", hidden=true)
     private String password;
     /**
     * salt
     */
-    @ApiModelProperty(value = "salt", hidden=true)
+    @Schema(description = "salt", hidden=true)
     private String salt;
     /**
      * 是否启用，0禁用1启用
      */
-    @ApiModelProperty(value = "是否启用，0禁用1启用", hidden=false)
+    @Schema(description = "是否启用，0禁用1启用", hidden=false)
     private Integer enableFlag;
     /**
     * ID

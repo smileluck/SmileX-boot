@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import top.zsmile.common.core.api.R;
 import top.zsmile.common.log.annotation.SysLog;
@@ -22,7 +23,7 @@ import top.zsmile.modules.sys.service.SysDictService;
 /**
  * 数据字典信息
  */
-@Api(tags = "系统数据字典信息")
+@Tag(name  = "系统数据字典信息")
 @RestController
 @RequestMapping("/sys/dict/item")
 public class SysDictItemController {
@@ -33,7 +34,7 @@ public class SysDictItemController {
     @Autowired
     private SysDictItemService sysDictItemService;
 
-    @ApiOperation("查询列表（分页）")
+    @Operation(summary="查询列表（分页）")
     @SysLog(title = "数据字典信息", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
     @RequiresPermissions("sys:dict:item:list")
     @GetMapping("/list")
@@ -42,7 +43,7 @@ public class SysDictItemController {
         return R.success("查询成功", page);
     }
 
-    @ApiOperation("根据Id查询信息")
+    @Operation(summary="根据Id查询信息")
     @RequiresPermissions("sys:dict:item:info")
     @GetMapping("/info/{id}")
     public R<SysDictItemEntity> info(@PathVariable("id") Long id) {
@@ -51,7 +52,7 @@ public class SysDictItemController {
     }
 
 
-    @ApiOperation("查询字典列表")
+    @Operation(summary="查询字典列表")
     @RequiresPermissions("sys:dict:item:info")
     @GetMapping("/info/dictList")
     public R<List<SysDictEntity>> dictList() {
@@ -60,7 +61,7 @@ public class SysDictItemController {
     }
 
 
-    @ApiOperation("根据Id更新信息")
+    @Operation(summary="根据Id更新信息")
     @SysLog(title = "数据字典信息", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("sys:dict:item:update")
     @PostMapping("/update")
@@ -71,7 +72,7 @@ public class SysDictItemController {
         return R.success("修改成功");
     }
 
-    @ApiOperation("根据id列表批量删除")
+    @Operation(summary="根据id列表批量删除")
     @SysLog(title = "数据字典信息", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("sys:dict:item:remove")
     @PostMapping("/remove")
@@ -80,7 +81,7 @@ public class SysDictItemController {
         return R.success("删除成功");
     }
 
-    @ApiOperation("保存")
+    @Operation(summary="保存")
     @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "数据字典信息", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("sys:dict:item:save")

@@ -1,8 +1,10 @@
 package top.zsmile.system.boot.modules.blog.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "系统通用接口")
+@Tag(name = "系统通用接口")
 @RestController
 @RequestMapping("/blog/common")
 public class BlogCommonController {
@@ -29,9 +31,9 @@ public class BlogCommonController {
     @Autowired
     private BlogTagService blogTagService;
 
-    @ApiOperation("查询分组栏目列表")
+    @Operation(summary = "查询分组栏目列表")
     @GetMapping("/section")
-    public R<List<BlogSectionEntity>> section(@ApiParam("栏目类型") @RequestParam(name = "type", defaultValue = "1") Integer type) {
+    public R<List<BlogSectionEntity>> section(@Parameter(description = "栏目类型") @RequestParam(name = "type", defaultValue = "1") Integer type) {
         if (type == null) {
             type = 2;
         }
@@ -40,7 +42,7 @@ public class BlogCommonController {
     }
 
 
-    @ApiOperation("查询标签列表")
+    @Operation(summary = "查询标签列表")
     @GetMapping("/tag")
     public R<List<Map<String, Object>>> tag() {
         HashMap<String, Object> map = new HashMap<>();

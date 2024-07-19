@@ -2,7 +2,8 @@ package top.zsmile.system.boot.modules.open.controller;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Api(tags = "开放Git webHook接口")
+@Tag(name  = "开放Git webHook接口")
 @RestController
 @Slf4j
 @RequestMapping("/open/git")

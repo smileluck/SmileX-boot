@@ -4,36 +4,36 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 数据字典
  */
 @TableName("sys_dict")
-@ApiModel(value="数据字典", description = "数据字典")
+@Schema(description = "数据字典")
 public class SysDictEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 字典编码
     */
-    @ApiModelProperty(value = "字典编码", hidden=false)
+    @Schema(description = "字典编码", hidden=false)
     private String dictCode;
     /**
     * 字典名称
     */
-    @ApiModelProperty(value = "字典名称", hidden=false)
+    @Schema(description = "字典名称", hidden=false)
     private String dictName;
     /**
     * 备注
     */
-    @ApiModelProperty(value = "备注", hidden=false)
+    @Schema(description = "备注", hidden=false)
     private String remark;
 
     /**

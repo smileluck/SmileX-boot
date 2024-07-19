@@ -4,41 +4,41 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 博客时间线
  */
 @TableName("blog_timeline")
-@ApiModel(value = "博客时间线", description = "博客时间线")
+@Schema(description = "博客时间线")
 public class BlogTimelineEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
      * 租户Id
      */
-    @ApiModelProperty(value = "租户Id", hidden = false)
+    @Schema(description = "租户Id", hidden = false)
     private String tenantId;
     /**
      * 年份
      */
-    @ApiModelProperty(value = "年份", hidden = false)
+    @Schema(description = "年份", hidden = false)
     private String year;
     /**
      * 标题
      */
-    @ApiModelProperty(value = "标题", hidden = false)
+    @Schema(description = "标题", hidden = false)
     private String title;
     /**
      * 说明
      */
-    @ApiModelProperty(value = "说明", hidden = false)
+    @Schema(description = "说明", hidden = false)
     private String description;
 
     /**

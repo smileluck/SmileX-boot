@@ -5,61 +5,61 @@ import java.time.LocalDateTime;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 租户博客-git文章同步
  */
 @TableName("blog_git_article")
-@ApiModel(value = "租户博客-git文章同步", description = "租户博客-git文章同步")
+@Schema(description = "租户博客-git文章同步")
 public class BlogGitArticleEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
      * 博客文章ID
      */
-    @ApiModelProperty(value = "博客文章ID", hidden = false)
+    @Schema(description = "博客文章ID", hidden = false)
     private Long blogArticleId;
     /**
      * 文件标题
      */
-    @ApiModelProperty(value = "文件标题", hidden = false)
+    @Schema(description = "文件标题", hidden = false)
     private String fileTitle;
     /**
      * 内容URL
      */
-    @ApiModelProperty(value = "内容URL", hidden = false)
+    @Schema(description = "内容URL", hidden = false)
     private String contentUrl;
     /**
      * 内容URL
      */
-    @ApiModelProperty(value = "内容Text", hidden = false)
+    @Schema(description = "内容Text", hidden = false)
     private String contentText;
     /**
      * 是否更新，1是，0否
      */
-    @ApiModelProperty(value = "是否更新，1是，0否", hidden = false)
+    @Schema(description = "是否更新，1是，0否", hidden = false)
     private Integer updateFlag;
     /**
      * 是否发布，0未发布，1已发布
      */
-    @ApiModelProperty(value = "是否发布，0未发布，1已发布", hidden = false)
+    @Schema(description = "是否发布，0未发布，1已发布", hidden = false)
     private Integer publishFlag;
     /**
      * 同步时间
      */
-    @ApiModelProperty(value = "同步时间", hidden = false)
+    @Schema(description = "同步时间", hidden = false)
     private LocalDateTime asyncTime;
     /**
      * 发布时间
      */
-    @ApiModelProperty(value = "发布时间", hidden = false)
+    @Schema(description = "发布时间", hidden = false)
     private LocalDateTime publishTime;
 
     /**

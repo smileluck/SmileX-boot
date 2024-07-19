@@ -1,8 +1,10 @@
 package top.zsmile.system.boot.modules.open.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "开放博客接口")
+@Tag(name = "开放博客接口")
 @RestController
 @RequestMapping("/open/blog")
 public class OpenBlogController {
@@ -59,9 +61,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("栏目列表")
+    @Operation(summary = "栏目列表")
     @GetMapping("/{tenantId}/section/list")
-    public R<List> section(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
+    public R<List> section(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = Collections.singletonMap("tenantId", tenantId);
         List<Map<String, Object>> list = blogSectionService.listMapByMap(map, "id", "parentId", "sectionName", "type", "routeUrl");
         return R.success(list);
@@ -73,9 +75,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("标签云")
+    @Operation(summary = "标签云")
     @GetMapping("/{tenantId}/tag/list")
-    public R<List<BlogTagVo>> tags(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
+    public R<List<BlogTagVo>> tags(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("tenantId", tenantId);
         map.put("enableFlag", 1);
@@ -90,9 +92,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("首页文章列表")
+    @Operation(summary = "首页文章列表")
     @GetMapping("/{tenantId}/article/home")
-    public R<IPage<BlogArticleVo>> articleList(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId, Page page, BlogArticleDto blogArticleDto) {
+    public R<IPage<BlogArticleVo>> articleList(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId, Page page, BlogArticleDto blogArticleDto) {
         blogArticleDto.setTenantId(tenantId);
         blogArticleDto.setPublishFlag(1);
 //        Map<String, Object> map = new HashMap<>(2);
@@ -109,9 +111,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("获取文章内容")
+    @Operation(summary = "获取文章内容")
     @PostMapping("/{tenantId}/article/detail")
-    public R<BlogArticleVo> articleDetail(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId,
+    public R<BlogArticleVo> articleDetail(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId,
                                           @Validated @RequestBody BlogArticleDetailDto blogArticleDto) {
         blogArticleDto.setTenantId(tenantId);
         BlogArticleVo detail = blogArticleService.getDetailById(blogArticleDto);
@@ -126,9 +128,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("获取文章上下页")
+    @Operation(summary = "获取文章上下页")
     @GetMapping("/{tenantId}/article/ln")
-    public R<BlogArticleLNVo> articleLn(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId,
+    public R<BlogArticleLNVo> articleLn(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId,
                                         @Valid BlogArticleCommonDto blogArticleCommonDto) {
         blogArticleCommonDto.setTenantId(tenantId);
         BlogArticleLNVo blogArticleLNVo = blogArticleService.getLnArticle(blogArticleCommonDto);
@@ -142,9 +144,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("获取文章排行榜")
+    @Operation(summary = "获取文章排行榜")
     @GetMapping("/{tenantId}/article/top")
-    public R<List<BlogArticleTopVo>> articleTop(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId,
+    public R<List<BlogArticleTopVo>> articleTop(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId,
                                                 @Valid BlogArticleDto blogArticleDto) {
         blogArticleDto.setTenantId(tenantId);
         blogArticleDto.setPublishFlag(1);
@@ -158,9 +160,9 @@ public class OpenBlogController {
      * @param tenantId
      * @return
      */
-    @ApiOperation("时间线")
+    @Operation(summary = "时间线")
     @GetMapping("/{tenantId}/timeline")
-    public R timeline(@ApiParam(name = "tenantId", value = "租户ID", required = true) @PathVariable Long tenantId) {
+    public R timeline(@Parameter(name = "tenantId", description = "租户ID", required = true) @PathVariable Long tenantId) {
         List<Map<String, Object>> list = blogTimelineService.listMapByMap(Collections.singletonMap("tenantId", tenantId), "year", "title", "description");
         return R.success(list);
     }

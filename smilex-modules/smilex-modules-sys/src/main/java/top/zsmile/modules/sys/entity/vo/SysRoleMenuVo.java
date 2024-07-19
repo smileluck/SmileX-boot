@@ -1,7 +1,7 @@
 package top.zsmile.modules.sys.entity.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import top.zsmile.modules.sys.entity.SysMenuEntity;
@@ -9,14 +9,14 @@ import top.zsmile.modules.sys.entity.SysMenuEntity;
 import java.util.List;
 
 @Data
-@ApiModel("角色权限和所有权限")
+@Schema(description = "角色权限和所有权限")
 @AllArgsConstructor
 public class SysRoleMenuVo {
 
-    @ApiModelProperty("所有权限")
+    @Schema(description = "所有权限")
     private List<SysMenuEntity> menus;
 
-    @ApiModelProperty("当前角色拥有的权限")
+    @Schema(description = "当前角色拥有的权限")
     private List<Object> roleMenus;
 
 }

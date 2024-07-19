@@ -4,66 +4,66 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 系统菜单管理
  */
 @TableName("sys_menu")
-@ApiModel(value="系统菜单管理", description = "系统菜单管理")
+@Schema(description = "系统菜单管理")
 public class SysMenuEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 父ID,最上级则为0
     */
-    @ApiModelProperty(value = "父ID,最上级则为0", hidden=false)
+    @Schema(description = "父ID,最上级则为0", hidden=false)
     private Long parentId;
     /**
     * 菜单名称
     */
-    @ApiModelProperty(value = "菜单名称", hidden=false)
+    @Schema(description = "菜单名称", hidden=false)
     private String menuName;
     /**
     * 菜单icon
     */
-    @ApiModelProperty(value = "菜单icon", hidden=false)
+    @Schema(description = "菜单icon", hidden=false)
     private String menuIcon;
     /**
     * 路由地址
     */
-    @ApiModelProperty(value = "路由地址", hidden=false)
+    @Schema(description = "路由地址", hidden=false)
     private String routeUrl;
     /**
     * 路由视图
     */
-    @ApiModelProperty(value = "路由视图", hidden=false)
+    @Schema(description = "路由视图", hidden=false)
     private String routeView;
     /**
     * 菜单类型(0:菜单组; 1:子菜单; 2:按钮权限)
     */
-    @ApiModelProperty(value = "菜单类型(0:菜单组; 1:子菜单; 2:按钮权限)", hidden=false)
+    @Schema(description = "菜单类型(0:菜单组; 1:子菜单; 2:按钮权限)", hidden=false)
     private Integer menuType;
     /**
     * 权限标识
     */
-    @ApiModelProperty(value = "权限标识", hidden=false)
+    @Schema(description = "权限标识", hidden=false)
     private String perm;
     /**
     * 排序
     */
-    @ApiModelProperty(value = "排序", hidden=false)
+    @Schema(description = "排序", hidden=false)
     private Integer orderNum;
     /**
     * 是否启用，0禁用1启用
     */
-    @ApiModelProperty(value = "是否启用，0禁用1启用", hidden=false)
+    @Schema(description = "是否启用，0禁用1启用", hidden=false)
     private Integer enableFlag;
 
     /**

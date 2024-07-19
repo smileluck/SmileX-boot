@@ -4,86 +4,86 @@ import java.io.Serializable;
 
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 系统日志
  */
 @TableName("sys_log")
-@ApiModel(value="系统日志", description = "系统日志")
+@Schema(description = "系统日志")
 public class SysLogEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
     * ID
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private Long id;
     /**
     * 日志模块，sys,blog
     */
-    @ApiModelProperty(value = "日志模块，sys,blog", hidden=false)
+    @Schema(description = "日志模块，sys,blog", hidden=false)
     private String logModule;
     /**
     * 日志标题
     */
-    @ApiModelProperty(value = "日志标题", hidden=false)
+    @Schema(description = "日志标题", hidden=false)
     private String logTitle;
     /**
     * 日志内容
     */
-    @ApiModelProperty(value = "日志内容", hidden=false)
+    @Schema(description = "日志内容", hidden=false)
     private String logValue;
     /**
     * 日志类型1:登录日志;2:操作日志;3:定时任务;4:异常日志;
     */
-    @ApiModelProperty(value = "日志类型1:登录日志;2:操作日志;3:定时任务;4:异常日志;", hidden=false)
+    @Schema(description = "日志类型1:登录日志;2:操作日志;3:定时任务;4:异常日志;", hidden=false)
     private Integer logType;
     /**
     * 用户ID
     */
-    @ApiModelProperty(value = "用户ID", hidden=false)
+    @Schema(description = "用户ID", hidden=false)
     private Long userId;
     /**
     * 操作类型
     */
-    @ApiModelProperty(value = "操作类型", hidden=false)
+    @Schema(description = "操作类型", hidden=false)
     private Integer operateType;
     /**
     * IP地址
     */
-    @ApiModelProperty(value = "IP地址", hidden=false)
+    @Schema(description = "IP地址", hidden=false)
     private String ipAddress;
     /**
     * 请求方法
     */
-    @ApiModelProperty(value = "请求方法", hidden=false)
+    @Schema(description = "请求方法", hidden=false)
     private String method;
     /**
     * 请求url路径
     */
-    @ApiModelProperty(value = "请求url路径", hidden=false)
+    @Schema(description = "请求url路径", hidden=false)
     private String requestUrl;
     /**
     * 请求类型
     */
-    @ApiModelProperty(value = "请求类型", hidden=false)
+    @Schema(description = "请求类型", hidden=false)
     private String requestType;
     /**
     * 请求参数
     */
-    @ApiModelProperty(value = "请求参数", hidden=false)
+    @Schema(description = "请求参数", hidden=false)
     private String requestParams;
     /**
     * 耗费时间
     */
-    @ApiModelProperty(value = "耗费时间", hidden=false)
+    @Schema(description = "耗费时间", hidden=false)
     private Long costTime;
     /**
     * 异常信息
     */
-    @ApiModelProperty(value = "异常信息", hidden=false)
+    @Schema(description = "异常信息", hidden=false)
     private String errMsg;
 
     /**

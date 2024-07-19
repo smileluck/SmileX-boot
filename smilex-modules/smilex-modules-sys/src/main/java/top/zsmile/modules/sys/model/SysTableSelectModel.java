@@ -1,6 +1,7 @@
 package top.zsmile.modules.sys.model;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  * 表查询模型
  */
 @Data
-@ApiModel(value = "表查询模型", description = "表查询模型")
+@Schema(description = "表查询模型")
 public class SysTableSelectModel {
     /**
      * 查询表
