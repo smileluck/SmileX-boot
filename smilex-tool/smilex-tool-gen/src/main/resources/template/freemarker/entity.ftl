@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * ${tableComment}
  */
 @TableName("${tableName}")
-@ApiModel(value="${tableComment}", description = "${tableComment}")
+@Schema(description = "${tableComment}")
 public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -19,14 +19,14 @@ public class ${bigHumpClass}Entity extends BaseEntity implements Serializable {
     /**
     * ${primaryColumn.columnComment}
     */
-    @ApiModelProperty(value = "Id，更新时需要传")
+    @Schema(description = "Id，更新时需要传")
     private ${primaryColumn.convertDataType} ${primaryColumn.humpColumnName};
 </#if>
 <#list columnModels as var>
     /**
     * ${var.columnComment}
     */
-    @ApiModelProperty(value = "${var.columnComment}", hidden=${filterColumn?seq_contains(var.humpColumnName)?string("true","false")})
+    @Schema(description = "${var.columnComment}", hidden=${filterColumn?seq_contains(var.humpColumnName)?string("true","false")})
     private ${var.convertDataType} ${var.humpColumnName};
 </#list>
 
