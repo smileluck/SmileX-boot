@@ -27,9 +27,12 @@ public class ShiroSysConfig {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
 
         /*swagger*/
+        chainDefinition.addPathDefinition("/swagger-ui.html", "anon");
         chainDefinition.addPathDefinition("/doc.html", "anon");
         chainDefinition.addPathDefinition("/webjars/**", "anon");
         chainDefinition.addPathDefinition("/v2/api-docs", "anon");
+        chainDefinition.addPathDefinition("/v3/api-docs", "anon");
+        chainDefinition.addPathDefinition("/v3/api-docs/**", "anon");
         chainDefinition.addPathDefinition("/swagger-resources", "anon");
 
         /*SysLogin*/
