@@ -1,6 +1,7 @@
 package top.zsmile.common.core.api;
 
-//import io.swagger.annotations.ApiModel;
+//import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 //import io.swagger.annotations.ApiModelProperty;
 
 
@@ -9,17 +10,17 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serializable;
 import java.util.Objects;
 
-//@ApiModel("统一返回结果")
+//@Schema("统一返回结果")
 public class R<T> implements Serializable {
     public static final long serialVersionUID = 1L;
 
-    //    @ApiModelProperty("状态码")
+    //    @SchemaProperty("状态码")
     private int code;
-    //    @ApiModelProperty("响应信息")
+    //    @SchemaProperty("响应信息")
     private String msg;
-    //    @ApiModelProperty("结果")
+    //    @SchemaProperty("结果")
     private T data;
-    //    @ApiModelProperty("是否成功")
+    //    @SchemaProperty("是否成功")
     private boolean success;
 
     private R(int code, String msg, T data) {
