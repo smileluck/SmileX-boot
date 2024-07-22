@@ -15,7 +15,8 @@ wechat:
           apiSerialNum:
           mchSerialNum:
           privateKeyPath:
-          notifyUrl: 
+          notifyUrl:
+          notifyRefundUrl: 
 ```
 
 ```yaml
@@ -30,5 +31,6 @@ ali:
         privateKey:
         alipayPublicKey:
         serveUrl:
-        notifyUrl: 
+        notifyUrl:
+        notifyRefundUrl: 
 ```
