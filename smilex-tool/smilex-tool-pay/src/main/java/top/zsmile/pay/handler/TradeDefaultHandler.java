@@ -1,9 +1,17 @@
 package top.zsmile.pay.handler;
 
+import com.wechat.pay.java.service.refund.model.RefundNotification;
+import jodd.util.CollectionUtil;
+import org.redisson.api.RLock;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.core.utils.LocalDateUtils;
+import top.zsmile.common.redis.utils.RedisLock;
+import top.zsmile.pay.constant.RefundEnums;
+import top.zsmile.pay.constant.TradeCacheConstant;
 import top.zsmile.pay.constant.TradeConstant;
 import top.zsmile.pay.domain.SysTransaction;
+import top.zsmile.pay.domain.SysTransactionRefund;
+import top.zsmile.pay.service.ISysTransactionRefundService;
 import top.zsmile.pay.service.ISysTransactionService;
 import top.zsmile.pay.service.IWechatStorageService;
 import com.wechat.pay.java.service.payments.model.Transaction;
@@ -20,8 +28,11 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 主要处理
@@ -35,7 +46,13 @@ public class TradeDefaultHandler implements InitializingBean {
     private ISysTransactionService sysTransactionService;
 
     @Resource
+    private ISysTransactionRefundService sysTransactionRefundService;
+
+    @Resource
     private IWechatStorageService wechatStorageService;
+
+    @Resource
+    private RedisLock redisLock;
 
     /**
      * 微信执行
@@ -78,6 +95,61 @@ public class TradeDefaultHandler implements InitializingBean {
                 }
             }
         }
+    }
+
+    @Transactional
+    public void wxExecRefund(RefundNotification notification) {
+        Map<String, String> outTradeNo = Collections.singletonMap("out_trade_no", notification.getOutTradeNo());
+        SysTransactionRefund sysTransactionRefund = sysTransactionRefundService.getObjByMap(outTradeNo);
+        if (sysTransactionRefund == null) {
+            throw new SXException("订单不存在");
+        }
+        SysTransaction sysTransaction = sysTransactionService.selectSysTransactionById(sysTransactionRefund.getTransactionId());
+
+
+        RLock lock = redisLock.getRLock(TradeCacheConstant.REFUND_STATUS + sysTransaction.getId());
+
+        try {
+            if (lock != null && lock.tryLock(10, 30, TimeUnit.SECONDS)) {
+                if (sysTransactionRefund.getRefundStatus().equals(RefundEnums.PROCESSING.name())) {
+
+                    sysTransactionRefund.setOutRefundNo(notification.getRefundId());
+                    sysTransactionRefund.setRefundStatus(notification.getRefundStatus().name());
+                    LocalDateTime refundTime = LocalDateUtils.parse(notification.getSuccessTime(), LocalDateUtils.FORMAT_RFC3339);
+                    sysTransactionRefund.setSuccessTime(refundTime);
+                    sysTransactionRefund.setUserReceivedAccount(notification.getUserReceivedAccount());
+                    sysTransactionRefund.setPrice(new BigDecimal(notification.getAmount().getRefund()));
+//                    sysTransactionRefundService.lambdaUpdate()
+//                            .set(SysTransactionRefund::getOutRefundNo, sysTransactionRefund.getOutRefundNo())
+//                            .set(SysTransactionRefund::getRefundStatus, sysTransactionRefund.getRefundStatus())
+//                            .set(SysTransactionRefund::getSuccessTime, sysTransactionRefund.getSuccessTime())
+//                            .set(SysTransactionRefund::getUserReceivedAccount, sysTransactionRefund.getUserReceivedAccount())
+//                            .set(SysTransactionRefund::getPrice, sysTransactionRefund.getPrice())
+//                            .eq(SysTransactionRefund::getId, sysTransactionRefund.getId()).update();
+
+                    sysTransactionRefundService.updateById(sysTransactionRefund);
+
+                    BigDecimal bigDecimal = sysTransaction.getRefundPrice().add(sysTransactionRefund.getPrice());
+                    sysTransaction.setRefundPrice(bigDecimal);
+                    if (sysTransaction.getRecePrice().compareTo(sysTransaction.getRefundPrice()) > 0) {
+                        sysTransaction.setTradeState(TradeConstant.TradeState.SECTION_REFUND);
+                    } else {
+                        sysTransaction.setTradeState(TradeConstant.TradeState.FINISH);
+                    }
+
+                    sysTransactionService.updateSysTransaction(sysTransaction);
+
+
+                }
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (lock != null) {
+                lock.unlock();
+            }
+        }
+
     }
 
 

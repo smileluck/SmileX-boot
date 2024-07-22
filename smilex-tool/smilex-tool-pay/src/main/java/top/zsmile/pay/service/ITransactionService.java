@@ -73,4 +73,22 @@ public interface ITransactionService {
      */
     MiniPrepayVO miniPrepay(String id, SysTransaction transaction);
 
+    /**
+     * 退款
+     *
+     * @param transactionId 订单Id
+     * @param refundMoney   退款金额
+     * @return 响应结果
+     */
+    void refund(long transactionId, BigDecimal refundMoney);
+
+    /**
+     * 退款
+     *
+     * @param transaction 订单
+     * @param refundMoney 退款金额
+     * @return 响应结果
+     */
+    void refund(SysTransaction transaction, BigDecimal refundMoney);
+
 }

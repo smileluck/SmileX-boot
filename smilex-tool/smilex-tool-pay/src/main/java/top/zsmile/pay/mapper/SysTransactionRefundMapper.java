@@ -1,20 +1,21 @@
 package top.zsmile.pay.mapper;
 
+import top.zsmile.common.mybatis.dao.BaseMapper;
+import top.zsmile.pay.domain.SysTransaction;
 import top.zsmile.pay.domain.SysTransactionRefund;
 
 import java.util.List;
 
 /**
  * 支付系统退款Mapper接口
- * 
+ *
  * @author B.Smile
  * @date 2024-03-29
  */
-public interface SysTransactionRefundMapper 
-{
+public interface SysTransactionRefundMapper extends BaseMapper<SysTransactionRefund> {
     /**
      * 查询支付系统退款
-     * 
+     *
      * @param id 支付系统退款主键
      * @return 支付系统退款
      */
@@ -22,7 +23,7 @@ public interface SysTransactionRefundMapper
 
     /**
      * 查询支付系统退款列表
-     * 
+     *
      * @param sysTransactionRefund 支付系统退款
      * @return 支付系统退款集合
      */
@@ -30,7 +31,7 @@ public interface SysTransactionRefundMapper
 
     /**
      * 新增支付系统退款
-     * 
+     *
      * @param sysTransactionRefund 支付系统退款
      * @return 结果
      */
@@ -38,7 +39,7 @@ public interface SysTransactionRefundMapper
 
     /**
      * 修改支付系统退款
-     * 
+     *
      * @param sysTransactionRefund 支付系统退款
      * @return 结果
      */
@@ -46,7 +47,7 @@ public interface SysTransactionRefundMapper
 
     /**
      * 删除支付系统退款
-     * 
+     *
      * @param id 支付系统退款主键
      * @return 结果
      */
@@ -54,7 +55,7 @@ public interface SysTransactionRefundMapper
 
     /**
      * 批量删除支付系统退款
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */

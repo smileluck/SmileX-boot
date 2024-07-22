@@ -10,6 +10,7 @@ import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -72,5 +73,17 @@ public class WechatStorageV3ServiceImpl implements IWechatStorageService {
     @Override
     public String getTransactionStatus(String id) {
         return redisCache.getCacheObject(TradeCacheConstant.TRADE_STATUS + id);
+    }
+
+    @Override
+    public String getByAppId(String appid) {
+        for (Map.Entry<String, WechatPayV3Properties> entry : PROPERTIES_MAP.entrySet()
+        ) {
+            WechatPayV3Properties properties = entry.getValue();
+            if (appid.equals(properties.getAppid())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

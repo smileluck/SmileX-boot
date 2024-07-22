@@ -14,4 +14,9 @@ public class TradeCacheConstant {
      * 订单状态
      */
     public static final String TRADE_STATUS = "pay:trade:status:";
+
+    /**
+     * 退款状态
+     */
+    public static final String REFUND_STATUS = "refund:trade:status:";
 }

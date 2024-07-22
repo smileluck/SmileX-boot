@@ -89,7 +89,7 @@ public interface BaseMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "selectListByMap")
-    List<T> selectListByMap(Map<String, Object> cm, @Param(Constants.COLUMNS) String... columns);
+    List<T> selectListByMap(Map<String, ? extends Object> cm, @Param(Constants.COLUMNS) String... columns);
 
     /**
      * 根据字段集合查询，可传入字段名查询需要得字段
@@ -138,7 +138,7 @@ public interface BaseMapper<T> {
      *
      * @param cm 实体对象封装操作类（可以为 null）
      */
-    default T selectOneByMap(Map<String, Object> cm, String... column) {
+    default T selectOneByMap(Map<String, ? extends Object> cm, String... column) {
         List<T> ts = this.selectListByMap(cm, column);
         if (ts != null && !ts.isEmpty()) {
             if (ts.size() != 1) {

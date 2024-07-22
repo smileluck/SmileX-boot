@@ -2,11 +2,17 @@ package top.zsmile.pay.service.impl;
 
 import com.wechat.pay.java.service.payments.jsapi.JsapiService;
 import com.wechat.pay.java.service.payments.jsapi.model.Payer;
+import com.wechat.pay.java.service.refund.RefundService;
+import com.wechat.pay.java.service.refund.model.AmountReq;
+import com.wechat.pay.java.service.refund.model.CreateRequest;
+import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 import top.zsmile.common.core.utils.LocalDateUtils;
 import top.zsmile.common.core.utils.http.HttpHelper;
 import top.zsmile.pay.bean.WxV3Resp;
 import top.zsmile.pay.bean.WxV3Storage;
 import top.zsmile.pay.domain.SysTransaction;
+import top.zsmile.pay.domain.SysTransactionRefund;
 import top.zsmile.pay.handler.HandlerFactory;
 import top.zsmile.pay.properties.WechatPayV3Properties;
 import top.zsmile.pay.service.IWechatPayService;
@@ -122,7 +128,7 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
     }
 
     @Override
-    public Transaction validAndRepeat(String id, HttpServletRequest request) {
+    public <T> T validAndRepeat(String id, HttpServletRequest request, Class<T> clazz) {
         WechatPayV3Properties wechatPayV3Properties = wechatStorageService.get(id);
         String serial = request.getHeader("Wechatpay-Serial");
         if (StringUtils.isBlank(serial)) {
@@ -163,8 +169,7 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
 // 初始化 NotificationParser
             NotificationParser parser = new NotificationParser(storage.getConfig());
             // 以支付通知回调为例，验签、解密并转换成 Transaction
-            Transaction transaction = parser.parse(requestParam, Transaction.class);
-            return transaction;
+            return parser.parse(requestParam, clazz);
         } catch (ValidationException e) {
             // 签名验证失败，返回 401 UNAUTHORIZED 状态码
             log.error("sign verification failed", e);
@@ -174,7 +179,7 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
 
     @Override
     public WxV3Resp notifyHandle(String id, HttpServletRequest request) {
-        Transaction transaction = validAndRepeat(id, request);
+        Transaction transaction = validAndRepeat(id, request, Transaction.class);
         if (transaction == null) {
             return WxV3Resp.fail("sign verification failed");
         }
@@ -185,6 +190,40 @@ public class WechatPayV3ServiceImpl implements IWechatPayService {
 
         HandlerFactory.exec(transaction);
         return WxV3Resp.success();
+    }
+
+    @Override
+    public WxV3Resp notifyRefundHandle(String id, HttpServletRequest request) {
+        RefundNotification transaction = validAndRepeat(id, request, RefundNotification.class);
+        if (transaction == null) {
+            return WxV3Resp.fail("sign verification failed");
+        }
+
+        if (!wechatStorageService.repeatNotify(transaction.getTransactionId())) {
+            return WxV3Resp.fail("repeat handle");
+        }
+
+        HandlerFactory.execRefund(transaction);
+        return WxV3Resp.success();
+    }
+
+    @Override
+    public Refund refund(String id, SysTransaction sysTransaction, SysTransactionRefund sysTransactionRefund) {
+        CreateRequest refundRequest = new CreateRequest();
+        WxV3Storage storage = wechatStorageService.getConfig(id);
+        refundRequest.setOutRefundNo(sysTransactionRefund.getRefundNo());
+        refundRequest.setOutTradeNo(sysTransaction.getOrderNo());
+
+        refundRequest.setNotifyUrl(storage.getNotifyRefundUrl());
+        AmountReq amount = new AmountReq();
+        amount.setRefund(sysTransactionRefund.getPrice().longValue());
+        amount.setTotal(sysTransaction.getRecePrice().longValue());
+
+        amount.setCurrency("CNY");
+        refundRequest.setAmount(amount);
+        RefundService refundService = new RefundService.Builder().config(storage.getConfig()).build();
+        Refund refundResponse = refundService.create(refundRequest);
+        return refundResponse;
     }
 
 

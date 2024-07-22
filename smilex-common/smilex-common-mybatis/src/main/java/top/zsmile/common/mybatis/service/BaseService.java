@@ -42,7 +42,7 @@ public interface BaseService<T> {
         return getBaseMapper().selectById(id, column);
     }
 
-    default T getObjByMap(Map<String, Object> map, String... columns) {
+    default T getObjByMap(Map<String, ? extends Object> map, String... columns) {
         return getBaseMapper().selectOneByMap(map, columns);
     }
 

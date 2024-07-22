@@ -20,6 +20,11 @@ public class WxV3Storage {
     private String notifyUrl;
 
     /**
+     * 退款通知地址
+     */
+    private String notifyRefundUrl;
+
+    /**
      * 配置
      */
     private RSAAutoCertificateConfig config;
@@ -75,5 +80,13 @@ public class WxV3Storage {
 
     public void setKeyPemPath(String keyPemPath) {
         this.keyPemPath = keyPemPath;
+    }
+
+    public String getNotifyRefundUrl() {
+        return notifyRefundUrl;
+    }
+
+    public void setNotifyRefundUrl(String notifyRefundUrl) {
+        this.notifyRefundUrl = notifyRefundUrl;
     }
 }

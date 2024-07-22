@@ -25,6 +25,10 @@ public class AliPayConfigProperties {
      * 通知URL
      */
     private String notifyUrl;
+    /**
+     * 退款通知URL
+     */
+    private String notifyRefundUrl;
 
     /**
      * 格式
@@ -109,5 +113,13 @@ public class AliPayConfigProperties {
 
     public void setSignType(String signType) {
         this.signType = signType;
+    }
+
+    public String getNotifyRefundUrl() {
+        return notifyRefundUrl;
+    }
+
+    public void setNotifyRefundUrl(String notifyRefundUrl) {
+        this.notifyRefundUrl = notifyRefundUrl;
     }
 }

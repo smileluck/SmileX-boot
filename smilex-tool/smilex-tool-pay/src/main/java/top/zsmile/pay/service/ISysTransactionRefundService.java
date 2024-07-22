@@ -1,20 +1,21 @@
 package top.zsmile.pay.service;
 
+import top.zsmile.common.mybatis.service.BaseService;
+import top.zsmile.pay.domain.SysTransaction;
 import top.zsmile.pay.domain.SysTransactionRefund;
 
 import java.util.List;
 
 /**
  * 支付系统退款Service接口
- * 
+ *
  * @author B.Smile
  * @date 2024-03-29
  */
-public interface ISysTransactionRefundService 
-{
+public interface ISysTransactionRefundService extends BaseService<SysTransactionRefund> {
     /**
      * 查询支付系统退款
-     * 
+     *
      * @param id 支付系统退款主键
      * @return 支付系统退款
      */
@@ -22,7 +23,7 @@ public interface ISysTransactionRefundService
 
     /**
      * 查询支付系统退款列表
-     * 
+     *
      * @param sysTransactionRefund 支付系统退款
      * @return 支付系统退款集合
      */
@@ -30,7 +31,7 @@ public interface ISysTransactionRefundService
 
     /**
      * 新增支付系统退款
-     * 
+     *
      * @param sysTransactionRefund 支付系统退款
      * @return 结果
      */
@@ -38,7 +39,7 @@ public interface ISysTransactionRefundService
 
     /**
      * 修改支付系统退款
-     * 
+     *
      * @param sysTransactionRefund 支付系统退款
      * @return 结果
      */
@@ -46,7 +47,7 @@ public interface ISysTransactionRefundService
 
     /**
      * 批量删除支付系统退款
-     * 
+     *
      * @param ids 需要删除的支付系统退款主键集合
      * @return 结果
      */
@@ -54,7 +55,7 @@ public interface ISysTransactionRefundService
 
     /**
      * 删除支付系统退款信息
-     * 
+     *
      * @param id 支付系统退款主键
      * @return 结果
      */

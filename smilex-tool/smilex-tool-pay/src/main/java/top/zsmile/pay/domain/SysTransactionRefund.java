@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import top.zsmile.common.mybatis.annotation.TableId;
+import top.zsmile.common.mybatis.annotation.TableName;
 import top.zsmile.common.mybatis.entity.BaseEntity;
 
 import java.math.BigDecimal;
@@ -16,12 +18,14 @@ import java.time.LocalDateTime;
  * @author B.Smile
  * @date 2024-03-29
  */
+@TableName("sys_transaction_refund")
 public class SysTransactionRefund extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
+    @TableId
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
@@ -66,6 +70,10 @@ public class SysTransactionRefund extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime successTime;
 
+    /**
+     * transaction Id
+     */
+    private Long transactionId;
 
     public void setId(Long id) {
         this.id = id;
@@ -156,5 +164,13 @@ public class SysTransactionRefund extends BaseEntity {
                 .append("successTime", getSuccessTime())
                 .append("delFlag", getDelFlag())
                 .toString();
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 }

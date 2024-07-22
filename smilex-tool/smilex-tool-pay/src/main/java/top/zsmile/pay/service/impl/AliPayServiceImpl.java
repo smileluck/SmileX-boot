@@ -4,32 +4,33 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
+import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.core.utils.LocalDateUtils;
 import top.zsmile.pay.bean.AliStorage;
 import top.zsmile.pay.bean.WxV3Resp;
 import top.zsmile.pay.constant.TradeRateConstant;
 import top.zsmile.pay.domain.SysTransaction;
+import top.zsmile.pay.domain.SysTransactionRefund;
 import top.zsmile.pay.handler.HandlerFactory;
 import top.zsmile.pay.properties.AliPayConfigProperties;
 import top.zsmile.pay.service.IAliPayService;
 import top.zsmile.pay.service.IAliStorageService;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class AliPayServiceImpl implements IAliPayService {
@@ -38,6 +39,7 @@ public class AliPayServiceImpl implements IAliPayService {
 
     @Resource
     private IAliStorageService aliStorageService;
+
 
     @Override
     public String scanPrePay(String id, SysTransaction transaction) {
@@ -215,5 +217,39 @@ public class AliPayServiceImpl implements IAliPayService {
         }
         //公钥证书验签示例代码
         //   boolean flag = AlipaySignature.rsaCertCheckV1(params,alipayPublicCertPath,"UTF-8","RSA2");
+    }
+
+    @Override
+    public AlipayTradeRefundResponse refund(String appid, SysTransaction transaction, SysTransactionRefund transactionRefund) {
+
+        AliStorage storage = aliStorageService.get(appid);
+        AliPayConfigProperties properties = storage.getProperties();
+        AlipayClient alipayClient = storage.getClient();
+        // 构造请求参数以调用接口
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        request.setNotifyUrl(properties.getNotifyRefundUrl());
+        AlipayTradeRefundModel model = new AlipayTradeRefundModel();
+        // 设置商户订单号
+        model.setTradeNo(transaction.getOutOrderNo());
+        model.setOutRequestNo(transactionRefund.getRefundNo());
+        // 设置退分账明细信息
+        // 设置退款金额
+        model.setRefundAmount(String.valueOf(transactionRefund.getPrice().divide(new BigDecimal(100))));
+
+        model.setQueryOptions(new ArrayList<>(Arrays.asList("refund_detail_item_list")));
+        // 设置退款原因说明
+//        model.setRefundReason("正常退款");
+        request.setBizModel(model);
+        AlipayTradeRefundResponse response = null;
+        try {
+            response = alipayClient.execute(request);
+            if (response.isSuccess()) {
+                return response;
+            } else {
+                throw new RuntimeException("调用失败");
+            }
+        } catch (AlipayApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

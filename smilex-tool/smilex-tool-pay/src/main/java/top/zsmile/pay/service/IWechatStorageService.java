@@ -57,4 +57,12 @@ public interface IWechatStorageService {
      * @return 订单状态
      */
     String getTransactionStatus(String id);
+
+
+    /**
+     * 根据appid查找配置id
+     *
+     * @param appid
+     */
+    String getByAppId(String appid);
 }

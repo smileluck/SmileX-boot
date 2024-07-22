@@ -1,6 +1,7 @@
 package top.zsmile.pay.handler;
 
 import com.wechat.pay.java.service.payments.model.Transaction;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,7 +30,9 @@ public class HandlerFactory {
     public static void exec(Map<String, String> transaction) {
         tradeDefaultHandler.aliExec(transaction);
     }
-
+    public static void execRefund(RefundNotification refundNotification) {
+        tradeDefaultHandler.wxExecRefund(refundNotification);
+    }
     public static AbstractHandler get(String key) {
         return HANDLE_MAP.get(key);
     }
