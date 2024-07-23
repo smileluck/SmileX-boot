@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConditionalOnProperty(name = "spring.redis.hose")
+@ConditionalOnProperty(name = "spring.redis.host")
 public class RedissonConfig {
 
     @Value("${spring.redis.host}")

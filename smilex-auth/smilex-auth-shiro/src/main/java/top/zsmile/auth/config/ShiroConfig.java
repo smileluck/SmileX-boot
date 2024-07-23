@@ -16,7 +16,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+//import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import top.zsmile.auth.filter.OAuth2Filter;
 import top.zsmile.auth.realm.OAuth2Realm;
 import top.zsmile.common.core.constant.StringConstant;
@@ -29,8 +29,8 @@ import java.util.*;
 @Configuration
 public class ShiroConfig {
 
-    @Resource
-    private LettuceConnectionFactory lettuceConnectionFactory;
+//    @Resource
+//    private LettuceConnectionFactory lettuceConnectionFactory;
 
     /**
      * 注入realm

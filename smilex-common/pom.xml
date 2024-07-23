@@ -26,6 +26,7 @@
         <module>smilex-common-datascope</module>
         <module>smilex-common-thread</module>
         <module>smilex-common-web</module>
+        <module>smilex-common-redisson</module>
     </modules>
 
     <properties>
