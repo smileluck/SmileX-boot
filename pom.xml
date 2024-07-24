@@ -31,7 +31,7 @@
         <repository>
             <id>aliyun</id>
             <name>aliyun Repository</name>
-            <url>https://maven.aliyun.com/repository/public</url>
+            <url>https://maven.aliyun.com/repository/central</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -315,6 +315,11 @@
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data-27</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
@@ -492,7 +497,7 @@
                 <!--当前环境-->
                 <profile.name>dev</profile.name>
                 <!--配置文件前缀-->
-                <prefix.name>smilex</prefix.name>
+                <prefix.name>application</prefix.name>
             </properties>
         </profile>
         <!-- 测试 -->
@@ -502,7 +507,7 @@
                 <!--当前环境-->
                 <profile.name>test</profile.name>
                 <!--配置文件前缀-->
-                <prefix.name>smilex</prefix.name>
+                <prefix.name>application</prefix.name>
             </properties>
         </profile>
         <!-- 生产 -->
@@ -512,7 +517,7 @@
                 <!--当前环境,生产环境为空-->
                 <profile.name>prod</profile.name>
                 <!--配置文件前缀-->
-                <prefix.name>smilex</prefix.name>
+                <prefix.name>application</prefix.name>
             </properties>
         </profile>
     </profiles>
