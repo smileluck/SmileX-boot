@@ -68,27 +68,27 @@ spring:
 #          url: jdbc:mysql://127.0.0.1:3306/smilex-boot2?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
 #          username: root
 #          password: root
-
-  # redis
-  redis:
-    database: 0
-    host: 127.0.0.1
-    password:
-    port: 6379
-    timeout: 5000
-    lettuce:
-      pool:
-        max-active: 50
-        min-idle: 5
-        max-idle: 8
-        max-wait: 3000ms
-        time-between-eviction-runs: 1
+#
+#  # redis
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    password:
+#    port: 6379
+#    timeout: 5000
+#    lettuce:
+#      pool:
+#        max-active: 50
+#        min-idle: 5
+#        max-idle: 8
+#        max-wait: 3000ms
+#        time-between-eviction-runs: 1
 
 
 
 logging:
   level:
-    top.zsmile: trace
+    top.zsmile: info
     tk.mybatis.simple.mapper: trace
 
 knife4j:
