@@ -1,6 +1,6 @@
 package top.zsmile.tool.wechat.mini.service.impl;
 
-import top.zsmile.common.redis.utils.RedisCache;
+import top.zsmile.common.redisson.utils.RedisCache;
 import top.zsmile.tool.wechat.mini.bean.WechatATokenRes;
 import top.zsmile.tool.wechat.mini.constant.WechatMiniRedisConstant;
 import top.zsmile.tool.wechat.mini.properties.WechatMiniProperties;

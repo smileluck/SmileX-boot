@@ -4,7 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConfig;
 import com.alipay.api.DefaultAlipayClient;
-import top.zsmile.common.redis.utils.RedisCache;
+import top.zsmile.common.redisson.utils.RedisCache;
 import top.zsmile.pay.bean.AliStorage;
 import top.zsmile.pay.constant.TradeCacheConstant;
 import top.zsmile.pay.properties.AliPayConfigProperties;
