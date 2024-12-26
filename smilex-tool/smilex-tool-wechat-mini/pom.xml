@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>top.zsmile</groupId>
-            <artifactId>smilex-common-redis</artifactId>
+            <artifactId>smilex-common-redisson</artifactId>
         </dependency>
         <dependency>
             <groupId>top.zsmile</groupId>

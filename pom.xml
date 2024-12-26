@@ -162,6 +162,11 @@
             </dependency>
             <dependency>
                 <groupId>top.zsmile</groupId>
+                <artifactId>smilex-common-redisson</artifactId>
+                <version>${smilex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.zsmile</groupId>
                 <artifactId>smilex-common-datasource</artifactId>
                 <version>${smilex.version}</version>
             </dependency>
