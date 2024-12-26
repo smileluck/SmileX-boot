@@ -7,7 +7,10 @@
 # todo-list
 
 > 从2022年7月12日开始，用来记录具体的开发事项。
-
+- [x] redis集成
+  - [x] 新增 redisson 使用 替换掉 redis 
+- [ ] webflux 替换 mvc
+- [ ] sentinel 流控
 
 - [ ] 代码生成器
 
@@ -55,9 +58,26 @@
             - 微信扫码支付
         - [x] v3版本
             - 官方有提供包
+            - [x] 退款支持
     - [x] 支付宝支付
         - 官方有提供包
-   
+        - [x] 退款支持
+
+---
+> cloud 接入
+- [ ] common
+  - [ ] 接入 nacos
+  - [ ] 接入 dubbo
+- [x] cloud system
+  - [x] 接入 nacos
+- [ ] cloud-auth
+  - [ ] 支持单点
+  - [ ] 支持oauth2
+- [ ] cloud-gateway 
+  - [ ] 支持 spring-cloud-loadbalance
+  - [ ] 接入 nacos
+  - [ ] 接入 sentinel，并将配置保存nacos。
+
 --- 
 > 桌面端应用 SmileX-Boot
 - [ ] markdown
