@@ -4,7 +4,7 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.wechat.pay.java.service.refund.model.Refund;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.core.utils.Asserts;
-import top.zsmile.common.redis.utils.RedisLock;
+import top.zsmile.common.redisson.utils.RedisLock;
 import top.zsmile.pay.constant.*;
 import top.zsmile.pay.domain.SysTransaction;
 import top.zsmile.pay.domain.SysTransactionRefund;

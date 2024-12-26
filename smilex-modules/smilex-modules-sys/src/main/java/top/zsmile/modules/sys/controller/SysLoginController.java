@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.zsmile.common.redis.utils.RedisUtils;
+import top.zsmile.common.redisson.utils.RedisUtils;
 import top.zsmile.common.core.constant.CommonConstant;
 import top.zsmile.common.web.utils.ValidatorUtils;
 import top.zsmile.common.core.api.R;
