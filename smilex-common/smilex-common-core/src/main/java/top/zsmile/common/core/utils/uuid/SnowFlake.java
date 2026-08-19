@@ -96,10 +96,4 @@ public class SnowFlake {
         return timestamp;
     }
 
-    public static void main(String[] args) {
-        SnowFlake snowFlake = new SnowFlake(1,1);
-        long l = snowFlake.nextId();
-        System.out.println(l);
-    }
-
 }

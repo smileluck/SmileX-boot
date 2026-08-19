@@ -56,14 +56,4 @@ public class FlexID {
     private int getRandomInt() {
         return ThreadLocalRandom.current().nextInt(100);
     }
-
-    public static void main(String[] args) {
-        FlexID flexID = new FlexID(1);
-        System.out.println("start:" + System.currentTimeMillis());
-        for (int i = 0; i < 100000; i++) {
-            long l = flexID.nextId();
-            System.out.println(l);
-        }
-        System.out.println("end:" + System.currentTimeMillis());
-    }
 }

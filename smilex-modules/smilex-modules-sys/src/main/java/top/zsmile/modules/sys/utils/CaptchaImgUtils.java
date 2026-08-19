@@ -146,13 +146,4 @@ public class CaptchaImgUtils {
 
         return new Color(r, g, b);
     }
-
-    public static void main(String[] args) {
-        try {
-            String s = generate("abcd");
-            System.out.println(s);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

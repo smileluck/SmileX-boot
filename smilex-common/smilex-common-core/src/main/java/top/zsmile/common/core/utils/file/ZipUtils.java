@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import top.zsmile.common.core.domain.ZipFileEntity;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -94,17 +93,5 @@ public class ZipUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        File zipFile = createZip("D:\\test\\code.zip");
-        List fileList = new ArrayList<>();
-        fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\CmdUtils.java"));
-        fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\ConvertUtils.java"));
-        fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\MD5SignUtils.java"));
-        fileList.add(new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\MD5Utils.java"));
-        fileList.add(new ZipFileEntity("test", new File("D:\\test\\code\\java\\top\\zsmile\\modules\\common\\utils\\NameStyleUtils.java")));
-        compress(zipFile, "/top/zsmile/modules", fileList);
-
     }
 }

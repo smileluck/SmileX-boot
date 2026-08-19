@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.ruoyi.common.enums.SensitizeType;
-import com.ruoyi.common.utils.SensitizeUtils;
+import top.zsmile.common.web.enums.SensitizeType;
+import top.zsmile.common.web.utils.SensitizeUtils;
 
 import java.io.IOException;
 
