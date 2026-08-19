@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan(value = {"top.zsmile.tool.**.dao"})
-public class MybatisPlusConfig {
+public class MybatisConfig {
 
 }
