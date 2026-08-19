@@ -75,6 +75,7 @@
         <lombok.version>1.18.46</lombok.version>
         <commons-codec.version>1.22.1</commons-codec.version>
         <commons-io.version>2.22.0</commons-io.version>
+        <commons-lang.version>2.6</commons-lang.version>
         <shiro.version>1.13.0</shiro.version>
         <log4j2.version>2.26.1</log4j2.version>
         <jwt.version>4.6.0</jwt.version>
@@ -339,6 +340,12 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
+            <!-- 项目自身不使用 commons-lang 2.x，但 velocity 1.5 等传递依赖会引入，统一固定版本 -->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
 
             <!-- apache commons-codec-->
             <dependency>
@@ -448,6 +455,13 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk18on</artifactId>
                 <version>1.85</version>
+            </dependency>
+
+            <!-- 固定 maven-plugin-annotations（传递依赖 maven-surefire-common 声明 3.5，升级前经版本调解为 3.10.2） -->
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-annotations</artifactId>
+                <version>3.10.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

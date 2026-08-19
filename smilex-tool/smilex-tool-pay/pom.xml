@@ -35,6 +35,13 @@
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.40.961.ALL</version>
+            <exclusions>
+                <!-- alipay 声明的 bcprov-jdk15on:1.62 与项目统一的 bcprov-jdk18on 类名重复，排除后由 jdk18on 提供 BC 实现 -->
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

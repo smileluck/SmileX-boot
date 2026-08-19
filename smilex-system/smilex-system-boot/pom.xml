@@ -17,6 +17,12 @@
             <artifactId>smilex-modules-sys</artifactId>
         </dependency>
 
+        <!-- redisson starter 3.52 起不再默认传递 actuator，此前 system-boot 依赖其传递获得监控端点，显式补回 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
     </dependencies>
 
 
