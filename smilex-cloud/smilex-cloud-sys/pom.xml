@@ -21,6 +21,18 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <exclusions>
+                <!-- 其传递的 spring-security-rsa 依赖旧版 jdk15on 系列 BouncyCastle，与项目使用的 jdk18on 类名冲突，统一改用 jdk18on -->
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
         </dependency>
 
         <dependency>

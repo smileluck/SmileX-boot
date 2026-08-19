@@ -68,31 +68,28 @@
         <smilex.version>1.0</smilex.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.6.0</spring-cloud-alibaba.version>
-        <mysql-connector-java.version>8.3.0</mysql-connector-java.version>
-        <fastjson.version>2.0.43</fastjson.version>
+        <spring-cloud-alibaba.version>2021.0.6.2</spring-cloud-alibaba.version>
+        <mysql-connector-java.version>8.4.0</mysql-connector-java.version>
+        <fastjson.version>2.0.64</fastjson.version>
         <okhttp3.version>4.12.0</okhttp3.version>
-        <lombok.version>1.18.30</lombok.version>
-        <commons-codec.version>1.15</commons-codec.version>
-        <commons-io.version>2.15.1</commons-io.version>
-        <commons-lang.version>2.6</commons-lang.version>
+        <lombok.version>1.18.46</lombok.version>
+        <commons-codec.version>1.22.1</commons-codec.version>
+        <commons-io.version>2.22.0</commons-io.version>
         <shiro.version>1.13.0</shiro.version>
-        <freemarker.version>2.3.32</freemarker.version>
-        <log4j2.version>2.23.1</log4j2.version>
-        <jwt.version>4.4.0</jwt.version>
-        <druid.version>1.2.21</druid.version>
+        <log4j2.version>2.26.1</log4j2.version>
+        <jwt.version>4.6.0</jwt.version>
+        <druid.version>1.2.28</druid.version>
         <knife4j.version>2.0.9</knife4j.version>
         <knife4j-openapi.version>4.5.0</knife4j-openapi.version>
-        <swagger.version>1.6.14</swagger.version>
-        <aliyun-oss.version>3.17.4</aliyun-oss.version>
-        <qiniu-oss.verions>[7.13.0, 7.13.99]</qiniu-oss.verions>
+        <aliyun-oss.version>3.18.5</aliyun-oss.version>
         <jsqlparser.version>4.9</jsqlparser.version>
         <mybatis-spring-boot.version>2.3.2</mybatis-spring-boot.version>
-        <netty.version>4.1.107.Final</netty.version>
+        <netty.version>4.1.137.Final</netty.version>
         <caffeine.version>2.9.3</caffeine.version>
-        <rocksdb.version>5.5.1</rocksdb.version>
-        <kryo.version>5.6.0</kryo.version>
-        <redisson.version>3.33.0</redisson.version>
+        <rocksdb.version>10.10.1</rocksdb.version>
+        <kryo.version>5.6.2</kryo.version>
+        <redisson.version>3.52.0</redisson.version>
+        <bouncycastle.version>1.85.2</bouncycastle.version>
     </properties>
 
 
@@ -342,11 +339,6 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-            </dependency>
 
             <!-- apache commons-codec-->
             <dependency>
@@ -443,6 +435,19 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>${kryo.version}</version>
+            </dependency>
+
+            <!-- BouncyCastle -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <!-- BC 仅对 bcprov 发布了 1.85.2 补丁版，bcpkix 最新为 1.85，与 bcprov 1.85.2 同系兼容 -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>1.85</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -16,11 +16,11 @@
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-common-web</artifactId>
         </dependency>
-        <!-- 用于远程代理使用 -->
+        <!-- 用于远程代理使用（com.jcraft 原版已停更，采用社区维护的兼容 fork） -->
         <dependency>
-            <groupId>com.jcraft</groupId>
+            <groupId>com.github.mwiede</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
+            <version>2.28.6</version>
         </dependency>
     </dependencies>
 </project>

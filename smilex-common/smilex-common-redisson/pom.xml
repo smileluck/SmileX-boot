@@ -28,6 +28,13 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
+            <exclusions>
+                <!-- 排除 starter 默认携带的 Spring Data（面向 Spring Boot 3.x），项目基于 Spring Boot 2.7 使用 spring-data-27 -->
+                <exclusion>
+                    <groupId>org.redisson</groupId>
+                    <artifactId>redisson-spring-data-35</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.redisson</groupId>
