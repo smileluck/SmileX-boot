@@ -35,7 +35,7 @@ CREATE TABLE `app_upgrade` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='APP版本信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='APP版本信息';
 
 -- ----------------------------
 -- Records of app_upgrade
@@ -67,7 +67,7 @@ CREATE TABLE `blog_article` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='租户博客文章';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户博客文章';
 
 -- ----------------------------
 -- Records of blog_article
@@ -92,7 +92,7 @@ CREATE TABLE `blog_article_draft` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='租户博客草稿箱';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户博客草稿箱';
 
 -- ----------------------------
 -- Records of blog_article_draft
@@ -113,7 +113,7 @@ CREATE TABLE `blog_comment` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='租户博客评论';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户博客评论';
 
 -- ----------------------------
 -- Records of blog_comment
@@ -139,7 +139,7 @@ CREATE TABLE `blog_git_article` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='租户博客-git文章同步';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户博客-git文章同步';
 
 -- ----------------------------
 -- Records of blog_git_article
@@ -165,7 +165,7 @@ CREATE TABLE `blog_section` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='租户博客栏目';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户博客栏目';
 
 -- ----------------------------
 -- Records of blog_section
@@ -186,7 +186,7 @@ CREATE TABLE `blog_tag` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='租户博客标签';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户博客标签';
 
 -- ----------------------------
 -- Records of blog_tag
@@ -208,7 +208,7 @@ CREATE TABLE `blog_timeline` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='博客时间线';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='博客时间线';
 
 -- ----------------------------
 -- Records of blog_timeline
@@ -237,7 +237,7 @@ CREATE TABLE `open_user` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='开放用户管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='开放用户管理';
 
 -- ----------------------------
 -- Records of open_user
@@ -250,7 +250,7 @@ DROP TABLE IF EXISTS `sequence`;
 CREATE TABLE `sequence` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='序列表';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='序列表';
 
 -- ----------------------------
 -- Records of sequence
@@ -313,7 +313,7 @@ CREATE TABLE `sys_config` (
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   `enable_flag` tinyint(1) DEFAULT '1' COMMENT '是否启用，0启用1禁用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统配置';
 
 -- ----------------------------
 -- Records of sys_config
@@ -334,7 +334,7 @@ CREATE TABLE `sys_dept` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统部门';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统部门';
 
 -- ----------------------------
 -- Records of sys_dept
@@ -355,7 +355,7 @@ CREATE TABLE `sys_dict` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='数据字典';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='数据字典';
 
 -- ----------------------------
 -- Records of sys_dict
@@ -392,7 +392,7 @@ CREATE TABLE `sys_dict_item` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='数据字典信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='数据字典信息';
 
 -- ----------------------------
 -- Records of sys_dict_item
@@ -451,7 +451,7 @@ CREATE TABLE `sys_file` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='文件管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='文件管理';
 
 -- ----------------------------
 -- Records of sys_file
@@ -482,7 +482,7 @@ CREATE TABLE `sys_log` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of sys_log
@@ -531,7 +531,7 @@ CREATE TABLE `sys_menu` (
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   `enable_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用，0禁用1启用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统菜单管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单管理';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -633,7 +633,7 @@ CREATE TABLE `sys_role` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='角色管理';
 
 -- ----------------------------
 -- Records of sys_role
@@ -651,7 +651,7 @@ CREATE TABLE `sys_role_menu` (
   `check_type` tinyint(2) NOT NULL COMMENT '选中状态1选中，2半选中',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `role_id` (`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统角色菜单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色菜单';
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -679,7 +679,7 @@ CREATE TABLE `sys_tenant` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='多租户管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='多租户管理';
 
 -- ----------------------------
 -- Records of sys_tenant
@@ -706,7 +706,7 @@ CREATE TABLE `sys_user` (
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统用户管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户管理';
 
 -- ----------------------------
 -- Records of sys_user
@@ -723,7 +723,7 @@ CREATE TABLE `sys_user_role` (
   `role_id` bigint(20) NOT NULL COMMENT '菜单id',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统用户关联角色';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户关联角色';
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -742,7 +742,7 @@ CREATE TABLE `temp` (
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，1是，0否',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of temp

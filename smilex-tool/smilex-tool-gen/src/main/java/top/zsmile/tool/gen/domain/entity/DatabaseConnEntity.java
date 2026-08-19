@@ -59,7 +59,7 @@ public class DatabaseConnEntity implements Serializable {
         sb.append(address + ":" + port + "/");
         sb.append(databaseName);
         if (StringUtils.isEmpty(params)) {
-            sb.append("?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai");
+            sb.append("?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true");
         } else {
             sb.append("?" + params);
         }
