@@ -2,7 +2,6 @@ package top.zsmile.modules.sys.controller;
 
 import java.util.*;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,7 +63,6 @@ public class SysMenuController {
     }
 
     @Operation(summary="保存")
-    @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "系统菜单管理", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("sys:menu:save")
     @PostMapping("/save")

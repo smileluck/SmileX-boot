@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -82,7 +81,6 @@ public class SysDictItemController {
     }
 
     @Operation(summary="保存")
-    @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "数据字典信息", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("sys:dict:item:save")
     @PostMapping("/save")

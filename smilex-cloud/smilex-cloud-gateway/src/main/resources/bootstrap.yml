@@ -39,19 +39,10 @@ spring:
           predicates:
             - Path=/sys/**    #断言，路径相匹配的进行路由
 
-# 网关文档聚合：通过 Nacos 服务发现自动聚合各子服务的 OpenAPI3 文档
-# 聚合入口：http://localhost:8809/gateway/doc.html
-knife4j:
-  gateway:
-    enabled: true
-    # discover 模式基于 DiscoveryClient 自动发现子服务，要求子服务统一 OpenAPI3 规范
-    strategy: discover
-    discover:
-      enabled: true
-      version: openapi3
-      # 排除网关自身等无文档服务
-      excluded-services:
-        - smilex-cloud-gateway
+# API 文档说明（knife4j 聚合层已移除）：
+# 各子服务的 OpenAPI 契约通过 discovery.locator 自动路由暴露，自定义 UI 直接消费以下端点即可：
+#   http://localhost:8809/gateway/{service-id}/{context-path}/v3/api-docs
+#   例：http://localhost:8809/gateway/smilex-cloud-sys/sys/v3/api-docs
 
 
 

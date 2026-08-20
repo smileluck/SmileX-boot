@@ -32,7 +32,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private CorsConfiguration corsConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
+        // Spring 5.3 (Boot 2.7) 下 addAllowedOrigin("*") 与 allowCredentials(true) 组合
+        // 会在收到带 Origin 头的请求时抛 IllegalArgumentException（浏览器同源 POST 也带 Origin），
+        // 异常触发容器错误分发并被 Shiro oauth2 链兜底成 401 invalid token。
+        // 必须用 allowedOriginPatterns 表达"任意来源 + 允许携带凭证"
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowCredentials(true);

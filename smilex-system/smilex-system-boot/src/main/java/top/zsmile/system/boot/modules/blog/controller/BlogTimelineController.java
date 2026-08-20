@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,7 +65,6 @@ public class BlogTimelineController {
     }
 
     @Operation(summary="保存")
-    @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "博客时间线", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("blog:timeline:save")
     @PostMapping("/save")

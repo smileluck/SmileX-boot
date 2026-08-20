@@ -47,7 +47,8 @@ public class JwtUtils {
     public static boolean verify(String token, Long userId, String secret) {
         try {
             // 根据密码生成JWT效验器
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            // 必须与 generatorToken 的 HMAC512 一致，原 HMAC256 会导致所有 token 验签失败
+            Algorithm algorithm = Algorithm.HMAC512(secret);
             JWTVerifier verifier = JWT.require(algorithm).withClaim(CLAIM_USERID, userId).build();
             // 效验TOKEN
             DecodedJWT jwt = verifier.verify(token);

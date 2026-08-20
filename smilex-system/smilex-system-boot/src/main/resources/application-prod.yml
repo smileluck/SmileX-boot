@@ -84,45 +84,6 @@ logging:
     top.zsmile: debug
     tk.mybatis.simple.mapper: trace
 
-knife4j:
-  # 开启增强
-  enable: true
-  # 开启生产环境保护
-  production: true
-  # 设置
-  setting:
-    language: zh_cn
-    swagger-model-name: 实体类列表
-    home-custom-path:
-  # 开启Swagger的Basic认证功能,默认是false
-  basic:
-    enable: true
-    # Basic认证用户名
-    username: knifeAdmin
-    # Basic认证密码
-    password: knifeAdmin
-  openapi:
-    title: ${spring.application.name} Docs
-    description: Api Doc
-    concat: smilex
-    version: v4.0
-    license: Apache 2.0
-    license-url: https://stackoverflow.com/
-    terms-of-service-url: https://stackoverflow.com/
-    group:
-      test1:
-        group-name: 系統接口
-        api-rule: package
-        api-rule-resources:
-          - top.zsmile.modules.sys
-      test12:
-        group-name: 扩展接口
-        api-rule: package
-        api-rule-resources:
-          - top.zsmile.system.boot.modules
-
-
-# smilex-config
 smilex:
   github:
     webhook:
@@ -159,3 +120,10 @@ smilex:
     #排除多租户逻辑
     exclude-tables:
       - sys_user
+
+# springdoc OpenAPI3：对应原 knife4j production=true 语义，非 dev 环境关闭文档端点
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

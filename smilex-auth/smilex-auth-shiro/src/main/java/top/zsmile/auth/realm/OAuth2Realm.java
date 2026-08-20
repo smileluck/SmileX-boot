@@ -64,23 +64,42 @@ public class OAuth2Realm extends AuthorizingRealm {
             throw new AuthenticationException("登录失效");
         }
         Map<String, Object> userMap = commonApi.queryUserById(userId, "username", "enableFlag", "tenantId", "password");
-        if (JwtUtils.verify(token, userId, userMap.get("password").toString())) {
-            throw new AuthenticationException("登录失效");
-        }
+        // 先判空再使用，否则用户不存在时此处直接 NPE
         if (userMap == null) {
             throw new AuthenticationException("用户不存在");
         }
-        if (!Boolean.valueOf(userMap.get("enableFlag").toString())) {
+        // 验签失败才应拒绝；原条件写反（验签成功反而抛异常），
+        // 之前因 JwtUtils.verify 算法不匹配恒返回 false 而"负负得正"侥幸可用
+        if (!JwtUtils.verify(token, userId, String.valueOf(userMap.get("password")))) {
+            throw new AuthenticationException("登录失效");
+        }
+        if (!isEnable(userMap.get("enableFlag"))) {
             throw new AuthenticationException("用户已被锁定，请联系管理员");
         }
 
         userMap.remove("password");
         userMap.remove("enableFlag");
         Map<String, Object> tenantMap = commonApi.queryTenantById(userMap.get("tenantId"), "enableFlag");
-        if (!Boolean.valueOf(tenantMap.get("enableFlag").toString())) {
+        if (tenantMap == null || !isEnable(tenantMap.get("enableFlag"))) {
             throw new AuthenticationException("租户已被锁定，请联系管理员");
         }
 
         return new SimpleAuthenticationInfo(userMap, token, getName());
+    }
+
+    /**
+     * enable_flag 为 tinyint(1)，经 MyBatis 映射可能是 Boolean(true)、
+     * 也可能是 Integer/Long(1) 或字符串("1")，统一按"启用"语义判断；
+     * 原 Boolean.valueOf("1") 恒为 false，属侥幸未被触发
+     */
+    private boolean isEnable(Object flag) {
+        if (flag == null) {
+            return false;
+        }
+        if (flag instanceof Boolean) {
+            return (Boolean) flag;
+        }
+        String s = flag.toString();
+        return "1".equals(s) || "true".equalsIgnoreCase(s);
     }
 }

@@ -3,7 +3,6 @@ package top.zsmile.modules.sys.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,7 +64,6 @@ public class SysUserController {
     }
 
     @Operation(summary="保存")
-    @ApiOperationSupport(ignoreParameters = {"id"})
     @SysLog(title = "系统用户管理", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("sys:user:save")
     @PostMapping("/save")

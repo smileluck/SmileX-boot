@@ -24,10 +24,10 @@
             <artifactId>smilex-common-web</artifactId>
         </dependency>
 
-        <!-- knife4j（Knife4j Next 社区延续版，包名/配置键与原版完全一致） -->
+        <!-- springdoc OpenAPI3（原 knife4j 增强层已移除，UI 可基于 /v3/api-docs 自行替换） -->
         <dependency>
-            <groupId>com.baizhukui</groupId>
-            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
     </dependencies>
 </project>
