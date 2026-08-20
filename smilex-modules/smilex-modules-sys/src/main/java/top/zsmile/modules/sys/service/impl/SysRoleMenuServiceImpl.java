@@ -6,6 +6,7 @@ import top.zsmile.modules.sys.entity.SysRoleMenuEntity;
 import top.zsmile.modules.sys.dao.SysRoleMenuMapper;
 import top.zsmile.modules.sys.service.SysRoleMenuService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @Service("sysRoleMenuService")
 public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuMapper, SysRoleMenuEntity> implements SysRoleMenuService {
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveRoleMenus(SysRoleMenuSaveDto sysRoleMenuSaveDto) {
         List<SysRoleMenuEntity> collect = Arrays.stream(sysRoleMenuSaveDto.getMenuIds()).distinct().map(item -> {
             SysRoleMenuEntity sysRoleMenuEntity = new SysRoleMenuEntity();

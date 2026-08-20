@@ -8,12 +8,6 @@ import java.util.List;
 
 /**
  * SqlFragment抽象类
- *
- * @Version: 1.0.0
- * @Author: Administrator
- * @Date: 2023/04/24/10:14
- * @ClassName: AbstractSqlFragment
- * @Description: AbstractSqlFragment
  */
 public abstract class AbstractSqlFragment extends ArrayList<ISqlFragment> implements ISqlFragment {
 
@@ -34,7 +28,6 @@ public abstract class AbstractSqlFragment extends ArrayList<ISqlFragment> implem
      */
     protected boolean needRefreshLastValue = false;
 
-
     @Override
     public String getSqlFragment() {
         if (cacheSqlFragment) {
@@ -45,7 +38,6 @@ public abstract class AbstractSqlFragment extends ArrayList<ISqlFragment> implem
         return sqlFragment;
     }
 
-
     /**
      * 重写 addAll 自定义添加方式
      *
@@ -54,9 +46,9 @@ public abstract class AbstractSqlFragment extends ArrayList<ISqlFragment> implem
      */
     @Override
     public boolean addAll(Collection<? extends ISqlFragment> c) {
-        List<ISqlFragment> list = new ArrayList(c);
+        List<ISqlFragment> list = new ArrayList<ISqlFragment>(c);
         boolean checkState = checkList(list);
-        if (checkState) {
+        if (checkState && !list.isEmpty()) {
             this.cacheSqlFragment = false;
             this.sqlFragment = StringPool.EMPTY;
             boolean b = super.addAll(list);
@@ -70,28 +62,25 @@ public abstract class AbstractSqlFragment extends ArrayList<ISqlFragment> implem
 
     /**
      * 获取最后一个值
-     *
-     * @return
      */
     protected ISqlFragment getLastValue() {
         return lastValue;
     }
 
-
     /**
      * 刷新最后一个值
-     *
-     * @return
      */
     protected void refreshLastValue() {
-        lastValue = get(size() - 1);
+        lastValue = isEmpty() ? null : get(size() - 1);
     }
 
     /**
-     * 删除并书信最后一个值
+     * 删除并刷新最后一个值（空列表安全）
      */
     protected void removeAndRefreshLastValue() {
-        remove(size() - 1);
+        if (!isEmpty()) {
+            remove(size() - 1);
+        }
         refreshLastValue();
     }
 

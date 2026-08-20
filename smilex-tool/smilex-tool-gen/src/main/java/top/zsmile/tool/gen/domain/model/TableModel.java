@@ -3,6 +3,7 @@ package top.zsmile.tool.gen.domain.model;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class TableModel {
@@ -39,7 +40,7 @@ public class TableModel {
      */
     private String reqMapping;
     /**
-     * 表注释
+     * 表注释（已清洗）
      */
     private String tableComment;
     /**
@@ -67,4 +68,8 @@ public class TableModel {
      * 是否包含字典
      */
     private Boolean hasDict = false;
+    /**
+     * 实体需要的额外 import 类型（LocalDate/LocalDateTime/LocalTime/BigDecimal 等）
+     */
+    private Set<String> importTypes;
 }

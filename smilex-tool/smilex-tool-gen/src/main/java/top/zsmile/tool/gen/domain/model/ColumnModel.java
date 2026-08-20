@@ -17,11 +17,11 @@ public class ColumnModel {
      */
     private String bigHumpColumnName;
     /**
-     * 字段类型
+     * 完整字段类型（如 tinyint(1) unsigned，用于类型判定）
      */
     private String columnType;
     /**
-     * 数据类型
+     * 数据类型（如 tinyint）
      */
     private String dataType;
     /**
@@ -33,7 +33,11 @@ public class ColumnModel {
      */
     private String columnComment;
     /**
-     * 字段Key类型
+     * 字段Key类型（PRI/UNI/MUL...）
      */
     private String columnKey;
+    /**
+     * 附加信息（auto_increment/on update 等）
+     */
+    private String extra;
 }

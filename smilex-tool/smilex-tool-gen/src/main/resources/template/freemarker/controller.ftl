@@ -18,9 +18,9 @@ import ${packages}.${moduleName}.service.${bigHumpClass}Service;
 import ${packages}.${moduleName}.entity.${bigHumpClass}Entity;
 
 /**
- * ${tableComment}
+ * ${tableComment!''}
  */
-@Tag(name = "${tableComment}")
+@Tag(name = "${tableComment!''}")
 @RestController
 @RequestMapping("/${reqMapping}")
 public class ${bigHumpClass}Controller {
@@ -29,25 +29,25 @@ public class ${bigHumpClass}Controller {
     private ${bigHumpClass}Service ${smallHumpClass}Service;
 
     @Operation(summary="查询列表（分页）")
-    @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
+    @SysLog(title = "${tableComment!''}", operateType = CommonConstant.SYS_LOG_OPERATE_QUERY, value = "分页查询")
     @RequiresPermissions("${smallColonName}:list")
     @GetMapping("/list")
     public R<IPage<${bigHumpClass}Entity>> list(@RequestParam Map<String, Object> params) {
-        IPage page = ${smallHumpClass}Service.getPageByMap(params);
-        return R.success("查询成功",page);
+        IPage<${bigHumpClass}Entity> page = ${smallHumpClass}Service.getPageByMap(params);
+        return R.success("查询成功", page);
     }
 
     @Operation(summary="根据Id查询信息")
     @RequiresPermissions("${smallColonName}:info")
     @GetMapping("/info/{id}")
-    public R<${bigHumpClass}Entity> info(@PathVariable("id") Long id){
+    public R<${bigHumpClass}Entity> info(@PathVariable("id") ${primaryColumn.convertDataType} id){
         ${bigHumpClass}Entity info = ${smallHumpClass}Service.getById(id);
         return R.success("查询成功",info);
     }
 
 
     @Operation(summary="根据Id更新信息")
-    @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
+    @SysLog(title = "${tableComment!''}", operateType = CommonConstant.SYS_LOG_OPERATE_UPDATE, value = "更新")
     @RequiresPermissions("${smallColonName}:update")
     @PostMapping("/update")
     public R update(@RequestBody ${bigHumpClass}Entity ${smallHumpClass}Entity){
@@ -56,17 +56,17 @@ public class ${bigHumpClass}Controller {
     }
 
     @Operation(summary="根据id列表批量删除")
-    @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
+    @SysLog(title = "${tableComment!''}", operateType = CommonConstant.SYS_LOG_OPERATE_REMOVE, value = "删除")
     @RequiresPermissions("${smallColonName}:remove")
     @PostMapping("/remove")
-    public R remove(@RequestBody Long[] ids){
+    public R remove(@RequestBody ${primaryColumn.convertDataType}[] ids){
         ${smallHumpClass}Service.removeByIds(Arrays.asList(ids));
         return R.success("删除成功");
     }
 
     @Operation(summary="保存")
     @ApiOperationSupport(ignoreParameters = {"id"})
-    @SysLog(title = "${tableComment}", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
+    @SysLog(title = "${tableComment!''}", operateType = CommonConstant.SYS_LOG_OPERATE_SAVE, value = "新增")
     @RequiresPermissions("${smallColonName}:save")
     @PostMapping("/save")
     public R save(@RequestBody ${bigHumpClass}Entity ${smallHumpClass}Entity){

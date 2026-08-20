@@ -31,4 +31,12 @@ public class GeneratorEntity implements Serializable {
      */
     @NotEmpty(message = "请选择表")
     private List<String> tableName;
+    /**
+     * 排除的列名（下划线形式，作用于全部所选表）
+     */
+    private List<String> excludeColumns;
+    /**
+     * 生成的模板类型（entity/mapper/service/serviceimpl/controller/xml/vue/vuemodel/sql），为空默认全部
+     */
+    private List<String> templateTypes;
 }

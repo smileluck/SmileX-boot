@@ -48,7 +48,7 @@ public class MergeSqlFragment implements ISqlFragment {
      * @param sqlFragments
      */
     public void add(ISqlFragment... sqlFragments) {
-        if (sqlFragments.length >= 0) {
+        if (sqlFragments.length > 0) {
             List<ISqlFragment> iSqlFragments = Arrays.asList(sqlFragments);
             ISqlFragment firstSqlFragment = iSqlFragments.get(0);
             if (MatchFragment.GROUP_BY.test(firstSqlFragment)) {
@@ -94,6 +94,13 @@ public class MergeSqlFragment implements ISqlFragment {
             return normalSqlFragment.getSqlFragment();
         }
         return StringPool.EMPTY;
+    }
+
+    /**
+     * 普通条件是否为空（供嵌套条件判断是否需要连接词前缀）
+     */
+    public boolean isNormalEmpty() {
+        return normalSqlFragment.isEmpty();
     }
 
     public String getGroupSql() {

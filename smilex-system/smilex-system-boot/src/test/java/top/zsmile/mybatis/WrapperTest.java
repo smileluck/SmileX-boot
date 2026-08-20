@@ -9,7 +9,7 @@ import top.zsmile.modules.sys.entity.SysDictEntity;
 import top.zsmile.modules.sys.service.SysDictService;
 import top.zsmile.common.mybatis.meta.conditions.query.LambdaQueryWrapper;
 import top.zsmile.common.mybatis.meta.conditions.query.QueryWrapper;
-import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;
+import top.zsmile.common.mybatis.meta.conditions.update.UpdateWrapper;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -46,6 +46,10 @@ public class WrapperTest {
         updateWrapper.set("dict_code", 1111);
         sysDictService.update(updateWrapper);
 
-        new LambdaQueryWrapper<SysDictEntity>(sysDictService).select(SysDictEntity::getId);
+        LambdaQueryWrapper<SysDictEntity> lambdaWrapper = new LambdaQueryWrapper<>();
+        lambdaWrapper.select(SysDictEntity::getId);
+        lambdaWrapper.eq(SysDictEntity::getId, 1L);
+        List<SysDictEntity> lambdaList = sysDictService.list(lambdaWrapper);
+        System.out.println(lambdaList);
     }
 }

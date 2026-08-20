@@ -34,15 +34,15 @@ public class ShiroAuthApiImpl implements CommonAuthApi, InitializingBean {
     @Override
     public Long queryUserId() {
         Map<String, Object> map = queryUserInfo();
-        Long id = Long.valueOf(map.get("id").toString());
-        return id;
+        Object id = map == null ? null : map.get("id");
+        return id == null ? null : Long.valueOf(id.toString());
     }
 
     @Override
     public Long queryTenantId() {
         Map<String, Object> map = queryUserInfo();
-        Long id = Long.valueOf(map.get("tenantId").toString());
-        return id;
+        Object tenantId = map == null ? null : map.get("tenantId");
+        return tenantId == null ? null : Long.valueOf(tenantId.toString());
     }
 
     @Override

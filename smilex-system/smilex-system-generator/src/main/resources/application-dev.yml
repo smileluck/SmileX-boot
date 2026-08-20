@@ -9,12 +9,6 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  jta:
-    atomikos:
-      properties:
-        log-base-dir: classpath:txlog
-        log-base-name: tmlog
-        enable-logging: true
   datasource:
     type: com.alibaba.druid.pool.xa.DruidXADataSource
     druid:
@@ -59,7 +53,7 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://127.0.0.1:3306/smilex-boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           username: root
-          password: root
+          password: 123456
   freemarker:
     suffix: .html
     template-loader-path: classpath:/templates/
@@ -74,16 +68,20 @@ mybatis:
     call-setters-on-nulls: true
 
 
-# Shiro
-shiro:
-  cookie:
-    # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
-    cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==
 
 
 
 # smilex-config
 smilex:
+  generator:
+    # 访问令牌（配置后 /generator/** 与 /druid/** 需携带请求头 X-Generator-Token；留空=不启用，仅建议本地开发）
+    security:
+      token: ""
+    # 雪花 ID（与主应用 smilex.server.workerId 错开，避免菜单 ID 冲突）
+    worker-id: 2
+    datacenter-id: 2
+    # 本地生成的根目录白名单（空=不限制，但始终拒绝 .. 越界）
+    save-root: ""
   server:
     workerId: 1
     dataCenterId: 1

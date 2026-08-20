@@ -23,4 +23,24 @@
         </dependency>
     </dependencies>
 
+    <!-- 独立可执行 jar（java -jar 运行，模板经 ClassTemplateLoader 加载，fat jar 内可用） -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>top.zsmile.GeneratorApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

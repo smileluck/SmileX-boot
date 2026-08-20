@@ -99,12 +99,17 @@ public class TradeDefaultHandler implements InitializingBean {
 
     @Transactional
     public void wxExecRefund(RefundNotification notification) {
-        Map<String, String> outTradeNo = Collections.singletonMap("out_trade_no", notification.getOutTradeNo());
-        SysTransactionRefund sysTransactionRefund = sysTransactionRefundService.getObjByMap(outTradeNo);
-        if (sysTransactionRefund == null) {
+        // 先按商户订单号查交易单，再按 transactionId 关联退款单
+        // （原实现用 "out_trade_no" 直接查退款单，实体无该字段，条件被白名单静默丢弃导致全表查询）
+        SysTransaction sysTransaction = sysTransactionService.selectSysTransactionByOrderNo(notification.getOutTradeNo());
+        if (sysTransaction == null) {
             throw new SXException("订单不存在");
         }
-        SysTransaction sysTransaction = sysTransactionService.selectSysTransactionById(sysTransactionRefund.getTransactionId());
+        SysTransactionRefund sysTransactionRefund = sysTransactionRefundService.getObjByMap(
+                Collections.singletonMap("transactionId", sysTransaction.getId()));
+        if (sysTransactionRefund == null) {
+            throw new SXException("退款单不存在");
+        }
 
 
         RLock lock = redisLock.getRLock(TradeCacheConstant.REFUND_STATUS + sysTransaction.getId());

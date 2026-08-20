@@ -69,7 +69,7 @@ public class ReflectUtils {
             field.setAccessible(true);
             return field.get(obj);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.warn("字段读取失败: {}.{}, {}", obj.getClass().getSimpleName(), field.getName(), e.getMessage());
             return null;
         }
     }

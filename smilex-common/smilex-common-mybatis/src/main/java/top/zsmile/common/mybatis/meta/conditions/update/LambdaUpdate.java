@@ -1,4 +1,4 @@
-package top.zsmile.common.mybatis.meta.conditions.udpate;
+package top.zsmile.common.mybatis.meta.conditions.update;
 
 /**
  * @param <T> 当前对象

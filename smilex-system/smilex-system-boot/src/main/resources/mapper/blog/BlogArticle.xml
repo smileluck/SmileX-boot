@@ -19,7 +19,6 @@
         <where>
             blog_article.del_flag = 0
             <if test="dto.tenantId!=null">
-                and blog_article.tenant_id = #{dto.tenantId}
             </if>
             <if test="dto.sectionId!=null">
                 and blog_article.section_id = #{dto.sectionId}
@@ -45,7 +44,6 @@
         <where>
             blog_article.del_flag = 0
             <if test="dto.tenantId!=null">
-                and blog_article.tenant_id = #{dto.tenantId}
             </if>
             <if test="dto.sectionId!=null">
                 and blog_article.section_id = #{dto.sectionId}
@@ -80,7 +78,6 @@
             blog_article.del_flag = 0
             and blog_article.publish_flag = 1
             <if test="dto.tenantId!=null">
-                and blog_article.tenant_id = #{dto.tenantId}
             </if>
             <if test="dto.articleId!=null">
                 and blog_article.id = #{dto.articleId}
@@ -96,7 +93,6 @@
             blog_article.del_flag = 0
             and blog_article.publish_flag = 1
             <if test="dto.tenantId!=null">
-                and blog_article.tenant_id = #{dto.tenantId}
             </if>
             <if test="dto.sectionId!=null">
                 and blog_article.section_id = #{dto.sectionId}
@@ -119,7 +115,6 @@
             blog_article.del_flag = 0
             and blog_article.publish_flag = 1
             <if test="dto.tenantId!=null">
-                and blog_article.tenant_id = #{dto.tenantId}
             </if>
             <if test="dto.sectionId!=null">
                 and blog_article.section_id = #{dto.sectionId}
@@ -144,7 +139,6 @@
             blog_article.del_flag = 0
             and blog_article.top_flag = 1
             <if test="dto.tenantId!=null">
-                and blog_article.tenant_id = #{dto.tenantId}
             </if>
             <if test="dto.sectionId!=null">
                 and blog_article.section_id = #{dto.sectionId}

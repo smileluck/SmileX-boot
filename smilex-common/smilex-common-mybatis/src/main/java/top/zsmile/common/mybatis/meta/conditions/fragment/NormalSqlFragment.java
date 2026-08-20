@@ -8,15 +8,11 @@ import java.util.stream.Collectors;
 
 /**
  * 通用的单表条件
- *
- * @Version: 1.0.0
- * @Author: Administrator
- * @Date: 2023/04/24/9:42
- * @ClassName: NormalSqlFragment
- * @Description: NormalSqlFragment
+ * <p>
+ * 条件单元模型：每个单元以 trailing AND/OR 连接词结尾，最终拼接时移除末尾连接词；
+ * 嵌套条件（and(Consumer)/or(Consumer)）以单个自带连接词前缀的片段加入。
  */
 public class NormalSqlFragment extends AbstractSqlFragment {
-
 
     NormalSqlFragment() {
         this.needRefreshLastValue = true;
@@ -29,23 +25,29 @@ public class NormalSqlFragment extends AbstractSqlFragment {
     @Override
     public boolean checkList(List<ISqlFragment> list) {
         if (list.size() == 1) {
-            // 目前只有 and 和 or 会进入这里
+            // 单片段：目前只有 and/or 连接词与嵌套片段会进入这里
             ISqlFragment firstSqlFragment = list.get(0);
             boolean andTest = MatchFragment.AND.test(getLastValue());
             boolean orTest = MatchFragment.OR.test(getLastValue());
             if (andTest || orTest) {
-                if (andTest && MatchFragment.AND.test(firstSqlFragment)) {
-                    return false;
-                } else if (orTest && MatchFragment.OR.test(firstSqlFragment)) {
-                    return false;
-                } else {
+                if (MatchFragment.AND_OR.test(firstSqlFragment)) {
+                    // 连接词替换：and().or() -> or
+                    if ((andTest && MatchFragment.AND.test(firstSqlFragment))
+                            || (orTest && MatchFragment.OR.test(firstSqlFragment))) {
+                        return false;
+                    }
+                    removeAndRefreshLastValue();
+                }
+                // 非连接词片段（嵌套片段自带 " AND (" 前缀）：保留尾部连接词语义由片段自身承担，
+                // 移除原尾部连接词避免重复
+                if (!MatchFragment.AND_OR.test(firstSqlFragment)) {
                     removeAndRefreshLastValue();
                 }
             }
         } else {
-            // 如果 不为空，同时最后一个不是 and 或者 or,则默认添加 and
-            if (!MatchFragment.AND_OR.test(getLastValue())) {
-                list.add(SqlKeyword.AND);
+            // 条件单元：已有条件且末尾不是连接词时，为当前单元前置 AND
+            if (!isEmpty() && !MatchFragment.AND_OR.test(getLastValue())) {
+                list.add(0, SqlKeyword.AND);
             }
         }
         return true;
@@ -59,6 +61,7 @@ public class NormalSqlFragment extends AbstractSqlFragment {
         if (isEmpty()) {
             return StringPool.EMPTY;
         }
-        return stream().map(ISqlFragment::getSqlFragment).collect(Collectors.joining(StringPool.SPACE, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
+        return stream().map(ISqlFragment::getSqlFragment)
+                .collect(Collectors.joining(StringPool.SPACE, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
     }
 }

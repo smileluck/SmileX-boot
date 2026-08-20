@@ -16,7 +16,5 @@
         <!-- 使用驼峰命名法转换字段 -->
         <setting name="mapUnderscoreToCamelCase" value="true"   />
     </settings>
-    <plugins>
-        <plugin interceptor="top.zsmile.common.mybatis.interceptor.UpdateInterceptor"></plugin>
-    </plugins>
+    <!-- 拦截器链（租户/分页/审计/解密）由 MybatisPluginConfiguration 统一注册 -->
 </configuration>

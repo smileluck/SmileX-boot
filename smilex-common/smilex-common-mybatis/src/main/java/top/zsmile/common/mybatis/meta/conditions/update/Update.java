@@ -1,4 +1,4 @@
-package top.zsmile.common.mybatis.meta.conditions.udpate;
+package top.zsmile.common.mybatis.meta.conditions.update;
 
 import java.io.Serializable;
 

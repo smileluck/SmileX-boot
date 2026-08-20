@@ -9,7 +9,7 @@ import top.zsmile.common.core.api.R;
 import top.zsmile.tool.gen.domain.entity.DatabaseConnEntity;
 import top.zsmile.tool.gen.domain.entity.GeneratorEntity;
 import top.zsmile.tool.gen.domain.model.ColumnModel;
-import top.zsmile.tool.gen.service.GeneratorSerivce;
+import top.zsmile.tool.gen.service.GeneratorService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
@@ -17,14 +17,18 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 代码生成器接口
+ * <p>
+ * 可通过 smilex.generator.security.token 配置访问令牌（见 GeneratorSecurityFilter）。
+ */
 @Validated
 @RestController
 @RequestMapping("/generator")
 public class GeneratorController {
 
     @Autowired
-    private GeneratorSerivce generatorService;
-
+    private GeneratorService generatorService;
 
     @GetMapping("/list")
     public R list(String tableName) {
@@ -37,9 +41,8 @@ public class GeneratorController {
         Map<String, String> maps = generatorService.queryTable(tableName);
         if (maps == null) {
             return R.fail("查询不到该表结构");
-        } else {
-            return R.success(maps);
         }
+        return R.success(maps);
     }
 
     @GetMapping("/columns")
@@ -54,8 +57,19 @@ public class GeneratorController {
         return R.success("连接成功");
     }
 
+    /**
+     * 预览生成代码（不落盘）
+     *
+     * @param templateType 模板类型：entity/mapper/service/serviceimpl/controller/xml/vue/vuemodel/sql
+     */
+    @PostMapping("/preview")
+    public R preview(@Validated @RequestBody GeneratorEntity generatorEntity, @NotBlank String templateType) {
+        String code = generatorService.previewCode(generatorEntity, templateType);
+        return R.success("预览成功", code);
+    }
+
     @PostMapping("/genFileByLocal")
-    public R genFileByLocal(@Validated(Add.class) @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
+    public R genFileByLocal(@Validated(Add.class) @RequestBody GeneratorEntity generatorEntity) {
         generatorService.genLocalCode(generatorEntity);
         return R.success();
     }
@@ -63,17 +77,12 @@ public class GeneratorController {
     @PostMapping("/genFileByZip")
     public void genFileByZip(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
         File file = generatorService.genZipCode(generatorEntity);
-        HttpFileUtils.downloadFile(file, response);
-        file.delete();
-    }
-
-    @PostMapping("/genSingleFile")
-    public R genSingleFile(@Validated @RequestBody GeneratorEntity generatorEntity, HttpServletResponse response) {
-
-//        response.setContentType("application/octet-stream");
-//        response.setCharacterEncoding("utf-8");
-//        response.setContentLength((int) file.length());
-//        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-        return R.success();
+        try {
+            HttpFileUtils.downloadFile(file, response);
+        } finally {
+            if (!file.delete()) {
+                file.deleteOnExit();
+            }
+        }
     }
 }

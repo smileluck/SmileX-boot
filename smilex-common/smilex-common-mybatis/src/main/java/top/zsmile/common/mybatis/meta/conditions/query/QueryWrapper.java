@@ -2,17 +2,10 @@ package top.zsmile.common.mybatis.meta.conditions.query;
 
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.meta.conditions.AbstractQueryWrapper;
-import top.zsmile.common.mybatis.meta.conditions.AbstractWrapper;
-import top.zsmile.common.mybatis.meta.conditions.SharedString;
+import top.zsmile.common.mybatis.utils.TableQueryUtils;
 
 /**
- * 查询实体封装
- *
- * @Version: 1.0.0
- * @Author: Administrator
- * @Date: 2023/04/24/14:50
- * @ClassName: QueryWrapper
- * @Description: QueryWrapper
+ * 查询实体封装（字符串列名）
  */
 public class QueryWrapper<E> extends AbstractQueryWrapper<E, String, QueryWrapper<E>>
         implements Query<QueryWrapper<E>, E, String> {
@@ -33,7 +26,15 @@ public class QueryWrapper<E> extends AbstractQueryWrapper<E, String, QueryWrappe
 
     @Override
     public QueryWrapper<E> select(String... columns) {
+        for (String column : columns) {
+            TableQueryUtils.checkSqlName(column);
+        }
         sqlSelect.setValue(String.join(StringPool.COMMA, columns));
         return _this;
+    }
+
+    @Override
+    protected QueryWrapper<E> newChildren() {
+        return new QueryWrapper<E>();
     }
 }

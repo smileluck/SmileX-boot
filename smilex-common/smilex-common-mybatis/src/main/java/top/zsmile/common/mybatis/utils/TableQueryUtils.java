@@ -2,6 +2,7 @@ package top.zsmile.common.mybatis.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
+import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.annotation.*;
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.dao.BaseMapper;
@@ -30,6 +31,30 @@ public class TableQueryUtils {
     private static Map<String, String> columnSelectMap = new ConcurrentHashMap<>();
 
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
+
+    /**
+     * 合法列名/排序字段字符白名单（字母数字下划线点号），拦截列名拼接注入
+     */
+    private static final Pattern SQL_NAME_PATTERN = Pattern.compile("^[A-Za-z_][A-Za-z0-9_.]*$");
+
+    /**
+     * map 条件中框架自用的保留键，不参与实体字段校验
+     */
+    private static final Set<String> RESERVED_MAP_KEYS = new HashSet<>(Arrays.asList(
+            Constants.PAGE, Constants.SIZE, "current", "offset", "orderColumn", "asc"));
+
+    /**
+     * 校验列名合法性，防止通过列名拼接注入 SQL
+     *
+     * @param name 列名（驼峰或下划线均可）
+     * @return 校验通过的列名
+     */
+    public static String checkSqlName(String name) {
+        if (name == null || !SQL_NAME_PATTERN.matcher(name).matches()) {
+            throw new SXException("非法的列名参数: [" + name + "]");
+        }
+        return name;
+    }
 
 
     /**
@@ -68,7 +93,7 @@ public class TableQueryUtils {
      */
     public static Field[] queryExistColumn(Class<?> clazz) {
         List<Field> beforeFilterFields = ReflectUtils.queryThisAndSuperClassColumn(clazz);
-        Field[] fields = beforeFilterFields.stream().parallel().filter(field -> {
+        Field[] fields = beforeFilterFields.stream().filter(field -> {
             TableField tableField = field.getAnnotation(TableField.class);
             if ((tableField != null && !tableField.exist()) || Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                 return false;
@@ -276,6 +301,17 @@ public class TableQueryUtils {
     }
 
     /**
+     * 设置字段（带参数前缀）, example_column = #{prefix.exampleColumn}
+     *
+     * @param fieldName
+     * @param prefix    参数前缀，如 "et."
+     * @return
+     */
+    public static String getAssignParameter(String fieldName, String prefix) {
+        return (humpToLineName(fieldName) + StringPool.EQUALS + getInjectParameter(fieldName, prefix)).intern();
+    }
+
+    /**
      * 使用<Script></Script>包裹，使其中的特殊标签起作用
      *
      * @param sql
@@ -289,6 +325,10 @@ public class TableQueryUtils {
 
     /**
      * 使用map转换查询条件
+     * <p>
+     * 空值键跳过（无过滤语义）；框架保留键跳过；
+     * 其余未命中实体字段白名单的键直接抛异常（fail-fast），
+     * 避免拼错字段名导致条件静默丢失、查出全表数据。
      */
     public static String getMapCondition(TableInfo tableInfo, Map<String, Object> map) {
         if (map == null) {
@@ -297,14 +337,20 @@ public class TableQueryUtils {
         Set<String> keySet = map.keySet();
         StringBuilder sb = new StringBuilder();
         for (String key : keySet) {
-            if (StringUtils.isEmpty(map.get(key)) || !tableInfo.hasWhereColumn(key)) {
+            if (StringUtils.isEmpty(map.get(key))) {
                 continue;
+            }
+            if (RESERVED_MAP_KEYS.contains(key)) {
+                continue;
+            }
+            if (!tableInfo.hasWhereColumn(key)) {
+                throw new SXException("查询字段[" + key + "]不存在于实体[" + tableInfo.getTableName()
+                        + "]，请检查查询参数或改用正确的实体字段名");
             }
             if (sb.length() != 0) {
                 sb.append(StringPool.AND_SPACE);
             }
-//            sb.append(tableInfo.getTableName() + POINT);
-            sb.append(humpToLineName(key) + StringPool.EQUALS + getInjectParameter(Constants.COLUMNS_MAP + StringPool.DOT + key));
+            sb.append(checkSqlName(humpToLineName(key)) + StringPool.EQUALS + getInjectParameter(Constants.COLUMNS_MAP + StringPool.DOT + key));
         }
         return sb.toString();
     }

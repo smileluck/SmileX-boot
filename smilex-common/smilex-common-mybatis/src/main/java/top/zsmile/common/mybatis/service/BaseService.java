@@ -6,8 +6,8 @@ import top.zsmile.common.mybatis.dao.BaseMapper;
 import top.zsmile.common.mybatis.meta.IPage;
 import top.zsmile.common.mybatis.meta.conditions.query.LambdaQueryWrapper;
 import top.zsmile.common.mybatis.meta.conditions.query.QueryWrapper;
-import top.zsmile.common.mybatis.meta.conditions.udpate.LambdaUpdateWrapper;
-import top.zsmile.common.mybatis.meta.conditions.udpate.UpdateWrapper;
+import top.zsmile.common.mybatis.meta.conditions.update.LambdaUpdateWrapper;
+import top.zsmile.common.mybatis.meta.conditions.update.UpdateWrapper;
 import top.zsmile.common.mybatis.utils.Constants;
 import top.zsmile.common.mybatis.utils.PageQuery;
 import top.zsmile.common.mybatis.utils.SqlHelper;
@@ -86,14 +86,14 @@ public interface BaseService<T> {
         return getBaseMapper().selectList(queryWrapper);
     }
 
-//    /**
-//     * 查询字段信息
-//     *
-//     * @param queryWrapper 查询条件
-//     */
-//    default List<T> list(LambdaQueryWrapper<T> queryWrapper) {
-//        return getBaseMapper().selectList(queryWrapper);
-//    }
+    /**
+     * 查询字段信息（Lambda 条件）
+     *
+     * @param queryWrapper 查询条件
+     */
+    default List<T> list(LambdaQueryWrapper<T> queryWrapper) {
+        return getBaseMapper().selectListByLambda(queryWrapper);
+    }
 
 
     /**
@@ -171,15 +171,15 @@ public interface BaseService<T> {
         return getBaseMapper().update(wrapper);
     }
 
-//    /**
-//     * 根据wrapper 更新
-//     *
-//     * @param wrapper
-//     * @return
-//     */
-//    default int update(LambdaUpdateWrapper<T> wrapper) {
-//        return getBaseMapper().update(wrapper);
-//    }
+    /**
+     * 根据wrapper 更新（Lambda 条件）
+     *
+     * @param wrapper
+     * @return
+     */
+    default int update(LambdaUpdateWrapper<T> wrapper) {
+        return getBaseMapper().updateByLambda(wrapper);
+    }
 
     /**
      * 插入数据，自动生成id
@@ -284,7 +284,8 @@ public interface BaseService<T> {
 
 
     /**
-     * TODO 临时用来代替拦截器实现的分页功能，后续优化
+     * 分页查询（map 条件）：count 与 LIMIT 由分页拦截器自动处理，
+     * page/size 参数在 PageQuery 解析后即从 columnMap 移除，其余键须命中实体字段白名单
      */
     default IPage<T> getPageByMap(Map<String, Object> columnMap, String... columns) {
         return getPageByMap(columnMap, false, columns);
@@ -292,7 +293,7 @@ public interface BaseService<T> {
 
 
     /**
-     * TODO 临时用来代替拦截器实现的分页功能，后续优化
+     * 分页查询（map 条件），isAll=true 时查全部（跳过 LIMIT，仍统计总数）
      */
     default IPage<T> getPageByMap(Map<String, Object> columnMap, boolean isAll, String... columns) {
         IPage<T> page = new PageQuery<T>().getPage(columnMap);
@@ -300,9 +301,23 @@ public interface BaseService<T> {
             page.setSize(Constants.PAGE_ALL_OFFSET);
         }
         List<T> list = getBaseMapper().selectListPageByMap(page, columnMap, columns);
-        Long count = getBaseMapper().selectCountByMap(columnMap);
         page.setRecords(list);
-        page.setTotal(count);
+        return page;
+    }
+
+    /**
+     * 分页查询（Wrapper 条件），count 与 LIMIT 由分页拦截器处理
+     */
+    default IPage<T> page(IPage<T> page, QueryWrapper<T> queryWrapper) {
+        page.setRecords(getBaseMapper().selectPage(page, queryWrapper));
+        return page;
+    }
+
+    /**
+     * 分页查询（Lambda 条件），count 与 LIMIT 由分页拦截器处理
+     */
+    default IPage<T> page(IPage<T> page, LambdaQueryWrapper<T> queryWrapper) {
+        page.setRecords(getBaseMapper().selectPageByLambda(page, queryWrapper));
         return page;
     }
 

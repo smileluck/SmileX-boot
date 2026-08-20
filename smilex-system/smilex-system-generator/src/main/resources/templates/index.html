@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,190 +8,216 @@
     <#assign rootPath=springMacroRequestContext.contextPath />
     <link rel="stylesheet" href="${rootPath}/static/css/reset.css"/>
     <link rel="stylesheet" href="https://unpkg.com/element-plus@2.1.4/dist/index.css">
-    <link rel="stylesheet" href="${rootPath}/static/css/index.css"/>
+    <style>
+        body { background: #f5f7fa; font-family: "Helvetica Neue", Helvetica, "PingFang SC", Arial, sans-serif; }
+        .page { max-width: 1280px; margin: 0 auto; padding: 16px; }
+        .card { background: #fff; border-radius: 6px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,21,41,.08); }
+        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #303133; }
+        .toolbar { margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .preview-code { background: #272822; color: #f8f8f2; padding: 12px; border-radius: 4px; max-height: 480px; overflow: auto; font-family: Menlo, Consolas, monospace; font-size: 12px; white-space: pre; }
+        .hint { color: #909399; font-size: 12px; }
+    </style>
 </head>
 <body>
 <div id="app">
-    <section class="layout">
-        <aside :class='layout-aside'>
-            <div class="base-aside">
-                <div class="base-aside-logo">SmileX-Admin</div>
-                <div class="base-aside-menu">
-                    <el-menu
-                            :default-active="activeNum"
-                            class="menu"
-                            unique-opened
-                    >
-                        <!--                        <el-menu-item index="/home">-->
-                        <!--                            <span>首页</span>-->
-                        <!--                        </el-menu-item>-->
-                        <el-menu-item index="/codeGen">
-                            <span>代码生成器</span>
-                        </el-menu-item>
-                    </el-menu>
-                </div>
+    <div class="page">
+        <!-- 访问令牌 -->
+        <div class="card">
+            <div class="card-title">访问配置</div>
+            <div class="toolbar">
+                <span class="hint">如服务端配置了 smilex.generator.security.token，请在此填写：</span>
+                <el-input v-model.trim="token" placeholder="X-Generator-Token" style="width: 260px" size="small" @change="saveToken"></el-input>
             </div>
-        </aside>
-        <section class="layout layout_vertical">
-            <header class="layout-header">
+        </div>
 
-            </header>
-            <main class="layout-main">
-                <!-- <scroll-bar-nav></scroll-bar-nav> -->
-                <el-card class="box-card">
-                    <div class="table-card">
-                        <div class="table-search">
-                            <el-form :inline="true" :model="searchFormModel" ref="searchForm">
-                                <el-row :gutter="10">
-                                    <el-col :span="4">
-                                        <el-form-item label="表名：">
-                                            <el-input
-                                                    v-model.trim="searchFormModel.tableName"
-                                                    placeholder="请输入表名"
-                                            />
-                                        </el-form-item
-                                        >
-                                    </el-col>
-                                    <el-col :span="4">
-                                        <el-button type="primary" @click="list()">
-                                            <el-icon class="el-icon">
-                                                <search/>
-                                            </el-icon>
-                                            <span>搜索</span></el-button
-                                        >
-                                        <el-button type="primary" @click="resetSearch()">
-                                            <el-icon class="el-icon">
-                                                <refresh-right/>
-                                            </el-icon>
-                                            <span>重置</span></el-button
-                                        >
-                                    </el-col>
-                                </el-row>
-                            </el-form>
-                        </div>
-                        <div class="table-operate">
-                            <el-row>
-                                <el-col :span="2">
-                                    <el-button type="primary" @click="configHandle()"
-                                    >配置数据源
-                                    </el-button
-                                    >
-                                </el-col>
-                                <el-col :span="2">
-                                    <el-button type="primary" @click="genHandle()">生成数据表</el-button>
-                                </el-col>
-                            </el-row>
-                        </div>
-                        <div class="table-selection" v-show="selectColumn.length > 0">
-                          <span class="selection-span"
-                          >已选择 <a>{{ selectColumn.length }}</a> 项
-                          </span>
-                            <span class="selection-operate">
-                            <a @click="handleSelectionClear()">清空</a>
-                          </span>
-                        </div>
-                        <el-table
-                                ref="table"
-                                v-loading="loading"
-                                element-loading-text="Loading..."
-                                :data="tableData"
-                                style="width: 100%"
-                                @selection-change="handleSelectionChange"
-                        >
-                            <el-table-column type="selection" width="50"></el-table-column>
-                            <el-table-column prop="tableName" label="表名" width="200"></el-table-column>
-                            <el-table-column prop="engine" label="引擎" width="200"></el-table-column>
-                            <el-table-column prop="tableComment" label="表注释"></el-table-column>
-                            <el-table-column prop="createTime" label="创建时间" width="200"></el-table-column>
-                        </el-table>
+        <!-- 数据源 -->
+        <div class="card">
+            <div class="card-title">数据源（默认使用服务端配置，可切换）</div>
+            <el-form :inline="true" size="small">
+                <el-form-item label="类型："><el-input v-model.trim="db.type" style="width: 90px" disabled></el-input></el-form-item>
+                <el-form-item label="地址："><el-input v-model.trim="db.address" style="width: 160px" placeholder="127.0.0.1"></el-input></el-form-item>
+                <el-form-item label="端口："><el-input v-model.trim.number="db.port" style="width: 90px" placeholder="3306"></el-input></el-form-item>
+                <el-form-item label="库名："><el-input v-model.trim="db.databaseName" style="width: 140px"></el-input></el-form-item>
+                <el-form-item label="用户："><el-input v-model.trim="db.username" style="width: 120px"></el-input></el-form-item>
+                <el-form-item label="密码："><el-input v-model.trim="db.password" type="password" show-password style="width: 120px"></el-input></el-form-item>
+                <el-form-item label="参数："><el-input v-model.trim="db.params" style="width: 320px" placeholder="useUnicode=true&serverTimezone=Asia/Shanghai"></el-input></el-form-item>
+                <el-form-item><el-button type="primary" @click="connect" :loading="dbLoading">连接</el-button></el-form-item>
+            </el-form>
+        </div>
 
-                        <!-- <column-model></column-model> -->
-                        <!--                        <db-config-model ref="configModel" @refresh="list"></db-config-model>-->
+        <!-- 表列表 -->
+        <div class="card">
+            <div class="card-title">数据表</div>
+            <div class="toolbar">
+                <el-input v-model.trim="searchTableName" placeholder="按表名搜索" style="width: 220px" size="small" clearable @keyup.enter="loadTables"></el-input>
+                <el-button type="primary" size="small" @click="loadTables" :loading="tableLoading">搜索</el-button>
+                <span class="hint">选中表后可在下方配置生成项</span>
+            </div>
+            <el-table :data="tables" v-loading="tableLoading" size="small" border @selection-change="onTableSelect" height="320">
+                <el-table-column type="selection" width="46"></el-table-column>
+                <el-table-column prop="tableName" label="表名" width="240"></el-table-column>
+                <el-table-column prop="engine" label="引擎" width="90"></el-table-column>
+                <el-table-column prop="tableComment" label="表注释"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" width="170"></el-table-column>
+            </el-table>
+        </div>
 
-                        <!--                        <code-gen-model ref="genModel" @refresh="list"></code-gen-model>-->
-                    </div>
-                </el-card>
-            </main>
-        </section>
-    </section>
+        <!-- 生成配置 -->
+        <div class="card" v-if="selectedTables.length > 0">
+            <div class="card-title">生成配置（{{ selectedTables.length }} 张表）</div>
+            <el-form :inline="true" size="small" label-width="80px">
+                <el-form-item label="包路径："><el-input v-model.trim="gen.packagePath" style="width: 240px"></el-input></el-form-item>
+                <el-form-item label="模块名："><el-input v-model.trim="gen.moduleName" style="width: 120px"></el-input></el-form-item>
+                <el-form-item label="生成物：">
+                    <el-select v-model="gen.templateTypes" multiple collapse-tags style="width: 360px" placeholder="默认全部">
+                        <el-option v-for="t in templateTypeOptions" :key="t" :label="t" :value="t"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="保存路径："><el-input v-model.trim="gen.savePath" style="width: 260px" placeholder="/tmp/gen-output（本地生成时必填）"></el-input></el-form-item>
+            </el-form>
+
+            <!-- 字段排除（取第一张选中表展示，排除项作用于全部所选表） -->
+            <div style="margin: 4px 0 12px">
+                <span class="hint">排除字段（勾选的列不生成，主键/审计/逻辑删除列自动处理）：</span>
+                <el-checkbox-group v-model="gen.excludeColumns" size="small">
+                    <el-checkbox v-for="col in currentColumns" :key="col.columnName" :label="col.columnName" border style="margin: 4px">
+                        {{ col.columnName }}<span class="hint">（{{ col.columnComment || col.dataType }}）</span>
+                    </el-checkbox>
+                </el-checkbox-group>
+            </div>
+
+            <div class="toolbar">
+                <el-select v-model="previewType" size="small" style="width: 160px" placeholder="预览模板">
+                    <el-option v-for="t in templateTypeOptions" :key="t" :label="t" :value="t"></el-option>
+                </el-select>
+                <el-button size="small" @click="preview" :loading="previewLoading">预览</el-button>
+                <el-button type="primary" size="small" @click="genZip" :loading="zipLoading">下载 ZIP</el-button>
+                <el-button type="success" size="small" @click="genLocal" :loading="localLoading">生成到本地目录</el-button>
+            </div>
+        </div>
+
+        <!-- 预览结果 -->
+        <div class="card" v-if="previewCode">
+            <div class="card-title">预览：{{ previewType }}（{{ selectedTables[0] || '' }}）</div>
+            <div class="preview-code">{{ previewCode }}</div>
+        </div>
+    </div>
 </div>
-<!-- built files will be auto injected -->
-</body>
-<!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
-<!-- Import Vue 3 -->
-<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
-<!-- Import component library -->
+
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
 <script src="https://unpkg.com/element-plus@2.1.4/dist/index.full.js"></script>
 <script>
-    const App = {
-        data() {
-          return {
-            activeNum: "/codeGen",
+    const { createApp, reactive, ref } = Vue;
 
-            // tableData
-            loading:false,
-            tableData:[{
-                tableName:"222",
-                engine:"222",
-                tableComment:"222",
-                createTime:"222"
-            }],
-            configModel:null,
-            genModel:null,
-            searchForm:null,
-            selectColumn:[],
-            searchFormModel:{
-              tableName: "",
-              tableCommene: "",
-            }
-          };
-        },
-        methods:{
-            handleSelectionChange(val){
-              console.log(val);
-              this.selectColumn = val;
-            },
-            handleSelectionClear(){
-              this.$refs.table.clearSelection();
-            },
-            resetSearch(){
-              this.$refs.searchForm.resetFields();
-/*list();*/
-            },
-            genHandle(){
-              if (this.selectColumn.length == 0) {
-                this.$notify({
-                  title: "系统提示",
-                  message: "请选择表进行生成",
-                  type: "error",
+    createApp({
+        setup() {
+            const CONTEXT = "${rootPath}";
+            const token = ref(localStorage.getItem("genToken") || "");
+            const saveToken = () => localStorage.setItem("genToken", token.value);
+
+            const request = (method, url, body) => {
+                return fetch(CONTEXT + url, {
+                    method: method,
+                    headers: Object.assign({"Content-Type": "application/json"},
+                            token.value ? {"X-Generator-Token": token.value} : {}),
+                    body: body ? JSON.stringify(body) : undefined
+                }).then(res => {
+                    if (res.status === 401) {
+                        ElementPlus.ElMessage.error("未授权：请填写正确的访问令牌");
+                        throw new Error("unauthorized");
+                    }
+                    return res.json();
                 });
-                return;
-              }
-        //    unref(genModel).initModel(selectColumn);
-            }
+            };
+
+            const db = reactive({ type: "mysql", address: "127.0.0.1", port: 3306, databaseName: "smilex-boot",
+                username: "root", password: "", params: "useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true" });
+            const dbLoading = ref(false);
+            const connect = () => {
+                dbLoading.value = true;
+                request("POST", "/generator/connect", db)
+                    .then(res => res.success ? ElementPlus.ElMessage.success("连接成功") : ElementPlus.ElMessage.error(res.msg || "连接失败"))
+                    .then(loadTables)
+                    .finally(() => dbLoading.value = false);
+            };
+
+            const tables = ref([]);
+            const tableLoading = ref(false);
+            const searchTableName = ref("");
+            const loadTables = () => {
+                tableLoading.value = true;
+                request("GET", "/generator/list?tableName=" + encodeURIComponent(searchTableName.value || ""))
+                    .then(res => tables.value = res.data || [])
+                    .finally(() => tableLoading.value = false);
+            };
+
+            const selectedTables = ref([]);
+            const currentColumns = ref([]);
+            const onTableSelect = (rows) => {
+                selectedTables.value = rows.map(r => r.tableName);
+                if (rows.length > 0) {
+                    request("GET", "/generator/columns?tableName=" + encodeURIComponent(rows[0].tableName))
+                        .then(res => currentColumns.value = res.data || []);
+                } else {
+                    currentColumns.value = [];
+                }
+            };
+
+            const templateTypeOptions = ["entity", "mapper", "service", "serviceimpl", "controller", "xml", "vue", "vuemodel", "sql"];
+            const gen = reactive({ packagePath: "top.zsmile.modules", moduleName: "sys", savePath: "", templateTypes: [], excludeColumns: [] });
+            const previewType = ref("entity");
+            const buildEntity = () => ({ packagePath: gen.packagePath, moduleName: gen.moduleName,
+                tableName: selectedTables.value, excludeColumns: gen.excludeColumns, templateTypes: gen.templateTypes });
+
+            const previewCode = ref("");
+            const previewLoading = ref(false);
+            const preview = () => {
+                if (!selectedTables.value.length) return;
+                previewLoading.value = true;
+                request("POST", "/generator/preview?templateType=" + previewType.value, buildEntity())
+                    .then(res => previewCode.value = res.success ? res.data : (res.msg || ""))
+                    .finally(() => previewLoading.value = false);
+            };
+
+            const zipLoading = ref(false);
+            const genZip = () => {
+                zipLoading.value = true;
+                fetch(CONTEXT + "/generator/genFileByZip", {
+                    method: "POST",
+                    headers: Object.assign({"Content-Type": "application/json"},
+                            token.value ? {"X-Generator-Token": token.value} : {}),
+                    body: JSON.stringify(buildEntity())
+                }).then(res => {
+                    if (!res.ok) throw new Error("下载失败: " + res.status);
+                    return res.blob();
+                }).then(blob => {
+                    const a = document.createElement("a");
+                    a.href = URL.createObjectURL(blob);
+                    a.download = "code-gen.zip";
+                    a.click();
+                    URL.revokeObjectURL(a.href);
+                }).catch(e => ElementPlus.ElMessage.error(e.message))
+                  .finally(() => zipLoading.value = false);
+            };
+
+            const localLoading = ref(false);
+            const genLocal = () => {
+                if (!gen.savePath) {
+                    ElementPlus.ElMessage.warning("请填写保存路径");
+                    return;
+                }
+                localLoading.value = true;
+                request("POST", "/generator/genFileByLocal", Object.assign(buildEntity(), { savePath: gen.savePath }))
+                    .then(res => res.success ? ElementPlus.ElMessage.success("生成成功") : ElementPlus.ElMessage.error(res.msg || "生成失败"))
+                    .finally(() => localLoading.value = false);
+            };
+
+            loadTables();
+            return { token, saveToken, db, dbLoading, connect, tables, tableLoading, searchTableName, loadTables,
+                selectedTables, currentColumns, onTableSelect, templateTypeOptions, gen, previewType,
+                previewCode, previewLoading, preview, zipLoading, genZip, localLoading, genLocal };
         }
-      };
-      const app = Vue.createApp(App);
-      app.use(ElementPlus);
-      app.mount("#app");
-
-    const list = () => {
-      loading.value = true;
-      getAction("/generator/list", toRaw(searchFormModel))
-        .then((res) => {
-          if (res.success) {
-            tableData.value = res.data;
-          } else {
-            tableData.value = [];
-          }
-        })
-        .finally(() => {
-          loading.value = false;
-        });
-    };
-    const configHandle = () => {
-      unref(configModel).initModel();
-    };
+    }).use(ElementPlus).mount("#app");
 </script>
-
+</body>
 </html>

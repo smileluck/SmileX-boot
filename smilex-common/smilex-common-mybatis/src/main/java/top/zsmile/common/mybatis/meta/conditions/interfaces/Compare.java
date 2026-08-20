@@ -1,6 +1,7 @@
 package top.zsmile.common.mybatis.meta.conditions.interfaces;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
 /**
  * 查询条件封装
@@ -241,6 +242,15 @@ public interface Compare<Children, R> {
     Children orderByDesc(R... column);
 
     /**
+     * 聚合筛选 having（等值条件）
+     *
+     * @param column 字段/聚合表达式
+     * @param obj    数据
+     * @return
+     */
+    Children having(R column, Object obj);
+
+    /**
      * 并条件 and
      *
      * @return
@@ -253,5 +263,30 @@ public interface Compare<Children, R> {
      * @return
      */
     Children or();
+
+    /**
+     * 嵌套并条件：and ( 括号内由 consumer 构建 )
+     *
+     * @param consumer 子条件构建器
+     * @return
+     */
+    Children and(Consumer<Children> consumer);
+
+    /**
+     * 嵌套或条件：or ( 括号内由 consumer 构建 )
+     *
+     * @param consumer 子条件构建器
+     * @return
+     */
+    Children or(Consumer<Children> consumer);
+
+    /**
+     * 拼接在 SQL 最后的原生语句（如 last("LIMIT 1")）。
+     * 仅允许字母数字及 _ , . ( ) % * ? 字符，防止注入。
+     *
+     * @param lastSql 原生 SQL 片段
+     * @return
+     */
+    Children last(String lastSql);
 
 }

@@ -140,13 +140,10 @@ public class SpringFileUtils {
                 String classname = reader.getClassMetadata().getClassName();
                 // 记载class类
                 Class<?> clazz = Class.forName(classname);
-                //判断是否有指定注解
+                //判断是否为指定父类/接口的子类（含间接继承，不再只看第一个接口）
                 if (superClass != null) {
-                    Class<?>[] interfaces = clazz.getInterfaces();
-                    if (interfaces.length > 0) {
-                        if (interfaces[0].equals(superClass)) {
-                            handlerMap.put(classname, clazz);
-                        }
+                    if (superClass.isAssignableFrom(clazz) && !clazz.equals(superClass)) {
+                        handlerMap.put(classname, clazz);
                     }
                 } else {
                     handlerMap.put(classname, clazz);

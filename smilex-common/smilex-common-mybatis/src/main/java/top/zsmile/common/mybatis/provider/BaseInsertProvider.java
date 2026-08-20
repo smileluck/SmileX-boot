@@ -1,22 +1,17 @@
 package top.zsmile.common.mybatis.provider;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
-import top.zsmile.api.system.common.CommonAuthApi;
-import top.zsmile.common.core.utils.NameStyleUtils;
-import top.zsmile.common.core.utils.uuid.SnowFlake;
 import top.zsmile.common.core.exception.SXException;
 import top.zsmile.common.mybatis.meta.TableInfo;
+import top.zsmile.common.mybatis.utils.EntityAutoFill;
 import top.zsmile.common.mybatis.utils.ReflectUtils;
 import top.zsmile.common.mybatis.utils.TableQueryUtils;
-import top.zsmile.common.web.utils.SpringContextUtils;
 
 import java.lang.reflect.Field;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,134 +19,57 @@ import java.util.stream.Stream;
 @Slf4j
 public class BaseInsertProvider extends BaseProvider {
 
-    private SnowFlake snowFlake = new SnowFlake(0, 0);
-
-    public SnowFlake getSnowFlake() {
-        return snowFlake;
-    }
-
     /**
      * 插入单条数据
-     *
-     * @param entity
-     * @param context
-     * @return
+     * <p>
+     * 插入前由 EntityAutoFill 统一预填：雪花主键、租户ID、delFlag=0、审计字段、加密字段。
+     * 空值列不进入 INSERT 列表，交由数据库默认值。
      */
     public String insert(Object entity, ProviderContext context) {
         TableInfo tableInfo = getTableInfo(context);
-        Field[] fields = tableInfo.getFields();
+        EntityAutoFill.fillInsert(entity, tableInfo);
 
-        setDefaultIdValue(entity, tableInfo);
-        setTenantIdValue(entity, tableInfo);
-
+        List<String> columns = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        for (Field field : tableInfo.getFields()) {
+            if (!StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field))) {
+                columns.add(TableQueryUtils.humpToLineName(field.getName()));
+                values.add(TableQueryUtils.getInjectParameter(field));
+            }
+        }
         return new SQL() {{
             INSERT_INTO(tableInfo.getTableName());
-            INTO_COLUMNS(Stream.of(fields).filter(field -> !StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field))).map(TableQueryUtils::humpToLineName).toArray(String[]::new));
-            INTO_VALUES(Stream.of(fields).filter(field -> !StringUtils.isEmpty(ReflectUtils.getFieldValue(entity, field))).map(TableQueryUtils::getInjectParameter).toArray(String[]::new));
+            INTO_COLUMNS(columns.toArray(new String[0]));
+            INTO_VALUES(values.toArray(new String[0]));
         }}.toString();
     }
 
     /**
      * 批量插入数据
-     *
-     * @param list
-     * @param context
-     * @return
+     * <p>
+     * 多行 VALUES 结构要求每行列集一致，因此全字段插入；
+     * 预填默认值后仍为 null 的列显式插 NULL（数据库无默认值语义）。
      */
-    public String batchInsert(List list, ProviderContext context) {
-        if (list.size() == 0) {
+    public String batchInsert(List coll, ProviderContext context) {
+        if (coll == null || coll.isEmpty()) {
             throw new SXException("批量添加集合为空");
         }
         TableInfo tableInfo = getTableInfo(context);
-        Field[] fields = tableInfo.getFields();
-
-        String sql = new SQL() {{
-            INSERT_INTO(tableInfo.getTableName());
-            INTO_COLUMNS();
-            // 方式一：直接拼接
-//            for (int i = 0; i < list.size(); i++) {
-//                Object entity = list.get(i);
-//                if (i != 0) {
-//                    ADD_ROW();
-//                }
-//                setDefaultIdValue(entity, tableInfo);
-//                INTO_VALUES(Stream.of(fields).map(field -> {
-//                            System.out.println(ReflectUtils.getFieldValue(entity, field).toString());
-//                            return "'" + getValue(entity, field) + "'";
-//                        }
-//                ).toArray(String[]::new));
-//            }
-        }}.toString();
-
-        // 方式二：使用注入的方式
-        for (int i = 0; i < list.size(); i++) {
-            setDefaultIdValue(list.get(i), tableInfo);
-            setTenantIdValue(list.get(i), tableInfo);
+        for (Object item : coll) {
+            EntityAutoFill.fillInsert(item, tableInfo);
         }
-        String fieldsStr = Stream.of(fields).map(item ->
-                TableQueryUtils.getInjectParameter(item, "item.")).collect(Collectors.joining(","));
+        String columns = Stream.of(tableInfo.getFields())
+                .map(field -> TableQueryUtils.humpToLineName(field.getName()))
+                .collect(Collectors.joining(","));
+        String fieldsStr = Stream.of(tableInfo.getFields())
+                .map(field -> TableQueryUtils.getInjectParameter(field, "item."))
+                .collect(Collectors.joining(","));
 
-        sql += " VALUES <foreach item='item' collection='coll' open='(' separator='),(' close=')'>" +
-                fieldsStr +
-                "</foreach>";
-
+        // 显式列名插入：不依赖表列序与实体字段序一致
+        String sql = "INSERT INTO " + tableInfo.getTableName() + " (" + columns + ")"
+                + " VALUES <foreach item='item' collection='coll' open='(' separator='),(' close=')'>"
+                + fieldsStr + "</foreach>";
         log.debug(sql);
         return TableQueryUtils.getSqlScript(sql);
-    }
-
-    /**
-     * 获取值并处理后插入数据库
-     *
-     * @param entity
-     * @param field
-     */
-    private String getValue(Object entity, Field field) {
-        Object fieldValue = ReflectUtils.getFieldValue(entity, field);
-        if (field.getType() == Date.class) {
-            fieldValue = DateFormatUtils.format((Date) fieldValue, "yyyy-MM-dd HH:mm:ss");
-        }
-        return "'" + fieldValue.toString() + "'";
-    }
-
-    /**
-     * 设置雪花ID
-     *
-     * @param t
-     */
-    private void setDefaultIdValue(Object t, TableInfo tableInfo) {
-        try {
-            Field field = FieldUtils.getField(t.getClass(), tableInfo.getPrimaryColumn(), true);
-            if (null != field) {
-                Object id = FieldUtils.readField(t, tableInfo.getPrimaryColumn(), true);
-                if (null == id || "0".equals(String.valueOf(id))) {
-                    FieldUtils.writeField(t, tableInfo.getPrimaryColumn(), this.getSnowFlake().nextId(), true);
-                }
-            }
-
-        } catch (IllegalAccessException var4) {
-            throw new IllegalArgumentException(var4.getMessage());
-        }
-    }
-
-    /**
-     * 设置租户ID
-     */
-    private void setTenantIdValue(Object t, TableInfo tableInfo) {
-
-        try {
-            if (tableInfo.hasTenantColumn()) {
-                String tenantColumn = NameStyleUtils.lineToHump(tableInfo.getTenantColumn(), false);
-                Field field = FieldUtils.getField(t.getClass(), tenantColumn, true);
-                if (null != field) {
-                    Object id = FieldUtils.readField(t, tenantColumn, true);
-                    if (null == id || "0".equals(String.valueOf(id))) {
-                        CommonAuthApi commonAuthApi = SpringContextUtils.getBean(CommonAuthApi.class);
-                        FieldUtils.writeField(t, tenantColumn, commonAuthApi.queryTenantId(), true);
-                    }
-                }
-            }
-        } catch (IllegalAccessException var4) {
-            throw new IllegalArgumentException(var4.getMessage());
-        }
     }
 }

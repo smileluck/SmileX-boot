@@ -58,7 +58,7 @@
         },
         rules: {
             <#list columnModels as var>
-            ${var.humpColumnName}:[ { required: true, message: "请输入${var.columnComment}", trigger: "blur" }],
+            ${var.humpColumnName}:[ { required: false }],
             </#list>
         }
     });

@@ -2,7 +2,7 @@ package top.zsmile.common.mybatis.meta.conditions;
 
 import top.zsmile.common.mybatis.meta.StringPool;
 import top.zsmile.common.mybatis.meta.conditions.query.Query;
-import top.zsmile.common.mybatis.meta.conditions.udpate.Update;
+import top.zsmile.common.mybatis.meta.conditions.update.Update;
 
 import java.util.ArrayList;
 import java.util.List;
