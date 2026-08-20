@@ -22,7 +22,6 @@
         <module>smilex-common-mybatis</module>
         <module>smilex-common-file</module>
         <module>smilex-common-log</module>
-        <module>smilex-common-swagger</module>
         <module>smilex-common-datascope</module>
         <module>smilex-common-thread</module>
         <module>smilex-common-web</module>

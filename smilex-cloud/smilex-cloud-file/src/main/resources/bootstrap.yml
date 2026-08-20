@@ -25,4 +25,42 @@ spring:
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    show-extensions: true
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: top.zsmile.cloud.file
+knife4j:
+  # 开启增强
+  enable: true
+  # 开启生产环境保护
+  production: false
+  # 设置
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+  # 开启Swagger的Basic认证功能,默认是false
+  basic:
+    enable: false
+    # Basic认证用户名
+    username: knifeAdmin
+    # Basic认证密码
+    password: knifeAdmin
+  openapi:
+    title: ${spring.application.name} Docs
+    description: Api Doc
+    concat: smilex
+    version: v4.0
+    license: Apache 2.0
+    license-url: https://stackoverflow.com/
+    terms-of-service-url: https://stackoverflow.com/
+
 

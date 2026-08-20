@@ -43,12 +43,6 @@
         <dependency>
             <groupId>top.zsmile</groupId>
             <artifactId>smilex-modules-sys</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.springfox</groupId>
-                    <artifactId>springfox-spring-webmvc</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

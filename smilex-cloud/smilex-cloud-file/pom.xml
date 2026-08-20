@@ -54,6 +54,12 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- Knife4j Next API 文档 -->
+        <dependency>
+            <groupId>top.zsmile</groupId>
+            <artifactId>smilex-common-openapi</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
