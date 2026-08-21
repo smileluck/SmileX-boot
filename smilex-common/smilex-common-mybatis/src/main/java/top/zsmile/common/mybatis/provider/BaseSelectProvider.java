@@ -163,7 +163,11 @@ public class BaseSelectProvider extends BaseProvider {
                 throw new SXException("查询字段[" + column + "]不存在于实体[" + tableInfo.getTableName() + "]");
             }
         }
-        return Stream.of(ArrayUtils.add(columns, tableInfo.getPrimaryColumn()))
+        // 主键列已显式指定时不再追加，避免 SELECT 出现重复列（MySQL: Duplicate column name）
+        String[] selectColumns = ArrayUtils.contains(columns, tableInfo.getPrimaryColumn())
+                ? columns
+                : ArrayUtils.add(columns, tableInfo.getPrimaryColumn());
+        return Stream.of(selectColumns)
                 .map(TableQueryUtils::getSelectColumn).toArray(String[]::new);
     }
 }
